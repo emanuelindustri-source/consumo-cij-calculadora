@@ -118,3 +118,17 @@ del equipo antes de comprometer pedidos de consumibles.
 Proyecto independiente de apoyo técnico, sin afiliación con los fabricantes de los equipos citados.
 Las marcas y denominaciones de producto pertenecen a sus respectivos titulares y se citan con fines
 descriptivos de compatibilidad.
+
+---
+
+## Idiomas y reporte de errores (2.1.0)
+
+- **Español** es el idioma principal; la interfaz se adapta automáticamente a **inglés, portugués
+  de Brasil, portugués de Portugal, italiano y chino simplificado** (según el idioma del navegador
+  o del sistema, con selector en la web y idioma por aplicación en Android 13+).
+- Catálogo único de traducciones: [`i18n/catalog.json`](i18n/catalog.json).
+- **Reportar un error**: botón en el pie de la web y tarjeta al final de la app. El informe se abre
+  en la aplicación de correo del usuario y se envía a `emanuel.industri@gmail.com`; si no hay
+  cliente de correo se puede copiar. **No se añade ningún permiso de red.**
+- Detalle completo del cambio: [`docs/NOTAS-2.1.0.md`](docs/NOTAS-2.1.0.md).
+- Validación: `python tools/check_i18n.py` (catálogo, copias web, assets, JavaScript y HTML).

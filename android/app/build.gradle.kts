@@ -21,8 +21,8 @@ android {
         // Android 14 (API 34) como versión mínima, según requisito
         minSdk = 34
         targetSdk = 34
-        versionCode = 4
-        versionName = "2.0.1"
+        versionCode = 5
+        versionName = "2.1.0"
         vectorDrawables { useSupportLibrary = true }
     }
 

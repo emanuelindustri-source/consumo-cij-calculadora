@@ -196,8 +196,8 @@ object CalcEngine {
     /** Intervalo de mantenimiento en texto legible. */
     fun formatInterval(hours: Double): String = when {
         hours <= 0.0 -> "—"
-        hours == 8760.0 -> "12 meses (≈ 8.760 h)"
-        hours >= 45360.0 -> "63 meses (≈ 45.360 h)"
-        else -> "${java.text.NumberFormat.getIntegerInstance(java.util.Locale("es")).format(floor(hours))} horas"
+        hours == 8760.0 -> com.calculadora.consumocij.i18n.I18n.t("12 meses (~ 8.760 h)")
+        hours >= 45360.0 -> com.calculadora.consumocij.i18n.I18n.t("63 meses (~ 45.360 h)")
+        else -> com.calculadora.consumocij.i18n.I18n.tf("{0} horas", java.text.NumberFormat.getIntegerInstance(com.calculadora.consumocij.i18n.I18n.activeLocale()).format(floor(hours)))
     }
 }

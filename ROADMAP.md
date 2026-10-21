@@ -5,7 +5,7 @@ Hoja de ruta del proyecto. Las prioridades pueden cambiar según el uso real en 
 ## v2.1 — Mejoras de calculadora
 - [ ] Comparador de escenarios A/B (dos configuraciones lado a lado).
 - [ ] Planificador de mantenimiento con fechas de cambio y calendario exportable (.ics).
-- [ ] Multi-idioma (ES/EN/PT) en la app y en la web.
+- [x] **Multi-idioma (ES/EN/PT-BR/PT-PT/IT/ZH) en la web y en la app — 2.1.0.**
 - [ ] Presets de mensajes habituales (fecha, lote, EAN-13, QR, DataMatrix).
 
 ## v2.2 — Datos y trazabilidad

@@ -1,6 +1,11 @@
 package com.calculadora.consumocij.ui
 
 import android.widget.Toast
+import androidx.compose.material3.TextButton
+import androidx.compose.ui.platform.LocalContext
+import com.calculadora.consumocij.i18n.I18n
+import com.calculadora.consumocij.i18n.tr
+import com.calculadora.consumocij.util.ReportIssue
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -100,9 +105,7 @@ private fun keepOrFirst(current: Double, valid: List<Double>): Double =
 @Composable
 private fun NoOfficialDataNote() {
     InfoBox(
-        text = "Sin datos oficiales para la base de esta tinta: el CIJ Makeup Usage Model v14 devuelve " +
-            "\u0023N/D para V4238 (MEK / Methanol) y V4251 (Methanol / Water). El consumo mostrado es una " +
-            "estimación con base MEK, no un dato oficial.",
+        text = "Sin datos oficiales para la base de esta tinta: el CIJ Makeup Usage Model v14 devuelve #N/D para V4238 (MEK / Methanol) y V4251 (Methanol / Water). El consumo mostrado es una estimación con base MEK, no un dato oficial.".tr(),
         color = MaterialTheme.colorScheme.errorContainer
     )
 }
@@ -144,6 +147,7 @@ fun CalculatorScreen(vm: CalculatorViewModel) {
                         ProductionSection(vm)
                         AdvancedSection(vm)
                         LegalSection()
+                    ReportSection(vm)
                     }
                     Column(
                         modifier = Modifier.weight(1f),
@@ -169,6 +173,7 @@ fun CalculatorScreen(vm: CalculatorViewModel) {
                     ResultsSection(vm, input, result)
                     AdvancedSection(vm)
                     LegalSection()
+                    ReportSection(vm)
                 }
             }
         }
@@ -202,14 +207,14 @@ private fun AppHeader(
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                "Consumo de Tinta y Solvente",
+                "Consumo de Tinta y Solvente".tr(),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
             Text(
-                "Herramienta de apoyo no oficial · equipos CIJ (Simplicity / Serie 1000VJ) · 100 % offline",
+                "Herramienta de apoyo no oficial · equipos CIJ (Simplicity / Serie 1000VJ) · 100 % offline".tr(),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 1,
@@ -234,10 +239,10 @@ private fun AppHeader(
 }
 
 private fun themeLabel(m: ThemeMode): String = when (m) {
-    ThemeMode.SYSTEM -> "Auto"
-    ThemeMode.LIGHT -> "Claro"
-    ThemeMode.DARK -> "Oscuro"
-    ThemeMode.AMOLED -> "AMOLED"
+    ThemeMode.SYSTEM -> "Auto".tr()
+    ThemeMode.LIGHT -> "Claro".tr()
+    ThemeMode.DARK -> "Oscuro".tr()
+    ThemeMode.AMOLED -> "AMOLED".tr()
 }
 
 /* ---------------- secciones de entrada ---------------- */
@@ -282,12 +287,12 @@ private fun EquipmentSection(vm: CalculatorViewModel) {
     var familyFilter by remember { mutableStateOf("all") }
 
     SectionCard(
-        title = "Equipo impresor",
+        title = "Equipo impresor".tr(),
         icon = Icons.Filled.Info,
-        subtitle = "Seleccione familia, modelo y boquilla. Los datos oficiales se cargan automáticamente."
+        subtitle = "Seleccione familia, modelo y boquilla. Los datos oficiales se cargan automáticamente.".tr()
     ) {
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            listOf("all" to "Todos", "simplicity" to "Simplicity", "serie1000" to "Serie 1000VJ").forEach { (k, label) ->
+            listOf("all" to "Todos".tr(), "simplicity" to "Simplicity", "serie1000" to "Serie 1000VJ").forEach { (k, label) ->
                 FilterChip(
                     selected = familyFilter == k,
                     onClick = { familyFilter = k },
@@ -299,7 +304,7 @@ private fun EquipmentSection(vm: CalculatorViewModel) {
 
         val models = VideojetData.models.filter { familyFilter == "all" || it.platform == familyFilter }
         DropdownField(
-            label = "Modelo de impresora",
+            label = "Modelo de impresora".tr(),
             options = models.map { it.id },
             selected = input.modelId,
             onSelect = { id ->
@@ -318,7 +323,7 @@ private fun EquipmentSection(vm: CalculatorViewModel) {
 
         val model = CalcEngine.model(input.modelId)
         DropdownField(
-            label = "Boquilla (µm)",
+            label = "Boquilla (µm)".tr(),
             options = model.nozzles,
             selected = input.nozzle,
             onSelect = { nz ->
@@ -340,7 +345,7 @@ private fun EquipmentSection(vm: CalculatorViewModel) {
             ?: listOf(input.muCartMl)
 
         DropdownField(
-            label = "Cartucho de tinta (según la tinta)",
+            label = "Cartucho de tinta (según la tinta)".tr(),
             options = inkSizes.map { "${Fmt.n(it, 0)} ml" },
             selected = "${Fmt.n(input.inkCartMl, 0)} ml",
             onSelect = { s ->
@@ -350,7 +355,7 @@ private fun EquipmentSection(vm: CalculatorViewModel) {
             }
         )
         DropdownField(
-            label = "Cartucho de solvente (make-up)",
+            label = "Cartucho de solvente (make-up)".tr(),
             options = muSizes.map { "${Fmt.n(it, 0)} ml" },
             selected = "${Fmt.n(input.muCartMl, 0)} ml",
             onSelect = { s ->
@@ -364,12 +369,13 @@ private fun EquipmentSection(vm: CalculatorViewModel) {
         val variant = CalcEngine.variant(model, input.nozzle)
         InfoBox(
             text = buildString {
-                append("${model.id} — familia ")
-                append(if (model.platform == "simplicity") "Simplicity" else "Serie 1000VJ")
-                append(" · boquilla ${input.nozzle} µm\n")
-                append("1 L de solvente dura ${Fmt.i(variant.hrsL)} h a 20 °C (${Fmt.n(1000.0 / variant.hrsL, 2)} ml/h)")
+                append(I18n.tf("{0} · familia {1} · boquilla {2} µm", model.id,
+                    if (model.platform == "simplicity") "Simplicity" else "Serie 1000VJ", input.nozzle))
+                append("\n")
+                append(I18n.tf("1 L de solvente dura {0} h a 20 °C ({1} ml/h)", Fmt.i(variant.hrsL), Fmt.n(1000.0 / variant.hrsL, 2)))
                 if (mnt != null) {
-                    append("\nMantenimiento: ")
+                    append("\n")
+                    append(I18n.t("Mantenimiento") + ": ")
                     append(
                         mnt.joinToString(" · ") { item ->
                             val pn = if (item.pn.isNotEmpty()) " (P/N ${item.pn})" else ""
@@ -389,12 +395,12 @@ private fun InkSection(vm: CalculatorViewModel) {
     val inks = remember(model.inkGroup) { VideojetData.inksFor(model.inkGroup) }
 
     SectionCard(
-        title = "Tinta y solvente",
+        title = "Tinta y solvente".tr(),
         icon = Icons.Filled.Info,
-        subtitle = "La base de solvente determina el factor de consumo y su sensibilidad térmica."
+        subtitle = "La base de solvente determina el factor de consumo y su sensibilidad térmica.".tr()
     ) {
         DropdownField(
-            label = "Tipo de tinta",
+            label = "Tipo de tinta".tr(),
             options = inks,
             selected = if (inks.contains(input.ink)) input.ink else (inks.firstOrNull() ?: input.ink),
             onSelect = { ink ->
@@ -410,7 +416,7 @@ private fun InkSection(vm: CalculatorViewModel) {
             }
         )
         DropdownField(
-            label = "Base de solvente / make-up",
+            label = "Base de solvente / make-up".tr(),
             options = VideojetData.inkBases.keys.toList(),
             selected = input.inkBase,
             onSelect = { b -> vm.update { it.copy(inkBase = b) } }
@@ -437,13 +443,13 @@ private fun InkSection(vm: CalculatorViewModel) {
 private fun MessageSection(vm: CalculatorViewModel) {
     val input = vm.input
     SectionCard(
-        title = "Mensaje / código impreso",
+        title = "Mensaje / código impreso".tr(),
         icon = Icons.Filled.Info,
-        subtitle = "La matriz de la fuente define las gotas por carácter."
+        subtitle = "La matriz de la fuente define las gotas por carácter.".tr()
     ) {
         val fontNames = VideojetData.fonts.keys.toList()
         DropdownField(
-            label = "Tipo de fuente",
+            label = "Tipo de fuente".tr(),
             options = fontNames,
             selected = input.font,
             onSelect = { f ->
@@ -464,7 +470,7 @@ private fun MessageSection(vm: CalculatorViewModel) {
         }
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             NumberField(
-                label = "Stroke rate", value = input.stroke.toDouble(), isInt = true,
+                label = "Stroke rate".tr(), value = input.stroke.toDouble(), isInt = true,
                 modifier = Modifier.weight(1f)
             ) { v -> vm.update { it.copy(stroke = v.toInt().coerceIn(1, 4)) } }
             NumberField(
@@ -479,13 +485,13 @@ private fun MessageSection(vm: CalculatorViewModel) {
 private fun ProductionSection(vm: CalculatorViewModel) {
     val input = vm.input
     SectionCard(
-        title = "Producción y temperatura",
+        title = "Producción y temperatura".tr(),
         icon = Icons.Filled.Info,
-        subtitle = "El solvente se consume por hora de encendido; la tinta, por carácter impreso."
+        subtitle = "El solvente se consume por hora de encendido; la tinta, por carácter impreso.".tr()
     ) {
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             NumberField(
-                label = "Temperatura", value = input.tempC, suffix = "°C",
+                label = "Temperatura".tr(), value = input.tempC, suffix = "°C",
                 modifier = Modifier.weight(1f)
             ) { v -> vm.update { it.copy(tempC = v) } }
             NumberField(
@@ -509,7 +515,7 @@ private fun ProductionSection(vm: CalculatorViewModel) {
                 modifier = Modifier.weight(1f)
             ) { v -> vm.update { it.copy(daysMonth = v.toInt().coerceIn(1, 31)) } }
             NumberField(
-                label = "Eficiencia", value = input.efficiencyPct, suffix = "%",
+                label = "Eficiencia".tr(), value = input.efficiencyPct, suffix = "%",
                 modifier = Modifier.weight(1f)
             ) { v -> vm.update { it.copy(efficiencyPct = v.coerceIn(1.0, 100.0)) } }
         }
@@ -520,7 +526,7 @@ private fun ProductionSection(vm: CalculatorViewModel) {
                 modifier = Modifier.weight(1f)
             ) { v -> vm.update { it.copy(lineSpeed = v) } }
             NumberField(
-                label = "Ancho producto", value = input.productWidthMm, suffix = "mm",
+                label = "Ancho producto".tr(), value = input.productWidthMm, suffix = "mm",
                 modifier = Modifier.weight(1f)
             ) { v -> vm.update { it.copy(productWidthMm = v) } }
             NumberField(
@@ -547,7 +553,7 @@ private fun AdvancedSection(vm: CalculatorViewModel) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                "Mantenimiento y ajustes avanzados",
+                "Mantenimiento y ajustes avanzados".tr(),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.weight(1f)
@@ -582,32 +588,32 @@ private fun AdvancedSection(vm: CalculatorViewModel) {
                     ) { v -> vm.update { it.copy(coreDays = v) } }
                 }
                 DropdownField(
-                    label = "Modelo de temperatura del solvente",
-                    options = listOf("Publicado (Makeup Usage v14)", "Por ecuación del equipo (TCO v35)"),
+                    label = "Modelo de temperatura del solvente".tr(),
+                    options = listOf("Publicado (Makeup Usage v14)".tr(), "Por ecuación del equipo (TCO v35)".tr()),
                     selected = if (input.temperatureModel == TemperatureModel.PUBLISHED)
                         "Publicado (Makeup Usage v14)" else "Por ecuación del equipo (TCO v35)",
                     onSelect = { s ->
                         vm.update {
                             it.copy(
-                                temperatureModel = if (s.startsWith("Publicado"))
+                                temperatureModel = if (s.startsWith("Publicado".tr()))
                                     TemperatureModel.PUBLISHED else TemperatureModel.EQUATION
                             )
                         }
                     }
                 )
                 NumberField(
-                    label = "Factor ambiental (humedad, recirculación, condensador, boquilla)",
+                    label = "Factor ambiental (humedad, recirculación, condensador, boquilla)".tr(),
                     value = input.envFactor
                 ) { v -> vm.update { it.copy(envFactor = v.coerceIn(0.2, 3.0)) } }
 
                 Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                     OutlinedButton(onClick = { vm.reset() }, modifier = Modifier.weight(1f)) {
-                        Text("Restablecer")
+                        Text("Restablecer".tr())
                     }
                     OutlinedButton(onClick = { vm.addHistory() }, modifier = Modifier.weight(1f)) {
                         Icon(Icons.Filled.Save, contentDescription = null)
                         Spacer(Modifier.width(6.dp))
-                        Text("Guardar")
+                        Text("Guardar".tr())
                     }
                 }
             }
@@ -629,9 +635,9 @@ private fun ResultsSection(vm: CalculatorViewModel, input: CalcInput, r: CalcRes
                 context.contentResolver.openOutputStream(uri)?.use {
                     it.write(("\uFEFF" + Report.csv(input, r)).toByteArray(Charsets.UTF_8))
                 }
-                Toast.makeText(context, "Informe CSV guardado", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Informe CSV guardado".tr(), Toast.LENGTH_SHORT).show()
             }.onFailure {
-                Toast.makeText(context, "No se pudo guardar el archivo", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "No se pudo guardar el archivo".tr(), Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -643,9 +649,9 @@ private fun ResultsSection(vm: CalculatorViewModel, input: CalcInput, r: CalcRes
                 context.contentResolver.openOutputStream(uri)?.use {
                     it.write(Report.txt(input, r).toByteArray(Charsets.UTF_8))
                 }
-                Toast.makeText(context, "Informe TXT guardado", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Informe TXT guardado".tr(), Toast.LENGTH_SHORT).show()
             }.onFailure {
-                Toast.makeText(context, "No se pudo guardar el archivo", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "No se pudo guardar el archivo".tr(), Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -658,7 +664,7 @@ private fun ResultsSection(vm: CalculatorViewModel, input: CalcInput, r: CalcRes
     ) {
         Column(modifier = Modifier.padding(20.dp)) {
             Text(
-                "CONSUMO ESTIMADO DE SOLVENTE",
+                "CONSUMO ESTIMADO DE SOLVENTE".tr(),
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onPrimaryContainer
             )
@@ -678,7 +684,7 @@ private fun ResultsSection(vm: CalculatorViewModel, input: CalcInput, r: CalcRes
             }
             Spacer(Modifier.height(10.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(18.dp)) {
-                MiniStat("Tinta", "${Fmt.n(r.inkPerHour, 2)} ml/h")
+                MiniStat("Tinta".tr(), "${Fmt.n(r.inkPerHour, 2)} ml/h")
                 MiniStat("Relación S:T", "${Fmt.n(r.ratio, 2)} : 1")
                 MiniStat("Cart. solvente", "${Fmt.n(r.hoursPerMuCart, 0)} h")
             }
@@ -687,8 +693,8 @@ private fun ResultsSection(vm: CalculatorViewModel, input: CalcInput, r: CalcRes
 
     // KPIs
     Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-        KpiCard("Solvente / mes", "${Fmt.i(r.muMonth)} ml", "≈ ${Fmt.n(r.muMonth / 1000.0, 2)} L", Modifier.weight(1f))
-        KpiCard("Tinta / mes", "${Fmt.i(r.inkMonth)} ml", "≈ ${Fmt.n(r.inkMonth / 1000.0, 2)} L", Modifier.weight(1f))
+        KpiCard("Solvente / mes".tr(), "${Fmt.i(r.muMonth)} ml", "≈ ${Fmt.n(r.muMonth / 1000.0, 2)} L", Modifier.weight(1f))
+        KpiCard("Tinta / mes".tr(), "${Fmt.i(r.inkMonth)} ml", "≈ ${Fmt.n(r.inkMonth / 1000.0, 2)} L", Modifier.weight(1f))
     }
     Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
         KpiCard("Cart. solvente/mes", Fmt.n(r.muCartMonth, 1), "${Fmt.n(r.hoursPerMuCart, 0)} h c/u", Modifier.weight(1f))
@@ -696,28 +702,28 @@ private fun ResultsSection(vm: CalculatorViewModel, input: CalcInput, r: CalcRes
     }
 
     // tabla de detalle
-    SectionCard(title = "Detalle del cálculo", icon = Icons.Filled.Info) {
-        DetailRow("Consumo solvente", r.muPerHour, r.muDay, r.muMonth, r.muYear, "ml")
-        DetailRow("Consumo tinta", r.inkPerHour, r.inkDay, r.inkMonth, r.inkYear, "ml")
-        DetailRow("Impresiones", r.printsPerHour, r.printsPerHour * input.hoursDay, r.printsPerHour * r.hoursMonth, r.printsPerHour * r.hoursYear, "")
+    SectionCard(title = "Detalle del cálculo".tr(), icon = Icons.Filled.Info) {
+        DetailRow("Consumo solvente".tr(), r.muPerHour, r.muDay, r.muMonth, r.muYear, "ml")
+        DetailRow("Consumo tinta".tr(), r.inkPerHour, r.inkDay, r.inkMonth, r.inkYear, "ml")
+        DetailRow("Impresiones".tr(), r.printsPerHour, r.printsPerHour * input.hoursDay, r.printsPerHour * r.hoursMonth, r.printsPerHour * r.hoursYear, "")
         DetailRow(
             "Gotas de tinta",
             r.dropsPerMessage * r.printsPerHour,
             r.dropsPerMessage * r.printsPerHour * input.hoursDay,
             r.dropsPerMessage * r.printsPerHour * r.hoursMonth,
             r.dropsPerMessage * r.printsPerHour * r.hoursYear,
-            "gotas"
+            "gotas".tr()
         )
         Spacer(Modifier.height(8.dp))
         InfoBox("Relación solvente : tinta = ${Fmt.n(r.ratio, 2)} : 1  (regla práctica 4 : 1)")
     }
 
     // gráficos
-    SectionCard(title = "Solvente vs temperatura", icon = Icons.Filled.Info) {
+    SectionCard(title = "Solvente vs temperatura".tr(), icon = Icons.Filled.Info) {
         val curve = remember(input) { CalcEngine.makeupCurve(input) }
         TempCurveChart(points = curve, currentTemp = input.tempC, heightDp = 220)
     }
-    SectionCard(title = "Tinta vs solvente mensual", icon = Icons.Filled.Info) {
+    SectionCard(title = "Tinta vs solvente mensual".tr(), icon = Icons.Filled.Info) {
         BarsChart(solventMonth = r.muMonth, inkMonth = r.inkMonth, heightDp = 200)
     }
     SectionCard(title = "Consumo acumulado en la jornada", icon = Icons.Filled.Info) {
@@ -731,12 +737,12 @@ private fun ResultsSection(vm: CalculatorViewModel, input: CalcInput, r: CalcRes
     }
 
     // validación / avisos
-    SectionCard(title = "Avisos y validación", icon = Icons.Filled.Warning) {
+    SectionCard(title = "Avisos y validación".tr(), icon = Icons.Filled.Warning) {
         AlertsList(input, r)
     }
 
     // mantenimiento
-    SectionCard(title = "Mantenimiento (núcleo / kit)", icon = Icons.Filled.Info) {
+    SectionCard(title = "Mantenimiento (núcleo / kit)".tr(), icon = Icons.Filled.Info) {
         val mnt = VideojetData.maintenance[r.model.id]
         if (mnt != null && mnt.isNotEmpty()) {
             mnt.forEach { item ->
@@ -747,7 +753,7 @@ private fun ResultsSection(vm: CalculatorViewModel, input: CalcInput, r: CalcRes
         if (input.coreHours > 0 && r.hoursMonth > 0) {
             val pctYear = r.hoursYear / input.coreHours * 100.0
             ProgressLine(
-                label = "Vida del núcleo consumida al año",
+                label = "Vida del núcleo consumida al año".tr(),
                 pct = pctYear,
                 detail = "cambio cada ${Fmt.n(input.coreHours / r.hoursMonth, 1)} meses de producción"
             )
@@ -755,7 +761,7 @@ private fun ResultsSection(vm: CalculatorViewModel, input: CalcInput, r: CalcRes
         if (input.coreDays > 0 && input.daysWeek > 0) {
             val pctYear = input.daysWeek * 52.0 / input.coreDays * 100.0
             ProgressLine(
-                label = "Vida por días consumida al año",
+                label = "Vida por días consumida al año".tr(),
                 pct = pctYear,
                 detail = "cambio cada ${Fmt.n(input.coreDays / (input.daysWeek * 4.345), 1)} meses"
             )
@@ -763,7 +769,7 @@ private fun ResultsSection(vm: CalculatorViewModel, input: CalcInput, r: CalcRes
     }
 
     // exportar
-    SectionCard(title = "Exportar resultado", icon = Icons.Filled.Share) {
+    SectionCard(title = "Exportar resultado".tr(), icon = Icons.Filled.Share) {
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             Button(
                 onClick = { csvLauncher.launch("Consumo_Videojet_${Report.stamp()}.csv") },
@@ -777,10 +783,10 @@ private fun ResultsSection(vm: CalculatorViewModel, input: CalcInput, r: CalcRes
     }
 
     // historial
-    SectionCard(title = "Historial de cálculos", icon = Icons.Filled.Save) {
+    SectionCard(title = "Historial de cálculos".tr(), icon = Icons.Filled.Save) {
         if (vm.history.isEmpty()) {
             Text(
-                "Todavía no hay cálculos guardados en este dispositivo.",
+                "Todavía no hay cálculos guardados en este dispositivo.".tr(),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -804,9 +810,9 @@ private fun ResultsSection(vm: CalculatorViewModel, input: CalcInput, r: CalcRes
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
-                    TextButton(onClick = { vm.restoreFromHistory(e.id) }) { Text("Cargar") }
+                    TextButton(onClick = { vm.restoreFromHistory(e.id) }) { Text("Cargar".tr()) }
                     IconButton(onClick = { vm.removeHistory(e.id) }) {
-                        Icon(Icons.Filled.Delete, contentDescription = "Borrar")
+                        Icon(Icons.Filled.Delete, contentDescription = "Borrar".tr())
                     }
                 }
             }
@@ -971,11 +977,11 @@ private fun AlertsList(input: CalcInput, r: CalcResult) {
     }
     alerts.add(
         Triple(Icons.Filled.Info, extra.accent,
-            "Un litro de solvente dura ${Fmt.i(1000.0 / r.muPerHour)} h y un cartucho de ${Fmt.i(input.muCartMl)} ml dura ${Fmt.i(r.hoursPerMuCart)} h.")
+            I18n.tf("Un litro de solvente dura {0} h y un cartucho de {1} ml dura {2} h.", Fmt.i(1000.0 / r.muPerHour), Fmt.i(input.muCartMl), Fmt.i(r.hoursPerMuCart)))
     )
     alerts.add(
         Triple(Icons.Filled.Info, extra.accent,
-            "Tinta: ${Fmt.n(r.inkMlPerPrint * 1000.0, 2)} µl por impresión (${Fmt.i(r.dropsPerMessage)} gotas · boquilla ${input.nozzle} µm).")
+            I18n.tf("Tinta: {0} µl por impresión ({1} gotas · boquilla {2} µm).", Fmt.n(r.inkMlPerPrint * 1000.0, 2), Fmt.i(r.dropsPerMessage), input.nozzle))
     )
     if (input.shelfLifeMonths > 0) {
         val months = if (r.muMonth > 0) input.muCartMl / r.muMonth else 0.0
@@ -1022,6 +1028,79 @@ private fun AlertsList(input: CalcInput, r: CalcResult) {
 /* ---------------- fuentes de datos ---------------- */
 
 @Composable
+private fun ReportSection(vm: CalculatorViewModel) {
+    val ctx = LocalContext.current
+    var text by remember { mutableStateOf("") }
+    val crash = remember { ReportIssue.lastCrash(ctx) }
+    var showCrash by remember { mutableStateOf(!crash.isNullOrBlank()) }
+
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(18.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            Text(
+                "Reportar un error".tr(),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                "Se abrirá su aplicación de correo con el informe ya redactado. No se envía nada automáticamente.".tr(),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            if (showCrash) {
+                Text(
+                    "Se detectó un fallo en el arranque anterior".tr(),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.error
+                )
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Button(onClick = {
+                        ReportIssue.send(ctx, ReportIssue.build(ctx, "Fallo automático registrado"))
+                    }) { Text("Enviar el detalle".tr()) }
+                    OutlinedButton(onClick = {
+                        ReportIssue.clearCrash(ctx)
+                        showCrash = false
+                    }) { Text("Descartar".tr()) }
+                }
+            }
+            OutlinedTextField(
+                value = text,
+                onValueChange = { text = it },
+                label = { Text("Describa el problema o la sugerencia".tr()) },
+                minLines = 3,
+                modifier = Modifier.fillMaxWidth()
+            )
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Button(onClick = {
+                    ReportIssue.send(ctx, ReportIssue.build(ctx, contextDetail(vm) + "\n" + text))
+                }) { Text("Enviar por correo".tr()) }
+                OutlinedButton(onClick = {
+                    ReportIssue.copy(ctx, ReportIssue.build(ctx, contextDetail(vm) + "\n" + text))
+                    Toast.makeText(ctx, "Informe copiado al portapapeles".tr(), Toast.LENGTH_SHORT).show()
+                }) { Text("Copiar informe".tr()) }
+            }
+        }
+    }
+}
+
+private fun contextDetail(vm: CalculatorViewModel): String {
+    val i = vm.input
+    val r = vm.result
+    return buildString {
+        appendLine("Equipo: " + i.modelId + " · boquilla " + i.nozzle + " µm · tinta " + i.ink + " · base " + i.inkBase)
+        appendLine("Mensaje: " + i.font + " · " + i.chars + " caracteres · " + i.lines + " líneas · " + i.widthMm + " mm")
+        appendLine("Producción: " + i.ppm + " imp/min · " + i.hoursDay + " h/día · " + i.daysMonth + " días/mes · " + i.tempC + " °C")
+        appendLine("Resultado: " + Fmt.n(r.muPerHour, 2) + " ml/h solvente · " + Fmt.n(r.inkPerHour, 2) + " ml/h tinta")
+    }
+}
+
+@Composable
 private fun LegalSection() {
     var expanded by remember { mutableStateOf(false) }
     Card(
@@ -1038,7 +1117,7 @@ private fun LegalSection() {
             Icon(Icons.Filled.Info, contentDescription = null, tint = LocalExtraColors.current.accent)
             Spacer(Modifier.width(10.dp))
             Text(
-                "Fuentes de datos y notas técnicas",
+                "Fuentes de datos y notas técnicas".tr(),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.weight(1f)
@@ -1060,24 +1139,19 @@ private fun LegalSection() {
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 Text(
-                    "Los cálculos proceden de los modelos oficiales: CIJ Makeup Usage Model v14 (solvente por " +
-                        "temperatura), CIJ Line Speed Calculator v9.7 (velocidades, cpi y dpi) y CIJ TCO Calculator v35 " +
-                        "(gotas/litro, gotas/carácter, contenedores y mantenimiento). Contrastados con 734 fichas " +
-                        "oficiales de solvente y 535 de velocidad de línea.",
+                    "Los cálculos proceden de los modelos oficiales: CIJ Makeup Usage Model v14 (solvente por temperatura), CIJ Line Speed Calculator v9.7 (velocidades, cpi y dpi) y CIJ TCO Calculator v35 (gotas/litro, gotas/carácter, contenedores y mantenimiento). Contrastados con 734 fichas de solvente y 535 de velocidad de línea.".tr(),
                     style = MaterialTheme.typography.bodySmall
                 )
                 Text(
-                    "Los tamaños de cartucho varían según la tinta y el equipo (p. ej. V4225 = 700 ml, V480 = 600 ml, " +
-                        "V401 = 750/5000 ml); el solvente asociado —V7201, V7257, V7220…— se indica junto a cada tinta.",
+                    "Los tamaños de cartucho varían según la tinta y el equipo (p. ej. V4225 = 700 ml, V480 = 600 ml, V401 = 750/5000 ml); el solvente asociado (V7201, V7257, V7220…) se indica junto a cada tinta.".tr(),
                     style = MaterialTheme.typography.bodySmall
                 )
                 Text(
-                    "Estimación técnica: contraste los valores con el consumo real del equipo antes de planificar " +
-                        "pedidos de consumibles.",
+                    "Estimación técnica: contraste los valores con el consumo real del equipo antes de planificar pedidos de consumibles.".tr(),
                     style = MaterialTheme.typography.bodySmall
                 )
                 Text(
-                    "Versión 2.0 · herramienta técnica interna · funciona sin internet · familias Simplicity y Serie 1000VJ.",
+                    "Versión 2.1.0 · herramienta técnica interna · funciona sin internet · familias Simplicity y Serie 1000VJ.".tr(),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

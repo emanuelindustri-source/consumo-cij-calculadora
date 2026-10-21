@@ -8,7 +8,9 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import com.calculadora.consumocij.i18n.I18n
 import com.calculadora.consumocij.ui.CalculatorScreen
+import com.calculadora.consumocij.util.ReportIssue
 import com.calculadora.consumocij.ui.theme.VideojetTheme
 
 /**
@@ -26,6 +28,12 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        I18n.init(this)
+        val prev = Thread.getDefaultUncaughtExceptionHandler()
+        Thread.setDefaultUncaughtExceptionHandler { t, e ->
+            ReportIssue.saveCrash(this, e)
+            prev?.uncaughtException(t, e)
+        }
         enableEdgeToEdge()
         setContent {
             // vm.themeMode es estado de Compose: el tema se recompone al cambiarlo

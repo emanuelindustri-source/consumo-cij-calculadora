@@ -6,6 +6,7 @@ Registro detallado de versiones anteriores, cambios de la versión actual y esta
 
 | Versión | Fecha | Web | APK | Cambio principal |
 |---|---|---|---|---|
+| **2.1.0** | 2026-10-21 | ✅ | ✅ v2.1.0 | Idiomas (ES/EN/PT-BR/PT-PT/IT/ZH) + reporte de errores + HTML corregido |
 | **2.0.1** | 2026-10-21 | ✅ | ✅ v2.0.1 | Correcciones de datos: mantenimiento, 70 µm, QR y cartuchos |
 | 2.0.0 | 2026-10-21 | ✅ | ✅ v2.0 | Limpieza total: sin minería, sin costes, **100 % offline** |
 | 1.2.0 | 2026-10-20 | ✅ | ✅ v1.2 | Cartuchos reales por tinta/modelo + mantenimiento con P/N |

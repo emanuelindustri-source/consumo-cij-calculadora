@@ -19,7 +19,7 @@ Contrastado con **734 fichas de solvente** y **535 de velocidad** de línea (coi
 |---|---|
 | Tipo | Aplicación **nativa** (Kotlin + Jetpack Compose, Material 3) |
 | Versión mínima | **Android 14 (API 34)** — compatible con 15 y superiores |
-| Compilación | compileSdk 34 · targetSdk 34 · minSdk 34 · **versionName 2.0.1** |
+| Compilación | compileSdk 34 · targetSdk 34 · minSdk 34 · **versionName 2.1.0** |
 | Paquete | `com.calculadora.consumocij` |
 | Nombre visible | **Consumo CIJ · Calculadora** |
 | Internet | **No usado** — el manifiesto no declara `INTERNET` |
@@ -104,3 +104,20 @@ android/
 - La app funciona **sin conexión**; no hay telemetría, publicidad ni recogida de datos.
 - La sección **«Fuentes de datos y notas técnicas»** dentro de la app documenta el origen de los valores.
 - Licencia del proyecto: **MIT**.
+
+---
+
+## Idiomas y reporte de errores (2.1.0)
+
+- La interfaz sigue el **idioma del sistema** (o el idioma por aplicación de Android 13+, en
+  Ajustes > Aplicaciones > Consumo CIJ > Idioma). Idiomas: español, inglés, portugués de Brasil,
+  portugués de Portugal, italiano y chino simplificado; si no hay traducción se muestra el español.
+- Las traducciones están en `app/src/main/assets/i18n/<idioma>.json` y las carga
+  `i18n/I18n.kt`; los literales de la interfaz usan la extensión `String.tr()`.
+- `res/xml/locales_config.xml` declara los idiomas y el manifiesto lo enlaza con
+  `android:localeConfig`.
+- **Reportar un error**: tarjeta al final de la pantalla. Genera un informe con versión,
+  dispositivo, idioma y los datos del cálculo, y lo entrega al correo del usuario
+  (`emanuel.industri@gmail.com`). Si la app falla al arrancar, guarda `last_crash.txt` y ofrece
+  enviarlo la próxima vez.
+- La app **no declara el permiso `INTERNET`**: el envío lo hace la aplicación de correo.
