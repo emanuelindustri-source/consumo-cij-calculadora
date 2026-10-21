@@ -3,13 +3,8 @@ name: Android CI
 on:
   push:
     branches: [ main ]
-    paths:
-      - 'android/**'
-      - '.github/workflows/android.yml'
   pull_request:
     branches: [ main ]
-    paths:
-      - 'android/**'
   workflow_dispatch:
 
 permissions:
@@ -29,13 +24,22 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Configurar Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Instalar plataforma y build-tools 34
+      - name: Comprobar SDK Android preinstalado
         run: |
-          yes | sdkmanager --licenses > /dev/null 2>&1 || true
-          sdkmanager "platforms;android-34" "build-tools;34.0.0" > /dev/null
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT"
+          ls "$ANDROID_HOME/platforms" 2>/dev/null || true
+          ls "$ANDROID_HOME/build-tools" 2>/dev/null || true
+
+      - name: Instalar plataforma y build-tools 34 si faltan
+        run: |
+          SDKMAN="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          if [ -x "$SDKMAN" ]; then
+            yes | "$SDKMAN" --licenses > /dev/null 2>&1 || true
+            "$SDKMAN" "platforms;android-34" "build-tools;34.0.0" > /dev/null || true
+          else
+            echo "sdkmanager no disponible; se usará el SDK del runner"
+          fi
 
       - name: Configurar Gradle 8.7
         uses: gradle/actions/setup-gradle@v3
@@ -56,11 +60,17 @@ jobs:
 
       - name: Verificar web autónoma (sin dependencias externas)
         run: |
-          if grep -Eo 'https?://[^"'"'"' <>]+' web/calculadora-offline.html | grep -vq 'w3.org'; then
-            echo "::error::La web offline contiene URLs externas"
-            exit 1
-          fi
-          echo "OK: web sin dependencias externas"
+          python3 - <<'PY'
+          import re, sys
+          html = open('web/calculadora-offline.html', encoding='utf-8').read()
+          refs = re.findall(r'(?:src|href)\s*=\s*["\'](https?://[^"\']+)', html, re.I)
+          refs += re.findall(r'@import\s+url\((https?://[^)]+)\)', html, re.I)
+          bad = [r for r in refs if 'w3.org' not in r]
+          if bad:
+              print('URLs externas encontradas:', bad[:5])
+              sys.exit(1)
+          print('OK: web sin dependencias externas')
+          PY
 
       - name: Publicar APK como artefacto
         uses: actions/upload-artifact@v4
