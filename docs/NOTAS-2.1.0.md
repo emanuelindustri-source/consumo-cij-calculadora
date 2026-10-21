@@ -39,7 +39,7 @@ y **qué queda pendiente**.
 
 ### 2.1. Idiomas (español como idioma principal) — web y Android
 
-- **Catálogo único** `i18n/catalog.json`: **340 cadenas** con el español como idioma de origen y
+- **Catálogo único** `i18n/catalog.json`: **345 cadenas** con el español como idioma de origen y
   traducciones a **inglés (en), portugués de Brasil (pt-BR), portugués de Portugal (pt-PT),
   italiano (it) y chino simplificado (zh)**.
 - **Web**
@@ -92,7 +92,7 @@ usuario**, que es quien lo envía.
   claves usadas en JavaScript presentes en el catálogo, **sintaxis JavaScript** (`node --check`) y
   **HTML balanceado**.
 - Nuevo workflow `.github/workflows/validar.yml` que ejecuta esa validación en cada push/PR.
-- Resultado local: **todo correcto** (340 cadenas × 5 idiomas, HTML balanceado, JS sin errores).
+- Resultado local: **todo correcto** (345 cadenas × 5 idiomas, HTML balanceado, JS sin errores).
 
 ### 2.5. Verificación de la APK
 
@@ -105,7 +105,7 @@ usuario**, que es quien lo envía.
 
 | Archivo | Contenido |
 |---|---|
-| `i18n/catalog.json` | Catálogo único de traducciones (340 cadenas × 6 idiomas) |
+| `i18n/catalog.json` | Catálogo único de traducciones (345 cadenas × 6 idiomas) |
 | `tools/check_i18n.py` | Validador de catálogo, web, assets y HTML |
 | `.github/workflows/validar.yml` | CI de validación web/i18n |
 | `android/.../i18n/I18n.kt` | Motor de idiomas y extensión `tr()` |
