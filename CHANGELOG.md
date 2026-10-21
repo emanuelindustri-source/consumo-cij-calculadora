@@ -4,6 +4,46 @@ Todos los cambios relevantes de este proyecto.
 El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y el versionado
 [SemVer](https://semver.org/lang/es/).
 
+## [2.1.1] — 2026-10-21
+
+### Añadido
+- **Portada del proyecto al día**: seis idiomas, reporte de errores, sección «Novedades 2.1.1»
+  y tabla de versiones completa (2.1.1, 2.1.0, 2.0.1 y 2.0.0).
+- **Página pública de notas** `docs/notas.html` con los bloques «antes / hecho / pendiente» y la
+  tabla de versiones de compilación.
+- **`version.json`** (raíz y `docs/`) con producto, versión, `versionCode`, fecha, artefactos,
+  idiomas y número de cadenas del catálogo.
+- Tarjeta **«Novedades de esta versión»** en Android y compilación visible en el texto legal.
+- El informe de error de Android incluye el `versionCode` (`Versión 2.1.1 (compilación 6)`).
+
+### Cambiado
+- Catálogo de idiomas: **350 cadenas** (antes 345), con las cadenas de novedades y las líneas de
+  versión actualizadas a 2.1.1.
+- Web: pie `v2.1.1 · 21/10/2026` y el informe técnico indica `web v2.1.1`.
+- `versionName 2.1.1` · `versionCode 6` (antes 2.1.0 · 5).
+
+### Corregido
+- Las filas de la 2.1.0 y la 2.0.1 estaban **en la tabla de modelos** de la portada; se movieron a
+  la tabla de versiones.
+- Documentación sincronizada con el estado real del proyecto (portada, notas, README y roadmap).
+
+## [2.1.0] — 2026-10-21
+
+### Añadido
+- **Seis idiomas** (ES, EN, PT-BR, PT-PT, IT y ZH) en la web y en la app Android, con detección
+  automática, selector en la web y `localeConfig` en Android. Catálogo único
+  `i18n/catalog.json` con 345 cadenas.
+- **Reporte de errores sin red**: en la web con `mailto:` y copia al portapapeles; en Android con
+  `ACTION_SENDTO`/`ACTION_SEND`, portapapeles y `last_crash.txt`.
+
+### Corregido
+- Dos tarjetas HTML de la web: «Exportar resultado» (faltaban etiquetas de apertura) y
+  «Mantenimiento y vida útil» (cierre de cuadrícula antes de tiempo).
+- Restos sin traducir: «12 meses», «Todos», «Boquilla (µm)» e interpolaciones.
+
+### Cambiado
+- `versionName 2.1.0` · `versionCode 5`.
+- CI de validación (`.github/workflows/validar.yml`) y `tools/check_i18n.py`.
 ## [2.0.1] — 2026-10-21
 
 ### Corregido

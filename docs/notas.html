@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark light">
+<meta name="description" content="Notas de la versión 2.1.1 de Consumo CIJ: qué había antes, qué se hizo y qué queda pendiente, con las versiones de compilación de la web y de la APK.">
+<meta name="theme-color" content="#0a1020">
+<title>Notas de la versión · Consumo CIJ</title>
+<style>
+:root{
+  --bg:#080e1a; --bg2:#0d1628; --card:#111c31; --card2:#16233d; --border:#24344f; --line:#33486b;
+  --txt:#e8eefc; --txt2:#a8b8d4; --txt3:#7287a8;
+  --accent:#2dd4bf; --accent2:#38bdf8; --grad:linear-gradient(135deg,#2dd4bf,#38bdf8);
+  --ok:#4ade80; --warn:#fbbf24; --r:16px; --shadow:0 18px 45px rgba(0,0,0,.45);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:16px}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  color:var(--txt);line-height:1.65;
+  background:radial-gradient(1100px 620px at 88% -12%,rgba(56,189,248,.16),transparent 60%),
+             radial-gradient(900px 560px at -8% 108%,rgba(45,212,191,.13),transparent 58%),
+             linear-gradient(180deg,var(--bg2),var(--bg));
+  background-attachment:fixed;min-height:100vh}
+a{color:var(--accent2);text-decoration:none} a:hover{text-decoration:underline}
+.wrap{max-width:1080px;margin:0 auto;padding:0 clamp(16px,3vw,32px)}
+header{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:rgba(8,14,26,.82);border-bottom:1px solid var(--border)}
+.nav{display:flex;align-items:center;gap:16px;height:66px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:800}
+.brand .logo{width:38px;height:38px;border-radius:11px;background:var(--grad);display:grid;place-items:center}
+.brand .logo svg{width:22px;height:22px}
+.brand small{display:block;font-weight:500;font-size:.74rem;color:var(--txt3)}
+.nav nav{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+.nav nav a{color:var(--txt2);font-size:.9rem;font-weight:600;padding:8px 12px;border-radius:10px}
+.nav nav a:hover{background:var(--card2);color:var(--txt);text-decoration:none}
+h1{font-size:clamp(1.7rem,3.6vw,2.6rem);line-height:1.12;letter-spacing:-.03em;margin:26px 0 8px;font-weight:850}
+h1 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--txt2);max-width:70ch;margin:0 0 18px}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;border:1px solid var(--line);
+  background:rgba(45,212,191,.08);color:var(--accent);font-size:.78rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.dot{width:7px;height:7px;border-radius:50%;background:currentColor}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin:18px 0}
+.card{background:linear-gradient(160deg,var(--card2),var(--card));border:1px solid var(--border);border-radius:var(--r);padding:20px}
+.card h2{margin:0 0 10px;font-size:1.05rem;display:flex;align-items:center;gap:9px}
+.card h2 .tag{font-size:.68rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:4px 8px;border-radius:999px;border:1px solid var(--line);color:var(--txt3)}
+.card ul{margin:0;padding-left:18px;color:var(--txt2);font-size:.9rem}
+.card li{margin-bottom:7px}
+.card li b{color:var(--txt)}
+.card.ok{border-color:rgba(74,222,128,.35)}
+.card.ok h2 .tag{color:var(--ok);border-color:rgba(74,222,128,.4);background:rgba(74,222,128,.1)}
+.card.before h2 .tag{color:var(--warn);border-color:rgba(251,191,36,.4);background:rgba(251,191,36,.1)}
+h2.sec{font-size:clamp(1.25rem,2.4vw,1.7rem);margin:34px 0 10px;font-weight:800}
+table{width:100%;border-collapse:collapse;font-size:.88rem;background:var(--card);border-radius:12px;overflow:hidden}
+th,td{padding:10px 13px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+th{font-size:.74rem;text-transform:uppercase;letter-spacing:.07em;color:var(--txt3)}
+tr:last-child td{border-bottom:none}
+code{background:var(--card2);padding:2px 6px;border-radius:6px;font-size:.86em}
+.note{background:rgba(45,212,191,.08);border:1px solid rgba(45,212,191,.3);border-radius:12px;padding:14px 16px;color:var(--txt2);font-size:.88rem;margin:16px 0}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;font-size:.74rem;font-weight:700;border:1px solid var(--line);color:var(--txt2);background:var(--card)}
+.badge.ok{color:var(--ok);border-color:rgba(74,222,128,.4);background:rgba(74,222,128,.1)}
+footer{border-top:1px solid var(--border);background:rgba(17,28,49,.55);margin-top:36px}
+.foot{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));padding:24px 0;color:var(--txt2);font-size:.86rem}
+.foot h4{margin:0 0 8px;color:var(--txt);font-size:.95rem}
+.copy{border-top:1px solid var(--border);padding:12px 0;color:var(--txt3);font-size:.8rem;text-align:center}
+@media(max-width:700px){.nav{height:auto;padding:10px 0;flex-wrap:wrap}.nav nav{width:100%;margin-left:0}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="brand">
+      <span class="logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#04222a" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2.5c3.6 4.2 6.2 7.3 6.2 10.4A6.2 6.2 0 0 1 12 19.1a6.2 6.2 0 0 1-6.2-6.2c0-3.1 2.6-6.2 6.2-10.4Z"/>
+          <path d="M9.4 13.6a2.7 2.7 0 0 0 2.6 2.6"/>
+        </svg>
+      </span>
+      <span>Consumo CIJ<small>Notas y seguimiento</small></span>
+    </div>
+    <nav>
+      <a href="index.html">Inicio</a>
+      <a href="calculadora.html">Calculadora</a>
+      <a href="index.html#versiones">Versiones</a>
+      <a href="index.html#descargar">Descargar</a>
+      <a href="https://github.com/emanuelindustri-source/consumo-cij-calculadora" target="_blank" rel="noopener">GitHub ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <span class="pill"><span class="dot"></span> Versión 2.1.1 · 21/10/2026</span>
+  <h1>Notas de la <span>versión 2.1.1</span></h1>
+  <p class="lead">
+    Esta página resume, en tres bloques, <b>cómo estaba el proyecto antes</b>, <b>qué se hizo</b> en esta
+    entrega y <b>qué queda pendiente</b>. Se actualiza con cada versión, igual que el
+    <a href="https://github.com/emanuelindustri-source/consumo-cij-calculadora/blob/main/CHANGELOG.md" target="_blank" rel="noopener">CHANGELOG</a>.
+  </p>
+
+  <div class="grid">
+    <article class="card before">
+      <h2>Antes <span class="tag">hasta 2.1.0</span></h2>
+      <ul>
+        <li>La calculadora web y la app Android estaban <b>solo en español</b>.</li>
+        <li>No había forma de <b>reportar un error</b> desde la web ni desde la app.</li>
+        <li>Dos tarjetas de la web tenían <b>HTML roto</b> (exportación y mantenimiento).</li>
+        <li>La <b>portada del proyecto</b> seguía mostrando 2.0.0 y 1,8 MB.</li>
+        <li>No existían <b>notas públicas</b> ni validación automática de la web y los idiomas.</li>
+      </ul>
+    </article>
+
+    <article class="card ok">
+      <h2>Hecho <span class="tag">2.1.1</span></h2>
+      <ul>
+        <li><b>Seis idiomas</b> (ES, EN, PT-BR, PT-PT, IT, ZH) con detección automática y selector en la web.</li>
+        <li><b>Reporte de errores sin red</b>: correo prellenado y copia al portapapeles en web y Android.</li>
+        <li>Corregidas las <b>dos tarjetas HTML</b> y sincronizada la copia publicada.</li>
+        <li><b>Portada al día</b>: novedades, idiomas, versiones y notas.</li>
+        <li><b>Versión y compilación visibles</b> en la web y en la app (2.1.1 · código 6).</li>
+        <li><b>Validación automática</b>: catálogo, web, assets, JavaScript y HTML en cada push.</li>
+      </ul>
+    </article>
+
+    <article class="card">
+      <h2>Pendiente <span class="tag">próximas</span></h2>
+      <ul>
+        <li>Traducir las cabeceras del <b>informe TXT</b> (el CSV ya está traducido).</li>
+        <li>Revisión por hablantes nativos de <b>chino</b> y <b>portugués de Portugal</b>.</li>
+        <li>Conservar la <b>negrita</b> en los párrafos traducidos de la web.</li>
+        <li>Valorar un <b>selector de idioma dentro de la app</b> (hoy sigue el idioma del sistema).</li>
+        <li>Conservar el <b>keystore</b> de firma para futuras actualizaciones.</li>
+        <li>Revocar los <b>tokens de publicación</b> que ya no se usen.</li>
+      </ul>
+    </article>
+  </div>
+
+  <h2 class="sec">Versiones de compilación</h2>
+  <table>
+    <thead><tr><th>Artefacto</th><th>Versión</th><th>Compilación</th><th>Fecha</th><th>Notas</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><b>Web</b> · <code>docs/calculadora.html</code></td>
+        <td>2.1.1</td>
+        <td>—</td>
+        <td>21/10/2026</td>
+        <td>Archivo único, 363 KB, sin recursos externos.</td>
+      </tr>
+      <tr>
+        <td><b>Android</b> · <code>ConsumoCIJ-2.1.1.apk</code></td>
+        <td>2.1.1</td>
+        <td>6</td>
+        <td>21/10/2026</td>
+        <td>minSdk 34 · sin permiso <code>INTERNET</code> · misma firma que 2.0.</td>
+      </tr>
+      <tr>
+        <td><b>Catálogo de idiomas</b></td>
+        <td>2.1.1</td>
+        <td>—</td>
+        <td>21/10/2026</td>
+        <td>364 cadenas × 6 idiomas en <code>i18n/catalog.json</code>.</td>
+      </tr>
+      <tr>
+        <td><b>Repositorio</b></td>
+        <td>v2.1.1</td>
+        <td>—</td>
+        <td>21/10/2026</td>
+        <td>Etiqueta y release con el APK adjunto.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <b>Cómo comprobar esta versión:</b> abra la <a href="calculadora.html">calculadora web</a> y cambie el
+    idioma en la cabecera; pulse <b>«Reportar un error»</b> en el pie. En Android, instale el APK y
+    consulte <b>Ajustes › Aplicaciones › Consumo CIJ › Idioma</b>. La validación del repositorio se
+    ejecuta con <code>python tools/check_i18n.py</code>.
+  </div>
+
+  <h2 class="sec">Documentación relacionada</h2>
+  <p>
+    <a href="https://github.com/emanuelindustri-source/consumo-cij-calculadora/blob/main/docs/NOTAS-2.1.1.md" target="_blank" rel="noopener">Notas completas 2.1.1 (Markdown)</a> ·
+    <a href="VERSIONES.md">Historial de versiones</a> ·
+    <a href="https://github.com/emanuelindustri-source/consumo-cij-calculadora/blob/main/CHANGELOG.md" target="_blank" rel="noopener">CHANGELOG</a> ·
+    <a href="https://github.com/emanuelindustri-source/consumo-cij-calculadora/blob/main/ROADMAP.md" target="_blank" rel="noopener">Roadmap</a> ·
+    <a href="https://github.com/emanuelindustri-source/consumo-cij-calculadora/releases/latest" target="_blank" rel="noopener">Última release</a>
+  </p>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <h4>Consumo CIJ</h4>
+      <p>Calculadora técnica de consumo de tinta y solvente para impresoras de inyección continua.</p>
+      <p><span class="badge ok"><span class="dot"></span> Sin internet</span> <span class="badge">MIT</span></p>
+    </div>
+    <div>
+      <h4>Seguimiento</h4>
+      <ul style="padding-left:18px;margin:0">
+        <li><a href="index.html#versiones">Versiones</a></li>
+        <li><a href="notas.html">Notas de la versión</a></li>
+        <li><a href="https://github.com/emanuelindustri-source/consumo-cij-calculadora" target="_blank" rel="noopener">Repositorio</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap copy">© 2026 Khristyan Hidalgo · Licencia MIT · Hecho para trabajar sin conexión</div>
+</footer>
+
+</body>
+</html>

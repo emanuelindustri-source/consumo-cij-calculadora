@@ -2,6 +2,12 @@
 
 Hoja de ruta del proyecto. Las prioridades pueden cambiar según el uso real en planta.
 
+## v2.1.1 — Seguimiento y puesta al día (hecho)
+- [x] **Portada del proyecto y notas públicas al día (antes / hecho / pendiente).**
+- [x] **Versión y compilación visibles** en la web y en la app (`2.1.1` · `6`).
+- [x] **`version.json`** con versión, fecha y artefactos para seguimiento.
+- [x] **Catálogo de 364 cadenas** validado en CI.
+
 ## v2.1 — Mejoras de calculadora
 - [ ] Comparador de escenarios A/B (dos configuraciones lado a lado).
 - [ ] Planificador de mantenimiento con fechas de cambio y calendario exportable (.ics).
@@ -23,6 +29,14 @@ Hoja de ruta del proyecto. Las prioridades pueden cambiar según el uso real en 
 - [ ] Sincronización opcional (solo si el usuario la activa) entre dispositivos.
 - [ ] Versión de escritorio (Windows/macOS) con el mismo motor.
 - [ ] API local (sin nube) para integrar el cálculo en otras herramientas internas.
+
+## Pendiente inmediato (2.1.2)
+- [ ] Traducir las cabeceras del informe TXT (el CSV ya está traducido).
+- [ ] Revisión por hablantes nativos de chino simplificado y portugués de Portugal.
+- [ ] Conservar la negrita en los párrafos traducidos de la web.
+- [ ] Selector de idioma dentro de la app (hoy sigue el idioma del sistema).
+- [ ] Conservar el keystore de firma y revocar tokens de publicación antiguos.
+- [ ] Prueba automática del motor de cálculo con valores de referencia.
 
 ## Ideas en evaluación
 - Detección automática del modelo por fotografía de la placa de características.

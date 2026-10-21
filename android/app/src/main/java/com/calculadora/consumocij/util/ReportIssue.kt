@@ -26,9 +26,11 @@ object ReportIssue {
 
     fun build(context: Context, detail: String): String {
         val locale = context.resources.configuration.locales[0]
-        val version = runCatching {
-            context.packageManager.getPackageInfo(context.packageName, 0).versionName
-        }.getOrNull() ?: "2.1.0"
+        val info = runCatching {
+            context.packageManager.getPackageInfo(context.packageName, 0)
+        }.getOrNull()
+        val version = info?.versionName ?: "2.1.1"
+        val build = info?.longVersionCode?.toString() ?: "-"
         return buildString {
             appendLine("Informe de error · Consumo CIJ (Android)")
             appendLine()
@@ -36,7 +38,7 @@ object ReportIssue {
             appendLine(detail.ifBlank { "(sin descripción)" })
             appendLine()
             appendLine("— Datos técnicos —")
-            appendLine("Versión: " + version)
+            appendLine("Versión: " + version + " (compilación " + build + ")")
             appendLine("Idioma: " + locale.toLanguageTag())
             appendLine("Dispositivo: " + Build.MANUFACTURER + " " + Build.MODEL +
                 " · Android " + Build.VERSION.RELEASE + " (API " + Build.VERSION.SDK_INT + ")")

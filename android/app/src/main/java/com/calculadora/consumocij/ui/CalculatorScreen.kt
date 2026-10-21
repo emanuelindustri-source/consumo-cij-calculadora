@@ -39,6 +39,7 @@ import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.NewReleases
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Warning
@@ -146,6 +147,7 @@ fun CalculatorScreen(vm: CalculatorViewModel) {
                         MessageSection(vm)
                         ProductionSection(vm)
                         AdvancedSection(vm)
+                        WhatsNewSection()
                         LegalSection()
                     ReportSection(vm)
                     }
@@ -172,6 +174,7 @@ fun CalculatorScreen(vm: CalculatorViewModel) {
                     if (!result.officialData) NoOfficialDataNote()
                     ResultsSection(vm, input, result)
                     AdvancedSection(vm)
+                    WhatsNewSection()
                     LegalSection()
                     ReportSection(vm)
                 }
@@ -1100,6 +1103,40 @@ private fun contextDetail(vm: CalculatorViewModel): String {
     }
 }
 
+/* ---------------- novedades de la version ---------------- */
+
+@Composable
+private fun WhatsNewSection() {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(18.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(Icons.Filled.NewReleases, contentDescription = null, tint = LocalExtraColors.current.accent)
+                Spacer(Modifier.width(10.dp))
+                Text(
+                    "Novedades de esta versión".tr(),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+            Text("Web y Android en seis idiomas, con detección automática.".tr(), style = MaterialTheme.typography.bodySmall)
+            Text("Reporte de errores por correo, sin permisos de red.".tr(), style = MaterialTheme.typography.bodySmall)
+            Text("Portada y notas públicas actualizadas; dos tarjetas HTML corregidas.".tr(), style = MaterialTheme.typography.bodySmall)
+            Text(
+                "Versión 2.1.1 · compilación 6 · 21/10/2026.".tr(),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+    }
+}
+
 @Composable
 private fun LegalSection() {
     var expanded by remember { mutableStateOf(false) }
@@ -1151,7 +1188,7 @@ private fun LegalSection() {
                     style = MaterialTheme.typography.bodySmall
                 )
                 Text(
-                    "Versión 2.1.0 · herramienta técnica interna · funciona sin internet · familias Simplicity y Serie 1000VJ.".tr(),
+                    "Versión 2.1.1 · compilación 6 · herramienta técnica interna · funciona sin internet · familias Simplicity y Serie 1000VJ.".tr(),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

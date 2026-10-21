@@ -1,5 +1,5 @@
 {
- "version": "2.1.0",
+ "version": "2.1.1",
  "source": "es",
  "languages": [
   "en",
@@ -18,7 +18,7 @@
   },
   "(la ficha original da #N/D). El cálculo usará MEK como estimación.": {
    "en": "(the original data sheet returns #N/D). The calculation will use MEK as an estimate.",
-   "pt-BR": "(a ficha original retorna \\u0023N/D). O cálculo usará MEK como estimativa.",
+   "pt-BR": "(a ficha original retorna #N/D). O cálculo usará MEK como estimativa.",
    "pt-PT": "(a ficha original devolve #N/D). O cálculo usará MEK como estimativa.",
    "it": "(la scheda originale restituisce #N/D). Il calcolo utilizzerà MEK come stima.",
    "zh": "（原始数据表返回 #N/D）。计算将使用 MEK 作为估算。"
@@ -72,12 +72,12 @@
    "it": ": VJ 1240 · 1280 · 1580 · 1580+ · 1580C · 1880 · 1880+ · 1880 UHS · 1880 HR.",
    "zh": "：VJ 1240 · 1280 · 1580 · 1580+ · 1580C · 1880 · 1880+ · 1880 UHS · 1880 HR。"
   },
-  "\\u0023N/D para V4238 (MEK / Methanol) y V4251 (Methanol / Water). El consumo mostrado es una": {
-   "en": "\\u0023N/D for V4238 (MEK / Methanol) and V4251 (Methanol / Water). The consumption shown is an",
-   "pt-BR": "\\u0023N/D para V4238 (MEK / Methanol) e V4251 (Methanol / Water). O consumo exibido é uma",
-   "pt-PT": "\\u0023N/D para V4238 (MEK / Methanol) e V4251 (Methanol / Water). O consumo apresentado é uma",
-   "it": "\\u0023N/D per V4238 (MEK / Methanol) e V4251 (Methanol / Water). Il consumo mostrato è una",
-   "zh": "\\u0023N/D，对应 V4238（MEK / Methanol）和 V4251（Methanol / Water）。显示的消耗是"
+  "#N/D para V4238 (MEK / Methanol) y V4251 (Methanol / Water). El consumo mostrado es una": {
+   "en": "#N/D for V4238 (MEK / Methanol) and V4251 (Methanol / Water). The consumption shown is an",
+   "pt-BR": "#N/D para V4238 (MEK / Methanol) e V4251 (Methanol / Water). O consumo exibido é uma",
+   "pt-PT": "#N/D para V4238 (MEK / Methanol) e V4251 (Methanol / Water). O consumo apresentado é uma",
+   "it": "#N/D per V4238 (MEK / Methanol) e V4251 (Methanol / Water). Il consumo mostrato è una",
+   "zh": "#N/D，对应 V4238（MEK / Methanol）和 V4251（Methanol / Water）。显示的消耗是"
   },
   "Ajustes avanzados": {
    "en": "Advanced settings",
@@ -718,7 +718,7 @@
   },
   "La base «{base}» no tiene factor oficial en el Makeup Usage Model v14 (la ficha original da #N/D). El cálculo usará MEK como estimación.": {
    "en": "The base «{base}» has no official factor in the Makeup Usage Model v14 (the original data sheet returns #N/D). The calculation will use MEK as an estimate.",
-   "pt-BR": "A base «{base}» não possui fator oficial no Makeup Usage Model v14 (a ficha original retorna \\u0023N/D). O cálculo usará MEK como estimativa.",
+   "pt-BR": "A base «{base}» não possui fator oficial no Makeup Usage Model v14 (a ficha original retorna #N/D). O cálculo usará MEK como estimativa.",
    "pt-PT": "A base «{base}» não tem fator oficial no Makeup Usage Model v14 (a ficha original devolve #N/D). O cálculo usará MEK como estimativa.",
    "it": "La base «{base}» non ha un fattore ufficiale nel Makeup Usage Model v14 (la scheda originale restituisce #N/D). Il calcolo utilizzerà MEK come stima.",
    "zh": "基料「{base}」在 Makeup Usage Model v14 中没有官方系数（原始数据表返回 #N/D）。计算将使用 MEK 作为估算。"
@@ -1054,7 +1054,7 @@
   },
   "Sin datos oficiales para la base de esta tinta: el CIJ Makeup Usage Model v14 devuelve #N/D para V4238 (MEK / Methanol) y V4251 (Methanol / Water). El consumo mostrado es una estimación con base MEK, no un dato oficial.": {
    "en": "No official data for the base of this ink: the CIJ Makeup Usage Model v14 returns #N/D for V4238 (MEK / Methanol) and V4251 (Methanol / Water). The consumption shown is a MEK-based estimate, not an official figure.",
-   "pt-BR": "Sem dados oficiais para a base desta tinta: o CIJ Makeup Usage Model v14 retorna \\u0023N/D para V4238 (MEK / Methanol) e V4251 (Methanol / Water). O consumo exibido é uma estimativa com base MEK, não um dado oficial.",
+   "pt-BR": "Sem dados oficiais para a base desta tinta: o CIJ Makeup Usage Model v14 retorna #N/D para V4238 (MEK / Methanol) e V4251 (Methanol / Water). O consumo exibido é uma estimativa com base MEK, não um dado oficial.",
    "pt-PT": "Sem dados oficiais para a base desta tinta: o CIJ Makeup Usage Model v14 devolve #N/D para V4238 (MEK / Methanol) e V4251 (Methanol / Water). O consumo apresentado é uma estimativa com base MEK, não um dado oficial.",
    "it": "Nessun dato ufficiale per la base di questo inchiostro: il CIJ Makeup Usage Model v14 restituisce #N/D per V4238 (MEK / Methanol) e V4251 (Methanol / Water). Il consumo mostrato è una stima con base MEK, non un dato ufficiale.",
    "zh": "此墨水基料无官方数据：CIJ Makeup Usage Model v14 对 V4238（MEK / Methanol）和 V4251（Methanol / Water）返回 #N/D。显示的消耗量是基于 MEK 的估算，并非官方数据。"
@@ -2081,13 +2081,6 @@
    "it": "AMOLED",
    "zh": "AMOLED"
   },
-  "Versión 2.1.0 · herramienta técnica interna · funciona sin internet · familias Simplicity y Serie 1000VJ.": {
-   "en": "Version 2.1.0 · internal technical tool · works offline · Simplicity and 1000VJ Series families.",
-   "pt-BR": "Versão 2.1.0 · ferramenta técnica interna · funciona sem internet · famílias Simplicity e Série 1000VJ.",
-   "pt-PT": "Versão 2.1.0 · ferramenta técnica interna · funciona sem internet · famílias Simplicity e Série 1000VJ.",
-   "it": "Versione 2.1.0 · strumento tecnico interno · funziona senza internet · famiglie Simplicity e Serie 1000VJ.",
-   "zh": "版本 2.1.0 · 内部技术工具 · 无需网络 · Simplicity 和 1000VJ 系列。"
-  },
   "Basado en CIJ Line Speed Calculator v9.7 (escenarios 1–3):": {
    "en": "Based on CIJ Line Speed Calculator v9.7 (scenarios 1–3):",
    "pt-BR": "Baseado no CIJ Line Speed Calculator v9.7 (cenários 1–3):",
@@ -2375,13 +2368,6 @@
    "it": "Caratteri al secondo",
    "zh": "每秒字符数"
   },
-  "Versión 2.1.0 · herramienta técnica interna · familias Simplicity y Serie 1000VJ.": {
-   "en": "Version 2.1.0 · internal technical tool · Simplicity and 1000VJ Series families.",
-   "pt-BR": "Versão 2.1.0 · ferramenta técnica interna · famílias Simplicity e Série 1000VJ.",
-   "pt-PT": "Versão 2.1.0 · ferramenta técnica interna · famílias Simplicity e Série 1000VJ.",
-   "it": "Versione 2.1.0 · strumento tecnico interno · famiglie Simplicity e Serie 1000VJ.",
-   "zh": "版本 2.1.0 · 内部技术工具 · Simplicity 和 1000VJ 系列。"
-  },
   "Boquilla (µm)": {
    "en": "Nozzle (µm)",
    "pt-BR": "Bocal (µm)",
@@ -2423,6 +2409,153 @@
    "pt-PT": "{0} horas",
    "it": "{0} ore",
    "zh": "{0} 小时"
+  },
+  "Versión 2.1.1 · compilación 6 · herramienta técnica interna · funciona sin internet · familias Simplicity y Serie 1000VJ.": {
+   "en": "Version 2.1.1 · build 6 · internal technical tool · works offline · Simplicity and 1000VJ Series families.",
+   "pt-BR": "Versão 2.1.1 · compilação 6 · ferramenta técnica interna · funciona sem internet · famílias Simplicity e Série 1000VJ.",
+   "pt-PT": "Versão 2.1.1 · compilação 6 · ferramenta técnica interna · funciona sem internet · famílias Simplicity e Série 1000VJ.",
+   "it": "Versione 2.1.1 · build 6 · strumento tecnico interno · funziona senza internet · famiglie Simplicity e Serie 1000VJ.",
+   "zh": "版本 2.1.1 · 构建 6 · 内部技术工具 · 无需联网 · Simplicity 和 1000VJ 系列。"
+  },
+  "Versión 2.1.1 · herramienta técnica interna · familias Simplicity y Serie 1000VJ.": {
+   "en": "Version 2.1.1 · internal technical tool · Simplicity and 1000VJ Series families.",
+   "pt-BR": "Versão 2.1.1 · ferramenta técnica interna · famílias Simplicity e Série 1000VJ.",
+   "pt-PT": "Versão 2.1.1 · ferramenta técnica interna · famílias Simplicity e Série 1000VJ.",
+   "it": "Versione 2.1.1 · strumento tecnico interno · famiglie Simplicity e Serie 1000VJ.",
+   "zh": "版本 2.1.1 · 内部技术工具 · Simplicity 和 1000VJ 系列。"
+  },
+  "Novedades de esta versión": {
+   "en": "What's new in this version",
+   "pt-BR": "Novidades desta versão",
+   "pt-PT": "Novidades desta versão",
+   "it": "Novità di questa versione",
+   "zh": "本版本的新增内容"
+  },
+  "Web y Android en seis idiomas, con detección automática.": {
+   "en": "Web and Android in six languages, with automatic detection.",
+   "pt-BR": "Web e Android em seis idiomas, com detecção automática.",
+   "pt-PT": "Web e Android em seis idiomas, com deteção automática.",
+   "it": "Web e Android in sei lingue, con rilevamento automatico.",
+   "zh": "网页和安卓应用支持六种语言，并可自动检测。"
+  },
+  "Reporte de errores por correo, sin permisos de red.": {
+   "en": "Error reporting by email, with no network permissions.",
+   "pt-BR": "Relato de erros por e-mail, sem permissões de rede.",
+   "pt-PT": "Relato de erros por e-mail, sem permissões de rede.",
+   "it": "Segnalazione errori via e-mail, senza permessi di rete.",
+   "zh": "通过电子邮件报告错误，无需网络权限。"
+  },
+  "Portada y notas públicas actualizadas; dos tarjetas HTML corregidas.": {
+   "en": "Updated landing page and public notes; two HTML cards fixed.",
+   "pt-BR": "Página inicial e notas públicas atualizadas; dois cartões HTML corrigidos.",
+   "pt-PT": "Página inicial e notas públicas atualizadas; dois cartões HTML corrigidos.",
+   "it": "Pagina iniziale e note pubbliche aggiornate; corretti due riquadri HTML.",
+   "zh": "主页和公开说明已更新；修复了两个 HTML 卡片。"
+  },
+  "Versión 2.1.1 · compilación 6 · 21/10/2026.": {
+   "en": "Version 2.1.1 · build 6 · 2026-10-21.",
+   "pt-BR": "Versão 2.1.1 · compilação 6 · 21/10/2026.",
+   "pt-PT": "Versão 2.1.1 · compilação 6 · 21/10/2026.",
+   "it": "Versione 2.1.1 · build 6 · 21/10/2026.",
+   "zh": "版本 2.1.1 · 构建 6 · 2026/10/21。"
+  },
+  "Calculadora de Consumo de Tinta y Solvente": {
+   "en": "Ink and Solvent Consumption Calculator",
+   "pt-BR": "Calculadora de Consumo de Tinta e Solvente",
+   "pt-PT": "Calculadora de Consumo de Tinta e Solvente",
+   "it": "Calcolatore del consumo di inchiostro e solvente",
+   "zh": "墨水与溶剂消耗计算器"
+  },
+  "familia": {
+   "en": "family",
+   "pt-BR": "família",
+   "pt-PT": "família",
+   "it": "famiglia",
+   "zh": "系列"
+  },
+  "boquilla seleccionada": {
+   "en": "selected nozzle",
+   "pt-BR": "bocal selecionado",
+   "pt-PT": "bico selecionado",
+   "it": "ugello selezionato",
+   "zh": "所选喷嘴"
+  },
+  "ref.": {
+   "en": "ref.",
+   "pt-BR": "ref.",
+   "pt-PT": "ref.",
+   "it": "rif.",
+   "zh": "编号"
+  },
+  "Duración de 1 L de solvente a 20 °C:": {
+   "en": "Duration of 1 L of solvent at 20 °C:",
+   "pt-BR": "Duração de 1 L de solvente a 20 °C:",
+   "pt-PT": "Duração de 1 L de solvente a 20 °C:",
+   "it": "Durata di 1 L di solvente a 20 °C:",
+   "zh": "20 °C 下 1 L 溶剂的持续时间："
+  },
+  "Ecuación de temperatura:": {
+   "en": "Temperature equation:",
+   "pt-BR": "Equação de temperatura:",
+   "pt-PT": "Equação de temperatura:",
+   "it": "Equazione della temperatura:",
+   "zh": "温度方程："
+  },
+  "cartuchos de tinta:": {
+   "en": "ink cartridges:",
+   "pt-BR": "cartuchos de tinta:",
+   "pt-PT": "cartuchos de tinta:",
+   "it": "cartucce di inchiostro:",
+   "zh": "墨水盒："
+  },
+  "Mantenimiento programado: {0}.": {
+   "en": "Scheduled maintenance: {0}.",
+   "pt-BR": "Manutenção programada: {0}.",
+   "pt-PT": "Manutenção programada: {0}.",
+   "it": "Manutenzione programmata: {0}.",
+   "zh": "计划维护：{0}。"
+  },
+  "12 meses (≈ 8.760 h)": {
+   "en": "12 months (≈ 8,760 h)",
+   "pt-BR": "12 meses (≈ 8.760 h)",
+   "pt-PT": "12 meses (≈ 8.760 h)",
+   "it": "12 mesi (≈ 8.760 h)",
+   "zh": "12 个月（约 8,760 h）"
+  },
+  "63 meses (≈ 45.360 h)": {
+   "en": "63 months (≈ 45,360 h)",
+   "pt-BR": "63 meses (≈ 45.360 h)",
+   "pt-PT": "63 meses (≈ 45.360 h)",
+   "it": "63 mesi (≈ 45.360 h)",
+   "zh": "63 个月（约 45,360 h）"
+  },
+  "Base {0} — factor de consumo {1} · factor exponencial de temperatura {2} %/°C (ecuación 1).": {
+   "en": "Base {0} — consumption factor {1} · temperature exponential factor {2} %/°C (equation 1).",
+   "pt-BR": "Base {0} — fator de consumo {1} · fator exponencial de temperatura {2} %/°C (equação 1).",
+   "pt-PT": "Base {0} — fator de consumo {1} · fator exponencial de temperatura {2} %/°C (equação 1).",
+   "it": "Base {0} — fattore di consumo {1} · fattore esponenziale di temperatura {2} %/°C (equazione 1).",
+   "zh": "基料 {0} — 消耗系数 {1} · 温度指数系数 {2} %/°C（公式 1）。"
+  },
+  "Con {0} (boquilla {1} µm) un litro de solvente dura {2} h a 20 °C.": {
+   "en": "With {0} (nozzle {1} µm) one litre of solvent lasts {2} h at 20 °C.",
+   "pt-BR": "Com {0} (bocal {1} µm) um litro de solvente dura {2} h a 20 °C.",
+   "pt-PT": "Com {0} (bico {1} µm) um litro de solvente dura {2} h a 20 °C.",
+   "it": "Con {0} (ugello {1} µm) un litro di solvente dura {2} h a 20 °C.",
+   "zh": "使用 {0}（喷嘴 {1} µm）时，1 L 溶剂在 20 °C 下可持续 {2} h。"
+  },
+  "Solvente asociado: {0}.": {
+   "en": "Associated solvent: {0}.",
+   "pt-BR": "Solvente associado: {0}.",
+   "pt-PT": "Solvente associado: {0}.",
+   "it": "Solvente associato: {0}.",
+   "zh": "关联溶剂：{0}。"
+  },
+  "Aviso: la base «{0}» no tiene factor oficial (ficha original: #N/D). El resultado es una estimación con base MEK.": {
+   "en": "Warning: base «{0}» has no official factor (original data sheet: #N/D). The result is an estimate based on MEK.",
+   "pt-BR": "Aviso: a base «{0}» não tem fator oficial (ficha original: #N/D). O resultado é uma estimativa com base MEK.",
+   "pt-PT": "Aviso: a base «{0}» não tem fator oficial (ficha original: #N/D). O resultado é uma estimativa com base MEK.",
+   "it": "Avviso: la base «{0}» non ha un fattore ufficiale (scheda originale: #N/D). Il risultato è una stima con base MEK.",
+   "zh": "警告：基料「{0}」没有官方系数（原始数据表：#N/D）。结果为基于 MEK 的估算。"
   }
  }
 }

@@ -1,0 +1,20 @@
+{
+  "product": "Consumo CIJ",
+  "version": "2.1.1",
+  "versionCode": 6,
+  "date": "2026-10-21",
+  "web": "docs/calculadora.html",
+  "apk": "ConsumoCIJ-2.1.1.apk",
+  "notes": "docs/NOTAS-2.1.1.md",
+  "notesPage": "docs/notas.html",
+  "languages": [
+    "es",
+    "en",
+    "pt-BR",
+    "pt-PT",
+    "it",
+    "zh"
+  ],
+  "offline": true,
+  "catalogStrings": 364
+}

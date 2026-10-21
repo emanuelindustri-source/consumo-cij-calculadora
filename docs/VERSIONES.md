@@ -6,8 +6,9 @@ Registro detallado de versiones anteriores, cambios de la versión actual y esta
 
 | Versión | Fecha | Web | APK | Cambio principal |
 |---|---|---|---|---|
-| **2.1.0** | 2026-10-21 | ✅ | ✅ v2.1.0 | Idiomas (ES/EN/PT-BR/PT-PT/IT/ZH) + reporte de errores + HTML corregido |
-| **2.0.1** | 2026-10-21 | ✅ | ✅ v2.0.1 | Correcciones de datos: mantenimiento, 70 µm, QR y cartuchos |
+| **2.1.1** | 2026-10-21 | ✅ | ✅ v2.1.1 (código 6) | Portada y notas públicas al día · versión y compilación visibles · seguimiento |
+| 2.1.0 | 2026-10-21 | ✅ | ✅ v2.1.0 (código 5) | Idiomas (ES/EN/PT-BR/PT-PT/IT/ZH) + reporte de errores + HTML corregido |
+| 2.0.1 | 2026-10-21 | ✅ | ✅ v2.0.1 | Correcciones de datos: mantenimiento, 70 µm, QR y cartuchos |
 | 2.0.0 | 2026-10-21 | ✅ | ✅ v2.0 | Limpieza total: sin minería, sin costes, **100 % offline** |
 | 1.2.0 | 2026-10-20 | ✅ | ✅ v1.2 | Cartuchos reales por tinta/modelo + mantenimiento con P/N |
 | 1.1.0 | 2026-10-20 | ✅ | ✅ v1.1 | Familias correctas + boquillas por modelo |
@@ -15,7 +16,51 @@ Registro detallado de versiones anteriores, cambios de la versión actual y esta
 
 ---
 
-## Versión 2.0.1 — 2026-10-21 (actual)
+## Versión 2.1.1 — 2026-10-21 (actual)
+
+**Objetivo:** poner al día la web pública y dejar un seguimiento claro de versiones y compilaciones,
+sin romper el modo offline ni cambiar el motor de cálculo.
+
+### Cambios
+- Portada `docs/index.html` actualizada: seis idiomas, reporte de errores, «Novedades 2.1.1»,
+  tabla de versiones completa y enlaces a las notas.
+- Nueva página pública `docs/notas.html` (antes / hecho / pendiente + tabla de compilación).
+- Corrección de las filas de versión que estaban por error en la tabla de modelos.
+- `version.json` en la raíz y en `docs/`: versión, `versionCode`, fecha, artefactos e idiomas.
+- Web: pie `v2.1.1 · 21/10/2026`; el informe técnico indica `web v2.1.1`.
+- Android: tarjeta «Novedades de esta versión», texto legal `2.1.1 · compilación 6` y el informe
+  de error incluye el `versionCode`.
+- Catálogo: **364 cadenas** × 6 idiomas (antes 345).
+
+### Estado de los artefactos
+| Artefacto | Estado | Notas |
+|---|---|---|
+| `web/calculadora-offline.html` | ✅ | 0 dependencias · 0 peticiones de red |
+| `docs/calculadora.html` | ✅ | Copia idéntica publicada en GitHub Pages |
+| `docs/index.html` · `docs/notas.html` | ✅ | Portada y notas públicas |
+| `android/` (proyecto) | ✅ | Kotlin + Compose · compila con Gradle 8.7 |
+| APK v2.1.1 | ✅ | `versionCode 6` · firmada · sin permisos de red |
+
+### Verificación
+- `python tools/check_i18n.py`: catálogo, copias web, assets, JavaScript y HTML correctos.
+- APK: `aapt2 dump badging` sin permisos de red y `apksigner verify` con la misma firma que 2.0.
+- Emulador Pixel 7 / API 34: instalación y arranque en español e inglés sin fallos.
+
+---
+
+## Versión 2.1.0 — 2026-10-21
+
+**Objetivo:** interfaz multilingüe y reporte de errores sin conexión.
+
+### Cambios
+- Seis idiomas con detección automática; catálogo `i18n/catalog.json` con 345 cadenas.
+- Reporte de errores por correo o portapapeles, sin permiso `INTERNET`.
+- Corrección de dos tarjetas HTML («Exportar resultado» y «Mantenimiento y vida útil»).
+- `versionName` 2.1.0 · `versionCode` 5.
+
+---
+
+## Versión 2.0.1 — 2026-10-21
 
 **Objetivo:** corregir los datos detectados al contrastar la app con las fuentes oficiales.
 

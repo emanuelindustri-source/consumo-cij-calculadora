@@ -12,6 +12,10 @@ de cálculo de Videojet.
 
 Funciona **100 % sin internet**: web autónoma en un solo archivo y aplicación Android nativa sin permisos de red.
 
+**Versión actual:** **2.1.1** · compilación **6** · 21/10/2026 —
+[notas de la versión](docs/NOTAS-2.1.1.md) · [página pública de notas](docs/notas.html) ·
+[version.json](version.json)
+
 <p align="center">
   <img src="docs/assets/inicio.png" width="330" alt="Pantalla principal de la app Android">
 </p>
@@ -25,6 +29,8 @@ Funciona **100 % sin internet**: web autónoma en un solo archivo y aplicación 
 | [`android/`](android) | Proyecto Android nativo (Kotlin + Jetpack Compose, Android 14+) |
 | [`docs/DATOS.md`](docs/DATOS.md) | Fuentes de datos, fórmulas y validación |
 | [`docs/VERSIONES.md`](docs/VERSIONES.md) | Historial detallado de versiones |
+| [`docs/notas.html`](docs/notas.html) | Notas públicas: antes / hecho / pendiente y compilaciones |
+| [`version.json`](version.json) | Versión, compilación, fecha y artefactos (legible por máquina) |
 | [`ROADMAP.md`](ROADMAP.md) | Próximas mejoras |
 | [`CHANGELOG.md`](CHANGELOG.md) | Cambios por versión |
 
@@ -121,7 +127,7 @@ descriptivos de compatibilidad.
 
 ---
 
-## Idiomas y reporte de errores (2.1.0)
+## Idiomas, reporte de errores y seguimiento (2.1.0 – 2.1.1)
 
 - **Español** es el idioma principal; la interfaz se adapta automáticamente a **inglés, portugués
   de Brasil, portugués de Portugal, italiano y chino simplificado** (según el idioma del navegador
@@ -130,5 +136,9 @@ descriptivos de compatibilidad.
 - **Reportar un error**: botón en el pie de la web y tarjeta al final de la app. El informe se abre
   en la aplicación de correo del usuario y se envía a `emanuel.industri@gmail.com`; si no hay
   cliente de correo se puede copiar. **No se añade ningún permiso de red.**
-- Detalle completo del cambio: [`docs/NOTAS-2.1.0.md`](docs/NOTAS-2.1.0.md).
+- **Versión y compilación visibles**: la web muestra `v2.1.1 · 21/10/2026` en el pie y la app
+  incluye una tarjeta **«Novedades de esta versión»** y `2.1.1 · compilación 6` en las notas técnicas.
+- **Seguimiento**: notas completas en [`docs/NOTAS-2.1.1.md`](docs/NOTAS-2.1.1.md) y
+  [`docs/NOTAS-2.1.0.md`](docs/NOTAS-2.1.0.md); historial en
+  [`docs/VERSIONES.md`](docs/VERSIONES.md) y [`CHANGELOG.md`](CHANGELOG.md).
 - Validación: `python tools/check_i18n.py` (catálogo, copias web, assets, JavaScript y HTML).

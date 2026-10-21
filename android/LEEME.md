@@ -19,7 +19,7 @@ Contrastado con **734 fichas de solvente** y **535 de velocidad** de línea (coi
 |---|---|
 | Tipo | Aplicación **nativa** (Kotlin + Jetpack Compose, Material 3) |
 | Versión mínima | **Android 14 (API 34)** — compatible con 15 y superiores |
-| Compilación | compileSdk 34 · targetSdk 34 · minSdk 34 · **versionName 2.1.0** |
+| Compilación | compileSdk 34 · targetSdk 34 · minSdk 34 · **versionName 2.1.1** · versionCode 6 |
 | Paquete | `com.calculadora.consumocij` |
 | Nombre visible | **Consumo CIJ · Calculadora** |
 | Internet | **No usado** — el manifiesto no declara `INTERNET` |
@@ -107,7 +107,7 @@ android/
 
 ---
 
-## Idiomas y reporte de errores (2.1.0)
+## Idiomas, reporte de errores y seguimiento (2.1.0 – 2.1.1)
 
 - La interfaz sigue el **idioma del sistema** (o el idioma por aplicación de Android 13+, en
   Ajustes > Aplicaciones > Consumo CIJ > Idioma). Idiomas: español, inglés, portugués de Brasil,
@@ -121,3 +121,7 @@ android/
   (`emanuel.industri@gmail.com`). Si la app falla al arrancar, guarda `last_crash.txt` y ofrece
   enviarlo la próxima vez.
 - La app **no declara el permiso `INTERNET`**: el envío lo hace la aplicación de correo.
+- **Versión y compilación**: la tarjeta «Novedades de esta versión» y las notas técnicas muestran
+  `2.1.1 · compilación 6`; el informe de error añade el `versionCode`.
+- Notas completas: [`docs/NOTAS-2.1.1.md`](../docs/NOTAS-2.1.1.md) y
+  [`version.json`](../version.json).
