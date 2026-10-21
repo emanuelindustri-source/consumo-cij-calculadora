@@ -10,7 +10,7 @@
 - [ ] Refactor / rendimiento
 
 ## Validación
-- [ ] Las pruebas del motor siguen pasando (28/28)
+- [ ] Los datos siguen coincidiendo con las fuentes (734 fichas de solvente, 535 de velocidad)
 - [ ] Probado en web
 - [ ] Probado en Android (indicar dispositivo/API)
 - [ ] La web sigue sin dependencias externas

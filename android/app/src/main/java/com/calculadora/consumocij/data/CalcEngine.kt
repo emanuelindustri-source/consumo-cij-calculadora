@@ -9,7 +9,7 @@ import kotlin.math.floor
  *  · Tinta:    CIJ TCO Calculator v35
  *  · Velocidad: CIJ Line Speed Calculator v9.7
  *
- * Validado contra 150 PDFs oficiales de solvente y 40 de velocidad (coincidencia total).
+ * Contrastado con 734 fichas oficiales de solvente y 535 de velocidad de línea.
  */
 enum class TemperatureModel { PUBLISHED, EQUATION }
 
@@ -66,7 +66,9 @@ data class CalcResult(
     val inkCartMonth: Double,
     val cps: Double?, val nominalSpeed: Double?,
     val strokes: Int, val cpi: Double, val dpi: Double,
-    val maxLineSpeed: Double?, val minPrintWidth: Double?, val maxChars: Double?, val maxPpm: Double?
+    val maxLineSpeed: Double?, val minPrintWidth: Double?, val maxChars: Double?, val maxPpm: Double?,
+    /** false cuando la base de la tinta no tiene datos oficiales (V4238 / V4251). */
+    val officialData: Boolean = true
 )
 
 object CalcEngine {
@@ -80,10 +82,10 @@ object CalcEngine {
         m.variants[nozzle] ?: m.defaultVariant
 
     fun dropsPerCharOf(font: String): Double {
+        if (font.contains("QR", ignoreCase = true)) return VideojetData.DROPS_QR_ESTIMATE
         val matrix = font.split(" ").firstOrNull().orEmpty()
         return when (matrix) {
             "4x5" -> VideojetData.DROPS_4X5_ESTIMATE
-            "QR" -> VideojetData.DROPS_QR_ESTIMATE
             else -> VideojetData.dropsChar[matrix] ?: 13.0
         }
     }
@@ -169,7 +171,8 @@ object CalcEngine {
             cps = cps, nominalSpeed = nominal,
             strokes = strokes, cpi = cpi, dpi = dpi,
             maxLineSpeed = maxLineSpeed, minPrintWidth = minPrintWidth,
-            maxChars = maxChars, maxPpm = maxPpm
+            maxChars = maxChars, maxPpm = maxPpm,
+            officialData = VideojetData.hasOfficialBase(i.ink)
         )
     }
 

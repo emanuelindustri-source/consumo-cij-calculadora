@@ -9,7 +9,7 @@ Calculadora de consumo de **tinta y solvente** para impresoras CIJ de las famili
 | `CIJ TCO Calculator v35` | Gotas/carácter, gotas/litro, contenedores y mantenimiento |
 | `CIJ Line Speed Calculator v9.7` | Velocidad de línea, cpi y dpi |
 
-Validado contra **150 PDFs de solvente** y **40 de velocidad** (coincidencia total).
+Contrastado con **734 fichas de solvente** y **535 de velocidad** de línea (coincidencia total).
 
 ---
 
@@ -19,7 +19,7 @@ Validado contra **150 PDFs de solvente** y **40 de velocidad** (coincidencia tot
 |---|---|
 | Tipo | Aplicación **nativa** (Kotlin + Jetpack Compose, Material 3) |
 | Versión mínima | **Android 14 (API 34)** — compatible con 15 y superiores |
-| Compilación | compileSdk 34 · targetSdk 34 · minSdk 34 · **versionName 2.0** |
+| Compilación | compileSdk 34 · targetSdk 34 · minSdk 34 · **versionName 2.0.1** |
 | Paquete | `com.calculadora.consumocij` |
 | Nombre visible | **Consumo CIJ · Calculadora** |
 | Internet | **No usado** — el manifiesto no declara `INTERNET` |

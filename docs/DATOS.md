@@ -47,15 +47,18 @@ cpi = caracteres ÷ (ancho_mm ÷ 25,4)      dpi = (caracteres × (ancho_matriz +
 
 ## 3. Validación automática
 
-Se implementó un verificador que abre los PDFs oficiales, extrae la tabla de 16 temperaturas (10–40 °C)
-y los campos «horas por litro» y «horas por cartucho», y los compara con la calculadora.
+Se contrastaron las tablas oficiales con la calculadora: se abre cada ficha, se extrae la tabla de 16
+temperaturas (10–40 °C) y los campos «horas por litro» y «horas por cartucho», y se comparan con el motor.
 
 | Prueba | Muestras | Resultado |
 |---|---|---|
-| Tabla de solvente 10–40 °C (150 PDFs) | 150 fichas · 2 400 valores | **150/150 fichas · coincidencia total** |
-| Velocidad, cpi y dpi (40 PDFs) | 40 fichas | **40/40** |
+| Tabla de solvente 10–40 °C | 736 fichas (734 legibles) · 11 744 valores | **734/734 · coincidencia total** |
+| Velocidad, cpi y dpi | 541 fichas leídas · 535 comparables | **535/535** |
 | Modelo de tinta (gotas/mensaje e impresiones/cartucho) | 2 escenarios del TCO | **Coincidencia exacta** |
-| Pruebas de motor en la app/web | 28 | **28/28** |
+
+> Desviación máxima observada: **0,05 ml/h** en solvente y **±1** en caracteres/s y velocidad nominal,
+> dentro del redondeo a un decimal de las fichas. Los verificadores todavía no forman parte del repositorio
+> (ver `ROADMAP.md`).
 
 Casos de referencia documentados:
 
@@ -91,10 +94,13 @@ La app y la web muestran automáticamente los tamaños disponibles según la tin
 | VJ 1220 / 1510 | Core | 9 000 h | SP392167 / 399070 |
 | VJ 1520 / 1550 / 1610 / 1610 DH | Core | 12 000 h | según modelo |
 | VJ 1620 / 1650 | Core | 14 000 h | SP392169 / SP392128 |
-| VJ 1620/1650 UHS y HR | Core | 12 000–14 000 h | 395965 / 395964 |
+| VJ 1620/1650 UHS y HR | Core | **14 000 h** | 395965 / 395964 |
 | VJ 1530 / 1560 / 1630 / 1660 | Core | 63 meses (≈ 45 360 h) | 397550 / 397552 |
 | VJ 1710 | Core (+ PV Module) | 4 000 h (+ 15 000 h) | 395623 / 395624 |
 | VJ 1860 | Service Module 1 + 2 | 5 000 h + 12 000 h | 611220 / 611170 |
+
+> En VJ 1880 HR, 1880 UHS, 1880+, 1580+ y 1580C el TCO no publica P/N del módulo de servicio: la app
+> lo marca como orientativo (`pnEstimated`).
 
 ## 6. Limitaciones
 
@@ -103,3 +109,7 @@ La app y la web muestran automáticamente los tamaños disponibles según la tin
 - Las tablas de velocidad cubren las combinaciones equipo/fuente documentadas; si falta una combinación,
   la app lo indica y mantiene el cálculo de consumos.
 - Las matrices 4×5 y QR usan valores estimados (no figuran en el modelo de gotas por carácter).
+- V4238 (MEK / Methanol) y V4251 (Methanol / Water) no tienen factor oficial: la ficha del Makeup
+  Usage Model v14 devuelve `#N/D`. La app lo avisa y etiqueta el resultado como estimación con base MEK.
+- El TCO asigna **740 ml** al solvente V725 de la tinta V457, mientras el resto de V725 usa 750 ml:
+  pendiente de confirmar con Videojet.

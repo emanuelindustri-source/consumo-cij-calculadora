@@ -41,7 +41,7 @@ Funciona **100 % sin internet**: web autónoma en un solo archivo y aplicación 
   1620/1650 UHS, 1620/1650 HR, 1710, 1860).
 - **Boquillas dependientes del modelo**: 40 µm (HR), 50 µm (UHS), 60 µm, 70 µm. En 1880/1880+ la boquilla
   cambia el consumo real de solvente (60 µm: 286 h/L · 70 µm: 222 h/L a 20 °C).
-- **Tintas y bases**: 142 tintas con su base de solvente y **su solvente asociado** (V7201, V7257, V7220…).
+- **Tintas y bases**: 139 tintas con su base de solvente y **su solvente asociado** (V7201, V7257, V7220…).
 - **Cartuchos reales por tinta y modelo**: p. ej. V4225 = 700 ml, V480 = 600 ml, V401 = 750/5000 ml.
 - **Mensaje**: tipo de fuente (matriz y líneas), caracteres/línea, líneas, stroke rate, ancho de impresión.
 - **Producción**: temperatura, impresiones/min, horas/día, días/semana, días/mes, eficiencia.
@@ -93,8 +93,8 @@ La calculadora implementa exactamente los modelos documentados por Videojet:
 | **CIJ TCO Calculator v35** | Gotas por carácter, gotas por litro, contenedores y mantenimiento |
 | **CIJ Line Speed Calculator v9.7** | Velocidad de línea, cpi, dpi y límites por matriz |
 
-**Validación automática:** 150 PDFs oficiales de solvente (10–40 °C, horas/L, horas/cartucho) y
-40 PDFs de velocidad de línea, con **coincidencia total**. Ver [`docs/DATOS.md`](docs/DATOS.md).
+**Validación con las fuentes oficiales:** 734 fichas de solvente (10–40 °C, horas/L, horas/cartucho)
+y 535 fichas de velocidad de línea, con **coincidencia total**. Ver [`docs/DATOS.md`](docs/DATOS.md).
 
 Fórmulas principales:
 

@@ -86,6 +86,27 @@ import java.util.Locale
    · pantallas LCD/IPS (tema claro/oscuro) y AMOLED (negro puro)
    ============================================================ */
 
+/** Tamaños de cartucho válidos para la tinta (fuente: CIJ TCO Calculator v35 · SetupSheet). */
+private fun cartSizesFor(ink: String): Pair<List<Double>, List<Double>> {
+    val ic = VideojetData.inkContainers[ink]
+    return (ic?.inkSizes?.map { it.toDouble() } ?: emptyList()) to
+        (ic?.muSizes?.map { it.toDouble() } ?: emptyList())
+}
+
+/** Mantiene el tamaño actual si la tinta lo ofrece; si no, usa el primero disponible. */
+private fun keepOrFirst(current: Double, valid: List<Double>): Double =
+    if (valid.isEmpty() || valid.any { kotlin.math.abs(it - current) < 0.5 }) current else valid.first()
+
+@Composable
+private fun NoOfficialDataNote() {
+    InfoBox(
+        text = "Sin datos oficiales para la base de esta tinta: el CIJ Makeup Usage Model v14 devuelve " +
+            "\u0023N/D para V4238 (MEK / Methanol) y V4251 (Methanol / Water). El consumo mostrado es una " +
+            "estimación con base MEK, no un dato oficial.",
+        color = MaterialTheme.colorScheme.errorContainer
+    )
+}
+
 @Composable
 fun CalculatorScreen(vm: CalculatorViewModel) {
     val input = vm.input
@@ -128,6 +149,7 @@ fun CalculatorScreen(vm: CalculatorViewModel) {
                         modifier = Modifier.weight(1f),
                         verticalArrangement = Arrangement.spacedBy(14.dp)
                     ) {
+                        if (!result.officialData) NoOfficialDataNote()
                         ResultsSection(vm, input, result)
                     }
                 }
@@ -143,6 +165,7 @@ fun CalculatorScreen(vm: CalculatorViewModel) {
                     InkSection(vm)
                     MessageSection(vm)
                     ProductionSection(vm)
+                    if (!result.officialData) NoOfficialDataNote()
                     ResultsSection(vm, input, result)
                     AdvancedSection(vm)
                     LegalSection()
@@ -282,12 +305,12 @@ private fun EquipmentSection(vm: CalculatorViewModel) {
             onSelect = { id ->
                 vm.update { cur ->
                     val m = CalcEngine.model(id)
-                    val v = CalcEngine.variant(m, cur.nozzle)
+                    val (inkSizes, muSizes) = cartSizesFor(cur.ink)
                     cur.copy(
                         modelId = id,
                         nozzle = m.nozzles.firstOrNull() ?: cur.nozzle,
-                        inkCartMl = (v.cart.getOrNull(0) ?: 750).toDouble(),
-                        muCartMl = (v.cart.getOrNull(1) ?: v.cart.getOrNull(0) ?: 750).toDouble()
+                        inkCartMl = keepOrFirst(cur.inkCartMl, inkSizes),
+                        muCartMl = keepOrFirst(cur.muCartMl, muSizes)
                     )
                 }
             }
@@ -300,11 +323,11 @@ private fun EquipmentSection(vm: CalculatorViewModel) {
             selected = input.nozzle,
             onSelect = { nz ->
                 vm.update { cur ->
-                    val v = CalcEngine.variant(model, nz)
+                    val (inkSizes, muSizes) = cartSizesFor(cur.ink)
                     cur.copy(
                         nozzle = nz,
-                        inkCartMl = (v.cart.getOrNull(0) ?: 750).toDouble(),
-                        muCartMl = (v.cart.getOrNull(1) ?: v.cart.getOrNull(0) ?: 750).toDouble()
+                        inkCartMl = keepOrFirst(cur.inkCartMl, inkSizes),
+                        muCartMl = keepOrFirst(cur.muCartMl, muSizes)
                     )
                 }
             }
@@ -375,8 +398,14 @@ private fun InkSection(vm: CalculatorViewModel) {
             options = inks,
             selected = if (inks.contains(input.ink)) input.ink else (inks.firstOrNull() ?: input.ink),
             onSelect = { ink ->
-                vm.update {
-                    it.copy(ink = ink, inkBase = VideojetData.inks[ink] ?: it.inkBase)
+                vm.update { cur ->
+                    val (inkSizes, muSizes) = cartSizesFor(ink)
+                    cur.copy(
+                        ink = ink,
+                        inkBase = VideojetData.inks[ink] ?: cur.inkBase,
+                        inkCartMl = keepOrFirst(cur.inkCartMl, inkSizes),
+                        muCartMl = keepOrFirst(cur.muCartMl, muSizes)
+                    )
                 }
             }
         )
@@ -393,6 +422,12 @@ private fun InkSection(vm: CalculatorViewModel) {
                 text = "Base ${input.inkBase} — factor de consumo ${Fmt.n(base.cons, 3)} · " +
                     "factor exponencial ${Fmt.n(base.k[0] * 100, 2)} %/°C" +
                     if (ic != null && ic.muCode.isNotEmpty()) " · solvente asociado ${ic.muCode}" else ""
+            )
+        } else {
+            InfoBox(
+                text = "La base «${input.inkBase}» no tiene factor oficial en el Makeup Usage Model v14 " +
+                    "(la ficha original da #N/D). El cálculo usará MEK como estimación.",
+                color = MaterialTheme.colorScheme.errorContainer
             )
         }
     }
@@ -1027,8 +1062,8 @@ private fun LegalSection() {
                 Text(
                     "Los cálculos proceden de los modelos oficiales: CIJ Makeup Usage Model v14 (solvente por " +
                         "temperatura), CIJ Line Speed Calculator v9.7 (velocidades, cpi y dpi) y CIJ TCO Calculator v35 " +
-                        "(gotas/litro, gotas/carácter, contenedores y mantenimiento). Validados contra 150 PDFs de " +
-                        "solvente y 40 de velocidad de línea.",
+                        "(gotas/litro, gotas/carácter, contenedores y mantenimiento). Contrastados con 734 fichas " +
+                        "oficiales de solvente y 535 de velocidad de línea.",
                     style = MaterialTheme.typography.bodySmall
                 )
                 Text(

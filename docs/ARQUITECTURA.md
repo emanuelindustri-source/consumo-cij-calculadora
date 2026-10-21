@@ -77,7 +77,7 @@ libros de cálculo oficiales y se verifican contra los PDFs publicados. El proce
 2. Lectura de `CIJ TCO Calculator_v35.xlsm` (gotas/litro, gotas/carácter, contenedores por tinta y
    hoja *Maintenance Setup*).
 3. Lectura de `CIJ Line Speed Calculator v9.7.xlsx` (dos juegos de velocidad según boquilla).
-4. Extracción y comparación automática con 150 PDFs de solvente y 40 de velocidad.
+4. Contraste con 734 fichas de solvente y 535 de velocidad de línea.
 5. Generación de los archivos de datos para web (JSON) y Android (Kotlin).
 
 ## Compilación
