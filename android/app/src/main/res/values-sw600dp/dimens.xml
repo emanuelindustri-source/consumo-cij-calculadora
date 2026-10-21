@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Tabletas y pantallas anchas (>= 600dp de ancho más pequeño) -->
+<resources>
+    <dimen name="pad_xs">8dp</dimen>
+    <dimen name="pad_s">14dp</dimen>
+    <dimen name="pad_m">22dp</dimen>
+    <dimen name="pad_l">30dp</dimen>
+    <dimen name="corner_card">20dp</dimen>
+    <dimen name="touch_target">54dp</dimen>
+    <dimen name="chart_height">300dp</dimen>
+    <dimen name="max_content">1100dp</dimen>
+    <integer name="columns_input">2</integer>
+</resources>

@@ -1,0 +1,102 @@
+# Arquitectura del proyecto
+
+## Visión general
+
+```
+┌─────────────────────────────┐     ┌──────────────────────────────┐
+│  web/calculadora-offline.html│     │  android/ (Kotlin + Compose) │
+│  HTML+CSS+JS en un archivo   │     │  App nativa Android 14+      │
+│  0 dependencias · 0 red      │     │  0 permisos de red           │
+└──────────────┬──────────────┘     └──────────────┬───────────────┘
+               │                                    │
+               └──────────────┬─────────────────────┘
+                              ▼
+                 Motor de cálculo (idéntico)
+     solvente · tinta · velocidad · mantenimiento
+                              ▲
+                              │
+        Datos generados y verificados (modelos oficiales)
+```
+
+El **motor es el mismo** en ambas plataformas: mismas fórmulas, mismos datos y mismos resultados.
+
+## Estructura de carpetas
+
+```
+.
+├── docs/                        Sitio GitHub Pages
+│   ├── index.html               Portada del proyecto (landing)
+│   ├── calculadora.html         Calculadora completa (autónoma)
+│   ├── assets/                  Capturas de la app
+│   ├── DATOS.md                 Fuentes, fórmulas y validación
+│   ├── VERSIONES.md             Historial de versiones
+│   └── ARQUITECTURA.md          Este documento
+├── web/
+│   └── calculadora-offline.html Calculadora para usar sin conexión
+├── android/                     Proyecto Android Studio
+│   ├── app/src/main/java/com/calculadora/consumocij/
+│   │   ├── MainActivity.kt
+│   │   ├── CalculatorViewModel.kt
+│   │   ├── data/CalcEngine.kt        Motor de cálculo
+│   │   ├── data/VideojetData.kt      Datos oficiales (generado)
+│   │   ├── ui/CalculatorScreen.kt    Interfaz adaptable
+│   │   ├── ui/Charts.kt              Gráficos con Canvas
+│   │   ├── ui/theme/Theme.kt         Temas Claro/Oscuro/AMOLED
+│   │   └── util/                     Formato e informes CSV/TXT
+│   ├── app/src/main/res/             Recursos (dpi, sw600dp, sw720dp, land)
+│   └── LEEME.md                      Guía de compilación y firma
+├── .github/workflows/android.yml     CI: compila el APK
+├── CHANGELOG.md · ROADMAP.md · VERSIONES
+└── LICENSE (MIT)
+```
+
+## Web
+
+- **Un único archivo** con CSS y JavaScript embebidos; sin fuentes, CDN ni librerías.
+- Gráficos dibujados con `Canvas` 2D y escalado por `devicePixelRatio`.
+- Persistencia en `localStorage` (configuración e historial).
+- Exportación con `Blob` + descarga local.
+- Diseño adaptable con *media queries* para móvil, tableta, escritorio y TV.
+
+## Android
+
+- **Kotlin + Jetpack Compose** (Material 3), `minSdk 34`, `targetSdk 34`.
+- Estado con `ViewModel` + `mutableStateOf`; persistencia con `SharedPreferences`.
+- Gráficos con `Canvas` de Compose (independientes de la resolución).
+- Exportación mediante **SAF** (`CreateDocument`), sin permisos de almacenamiento.
+- Temas: Automático, Claro, Oscuro y AMOLED (negro puro).
+- Adaptación por tamaño: `values/`, `values-sw600dp/`, `values-sw720dp/`, `values-land/`.
+- **Sin permisos de red**: el manifiesto no declara `INTERNET`.
+
+## Generación de datos
+
+Los datos embebidos en la app (`VideojetData.kt`) y en la web (objeto `DATA`) se generan a partir de los
+libros de cálculo oficiales y se verifican contra los PDFs publicados. El proceso fue:
+
+1. Lectura de `CIJ Makeup Usage Model v14.xlsx` (equipos, horas por litro, ecuaciones y constantes).
+2. Lectura de `CIJ TCO Calculator_v35.xlsm` (gotas/litro, gotas/carácter, contenedores por tinta y
+   hoja *Maintenance Setup*).
+3. Lectura de `CIJ Line Speed Calculator v9.7.xlsx` (dos juegos de velocidad según boquilla).
+4. Extracción y comparación automática con 150 PDFs de solvente y 40 de velocidad.
+5. Generación de los archivos de datos para web (JSON) y Android (Kotlin).
+
+## Compilación
+
+**Web:** no requiere compilación; se abre el HTML o se publica en cualquier servidor estático.
+
+**Android:**
+```bash
+cd android
+gradle assembleDebug     # desarrollo
+gradle assembleRelease   # producción (firmado, R8 + shrinkResources)
+```
+
+La integración continua (`.github/workflows/android.yml`) compila el APK en cada push y lo publica como
+artefacto de la ejecución.
+
+## Decisiones de diseño
+
+- **Sin red**: la herramienta debe funcionar en planta sin cobertura; por eso no hay permisos de internet.
+- **Datos locales**: los modelos se embeben en el binario para garantizar reproducibilidad.
+- **Un solo archivo web**: facilita su distribución por USB o correo.
+- **Fórmulas explícitas**: se documentan en `docs/DATOS.md` para poder auditarlas.

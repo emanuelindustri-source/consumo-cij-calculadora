@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Teléfonos compactos (base) -->
+<resources>
+    <dimen name="pad_xs">6dp</dimen>
+    <dimen name="pad_s">10dp</dimen>
+    <dimen name="pad_m">16dp</dimen>
+    <dimen name="pad_l">22dp</dimen>
+    <dimen name="corner_card">16dp</dimen>
+    <dimen name="touch_target">48dp</dimen>
+    <dimen name="chart_height">220dp</dimen>
+    <dimen name="max_content">720dp</dimen>
+    <integer name="columns_input">1</integer>
+</resources>

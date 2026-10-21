@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="dark light">
+<meta name="description" content="Calculadora de consumo de tinta y solvente para impresoras CIJ Videojet (Simplicity y Serie 1000VJ). Web offline y app Android 14+, con datos verificados contra más de 190 documentos oficiales.">
+<meta name="theme-color" content="#0a1020">
+<title>Consumo CIJ · Calculadora de tinta y solvente</title>
+<style>
+:root{
+  --bg:#080e1a; --bg2:#0d1628; --card:#111c31; --card2:#16233d; --border:#24344f; --line:#33486b;
+  --txt:#e8eefc; --txt2:#a8b8d4; --txt3:#7287a8;
+  --accent:#2dd4bf; --accent2:#38bdf8; --grad:linear-gradient(135deg,#2dd4bf,#38bdf8);
+  --ok:#4ade80; --warn:#fbbf24;
+  --r:16px; --shadow:0 18px 45px rgba(0,0,0,.45);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  color:var(--txt);line-height:1.6;
+  background:
+    radial-gradient(1100px 620px at 88% -12%, rgba(56,189,248,.16), transparent 60%),
+    radial-gradient(900px 560px at -8% 108%, rgba(45,212,191,.13), transparent 58%),
+    linear-gradient(180deg,var(--bg2),var(--bg));
+  background-attachment:fixed;min-height:100vh;overflow-x:hidden;
+}
+a{color:var(--accent2);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 clamp(16px,3vw,32px)}
+
+/* header */
+header{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:rgba(8,14,26,.82);border-bottom:1px solid var(--border)}
+.nav{display:flex;align-items:center;gap:18px;height:66px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:-.01em}
+.brand .logo{width:38px;height:38px;border-radius:11px;background:var(--grad);display:grid;place-items:center;box-shadow:0 8px 20px rgba(45,212,191,.35)}
+.brand .logo svg{width:22px;height:22px}
+.brand small{display:block;font-weight:500;font-size:.74rem;color:var(--txt3)}
+.nav nav{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+.nav nav a{color:var(--txt2);font-size:.9rem;font-weight:600;padding:8px 12px;border-radius:10px}
+.nav nav a:hover{background:var(--card2);color:var(--txt);text-decoration:none}
+@media (max-width:760px){ .nav{height:auto;padding:10px 0;flex-wrap:wrap} .nav nav{width:100%;margin-left:0;justify-content:space-between} .nav nav a{padding:6px 8px;font-size:.82rem} }
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(20px,4vw,52px);align-items:center;padding:clamp(28px,5vw,64px) 0 clamp(20px,3vw,36px)}
+@media (max-width:900px){ .hero{grid-template-columns:1fr;text-align:left} }
+.pill{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:rgba(45,212,191,.08);color:var(--accent);font-size:.78rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+h1{font-size:clamp(1.85rem,4.2vw,3.15rem);line-height:1.08;letter-spacing:-.03em;margin:16px 0 12px;font-weight:850}
+h1 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--txt2);font-size:clamp(.98rem,1.5vw,1.14rem);max-width:56ch;margin:0 0 22px}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.btn{display:inline-flex;align-items:center;gap:9px;padding:13px 20px;border-radius:13px;font-weight:750;font-size:.95rem;border:1px solid var(--line);color:var(--txt);background:var(--card2);cursor:pointer;transition:.18s}
+.btn:hover{transform:translateY(-1px);border-color:var(--accent);text-decoration:none}
+.btn.primary{background:var(--grad);color:#04222a;border:none;box-shadow:0 12px 26px rgba(45,212,191,.3)}
+.btn svg{width:18px;height:18px}
+.meta{display:flex;gap:16px;flex-wrap:wrap;color:var(--txt3);font-size:.82rem}
+.meta b{color:var(--txt2)}
+
+.shot{position:relative;display:flex;justify-content:center}
+.shot img{width:min(320px,88%);border-radius:26px;border:1px solid var(--line);box-shadow:var(--shadow)}
+.shot::after{content:"";position:absolute;inset:auto 8% -18px 8%;height:40px;background:radial-gradient(closest-side,rgba(45,212,191,.28),transparent);filter:blur(14px);z-index:-1}
+
+/* sections */
+section{padding:clamp(30px,5vw,56px) 0}
+.sec-head{margin-bottom:24px}
+h2{font-size:clamp(1.35rem,2.6vw,1.9rem);letter-spacing:-.02em;margin:0 0 6px;font-weight:800}
+.sec-head p{margin:0;color:var(--txt2);max-width:70ch}
+
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.card{background:linear-gradient(160deg,var(--card2),var(--card));border:1px solid var(--border);border-radius:var(--r);padding:20px}
+.card h3{margin:0 0 8px;font-size:1.02rem;display:flex;align-items:center;gap:10px}
+.card h3 .ic{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;background:rgba(45,212,191,.14);color:var(--accent);flex:0 0 auto}
+.card h3 .ic svg{width:18px;height:18px}
+.card p{margin:0;color:var(--txt2);font-size:.9rem}
+.card ul{margin:8px 0 0;padding-left:18px;color:var(--txt2);font-size:.88rem}
+.card li{margin-bottom:4px}
+
+.stats{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;text-align:center}
+.stat b{display:block;font-size:clamp(1.5rem,3vw,2rem);letter-spacing:-.03em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat span{font-size:.78rem;color:var(--txt3);text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+
+table{width:100%;border-collapse:collapse;font-size:.88rem;background:var(--card);border-radius:12px;overflow:hidden}
+th,td{padding:10px 13px;text-align:left;border-bottom:1px solid var(--border)}
+th{font-size:.74rem;text-transform:uppercase;letter-spacing:.07em;color:var(--txt3)}
+tr:last-child td{border-bottom:none}
+td code{background:var(--card2);padding:2px 6px;border-radius:6px;font-size:.84em}
+
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
+.gallery figure{margin:0}
+.gallery img{width:100%;border-radius:14px;border:1px solid var(--border);display:block}
+.gallery figcaption{font-size:.78rem;color:var(--txt3);text-align:center;padding-top:7px}
+
+.code{background:#050a14;border:1px solid var(--border);border-radius:12px;padding:14px 16px;overflow-x:auto;font-family:ui-monospace,Consolas,monospace;font-size:.82rem;color:var(--accent)}
+.note{background:rgba(45,212,191,.08);border:1px solid rgba(45,212,191,.3);border-radius:12px;padding:14px 16px;color:var(--txt2);font-size:.88rem}
+
+footer{border-top:1px solid var(--border);background:rgba(17,28,49,.55);margin-top:20px}
+.foot{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));padding:28px 0}
+.foot h4{margin:0 0 8px;font-size:.95rem}
+.foot p,.foot li{color:var(--txt2);font-size:.84rem;margin:0 0 6px}
+.foot ul{padding-left:18px;margin:0}
+.copy{border-top:1px solid var(--border);padding:14px 0;color:var(--txt3);font-size:.8rem;text-align:center}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;font-size:.74rem;font-weight:700;border:1px solid var(--line);color:var(--txt2);background:var(--card)}
+.badge.ok{color:var(--ok);border-color:rgba(74,222,128,.4);background:rgba(74,222,128,.1)}
+.dot{width:7px;height:7px;border-radius:50%;background:currentColor}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="brand">
+      <span class="logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#04222a" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2.5c3.6 4.2 6.2 7.3 6.2 10.4A6.2 6.2 0 0 1 12 19.1a6.2 6.2 0 0 1-6.2-6.2c0-3.1 2.6-6.2 6.2-10.4Z"/>
+          <path d="M9.4 13.6a2.7 2.7 0 0 0 2.6 2.6"/>
+        </svg>
+      </span>
+      <span>Consumo CIJ<small>Calculadora técnica · sin conexión</small></span>
+    </div>
+    <nav>
+      <a href="#calculadora">Calculadora</a>
+      <a href="#datos">Datos</a>
+      <a href="#capturas">Capturas</a>
+      <a href="#descargar">Descargar</a>
+      <a href="#versiones">Versiones</a>
+      <a href="https://github.com/emanuelindustri-source/consumo-cij-calculadora" target="_blank" rel="noopener">GitHub ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero" id="inicio">
+    <div>
+      <span class="pill"><span class="dot"></span> Datos verificados · 190+ documentos</span>
+      <h1>Consumo de <span>tinta y solvente</span> para impresoras CIJ</h1>
+      <p class="lead">
+        Calculadora técnica para equipos <b>Videojet Simplicity</b> y <b>Serie 1000VJ</b>: solvente por
+        temperatura, tinta por carácter, velocidad de línea, cartuchos y mantenimiento. Web autónoma y
+        app Android nativa, <b>100 % sin internet</b>.
+      </p>
+      <div class="cta">
+        <a class="btn primary" href="calculadora.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 19 9 14l3 3 8-9"/><path d="M15 8h5v5"/></svg>
+          Abrir calculadora
+        </a>
+        <a class="btn" href="https://github.com/emanuelindustri-source/consumo-cij-calculadora/releases/latest" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3.5v12M8 11.5l4 4 4-4"/><path d="M4.5 17v2.2a1.3 1.3 0 0 0 1.3 1.3h12.4a1.3 1.3 0 0 0 1.3-1.3V17"/></svg>
+          Descargar APK
+        </a>
+        <a class="btn" href="https://github.com/emanuelindustri-source/consumo-cij-calculadora" target="_blank" rel="noopener">Código fuente</a>
+      </div>
+      <div class="meta">
+        <span><b>Android 14+</b> · APK 1,8 MB</span>
+        <span><b>Web</b> · un solo archivo</span>
+        <span><b>0</b> permisos de red</span>
+      </div>
+    </div>
+    <div class="shot">
+      <img src="assets/inicio.png" alt="Pantalla principal de la aplicación Android" loading="lazy">
+    </div>
+  </section>
+
+  <section id="calculadora">
+    <div class="sec-head">
+      <h2>Qué calcula</h2>
+      <p>Un único motor, el mismo en la web y en Android, alimentado con los modelos oficiales de cálculo.</p>
+    </div>
+    <div class="grid">
+      <article class="card">
+        <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.5c3.6 4.2 6.2 7.3 6.2 10.4A6.2 6.2 0 0 1 12 19.1a6.2 6.2 0 0 1-6.2-6.2c0-3.1 2.6-6.2 6.2-10.4Z"/></svg></span> Solvente (make-up)</h3>
+        <p>ml/hora, día, mes y año según la temperatura ambiente, la base química y los factores de la instalación.</p>
+      </article>
+      <article class="card">
+        <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h10M4 17h13"/></svg></span> Tinta</h3>
+        <p>Gotas por mensaje según matriz, caracteres, líneas y stroke; ml por impresión y por período.</p>
+      </article>
+      <article class="card">
+        <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3.5 17 9 11l3.6 3.4L20.5 6"/><path d="M15.5 6h5v5"/></svg></span> Velocidad de línea</h3>
+        <p>Velocidad máxima, cpi, dpi, ancho mínimo y máximo de caracteres para cada equipo y fuente.</p>
+      </article>
+      <article class="card">
+        <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3.5" y="6" width="17" height="12" rx="2"/><path d="M7 10h6M7 14h10"/></svg></span> Cartuchos reales</h3>
+        <p>Capacidades por tinta y modelo (700, 750, 1000, 5000 ml…) y el solvente asociado a cada tinta.</p>
+      </article>
+      <article class="card">
+        <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v4.5l3 1.8"/></svg></span> Mantenimiento</h3>
+        <p>Módulo de servicio o núcleo, referencia (P/N) e intervalo oficial; fecha de cambio según producción.</p>
+      </article>
+      <article class="card">
+        <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3.5v12M8 11.5l4 4 4-4"/><path d="M5 17.5v2h14v-2"/></svg></span> Informes</h3>
+        <p>Exportación a CSV y TXT, historial local de cálculos y configuración persistente.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="datos">
+    <div class="sec-head">
+      <h2>Datos reales y verificados</h2>
+      <p>Cada valor se contrasta automáticamente con las fichas oficiales publicadas por el fabricante.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>150</b><span>PDFs de solvente</span></div>
+      <div class="stat"><b>40</b><span>PDFs de velocidad</span></div>
+      <div class="stat"><b>2 400</b><span>valores contrastados</span></div>
+      <div class="stat"><b>28</b><span>pruebas del motor</span></div>
+    </div>
+    <div style="height:18px"></div>
+    <table>
+      <thead><tr><th>Modelo de cálculo</th><th>Qué aporta</th></tr></thead>
+      <tbody>
+        <tr><td><b>CIJ Makeup Usage Model v14</b></td><td>Consumo de solvente por temperatura y base química</td></tr>
+        <tr><td><b>CIJ TCO Calculator v35</b></td><td>Gotas/carácter, gotas/litro, contenedores por tinta y mantenimiento</td></tr>
+        <tr><td><b>CIJ Line Speed Calculator v9.7</b></td><td>Velocidad nominal, caracteres/seg, cpi y dpi por equipo y matriz</td></tr>
+      </tbody>
+    </table>
+    <div style="height:18px"></div>
+    <div class="code">Solvente (ml/h) = (1000 / h·L⁻¹@20 °C) × factor_base × 0,45143 × e^(k·T) × factor_ajuste</div>
+    <div style="height:10px"></div>
+    <div class="code">Tinta (ml/impresión) = (gotas/carácter × caracteres × líneas × stroke ÷ gotas/litro) × 1000</div>
+    <div style="height:18px"></div>
+    <p style="color:var(--txt2);font-size:.9rem;margin:0">
+      Ejemplo validado: VJ 1880+ (60 µm) con tinta V4201 · 30 °C → <b>5,21 ml/h</b> (documento oficial: 5,2 ml/h).
+      Detalle completo en <a href="DATOS.md">docs/DATOS.md</a>.
+    </p>
+  </section>
+
+  <section id="capturas">
+    <div class="sec-head">
+      <h2>Capturas de la aplicación</h2>
+      <p>Interfaz adaptable a teléfonos modernos y clásicos, tabletas y pantallas OLED/LCD.</p>
+    </div>
+    <div class="gallery">
+      <figure><img src="assets/inicio.png" alt="Pantalla de inicio" loading="lazy"><figcaption>Inicio · tema oscuro</figcaption></figure>
+      <figure><img src="assets/resultados.png" alt="Resultados y avisos" loading="lazy"><figcaption>Resultados y validación</figcaption></figure>
+      <figure><img src="assets/pantalla-clasica.png" alt="Pantalla clásica 720x1280" loading="lazy"><figcaption>Pantalla clásica 16:9</figcaption></figure>
+      <figure><img src="assets/apaisado.png" alt="Vista apaisada de dos columnas" loading="lazy"><figcaption>Apaisado · dos columnas</figcaption></figure>
+      <figure><img src="assets/amoled.png" alt="Tema AMOLED negro puro" loading="lazy"><figcaption>Tema AMOLED</figcaption></figure>
+    </div>
+  </section>
+
+  <section id="descargar">
+    <div class="sec-head">
+      <h2>Descargar y usar</h2>
+      <p>Tres formas de usar la calculadora, todas sin conexión.</p>
+    </div>
+    <div class="grid">
+      <article class="card">
+        <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 19h3"/></svg></span> App Android</h3>
+        <p>APK firmado, 1,8 MB, Android 14 o superior. Sin permisos de red.</p>
+        <p style="margin-top:10px"><a class="btn primary" href="https://github.com/emanuelindustri-source/consumo-cij-calculadora/releases/latest" target="_blank" rel="noopener">Descargar APK</a></p>
+      </article>
+      <article class="card">
+        <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3.5h8l4 4v13H6z"/><path d="M14 3.5v4h4"/></svg></span> Web offline</h3>
+        <p>Un único archivo HTML. Ábralo con doble clic en cualquier equipo, sin instalación.</p>
+        <p style="margin-top:10px"><a class="btn" href="calculadora.html">Abrir calculadora</a></p>
+      </article>
+      <article class="card">
+        <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m8 9-4 3 4 3M16 9l4 3-4 3"/></svg></span> Código fuente</h3>
+        <p>Proyecto completo con documentación, pruebas y compilación automática (CI).</p>
+        <p style="margin-top:10px"><a class="btn" href="https://github.com/emanuelindustri-source/consumo-cij-calculadora" target="_blank" rel="noopener">Ver repositorio</a></p>
+      </article>
+    </div>
+    <div style="height:14px"></div>
+    <div class="note">
+      <b>Requisitos Android:</b> 14 (API 34) o superior · ~35 MB de RAM · funciona en teléfonos, tabletas y TV.
+      <br><b>Web:</b> cualquier navegador moderno · funciona sin conexión · no envía datos.
+    </div>
+  </section>
+
+  <section id="versiones">
+    <div class="sec-head">
+      <h2>Versiones</h2>
+      <p>Historial de cambios y próximas mejoras del proyecto.</p>
+    </div>
+    <table>
+      <thead><tr><th>Versión</th><th>Fecha</th><th>Cambios principales</th></tr></thead>
+      <tbody>
+        <tr><td><b>2.0.0</b></td><td>21/10/2026</td><td>Limpieza total: sin módulos experimentales ni costes · 100 % offline · sin permisos de red</td></tr>
+        <tr><td>1.2.0</td><td>20/10/2026</td><td>Cartuchos por tinta y modelo · mantenimiento con P/N · notación compacta</td></tr>
+        <tr><td>1.1.0</td><td>20/10/2026</td><td>Familias Simplicity / Serie 1000VJ · boquillas por modelo</td></tr>
+        <tr><td>1.0.0</td><td>19/10/2026</td><td>Versión inicial: web offline, app Android, gráficos e informes</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:14px;font-size:.9rem">
+      Detalle completo: <a href="VERSIONES.md">VERSIONES.md</a> ·
+      cambios: <a href="https://github.com/emanuelindustri-source/consumo-cij-calculadora/blob/main/CHANGELOG.md" target="_blank" rel="noopener">CHANGELOG.md</a> ·
+      próximas mejoras: <a href="https://github.com/emanuelindustri-source/consumo-cij-calculadora/blob/main/ROADMAP.md" target="_blank" rel="noopener">ROADMAP.md</a>
+    </p>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <h4>Consumo CIJ</h4>
+      <p>Calculadora técnica de consumo de tinta y solvente para impresoras de inyección continua.</p>
+      <p><span class="badge ok"><span class="dot"></span> Sin internet</span> <span class="badge">MIT</span></p>
+    </div>
+    <div>
+      <h4>Documentación</h4>
+      <ul>
+        <li><a href="DATOS.md">Datos, fórmulas y validación</a></li>
+        <li><a href="ARQUITECTURA.md">Arquitectura</a></li>
+        <li><a href="VERSIONES.md">Historial de versiones</a></li>
+        <li><a href="https://github.com/emanuelindustri-source/consumo-cij-calculadora" target="_blank" rel="noopener">Repositorio</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Compatibilidad</h4>
+      <ul>
+        <li><b>Simplicity:</b> 1240 · 1280 · 1580 · 1580+ · 1580C · 1880 · 1880+ · 1880 UHS · 1880 HR</li>
+        <li><b>Serie 1000VJ:</b> 1040 · 1210 · 1220 · 1510…1710 · 1860 · UHS · HR</li>
+        <li><b>Boquillas:</b> 40 · 50 · 60 · 70 µm</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Notas</h4>
+      <p>Herramienta de estimación técnica basada en los modelos oficiales citados. Contraste los valores
+      con el consumo real antes de comprometer pedidos de consumibles.</p>
+      <p>Proyecto independiente de apoyo técnico. Las marcas y denominaciones de producto pertenecen a sus
+      respectivos titulares y se citan con fines descriptivos de compatibilidad.</p>
+    </div>
+  </div>
+  <div class="wrap copy">© 2026 Khristyan Hidalgo · Licencia MIT · Hecho para trabajar sin conexión</div>
+</footer>
+
+</body>
+</html>

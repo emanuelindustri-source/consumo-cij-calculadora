@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Tabletas grandes, TV y monitores (>= 720dp) -->
+<resources>
+    <dimen name="pad_xs">10dp</dimen>
+    <dimen name="pad_s">18dp</dimen>
+    <dimen name="pad_m">28dp</dimen>
+    <dimen name="pad_l">38dp</dimen>
+    <dimen name="corner_card">24dp</dimen>
+    <dimen name="touch_target">60dp</dimen>
+    <dimen name="chart_height">380dp</dimen>
+    <dimen name="max_content">1500dp</dimen>
+    <integer name="columns_input">3</integer>
+</resources>

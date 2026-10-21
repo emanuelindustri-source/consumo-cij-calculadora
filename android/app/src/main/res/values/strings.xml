@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Consumo CIJ · Calculadora</string>
+    <string name="app_subtitle">Tinta y solvente · equipos CIJ (Simplicity y Serie 1000VJ) · 100 % offline</string>
+    <string name="theme_system">Automático (sistema)</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_dark">Oscuro</string>
+    <string name="theme_amoled">Oscuro AMOLED (negro puro)</string>
+    <string name="offline_badge">100 % offline</string>
+
+    <string name="legal_title">Fuentes de datos y notas técnicas</string>
+    <string name="legal_body">Los cálculos proceden de los modelos oficiales: CIJ Makeup Usage Model v14 (solvente por temperatura), CIJ Line Speed Calculator v9.7 (velocidades, cpi y dpi) y CIJ TCO Calculator v35 (gotas/litro, gotas/carácter, contenedores y mantenimiento). Validados contra 150 PDFs de solvente y 40 de velocidad de línea.\n\nLos tamaños de cartucho varían según la tinta y el equipo (p. ej. V4225 = 700 ml, V480 = 600 ml, V401 = 750/5000 ml); el solvente asociado (V7201, V7257, V7220…) se indica junto a cada tinta.\n\nEstimación técnica: contraste los valores con el consumo real del equipo antes de planificar pedidos de consumibles.\n\nVersión 2.0 · herramienta técnica interna · funciona sin internet · familias Simplicity y Serie 1000VJ.</string>
+</resources>

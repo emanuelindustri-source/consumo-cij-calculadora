@@ -1,0 +1,70 @@
+name: Android CI
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'android/**'
+      - '.github/workflows/android.yml'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'android/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Compilar APK de depuración
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurar JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Configurar Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Instalar plataforma y build-tools 34
+        run: |
+          yes | sdkmanager --licenses > /dev/null 2>&1 || true
+          sdkmanager "platforms;android-34" "build-tools;34.0.0" > /dev/null
+
+      - name: Configurar Gradle 8.7
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: '8.7'
+
+      - name: Compilar APK
+        working-directory: android
+        run: gradle assembleDebug --no-daemon --stacktrace
+
+      - name: Verificar que la app no usa red
+        run: |
+          if grep -rn "android.permission.INTERNET" android/app/src/main/AndroidManifest.xml; then
+            echo "::error::La app no debe declarar INTERNET"
+            exit 1
+          fi
+          echo "OK: sin permisos de red"
+
+      - name: Verificar web autónoma (sin dependencias externas)
+        run: |
+          if grep -Eo 'https?://[^"'"'"' <>]+' web/calculadora-offline.html | grep -vq 'w3.org'; then
+            echo "::error::La web offline contiene URLs externas"
+            exit 1
+          fi
+          echo "OK: web sin dependencias externas"
+
+      - name: Publicar APK como artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: consumo-cij-debug-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error

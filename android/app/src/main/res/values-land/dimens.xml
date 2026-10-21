@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Apaisado: menos margen vertical, gráficos más altos -->
+<resources>
+    <dimen name="chart_height">260dp</dimen>
+</resources>

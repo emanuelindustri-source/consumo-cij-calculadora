@@ -1,0 +1,2031 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="dark light">
+<meta name="description" content="Calculadora de consumo de tinta y solvente para impresoras CIJ Videojet (Simplicity y Serie 1000VJ). Archivo único, funciona sin internet.">
+<title>Calculadora de Consumo de Tinta y Solvente · Videojet CIJ</title>
+<style>
+/* ============================================================
+   SISTEMA DE DISEÑO — 100% embebido, sin dependencias externas
+   Adaptado a: teléfono · tableta · PC · TV
+   ============================================================ */
+:root{
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: "Cascadia Mono", Consolas, "SF Mono", Menlo, monospace;
+
+  --bg: #0a1020;
+  --bg-grad-1: #0e1730;
+  --bg-grad-2: #0a1020;
+  --card: #111c31;
+  --card-2: #16233d;
+  --card-hover: #1b2a47;
+  --border: #24344f;
+  --border-strong: #33486b;
+
+  --txt: #e8eefc;
+  --txt-2: #a8b8d4;
+  --txt-3: #7287a8;
+
+  --accent: #2dd4bf;
+  --accent-2: #38bdf8;
+  --accent-grad: linear-gradient(135deg, #2dd4bf 0%, #38bdf8 100%);
+  --warn: #fbbf24;
+  --warn-bg: rgba(251, 191, 36, .12);
+  --danger: #f87171;
+  --danger-bg: rgba(248, 113, 113, .12);
+  --ok: #4ade80;
+  --ok-bg: rgba(74, 222, 128, .12);
+
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow: 0 10px 30px rgba(0, 0, 0, .35);
+  --shadow-soft: 0 4px 14px rgba(0, 0, 0, .22);
+
+  --fs-base: 16px;
+  --gap: clamp(12px, 1.6vw, 22px);
+  --pad: clamp(14px, 1.8vw, 26px);
+}
+[data-theme="light"]{
+  --bg: #eef2f9;
+  --bg-grad-1: #ffffff;
+  --bg-grad-2: #e8eef8;
+  --card: #ffffff;
+  --card-2: #f4f7fd;
+  --card-hover: #eaf1fb;
+  --border: #d3dded;
+  --border-strong: #b3c2da;
+  --txt: #12203a;
+  --txt-2: #405372;
+  --txt-3: #6b7f9e;
+  --shadow: 0 10px 30px rgba(24, 49, 92, .13);
+  --shadow-soft: 0 4px 14px rgba(24, 49, 92, .09);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { font-size: var(--fs-base); -webkit-text-size-adjust: 100%; }
+body{
+  margin: 0;
+  font-family: var(--font);
+  color: var(--txt);
+  background:
+    radial-gradient(1200px 700px at 85% -10%, rgba(56, 189, 248, .12), transparent 60%),
+    radial-gradient(1000px 600px at -10% 110%, rgba(45, 212, 191, .10), transparent 55%),
+    linear-gradient(180deg, var(--bg-grad-1), var(--bg-grad-2));
+  background-attachment: fixed;
+  min-height: 100vh;
+  line-height: 1.55;
+  overflow-x: hidden;
+}
+
+/* ---------- Encabezado ---------- */
+header.app{
+  position: sticky; top: 0; z-index: 50;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  border-bottom: 1px solid var(--border);
+}
+.hd-inner{
+  max-width: 1560px; margin: 0 auto;
+  padding: clamp(10px, 1.4vw, 18px) var(--pad);
+  display: flex; align-items: center; gap: var(--gap); flex-wrap: wrap;
+}
+.brand{ display: flex; align-items: center; gap: 14px; min-width: 0; }
+.logo{
+  width: clamp(40px, 4.2vw, 54px); height: clamp(40px, 4.2vw, 54px);
+  border-radius: 14px; background: var(--accent-grad);
+  display: grid; place-items: center; flex: 0 0 auto;
+  box-shadow: 0 8px 22px rgba(45, 212, 191, .35);
+}
+.logo svg { width: 62%; height: 62%; }
+.brand h1{
+  margin: 0; font-size: clamp(1.02rem, 1.65vw, 1.55rem);
+  letter-spacing: -.015em; line-height: 1.2; font-weight: 750;
+}
+.brand h1 span{ background: var(--accent-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.brand p{ margin: 2px 0 0; font-size: clamp(.72rem, 1.05vw, .92rem); color: var(--txt-2); }
+.hd-actions{ margin-left: auto; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.badge{
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 6px 12px; border-radius: 999px; font-size: .76rem; font-weight: 650;
+  border: 1px solid var(--border-strong); color: var(--txt-2);
+  background: color-mix(in srgb, var(--card) 70%, transparent); white-space: nowrap;
+}
+.badge .dot{ width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 10px var(--ok); }
+
+/* ---------- Botones ---------- */
+button, .btn{
+  font-family: inherit; font-size: .92rem; font-weight: 640;
+  border-radius: 12px; padding: 11px 18px; min-height: 44px;
+  border: 1px solid var(--border-strong); color: var(--txt);
+  background: var(--card-2); cursor: pointer;
+  transition: transform .12s ease, background .18s ease, border-color .18s ease, box-shadow .18s ease;
+  display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+}
+button:hover, .btn:hover{ background: var(--card-hover); border-color: var(--accent); transform: translateY(-1px); }
+button:active, .btn:active{ transform: translateY(0) scale(.985); }
+button:focus-visible, .btn:focus-visible, select:focus-visible, input:focus-visible, textarea:focus-visible{
+  outline: 3px solid color-mix(in srgb, var(--accent) 55%, transparent); outline-offset: 2px;
+}
+.btn-primary{
+  background: var(--accent-grad); color: #04222a; border: none;
+  box-shadow: 0 10px 24px rgba(45, 212, 191, .28);
+}
+.btn-primary:hover{ background: var(--accent-grad); filter: brightness(1.06); }
+.btn-ghost{ background: transparent; }
+.btn-icon{ padding: 10px; width: 46px; height: 46px; }
+.btn svg{ width: 19px; height: 19px; flex: 0 0 auto; }
+
+/* ---------- Estructura ---------- */
+main{
+  max-width: 1560px; margin: 0 auto;
+  padding: var(--gap) var(--pad) calc(var(--gap) * 2);
+  display: grid; gap: var(--gap);
+  grid-template-columns: minmax(0, 1.06fr) minmax(0, 1fr);
+  align-items: start;
+}
+@media (max-width: 1120px){ main{ grid-template-columns: 1fr; } }
+.col{ display: grid; gap: var(--gap); min-width: 0; }
+
+.card{
+  background: color-mix(in srgb, var(--card) 92%, transparent);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--pad);
+  box-shadow: var(--shadow-soft);
+  min-width: 0;
+}
+.card > h2{
+  margin: 0 0 4px; font-size: clamp(1rem, 1.35vw, 1.22rem);
+  display: flex; align-items: center; gap: 11px; letter-spacing: -.01em;
+}
+.card > h2 .ic{
+  width: 34px; height: 34px; border-radius: 10px; flex: 0 0 auto;
+  display: grid; place-items: center;
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  color: var(--accent);
+}
+.card > h2 .ic svg{ width: 19px; height: 19px; }
+.card > .sub{ margin: 0 0 16px; color: var(--txt-3); font-size: .845rem; }
+
+/* ---------- Formularios ---------- */
+.grid-fields{ display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); }
+.field{ display: grid; gap: 7px; min-width: 0; }
+.field label{ font-size: .81rem; font-weight: 660; color: var(--txt-2); letter-spacing: .012em; }
+.field label .hint{ font-weight: 500; color: var(--txt-3); }
+input[type="number"], input[type="text"], input[type="search"], select, textarea{
+  width: 100%; font-family: inherit; font-size: .97rem; color: var(--txt);
+  background: var(--card-2); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 11px 13px; min-height: 46px;
+  transition: border-color .16s ease, box-shadow .16s ease;
+}
+input[type="number"]:hover, select:hover, textarea:hover{ border-color: var(--border-strong); }
+input[type="number"]{ -moz-appearance: textfield; }
+input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button{ -webkit-appearance: none; margin: 0; }
+select{
+  appearance: none; -webkit-appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--txt-3) 50%), linear-gradient(135deg, var(--txt-3) 50%, transparent 50%);
+  background-position: calc(100% - 21px) calc(50% + 2px), calc(100% - 15px) calc(50% + 2px);
+  background-size: 6px 6px, 6px 6px; background-repeat: no-repeat;
+  padding-right: 40px;
+}
+select option{ background: var(--card); color: var(--txt); }
+.unit{ position: relative; }
+.unit .suffix{
+  position: absolute; right: 13px; top: 50%; transform: translateY(-50%);
+  color: var(--txt-3); font-size: .82rem; pointer-events: none; font-weight: 650;
+}
+.unit input{ padding-right: 58px; }
+
+/* chips de familia */
+.chips{ display: flex; flex-wrap: wrap; gap: 9px; }
+.chip{
+  border: 1px solid var(--border-strong); background: var(--card-2); color: var(--txt-2);
+  padding: 9px 15px; border-radius: 999px; font-size: .83rem; font-weight: 650; cursor: pointer;
+  min-height: 42px; transition: all .16s ease;
+}
+.chip:hover{ border-color: var(--accent); color: var(--txt); }
+.chip[aria-pressed="true"]{
+  background: var(--accent-grad); color: #04222a; border-color: transparent;
+  box-shadow: 0 8px 20px rgba(45, 212, 191, .25);
+}
+
+/* detalles avanzados */
+details.adv{ border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--card-2); }
+details.adv > summary{
+  cursor: pointer; padding: 13px 16px; font-weight: 660; font-size: .9rem;
+  color: var(--txt-2); list-style: none; display: flex; align-items: center; gap: 10px; min-height: 46px;
+}
+details.adv > summary::-webkit-details-marker{ display: none; }
+details.adv > summary::before{
+  content: ""; width: 9px; height: 9px; border-right: 2.5px solid var(--accent);
+  border-bottom: 2.5px solid var(--accent); transform: rotate(-45deg); transition: transform .2s ease; flex: 0 0 auto;
+}
+details.adv[open] > summary::before{ transform: rotate(45deg); }
+details.adv > .body{ padding: 4px 16px 18px; display: grid; gap: 14px; }
+
+/* ---------- KPIs ---------- */
+.kpi-strip{ display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(178px, 1fr)); }
+.kpi{
+  background: linear-gradient(160deg, var(--card-2), color-mix(in srgb, var(--card) 80%, transparent));
+  border: 1px solid var(--border); border-radius: 15px; padding: 15px 17px;
+  position: relative; overflow: hidden;
+}
+.kpi::after{
+  content: ""; position: absolute; inset: 0 0 auto 0; height: 3px;
+  background: var(--accent-grad); opacity: .85;
+}
+.kpi .k-lab{ font-size: .755rem; font-weight: 680; text-transform: uppercase; letter-spacing: .075em; color: var(--txt-3); }
+.kpi .k-val{ font-size: clamp(1.28rem, 2.3vw, 1.85rem); font-weight: 780; letter-spacing: -.022em; margin: 3px 0 1px; line-height: 1.15; }
+.kpi .k-val small{ font-size: .58em; font-weight: 680; color: var(--txt-2); margin-left: 3px; letter-spacing: 0; }
+.kpi .k-sub{ font-size: .775rem; color: var(--txt-3); }
+.kpi.tint::after{ background: linear-gradient(90deg, #38bdf8, #818cf8); }
+.kpi.ratio::after{ background: linear-gradient(90deg, #fbbf24, #f472b6); }
+.kpi.cart::after{ background: linear-gradient(90deg, #4ade80, #2dd4bf); }
+
+/* ---------- Tablas ---------- */
+table.res{ width: 100%; border-collapse: collapse; font-size: .885rem; }
+table.res th, table.res td{ padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+table.res th{ font-size: .735rem; text-transform: uppercase; letter-spacing: .07em; color: var(--txt-3); font-weight: 700; }
+table.res td.num, table.res th.num{ text-align: right; font-variant-numeric: tabular-nums; font-family: var(--mono); }
+table.res tr:last-child td{ border-bottom: none; }
+table.res tr.total td{ font-weight: 750; background: color-mix(in srgb, var(--accent) 9%, transparent); }
+.t-scroll{ overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* ---------- Gráficos ---------- */
+.chart-wrap{ position: relative; width: 100%; }
+.chart-wrap canvas{ width: 100%; height: auto; display: block; border-radius: 12px; }
+.legend{ display: flex; flex-wrap: wrap; gap: 14px; margin-top: 10px; font-size: .8rem; color: var(--txt-2); }
+.legend .it{ display: inline-flex; align-items: center; gap: 7px; }
+.legend .sw{ width: 13px; height: 13px; border-radius: 4px; }
+
+/* ---------- Avisos ---------- */
+.alert{
+  display: flex; gap: 11px; align-items: flex-start;
+  padding: 12px 15px; border-radius: 12px; font-size: .855rem; line-height: 1.5;
+  border: 1px solid transparent;
+}
+.alert svg{ width: 19px; height: 19px; flex: 0 0 auto; margin-top: 1px; }
+.alert.info{ background: color-mix(in srgb, var(--accent-2) 11%, transparent); border-color: color-mix(in srgb, var(--accent-2) 32%, transparent); color: var(--txt); }
+.alert.warn{ background: var(--warn-bg); border-color: color-mix(in srgb, var(--warn) 38%, transparent); }
+.alert.danger{ background: var(--danger-bg); border-color: color-mix(in srgb, var(--danger) 38%, transparent); }
+.alert.ok{ background: var(--ok-bg); border-color: color-mix(in srgb, var(--ok) 34%, transparent); }
+.alerts{ display: grid; gap: 10px; }
+
+/* ---------- Resultado destacado ---------- */
+.hero-result{
+  background: linear-gradient(150deg, color-mix(in srgb, var(--accent) 17%, var(--card)), var(--card) 62%);
+  border: 1px solid color-mix(in srgb, var(--accent) 34%, var(--border));
+  border-radius: var(--radius); padding: clamp(16px, 2vw, 24px);
+}
+.hero-result .big{
+  font-size: clamp(1.75rem, 4.2vw, 3.1rem); font-weight: 820; letter-spacing: -.032em;
+  line-height: 1.05; margin: 6px 0;
+  font-variant-numeric: tabular-nums;
+}
+.hero-result .big small{ font-size: .42em; color: var(--txt-2); font-weight: 700; letter-spacing: 0; }
+.hero-row{ display: flex; flex-wrap: wrap; gap: 18px 30px; margin-top: 12px; }
+.hero-row .mini{ min-width: 130px; }
+.hero-row .mini .l{ font-size: .735rem; text-transform: uppercase; letter-spacing: .075em; color: var(--txt-3); font-weight: 700; }
+.hero-row .mini .v{ font-size: 1.22rem; font-weight: 760; letter-spacing: -.015em; font-variant-numeric: tabular-nums; }
+
+/* ---------- Barras de progreso ---------- */
+.progress-bar{
+  width: 100%; height: 12px; border-radius: 999px; overflow: hidden;
+  background: color-mix(in srgb, var(--border) 70%, transparent); margin-top: 9px;
+}
+.progress-fill{
+  height: 100%; border-radius: 999px; transition: width .5s ease;
+  background: var(--accent-grad); min-width: 2px;
+}
+
+/* ---------- Historial ---------- */
+.hist-item{
+  display: flex; align-items: center; gap: 12px; padding: 11px 13px;
+  border: 1px solid var(--border); border-radius: 12px; background: var(--card-2);
+  font-size: .845rem; flex-wrap: wrap;
+}
+.hist-item .t{ color: var(--txt-3); font-size: .775rem; }
+.hist-item .g{ margin-left: auto; display: flex; gap: 8px; }
+
+/* ---------- Pie ---------- */
+footer.app{
+  border-top: 1px solid var(--border);
+  background: color-mix(in srgb, var(--card) 55%, transparent);
+}
+.ft-inner{ max-width: 1560px; margin: 0 auto; padding: clamp(18px, 2.4vw, 34px) var(--pad); display: grid; gap: 18px; }
+.ft-grid{ display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.ft-grid h3{ margin: 0 0 9px; font-size: .93rem; letter-spacing: -.005em; }
+.ft-grid p, .ft-grid li{ font-size: .825rem; color: var(--txt-2); margin: 0 0 7px; line-height: 1.62; }
+.ft-grid ul{ margin: 0; padding-left: 18px; }
+.formula{
+  font-family: var(--mono); font-size: .8rem; background: var(--card-2);
+  border: 1px solid var(--border); border-radius: 10px; padding: 11px 13px;
+  color: var(--accent); overflow-x: auto; white-space: nowrap;
+}
+.disclaimer{ font-size: .785rem; color: var(--txt-3); line-height: 1.65; }
+
+/* ---------- Toast ---------- */
+#toast{
+  position: fixed; left: 50%; bottom: 26px; transform: translateX(-50%) translateY(140%);
+  background: var(--card-2); color: var(--txt); border: 1px solid var(--accent);
+  padding: 13px 22px; border-radius: 14px; font-size: .9rem; font-weight: 640;
+  box-shadow: var(--shadow); z-index: 200; opacity: 0;
+  transition: transform .3s cubic-bezier(.2, .9, .25, 1.2), opacity .3s ease; max-width: min(92vw, 560px);
+}
+#toast.show{ transform: translateX(-50%) translateY(0); opacity: 1; }
+
+/* ---------- Móvil ---------- */
+@media (max-width: 700px){
+  :root{ --fs-base: 15.5px; }
+  .hd-inner{ padding: 10px var(--pad); }
+  .brand p{ display: none; }
+  .badge.hide-sm{ display: none; }
+  .grid-fields{ grid-template-columns: 1fr 1fr; }
+  .field.wide{ grid-column: 1 / -1; }
+  .kpi-strip{ grid-template-columns: 1fr 1fr; }
+  .hero-row{ gap: 12px 20px; }
+  main{ padding-bottom: 92px; }
+  .sticky-bar{
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
+    display: flex; gap: 10px; padding: 11px 14px calc(11px + env(safe-area-inset-bottom));
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    border-top: 1px solid var(--border);
+  }
+  .sticky-bar button{ flex: 1; }
+}
+@media (min-width: 701px){ .sticky-bar{ display: none; } }
+@media (max-width: 430px){
+  .grid-fields{ grid-template-columns: 1fr; }
+  .kpi-strip{ grid-template-columns: 1fr 1fr; }
+  .brand h1{ font-size: 1.02rem; }
+}
+
+/* ---------- Tableta ---------- */
+@media (min-width: 701px) and (max-width: 1120px){
+  .grid-fields{ grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+}
+
+/* ---------- TV / pantallas grandes ---------- */
+@media (min-width: 1900px){
+  :root{ --fs-base: 19px; --radius: 20px; }
+  body{ line-height: 1.6; }
+  .brand h1{ font-size: 1.9rem; }
+  main{ max-width: 2200px; }
+  .hd-inner, .ft-inner{ max-width: 2200px; }
+  button, .btn{ font-size: 1.05rem; padding: 14px 22px; }
+  input[type="number"], input[type="text"], input[type="search"], select, textarea{ font-size: 1.08rem; min-height: 54px; }
+}
+@media (min-width: 2600px){ :root{ --fs-base: 23px; } }
+
+/* ---------- Movimiento reducido ---------- */
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+
+/* ---------- Impresión ---------- */
+@media print{
+  :root{ --fs-base: 11.5px; }
+  body{ background: #fff !important; color: #101828; }
+  header.app, .sticky-bar, .no-print, #toast{ display: none !important; }
+  main{ display: block; max-width: none; padding: 0; }
+  .card, .hero-result, .kpi{ break-inside: avoid; box-shadow: none; border-color: #cdd6e4; background: #fff !important; margin-bottom: 12px; }
+  .col{ display: block; }
+  details.adv{ display: none; }
+  table.res th, table.res td{ border-color: #dde4ee; }
+}
+</style>
+</head>
+<body>
+
+<header class="app">
+  <div class="hd-inner">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#04222a" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2.5c3.6 4.2 6.2 7.3 6.2 10.4A6.2 6.2 0 0 1 12 19.1a6.2 6.2 0 0 1-6.2-6.2c0-3.1 2.6-6.2 6.2-10.4Z"/>
+          <path d="M9.4 13.6a2.7 2.7 0 0 0 2.6 2.6"/>
+        </svg>
+      </div>
+      <div>
+        <h1>Calculadora de Consumo de <span>Tinta y Solvente</span></h1>
+        <p>Impresoras CIJ Videojet · Simplicity &amp; Serie 1000VJ · Basada en los modelos oficiales CIJ Makeup Usage v14, Line Speed v9.7 y TCO v35</p>
+      </div>
+    </div>
+    <div class="hd-actions">
+      <span class="badge hide-sm"><span class="dot"></span> 100 % offline · archivo único</span>
+      <button class="btn-icon btn-ghost" id="btnTheme" title="Cambiar tema claro/oscuro" aria-label="Cambiar tema">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.4v2.2M12 19.4v2.2M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2.4 12h2.2M19.4 12h2.2M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6"/></svg>
+      </button>
+      <button class="btn-icon btn-ghost" id="btnPrint" title="Imprimir / guardar como PDF" aria-label="Imprimir">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3.5h12V9"/><rect x="3.5" y="9" width="17" height="7.5" rx="2"/><path d="M6 14h12v6.5H6z"/><circle cx="17.2" cy="11.9" r=".9" fill="currentColor" stroke="none"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- ================= COLUMNA DE ENTRADAS ================= -->
+  <section class="col" aria-label="Datos de entrada">
+
+    <!-- Equipo -->
+    <div class="card">
+      <h2><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="12" rx="2.2"/><path d="M7 20h10M8 8.5h4M8 12h8"/></svg></span> Equipo impresor</h2>
+      <p class="sub">Seleccione la familia y el modelo. Los datos de consumo se cargan automáticamente de los modelos oficiales Videojet.</p>
+
+      <div class="field" style="margin-bottom:14px">
+        <label id="famLabel">Familia de equipo</label>
+        <div class="chips" role="group" aria-labelledby="famLabel" id="famChips">
+          <button class="chip" data-fam="all" aria-pressed="true">Todos</button>
+          <button class="chip" data-fam="simplicity" aria-pressed="false">Simplicity (1880)</button>
+          <button class="chip" data-fam="serie1000" aria-pressed="false">Serie 1000VJ</button>
+        </div>
+      </div>
+
+      <div class="grid-fields">
+        <div class="field wide">
+          <label for="printer">Modelo de impresora</label>
+          <select id="printer"></select>
+        </div>
+        <div class="field">
+          <label for="nozzle">Tamaño de boquilla</label>
+          <div class="unit"><select id="nozzle"></select></div>
+        </div>
+        <div class="field">
+          <label for="inkCart">Cartucho de tinta <span class="hint">(según la tinta elegida)</span></label>
+          <select id="inkCart"></select>
+        </div>
+        <div class="field">
+          <label for="muCart">Cartucho de solvente <span class="hint">(make-up)</span></label>
+          <select id="muCart"></select>
+        </div>
+      </div>
+
+      <div id="printerInfo" class="alert info" style="margin-top:14px"></div>
+    </div>
+
+    <!-- Tinta y solvente -->
+    <div class="card">
+      <h2><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3.5h6l1 4.2-1.4 1.4a4 4 0 0 0-1.1 2v1.3"/><path d="M8 3.5 7 7.7l1.4 1.4a4 4 0 0 1 1.1 2"/><path d="M11 20.5h4"/><path d="M12 14.4v6.1"/><rect x="6.6" y="11" width="10.8" height="3.6" rx="1.6"/></svg></span> Tinta y solvente (make-up)</h2>
+      <p class="sub">La base de solvente determina el factor de consumo y su sensibilidad a la temperatura.</p>
+      <div class="grid-fields">
+        <div class="field wide">
+          <label for="ink">Tipo de tinta</label>
+          <select id="ink"></select>
+        </div>
+        <div class="field">
+          <label for="inkBase">Base de solvente / make-up</label>
+          <select id="inkBase"></select>
+        </div>
+        <div class="field">
+          <label for="muType">Solvente / make-up</label>
+          <select id="muType"></select>
+        </div>
+      </div>
+      <div class="alerts" style="margin-top:14px">
+        <div class="alert info" id="inkBaseInfo"></div>
+      </div>
+    </div>
+
+    <!-- Mensaje -->
+    <div class="card">
+      <h2><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 11h10M4 16h13M4 21h7"/></svg></span> Mensaje / código impreso</h2>
+      <p class="sub">El tipo de fuente define la matriz de puntos, el número de líneas y los golpos por carácter.</p>
+      <div class="grid-fields">
+        <div class="field wide">
+          <label for="font">Tipo de fuente <span class="hint">(matriz × líneas)</span></label>
+          <select id="font"></select>
+        </div>
+        <div class="field">
+          <label for="chars">Caracteres por línea</label>
+          <div class="unit"><input type="number" id="chars" min="1" max="200" step="1" value="12"><span class="suffix">car.</span></div>
+        </div>
+        <div class="field">
+          <label for="lines">Cantidad de líneas</label>
+          <div class="unit"><input type="number" id="lines" min="1" max="5" step="1" value="1"><span class="suffix">lin.</span></div>
+        </div>
+        <div class="field">
+          <label for="stroke">Stroke rate <span class="hint">(golpes/col.)</span></label>
+          <div class="unit"><input type="number" id="stroke" min="1" max="4" step="1" value="1"><span class="suffix">×</span></div>
+        </div>
+        <div class="field">
+          <label for="width">Ancho de impresión</label>
+          <div class="unit"><input type="number" id="width" min="1" max="200" step="0.5" value="11"><span class="suffix">mm</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Producción -->
+    <div class="card">
+      <h2><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 1 0-9-9"/><path d="M12 7v5l3.2 2"/><path d="M3 12H1.6M4.6 6.2 3.6 5.2"/></svg></span> Producción y temperatura</h2>
+      <p class="sub">El solvente se consume por hora de encendido (evaporación), la tinta por carácter impreso.</p>
+      <div class="grid-fields">
+        <div class="field">
+          <label for="temp">Temperatura ambiente</label>
+          <div class="unit"><input type="number" id="temp" min="-10" max="55" step="0.5" value="25"><span class="suffix">°C</span></div>
+        </div>
+        <div class="field">
+          <label for="ppm">Impresiones por minuto</label>
+          <div class="unit"><input type="number" id="ppm" min="0" max="2000" step="1" value="60"><span class="suffix">/min</span></div>
+        </div>
+        <div class="field">
+          <label for="hrsDay">Horas de operación / día</label>
+          <div class="unit"><input type="number" id="hrsDay" min="0" max="24" step="0.5" value="16"><span class="suffix">h</span></div>
+        </div>
+        <div class="field">
+          <label for="daysWeek">Días de producción / semana</label>
+          <div class="unit"><input type="number" id="daysWeek" min="1" max="7" step="1" value="5"><span class="suffix">d</span></div>
+        </div>
+        <div class="field">
+          <label for="daysMonth">Días de producción / mes</label>
+          <div class="unit"><input type="number" id="daysMonth" min="1" max="31" step="1" value="22"><span class="suffix">d</span></div>
+        </div>
+        <div class="field">
+          <label for="eff">Eficiencia de línea</label>
+          <div class="unit"><input type="number" id="eff" min="1" max="100" step="1" value="90"><span class="suffix">%</span></div>
+        </div>
+      </div>
+
+      <details class="adv" style="margin-top:14px">
+        <summary>Velocidad de línea y producto (validación del CIJ Line-Speed Calculator)</summary>
+        <div class="body">
+          <div class="grid-fields">
+            <div class="field">
+              <label for="lineSpeed">Velocidad de línea</label>
+              <div class="unit"><input type="number" id="lineSpeed" min="0" max="600" step="1" value="50"><span class="suffix">m/min</span></div>
+            </div>
+            <div class="field">
+              <label for="prodW">Ancho de producto</label>
+              <div class="unit"><input type="number" id="prodW" min="0" max="1000" step="1" value="120"><span class="suffix">mm</span></div>
+            </div>
+            <div class="field">
+              <label for="gap">Hueco entre productos</label>
+              <div class="unit"><input type="number" id="gap" min="0" max="500" step="1" value="30"><span class="suffix">mm</span></div>
+            </div>
+          </div>
+          <div id="speedBox" class="alerts"></div>
+        </div>
+      </details>
+    </div>
+
+    <!-- Precios -->
+    <div class="card">
+      <h2><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M12 7.2v9.6M14.6 9.4a2.6 2.6 0 0 0-2.6-1.8c-1.6 0-2.7.9-2.7 2.2 0 3 5.4 1.6 5.4 4.4 0 1.3-1.2 2.2-2.8 2.2a2.9 2.9 0 0 1-2.8-1.9"/></svg></span> Mantenimiento y vida útil <span style="font-weight:500;color:var(--txt-3);font-size:.82em">(opcional)</span></h2>
+      <div class="grid-fields">
+        
+        </div>
+        <div class="field">
+          <label for="shelfLife">Vida útil en almacén <span class="hint">(cartuchos)</span></label>
+          <div class="unit"><input type="number" id="shelfLife" min="0" max="60" step="1" value="12"><span class="suffix">meses</span></div>
+        </div>
+        <div class="field">
+          <label for="coreHours">Vida del núcleo / kit <span class="hint">(horas)</span></label>
+          <div class="unit"><input type="number" id="coreHours" min="0" max="20000" step="100" value="4000"><span class="suffix">h</span></div>
+        </div>
+        <div class="field">
+          <label for="coreDays">Vida del núcleo / kit <span class="hint">(días)</span></label>
+          <div class="unit"><input type="number" id="coreDays" min="0" max="3650" step="5" value="365"><span class="suffix">días</span></div>
+        </div>
+      </div>
+      <p class="sub" style="margin:12px 0 0">La vida del núcleo / kit y la caducidad son opcionales: se muestran como seguimiento de mantenimiento y se cargan automáticamente según el modelo elegido.</p>
+    </div>
+
+    <!-- Ajustes avanzados -->
+    <div class="card">
+      <h2><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1.03 1.56V21a2 2 0 1 1-4 0v-.1A1.7 1.7 0 0 0 8.9 19.3a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.54 15a1.7 1.7 0 0 0-1.56-1.03H3a2 2 0 1 1 0-4h.1A1.7 1.7 0 0 0 4.7 8.9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.54h.08A1.7 1.7 0 0 0 10.1 3V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1.03 1.56 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.46 9v.08a1.7 1.7 0 0 0 1.56 1.03H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1.03Z"/></svg></span> Ajustes avanzados</h2>
+      <details class="adv">
+        <summary>Modelo de temperatura, factores ambientales y unidades</summary>
+        <div class="body">
+          <div class="grid-fields">
+            <div class="field wide">
+              <label for="tempModel">Modelo de temperatura del solvente</label>
+              <select id="tempModel">
+                <option value="published">Publicado · CIJ Makeup Usage Model v14 (recomendado)</option>
+                <option value="equation">Por ecuación del equipo · CIJ TCO v35</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="fHum">Factor humedad ambiente</label>
+              <div class="unit"><input type="number" id="fHum" min="0.2" max="3" step="0.01" value="1"><span class="suffix">×</span></div>
+            </div>
+            <div class="field">
+              <label for="fRecir">Factor % recirculación</label>
+              <div class="unit"><input type="number" id="fRecir" min="0.2" max="3" step="0.01" value="1"><span class="suffix">×</span></div>
+            </div>
+            <div class="field">
+              <label for="fCond">Factor condensador</label>
+              <div class="unit"><input type="number" id="fCond" min="0.2" max="3" step="0.01" value="1"><span class="suffix">×</span></div>
+            </div>
+            <div class="field">
+              <label for="fNozzle">Factor temperatura de boquilla</label>
+              <div class="unit"><input type="number" id="fNozzle" min="0.2" max="3" step="0.01" value="1"><span class="suffix">×</span></div>
+            </div>
+            <div class="field">
+              <label for="fOther">Factor otros (ciclo de medición, etc.)</label>
+              <div class="unit"><input type="number" id="fOther" min="0.2" max="3" step="0.01" value="1"><span class="suffix">×</span></div>
+            </div>
+          </div>
+          <div class="alert info">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.8v.2"/></svg>
+            <div>El consumo de make-up lo influyen: base de solvente, temperatura ambiente, humedad, temperatura de boquilla, % de recirculación, condensador activo/pasivo, velocidad de la bomba del canalón y ciclo de medimiento. Estos factores son multiplicadores de ajuste sobre el modelo oficial (por defecto 1,00).</div>
+          </div>
+        </div>
+      </details>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
+        <button class="btn-ghost" id="btnReset">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12a8.5 8.5 0 1 1 2.6 6.1"/><path d="M3.5 5.5V12H10"/></svg>
+          Restablecer valores
+        </button>
+        <button class="btn-ghost" id="btnSaveCfg">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v11M8 11l4 4 4-4"/><path d="M4.5 17v2.2a1.3 1.3 0 0 0 1.3 1.3h12.4a1.3 1.3 0 0 0 1.3-1.3V17"/></svg>
+          Guardar configuración
+        </button>
+        <button class="btn-ghost" id="btnLoadCfg">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 14.5v-11M8 7l4-4 4 4"/><path d="M4.5 17v2.2a1.3 1.3 0 0 0 1.3 1.3h12.4a1.3 1.3 0 0 0 1.3-1.3V17"/></svg>
+          Cargar configuración
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= COLUMNA DE RESULTADOS ================= -->
+  <section class="col" aria-label="Resultados">
+    <div class="hero-result" id="hero">
+      <div class="k-lab" style="font-size:.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.085em;color:var(--txt-3)">Consumo estimado de solvente (make-up)</div>
+      <div class="big" id="heroVal">— <small>ml/hora</small></div>
+      <div class="hero-row">
+        <div class="mini"><div class="l">Tinta</div><div class="v" id="heroInk">—</div></div>
+        <div class="mini"><div class="l">Relación solvente : tinta</div><div class="v" id="heroRatio">—</div></div>
+        <div class="mini"><div class="l">Duración cartucho solvente</div><div class="v" id="heroCartMu">—</div></div>
+        <div class="mini"><div class="l">Duración cartucho tinta</div><div class="v" id="heroCartInk">—</div></div>
+      </div>
+    </div>
+
+    <div class="kpi-strip">
+      <div class="kpi"><div class="k-lab">Solvente / mes</div><div class="k-val" id="kpiMuMonth">—<small>ml</small></div><div class="k-sub" id="kpiMuMonthSub">—</div></div>
+      <div class="kpi tint"><div class="k-lab">Tinta / mes</div><div class="k-val" id="kpiInkMonth">—<small>ml</small></div><div class="k-sub" id="kpiInkMonthSub">—</div></div>
+      <div class="kpi ratio"><div class="k-lab">Cartuchos solvente / mes</div><div class="k-val" id="kpiMuCart">—</div><div class="k-sub" id="kpiMuCartSub">—</div></div>
+      <div class="kpi cart"><div class="k-lab">Cartuchos tinta / mes</div><div class="k-val" id="kpiInkCart">—</div><div class="k-sub" id="kpiInkCartSub">—</div></div>
+    </div>
+
+    <div class="card">
+      <h2><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V4"/><path d="M4 20h16"/><path d="M8 16.5v-4M12.7 16.5v-8M17.3 16.5v-6"/></svg></span> Detalle del cálculo</h2>
+      <div class="t-scroll">
+        <table class="res">
+          <thead>
+            <tr><th>Concepto</th><th class="num">Por hora</th><th class="num">Por día</th><th class="num">Por mes</th><th class="num">Por año</th></tr>
+          </thead>
+          <tbody id="detailBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 17.5 9 11l3.6 3.4L20.5 6"/><path d="M15.5 6h5v5"/></svg></span> Curva de consumo de solvente vs temperatura</h2>
+      <div class="chart-wrap"><canvas id="chartTemp" width="760" height="380" role="img" aria-label="Gráfico de consumo de solvente según temperatura"></canvas></div>
+      <div class="legend">
+        <span class="it"><span class="sw" style="background:#2dd4bf"></span> Solvente ml/hora</span>
+        <span class="it"><span class="sw" style="background:#fbbf24"></span> Temperatura actual</span>
+        <span class="it"><span class="sw" style="background:#38bdf8"></span> 20 °C de referencia</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="10" width="5" height="10.5" rx="1.4"/><rect x="11.2" y="5" width="5" height="15.5" rx="1.4"/><rect x="18.9" y="13" width="2.6" height="7.5" rx="1.2"/></svg></span> Tinta vs solvente mensual</h2>
+      <div class="chart-wrap"><canvas id="chartBars" width="760" height="320" role="img" aria-label="Gráfico comparativo de tinta y solvente mensual"></canvas></div>
+    </div>
+
+    <div class="card">
+      <h2><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1"/><path d="M3.5 5.5V12H10"/><path d="M12 7.8V12l3 1.8"/></svg></span> Consumo acumulado en la jornada</h2>
+      <div class="chart-wrap"><canvas id="chartTimeline" width="760" height="320" role="img" aria-label="Gráfico de consumo acumulado durante la jornada"></canvas></div>
+      <div class="legend">
+        <span class="it"><span class="sw" style="background:#2dd4bf"></span> Solvente acumulado</span>
+        <span class="it"><span class="sw" style="background:#38bdf8"></span> Tinta acumulada</span>
+        <span class="it"><span class="sw" style="background:#fbbf24"></span> Cartucho de solvente</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M12 7.2v9.6M14.6 9.4a2.6 2.6 0 0 0-2.6-1.8c-1.6 0-2.7.9-2.7 2.2 0 3 5.4 1.6 5.4 4.4 0 1.3-1.2 2.2-2.8 2.2a2.9 2.9 0 0 1-2.8-1.9"/></svg></span> Seguimiento de mantenimiento</h2>
+      
+      <div id="coreBox" style="margin-top:18px;display:grid;gap:16px"></div>
+    </div>
+
+    <div class="card">
+      <h2><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M12 7.6V12l3 1.8"/></svg></span> Avisos y validación</h2>
+      <div class="alerts" id="alerts"></div>
+    </div>
+
+    /><path d="M8.5 8.5h7M8.5 12h7M8.5 15.5h4"/></svg></span> Exportar resultado</h2>
+      <p class="sub">Descargue el informe para adjuntarlo a su informe técnico o guardarlo en su equipo. El archivo generado funciona sin internet.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn-primary" id="btnCsv">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v11M8 11l4 4 4-4"/><path d="M4.5 17v2.2a1.3 1.3 0 0 0 1.3 1.3h12.4a1.3 1.3 0 0 0 1.3-1.3V17"/></svg>
+          Informe CSV
+        </button>
+        <button class="btn" id="btnTxt">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5h8l4 4v13H6z"/><path d="M14 3.5v4h4"/><path d="M9 12h6M9 15.5h6"/></svg>
+          Informe TXT
+        </button>
+        <button class="btn" id="btnCopy">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8.5" y="8.5" width="11" height="11" rx="2"/><path d="M15.5 5.5h-9a2 2 0 0 0-2 2v9"/></svg>
+          Copiar resumen
+        </button>
+        <button class="btn" id="btnAddHist">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+          Guardar en historial
+        </button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1"/><path d="M3.5 5.5V12H10"/><path d="M12 7.8V12l3 1.8"/></svg></span> Historial de cálculos</h2>
+      <div class="col" id="histList" style="gap:9px">
+        <p class="sub" style="margin:0">Todavía no hay cálculos guardados en este dispositivo.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="sticky-bar">
+  <button class="btn-primary" id="btnCsv2">Exportar CSV</button>
+  <button class="btn" id="btnPrint2">Imprimir</button>
+</div>
+
+<footer class="app">
+  <div class="ft-inner">
+    <div class="ft-grid">
+      <div>
+        <h3>Modelo de solvente (make-up)</h3>
+        <p>Basado en <b>CIJ Makeup Usage Model v14</b> — el mismo modelo que genera los PDFs “CIJ Makeup Usage Model v14_&lt;equipo&gt;_&lt;tinta&gt;.pdf”:</p>
+        <div class="formula">ml/h = (1000 / hrs·L⁻¹@20°C) × F_cons × 0,45143 × e^(k · T)</div>
+        <p style="margin-top:9px">Donde <b>hrs·L⁻¹@20°C</b> es la duración de un litro a 20 °C por equipo, <b>F_cons</b> el factor de la base de solvente y <b>k</b> su factor exponencial de temperatura.</p>
+      </div>
+      <div>
+        <h3>Modelo de tinta</h3>
+        <p>Basado en <b>CIJ TCO Calculator v35</b>:</p>
+        <div class="formula">gotas/mensaje = gotas/car. × car/línea × líneas × stroke</div>
+        <div class="formula" style="margin-top:8px">ml tinta = gotas/mensaje ÷ gotas/litro × 1000</div>
+        <p style="margin-top:9px">Las <b>gotas por carácter</b> dependen de la matriz de la fuente (5×7 = 13 gotas, 7×9 = 19, 10×16 = 61…) y las <b>gotas por litro</b> del diámetro de boquilla.</p>
+      </div>
+      <div>
+        <h3>Velocidad de línea</h3>
+        <p>Basado en <b>CIJ Line Speed Calculator v9.7</b> (escenarios 1–3):</p>
+        <div class="formula">v máx = (car/seg ÷ car/línea) × ancho_mm × 0,06</div>
+        <p style="margin-top:9px">También calcula cpi (caracteres/pulgada), dpi (golpos/pulgada) y comprueba la velocidad de línea y el rendimiento de producto introducidos.</p>
+      </div>
+    </div>
+    <div class="ft-grid">
+      <div>
+        <h3>Familias de equipo</h3>
+        <ul>
+          <li><b>Simplicity</b>: VJ 1240 · 1280 · 1580 · 1580+ · 1580C · 1880 · 1880+ · 1880 UHS · 1880 HR.</li>
+          <li><b>Serie 1000VJ (1XX0)</b>: VJ 1040 · 1210 · 1220 · 1510 · 1520 · 1530 · 1550 · 1560 · 1610 · 1610 DH · 1620 · 1630 · 1650 · 1660 · 1620/1650 UHS · 1620/1650 HR · 1710 · 1860.</li>
+          <li><b>Boquillas</b>: 40 µm (HR) · 50 µm (UHS) · 60 µm · 70 µm — las opciones dependen del modelo elegido. En VJ 1880 y 1880+ la boquilla cambia el consumo de solvente (60 µm: 286 h/L · 70 µm: 222 h/L a 20 °C).</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Regla práctica 1 : 4</h3>
+        <p>En la práctica, por cada cartucho de tinta se consumen unos <b>4 de solvente</b> en líneas con baja actividad de impresión (la evaporación es constante aunque no se imprima). La relación real la muestra esta calculadora y depende de la cantidad de caracteres, las impresiones por minuto, las horas de encendido y la temperatura.</p>
+      </div>
+      <div>
+        <h3>Uso sin conexión</h3>
+        <p>Esta herramienta es <b>autónoma y funciona sin internet</b>: no usa librerías, fuentes ni servicios
+        externos, no recoge datos y no usa analítica. Puede copiarse a un USB, enviarse por correo y abrirse en
+        Windows, macOS, Linux, Android e iOS en PC, tableta, teléfono o TV.</p>
+      </div>
+      <div>
+        <h3>Fuentes de datos</h3>
+        <ul>
+          <li><b>CIJ Makeup Usage Model v14</b> — consumo de solvente por temperatura (validado contra 150 PDFs oficiales).</li>
+          <li><b>CIJ Line Speed Calculator v9.7</b> — velocidades, cpi y dpi por equipo y fuente (validado contra 40 PDFs).</li>
+          <li><b>CIJ TCO Calculator v35</b> — gotas/litro, gotas/carácter, contenedores por tinta y mantenimiento.</li>
+        </ul>
+        <p>Los tamaños de cartucho cambian según la tinta y el equipo (p. ej. V4225 = 700 ml, V480 = 600 ml,
+        V401 = 750/5000 ml; el solvente asociado —V7201, V7257, V7220…— se indica junto a cada tinta).</p>
+      </div>
+      <div>
+        <h3>Uso técnico</h3>
+        <p>Cálculo de estimación técnica basado en los modelos oficiales indicados. Contraste los valores con el
+        consumo real del equipo antes de planificar pedidos de consumibles.</p>
+        <p style="color:var(--txt-3)">Versión 2.0 · herramienta técnica interna · familias Simplicity y Serie 1000VJ.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+"use strict";
+/* ============================================================
+   DATOS OFICIALES (extraídos de los modelos Videojet)
+   ============================================================ */
+const DATA = {"inkBases":{"MEK":{"cons":1.0,"k":[0.0398,0.0267,0.0458,0.0431]},"Ethanol/MEK":{"cons":0.75,"k":[0.0398,0.0267,0.0458,0.0431]},"CycloHex/Ethanol":{"cons":0.55,"k":[0.0398,0.0267,0.0458,0.0431]},"Ethanol/Acetone":{"cons":1.33,"k":[0.0398,0.0267,0.0458,0.0431]},"Acetone":{"cons":2.2,"k":[0.0398,0.0267,0.0458,0.0431]},"Ethyl Acetate":{"cons":1.075,"k":[0.0398,0.0267,0.0458,0.0431]},"Ethanol/Isoprop":{"cons":0.75,"k":[0.0398,0.0267,0.0458,0.0431]},"Ethanol":{"cons":0.46,"k":[0.0398,0.0267,0.0458,0.0431]},"Pentanone/Ethanol":{"cons":0.82,"k":[0.0398,0.0267,0.0458,0.0431]},"MPK/Ethanol":{"cons":0.5,"k":[0.0398,0.0267,0.0458,0.0431]},"MIPK":{"cons":0.66,"k":[0.0373,0.025022864321608038,0.04292311557788944,0.04039271356783919]},"Methanol/Water":{"cons":0.98,"k":[0.0398,0.0267,0.0458,0.0431]},"Methanol":{"cons":1.3476591345443802,"k":[0.0253,0.01697261306532663,0.02911407035175879,0.027397738693467334]},"Water":{"cons":0.94,"k":[0.0398,0.0267,0.0458,0.0431]}},"inks":{"V4201":"MEK","V4210":"MEK","V4210A":"MEK","V4211":"MEK","V4240":"MEK","V4250":"MPK/Ethanol","V4262":"Ethanol/Isoprop","V4263":"MIPK","V4264":"MPK/Ethanol","V4220":"MEK","V4221":"Methanol","V4230":"MEK","V4231":"MEK","V4234":"MPK/Ethanol","V4235":"MEK","V4236":"MEK","V4237":"MEK","V4259":"MEK","V4274":"MPK/Ethanol","V4202":"MEK","V4204":"MEK","V4212":"MEK","V4214":"MEK","V4215":"Ethanol/MEK","V4216":"MEK","V4218":"MEK","V4222":"Methanol","V4238":"MEK / Methanol","V4248":"MEK","V4251":"Methanol / Water","V4257":"MIPK","V4258":"MEK","V4260":"Ethanol","V4267":"Ethanol/Acetone","V4269":"Ethanol/Acetone","V4271":"MEK","V4275":"MPK/Ethanol","V4276":"MPK/Ethanol","V4278":"MPK/Ethanol","V4299":"Ethanol","V4225":"MEK","V4226":"MEK","V4283":"MEK","V4289":"MEK","V571":"MEK","V572":"MEK","V572A":"MEK","V573":"MEK","V574":"Ethanol/Isoprop","V401":"MEK","V402":"MEK","V403":"MEK","V404":"MEK","V410":"MEK","V411":"MEK","V412":"MEK","V413":"MEK","V414":"MEK","V415":"MEK","V416":"MEK","V418":"MEK","V420":"MEK","V421":"Methanol","V422":"Methanol","V431":"MEK","V435":"MEK","V436":"MEK","V437":"MEK","V438":"MEK","V448":"MEK","V451":"Methanol","V457":"MIPK","V458":"MEK","V459":"MEK","V460":"Ethanol","V461":"Ethyl Acetate","V462":"Ethanol/Isoprop","V463":"MIPK","V464":"MPK/Ethanol","V465":"CycloHex/Ethanol","V467":"Ethanol/Acetone","V468":"Ethanol/Acetone","V469":"Ethanol/Acetone","V470":"Pentanone/Ethanol","V471":"MEK","V472":"MEK","V473":"Pentanone/Ethanol","V474":"Pentanone/Ethanol","V475":"Pentanone/Ethanol","V476":"Pentanone/Ethanol","V495":"Ethanol","V496":"Ethanol","V497":"Ethanol/Acetone","V498":"Ethanol/Acetone","V499":"Ethanol","V480":"MEK","V481":"MEK","V482":"MEK","V483AB":"MEK","V484":"Methanol/Water","V485":"MEK","V486":"MIPK","V488":"MEK","V489":"MEK","V490":"MEK","V491":"MEK","V493":"MEK","V494":"MEK","V505":"MEK","V507":"MEK","V508":"MEK","V509":"MEK","V513":"Pentanone/Ethanol","V514":"MEK","V515":"Pentanone/Ethanol","V516":"MEK","V517":"CycloHex/Ethanol","V518":"MEK","V519":"Pentanone/Ethanol","V520":"Pentanone/Ethanol","V521":"Pentanone/Ethanol","V523":"MEK","V524":"MEK","V525":"MEK","V526":"MEK","V528":"MEK","V530":"Ethanol/Acetone","V531":"Ethanol","V532":"Ethanol/Isoprop","V536":"MEK","V537":"Methanol","V538":"MEK","V539":"MEK","V540":"Ethanol/Acetone","V541":"Ethanol","V542":"Ethanol","V543":"Ethanol","V548":"MEK","V5245":"MEK"},"inkGroups":[{"label":"1240","inks":["V4201","V4210","V4210A","V4211","V4240","V4250","V4262","V4263","V4264"]},{"label":"1280","inks":["V4201","V4210","V4210A","V4211","V4220","V4221","V4230","V4231","V4234","V4235","V4236","V4237","V4240","V4250","V4259","V4262","V4263","V4264","V4274"]},{"label":"1580","inks":["V4201","V4202","V4204","V4210","V4210A","V4211","V4212","V4214","V4215","V4216","V4218","V4220","V4221","V4222","V4230","V4231","V4234","V4235","V4236","V4237","V4238","V4240","V4248","V4250","V4251","V4257","V4258","V4259","V4260","V4262","V4263","V4264","V4267","V4269","V4271","V4274","V4275","V4276","V4278","V4299"]},{"label":"1580C","inks":["V4225","V4226","V4283","V4289"]},{"label":"1880\n1880+","inks":["V4201","V4202","V4204","V4210","V4210A","V4211","V4212","V4214","V4215","V4216","V4218","V4220","V4221","V4222","V4230","V4231","V4234","V4235","V4236","V4237","V4238","V4240","V4248","V4250","V4251","V4257","V4258","V4259","V4260","V4262","V4263","V4264","V4269","V4271","V4274","V4275","V4276","V4278","V4299"]},{"label":"1040","inks":["V571","V572","V572A","V573","V574"]},{"label":"1210\n1220\n1510\n1520\n1530\n1550\n1560\n1610\n1620\n1630\n1650\n1660\n1610DH","inks":["V401","V402","V403","V404","V410","V411","V412","V413","V414","V415","V416","V418","V420","V421","V422","V431","V435","V436","V437","V438","V448","V451","V457","V458","V459","V460","V461","V462","V463","V464","V465","V467","V468","V469","V470","V471","V472","V473","V474","V475","V476","V495","V496","V497","V498","V499"]},{"label":"1710","inks":["V480","V481","V482","V483AB","V484","V485","V486","V488","V489","V490","V491","V493","V494"]},{"label":"1620UHS\n1650UHS","inks":["V505","V507","V508","V509","V513","V514","V515","V516","V517","V518","V519","V520","V521","V523","V524","V525","V526","V528","V530","V531","V532","V536","V537","V538","V539","V540","V541","V542","V543"]},{"label":"1620HR\n1650HR","inks":["V507","V523","V524","V525","V548"]},{"label":"1880UHS","inks":["V4201","V4220","V5245","V4236","V4237","V4240","V4248","V4250","V4257","V4262","V4264","V4269","V4271","V4275"]},{"label":"1880HR","inks":["V4201","V4236","V4248"]}],"dropsChar":{"5x5":11.0,"4x7":12.0,"5x7":13.0,"7x9":19.0,"9x12":22.0,"10x16":61.0,"16x24":102.0,"25x34":253.0},"dropsLiter":{"40|VJ1000HR":3656028960.0,"50|VJ1000UHS":2001999970.0,"60|VJ1000":1232240697.14962,"70|VJ1000":883500035.636524,"Selection 1|VJ1000":1232240697.14962,"66|37e":899039248.3077686,"60|Domino":1243242846.2313147,"75|Domino":675118539.5292472,"66|Excel170":852422400.395514,"66|Excel2000":885207875.2568799,"53|ExcelUHS":1784533697.402869,"65|Hitachi":917893173.63652,"50|Keyence":1880539680.5429142,"60|Keyence":1225161181.1269789,"35|Leibinger":4236185358.9763193,"40|Leibinger":3560371575.2518206,"50|Leibinger":1949619071.6287425,"60|Leibinger":1200000000.0,"70|Leibinger":860383888.6479309,"62|Linx":1183431952.6627219},"printers":[{"id":"VJ 1040","hrsL":100.0,"cart":[750],"eq":1,"kconst":0.4514},{"id":"VJ 1210","hrsL":133.0,"cart":[750],"eq":1,"kconst":0.4514},{"id":"VJ 1220","hrsL":133.0,"cart":[750],"eq":1,"kconst":0.4514},{"id":"VJ 1240","hrsL":111.0,"cart":[750],"eq":3,"kconst":0.4001},{"id":"VJ 1280","hrsL":143.0,"cart":[750],"eq":4,"kconst":0.4223},{"id":"VJ 1510","hrsL":167.0,"cart":[750],"eq":1,"kconst":0.4514},{"id":"VJ 1520","hrsL":200.0,"cart":[750],"eq":1,"kconst":0.4514},{"id":"VJ 1530","hrsL":200.0,"cart":[750],"eq":1,"kconst":0.4514},{"id":"VJ 1550","hrsL":200.0,"cart":[750],"eq":1,"kconst":0.4514},{"id":"VJ 1560","hrsL":200.0,"cart":[750],"eq":1,"kconst":0.4514},{"id":"VJ 1580","hrsL":200.0,"cart":[750],"eq":1,"kconst":0.4514},{"id":"VJ 1580+","hrsL":200.0,"cart":[750],"eq":1,"kconst":0.4514},{"id":"VJ 1580C","hrsL":222.0,"cart":[700],"eq":1,"kconst":0.4514},{"id":"VJ 1610","hrsL":200.0,"cart":[750],"eq":1,"kconst":0.4514},{"id":"VJ 1620","hrsL":200.0,"cart":[750],"eq":1,"kconst":0.4514},{"id":"VJ 1630","hrsL":200.0,"cart":[750],"eq":1,"kconst":0.4514},{"id":"VJ 1650","hrsL":200.0,"cart":[750],"eq":1,"kconst":0.4514},{"id":"VJ 1660","hrsL":200.0,"cart":[750],"eq":1,"kconst":0.4514},{"id":"VJ 1860","hrsL":222.0,"cart":[750,1000],"eq":1,"kconst":0.4514},{"id":"VJ 1880 60µm","hrsL":286.0,"cart":[750,1000],"eq":2,"kconst":0.5863},{"id":"VJ 1880 70µm","hrsL":222.0,"cart":[750,1000],"eq":2,"kconst":0.5863},{"id":"VJ 1880+ 60µm","hrsL":286.0,"cart":[750,1000],"eq":2,"kconst":0.5863},{"id":"VJ 1880+ 70µm","hrsL":222.0,"cart":[750,1000],"eq":2,"kconst":0.5863},{"id":"VJ 1620 UHS","hrsL":200.0,"cart":[750],"eq":1,"kconst":0.4514},{"id":"VJ 1650 UHS","hrsL":200.0,"cart":[750],"eq":1,"kconst":0.4514},{"id":"VJ 1880 UHS","hrsL":370.0,"cart":[750,1000],"eq":2,"kconst":0.5863},{"id":"VJ 1620 HR","hrsL":200.0,"cart":[750],"eq":1,"kconst":0.4514},{"id":"VJ 1650 HR","hrsL":200.0,"cart":[750],"eq":1,"kconst":0.4514},{"id":"VJ 1880 HR","hrsL":385.0,"cart":[750,1000],"eq":2,"kconst":0.5863},{"id":"VJ 1610 DH","hrsL":100.0,"cart":[750],"eq":1,"kconst":0.4514},{"id":"VJ 1710","hrsL":222.0,"cart":[600],"eq":1,"kconst":0.4514}],"fonts":{"4x5 Single":{"lines":1.0,"w":4.0,"h":5.0},"5x5 Single":{"lines":1.0,"w":5.0,"h":5.0},"4x7 Single":{"lines":1.0,"w":4.0,"h":7.0},"5x7 Single":{"lines":1.0,"w":5.0,"h":7.0},"7x9 Single":{"lines":1.0,"w":7.0,"h":9.0},"9x12 Single":{"lines":1.0,"w":9.0,"h":12.0},"10x16 Single":{"lines":1.0,"w":10.0,"h":16.0},"16x24 Single":{"lines":1.0,"w":16.0,"h":24.0},"25x34 Single":{"lines":1.0,"w":25.0,"h":34.0},"4x5 Twin":{"lines":2.0,"w":4.0,"h":5.0},"5x5 Twin":{"lines":2.0,"w":5.0,"h":5.0},"4x7 Twin":{"lines":2.0,"w":4.0,"h":7.0},"5x7 Twin":{"lines":2.0,"w":5.0,"h":7.0},"7x9 Twin":{"lines":2.0,"w":7.0,"h":9.0},"9x12 Twin":{"lines":2.0,"w":9.0,"h":12.0},"10x16 Twin":{"lines":2.0,"w":10.0,"h":16.0},"4x5 Three":{"lines":3.0,"w":4.0,"h":5.0},"5x5 Three":{"lines":3.0,"w":5.0,"h":5.0},"4x7 Three":{"lines":3.0,"w":4.0,"h":7.0},"5x7 Three":{"lines":3.0,"w":5.0,"h":7.0},"7x9 Three":{"lines":3.0,"w":7.0,"h":9.0},"4x5 Four":{"lines":4.0,"w":4.0,"h":5.0},"5x5 Four":{"lines":4.0,"w":5.0,"h":5.0},"4x7 Four":{"lines":4.0,"w":4.0,"h":7.0},"5x7 Four":{"lines":4.0,"w":5.0,"h":7.0},"5x5 Five":{"lines":5.0,"w":5.0,"h":5.0},"QR Code":{"lines":5.0,"w":24.0,"h":24.0}},"speed10":{"4x5 Single":{"1620/50 UHS":508.00000000000006,"1620/50 HR":394.5466666666667,"1880":334.40914285714285},"5x5 Single":{"Excel UHS":338.6666666666667,"1210/20":162.56000000000003,"1510/20/50":278.67428571428576,"1610/20/50/DH":278.67428571428576,"1620/50 UHS":423.33333333333337,"1620/50 HR":328.7888888888889,"1710":270.93333333333334,"1580/1860":278.67428571428576,"1580/1860 HS":278.67428571428576,"1240/1280":162.56000000000003,"1280 ES":278.67428571428576,"1880":278.67428571428576},"4x7 Single":{"1610/20/50/DH":292.608,"1620/50 UHS":338.66666666666674,"1620/50 HR":263.03111111111116,"1710":243.84,"1580/1860 HS":292.608,"1880":292.608},"5x7 Single":{"Excel UHS":254.00000000000003,"1210/20":139.33714285714288,"1510/20/50":243.84,"1610/20/50/DH":243.84,"1620/50 UHS":282.22222222222223,"1620/50 HR":219.1925925925926,"1710":203.2,"1580/1860":243.84,"1580/1860 HS":243.84,"1240/1280":139.33714285714288,"1280 ES":243.84,"1880":243.84},"7x9 Single":{"1210/20":72.24888888888889,"1510/20/50":108.37333333333335,"1610/20/50/DH":162.56000000000003,"1620/50 UHS":254.00000000000003,"1620/50 HR":179.33939393939394,"1710":162.56000000000003,"1580/1860":108.37333333333335,"1580/1860 HS":162.56000000000003,"1240/1280":72.24888888888889,"1280 ES":108.37333333333335,"1880":162.56000000000003},"9x12 Single":{"1210/20":78.0288,"1510/20/50":78.0288,"1610/20/50/DH":78.0288,"1620/50 HR":140.90952380952382,"1710":81.28000000000002,"1580/1860":78.0288,"1580/1860 HS":78.0288,"1240/1280":78.0288,"1280 ES":78.0288,"1880":78.0288},"10x16 Single":{"Excel UHS":63.50000000000001,"1210/20":59.112727272727284,"1510/20/50":59.112727272727284,"1610/20/50/DH":92.89142857142858,"1620/50 UHS":120.95238095238093,"1620/50 HR":70.4547619047619,"1710":77.4095238095238,"1580/1860":59.112727272727284,"1580/1860 HS":92.89142857142858,"1240/1280":59.112727272727284,"1280 ES":59.112727272727284,"1880":92.89142857142858},"16x24 Single":{"Excel UHS":16.93333333333333,"1210/20":29.115223880597018,"1510/20/50":29.115223880597018,"1610/20/50/DH":29.115223880597018,"1620/50 UHS":37.910447761194035,"1620/50 HR":20.337457044673535,"1710":24.26268656716418,"1580/1860":29.115223880597018,"1580/1860 HS":29.115223880597018,"1240/1280":29.115223880597018,"1280 ES":29.115223880597018,"1880":29.115223880597018},"25x34 Single":{"1210/20":16.96278260869565,"1510/20/50":16.96278260869565,"1610/20/50/DH":16.96278260869565,"1710":14.135652173913044,"1580/1860":16.96278260869565,"1580/1860 HS":16.96278260869565,"1240/1280":16.96278260869565,"1280 ES":16.96278260869565,"1880":16.96278260869565},"4x5 Twin":{"1620/50 UHS":254.00000000000003,"1620/50 HR":124.59368421052633,"1580/1860 HS":137.6978823529412,"1880":137.6978823529412},"5x5 Twin":{"1210/20":59.112727272727284,"1510/20/50":78.0288,"1610/20/50/DH":114.74823529411768,"1620/50 UHS":211.66666666666669,"1620/50 HR":103.82807017543861,"1710":95.62352941176471,"1580/1860":78.0288,"1580/1860 HS":114.74823529411768,"1240/1280":59.112727272727284,"1280 ES":78.0288,"1880":114.74823529411768},"4x7 Twin":{"1610/20/50/DH":146.304,"1620/50 UHS":190.5,"1620/50 HR":87.67703703703704,"1710":121.92,"1580/1860 HS":146.304,"1880":146.304},"5x7 Twin":{"Excel UHS":135.46666666666667,"1210/20":59.112727272727284,"1510/20/50":81.28000000000002,"1610/20/50/DH":121.92,"1620/50 UHS":158.75000000000003,"1620/50 HR":73.06419753086419,"1710":101.6,"1580/1860":81.28000000000002,"1580/1860 HS":121.92,"1240/1280":59.112727272727284,"1280 ES":81.28000000000002,"1880":121.92},"7x9 Twin":{"1210/20":29.115223880597018,"1510/20/50":38.24941176470589,"1610/20/50/DH":69.66857142857143,"1620/50 UHS":90.71428571428572,"1620/50 HR":39.454666666666675,"1710":58.05714285714287,"1580/1860":38.24941176470589,"1580/1860 HS":69.66857142857143,"1240/1280":29.115223880597018,"1280 ES":38.24941176470589,"1880":69.66857142857143},"9x12 Twin":{"1210/20":26.0096,"1510/20/50":26.0096,"1610/20/50/DH":26.0096,"1710":21.674666666666667,"1580/1860":26.0096,"1580/1860 HS":26.0096,"1240/1280":26.0096,"1280 ES":26.0096,"1880":26.0096},"10x16 Twin":{"1210/20":16.96278260869565,"1510/20/50":16.96278260869565,"1610/20/50/DH":16.96278260869565,"1710":14.135652173913043,"1580/1860":16.96278260869565,"1580/1860 HS":16.96278260869565,"1240/1280":16.96278260869565,"1280 ES":16.96278260869565,"1880":16.96278260869565},"4x5 Three":{"1620/50 UHS":179.29411764705884,"1620/50 HR":71.73575757575759,"1580/1860 HS":111.46971428571429,"1880":111.46971428571429},"5x5 Three":{"1210/20":29.115223880597018,"1510/20/50":38.24941176470589,"1610/20/50/DH":38.24941176470589,"1620/50 UHS":149.41176470588238,"1620/50 HR":59.77979797979798,"1710":31.87450980392157,"1580/1860":38.24941176470589,"1580/1860 HS":92.89142857142858,"1240/1280":29.115223880597018,"1280 ES":38.24941176470589,"1880":92.89142857142858},"4x7 Three":{"1610/20/50/DH":80.71944827586208,"1620/50 UHS":132.52173913043478,"1620/50 HR":49.318333333333335,"1710":67.26620689655174,"1580/1860 HS":83.60228571428571,"1880":83.60228571428571},"5x7 Three":{"Excel UHS":92.36363636363637,"1210/20":27.47492957746479,"1510/20/50":27.47492957746479,"1610/20/50/DH":67.26620689655174,"1620/50 UHS":110.43478260869568,"1620/50 HR":41.09861111111111,"1710":56.05517241379311,"1580/1860":27.47492957746479,"1580/1860 HS":69.66857142857144,"1240/1280":27.47492957746479,"1280 ES":27.47492957746479,"1880":69.66857142857144},"7x9 Three":{"1210/20":16.96278260869565,"1510/20/50":16.96278260869565,"1610/20/50/DH":36.80603773584906,"1710":30.67169811320755,"1580/1860":16.96278260869565,"1580/1860 HS":36.80603773584906,"1240/1280":16.96278260869565,"1280 ES":16.96278260869565,"1880":36.80603773584906},"4x5 Four":{"1620/50 UHS":45.49253731343284,"1580/1860 HS":70.93527272727273,"1880":70.93527272727273},"5x5 Four":{"1210/20":26.0096,"1510/20/50":26.0096,"1610/20/50/DH":26.0096,"1620/50 UHS":37.910447761194035,"1710":21.674666666666667,"1580/1860":26.0096,"1580/1860 HS":59.112727272727284,"1240/1280":26.0096,"1280 ES":26.0096,"1880":59.112727272727284},"4x7 Four":{"1610/20/50/DH":20.355339130434782,"1710":16.96278260869565,"1580/1860 HS":49.8056170212766,"1880":49.8056170212766},"5x7 Four":{"1210/20":16.96278260869565,"1510/20/50":16.96278260869565,"1610/20/50/DH":16.96278260869565,"1710":14.135652173913044,"1580/1860":16.96278260869565,"1580/1860 HS":41.50468085106383,"1240/1280":16.96278260869565,"1280 ES":16.96278260869565,"1880":41.50468085106383},"5x5 Five":{"1210/20":16.96278260869565,"1510/20/50":16.96278260869565,"1610/20/50/DH":16.96278260869565,"1710":14.135652173913044,"1580/1860":16.96278260869565,"1580/1860 HS":16.96278260869565,"1240/1280":16.96278260869565,"1280 ES":16.96278260869565,"1880":16.96278260869565},"QR Code":{"1580/1860":22.167272727272724,"1580/1860 HS":22.167272727272724,"1240/1280":22.167272727272724,"1280 ES":22.167272727272724,"1880":22.167272727272724}},"set1":{"4x5 Single":{"1620/50 UHS":{"cps":3333.3333333333335,"nom":508.00000000000006},"1620/50 HR":{"cps":3883.3333333333335,"nom":394.5466666666667},"1240/1280":{"cps":1280.0,"nom":195.072},"1280 ES":{"cps":2194.285714285714,"nom":334.40914285714285},"1580+":{"cps":2194.285714285714,"nom":334.40914285714285},"1580 C":{"cps":2133.333333333333,"nom":325.11999999999995},"1880+":{"cps":2194.285714285714,"nom":334.40914285714285},"1880 UHS":{"cps":3333.3333333333335,"nom":508.00000000000006},"1880 HR":{"cps":3883.3333333333335,"nom":394.5466666666667}},"5x5 Single":{"Excel UHS":{"cps":2222.222222222222,"nom":338.6666666666667},"1210/20":{"cps":1066.6666666666667,"nom":162.56000000000003},"1510/20/50":{"cps":1828.5714285714284,"nom":278.67428571428576},"1610/20/50/DH":{"cps":1828.5714285714284,"nom":278.67428571428576},"1620/50 UHS":{"cps":2777.777777777778,"nom":423.33333333333337},"1620/50 HR":{"cps":3236.1111111111113,"nom":328.7888888888889},"1710":{"cps":1777.7777777777776,"nom":270.93333333333334},"1240/1280":{"cps":1066.6666666666667,"nom":162.56000000000003},"1280 ES":{"cps":1828.5714285714284,"nom":278.67428571428576},"1580+":{"cps":1828.5714285714284,"nom":278.67428571428576},"1580 C":{"cps":1777.7777777777776,"nom":270.93333333333334},"1880+":{"cps":1828.5714285714284,"nom":278.67428571428576},"1880 UHS":{"cps":2777.777777777778,"nom":423.33333333333337},"1880 HR":{"cps":3236.1111111111113,"nom":328.7888888888889}},"4x7 Single":{"1610/20/50/DH":{"cps":1920.0,"nom":292.608},"1620/50 UHS":{"cps":2222.222222222222,"nom":338.66666666666674},"1620/50 HR":{"cps":2588.888888888889,"nom":263.03111111111116},"1710":{"cps":1600.0,"nom":243.84},"1240/1280":{"cps":1097.142857142857,"nom":167.20457142857143},"1280 ES":{"cps":1920.0,"nom":292.608},"1580+":{"cps":1920.0,"nom":292.608},"1580 C":{"cps":1600.0,"nom":243.84},"1880+":{"cps":1920.0,"nom":292.608},"1880 UHS":{"cps":2222.222222222222,"nom":338.66666666666674},"1880 HR":{"cps":2588.888888888889,"nom":263.03111111111116}},"5x7 Single":{"Excel UHS":{"cps":1666.6666666666667,"nom":254.00000000000003},"1210/20":{"cps":914.2857142857142,"nom":139.33714285714288},"1510/20/50":{"cps":1600.0,"nom":243.84},"1610/20/50/DH":{"cps":1600.0,"nom":243.84},"1620/50 UHS":{"cps":1851.851851851852,"nom":282.22222222222223},"1620/50 HR":{"cps":2157.4074074074074,"nom":219.1925925925926},"1710":{"cps":1333.3333333333333,"nom":203.2},"1240/1280":{"cps":914.2857142857142,"nom":139.33714285714288},"1280 ES":{"cps":1600.0,"nom":243.84},"1580+":{"cps":1600.0,"nom":243.84},"1580 C":{"cps":1333.3333333333333,"nom":203.2},"1880+":{"cps":1600.0,"nom":243.84},"1880 UHS":{"cps":1851.851851851852,"nom":282.22222222222223},"1880 HR":{"cps":2157.4074074074074,"nom":219.1925925925926}},"7x9 Single":{"1210/20":{"cps":355.55555555555554,"nom":72.24888888888889},"1510/20/50":{"cps":533.3333333333334,"nom":108.37333333333335},"1610/20/50/DH":{"cps":800.0,"nom":162.56000000000003},"1620/50 UHS":{"cps":1250.0,"nom":254.00000000000003},"1620/50 HR":{"cps":1323.8636363636363,"nom":179.33939393939394},"1710":{"cps":800.0,"nom":162.56000000000003},"1240/1280":{"cps":342.85714285714283,"nom":69.66857142857143},"1280 ES":{"cps":533.3333333333334,"nom":108.37333333333335},"1580+":{"cps":533.3333333333334,"nom":108.37333333333335},"1580 C":{"cps":800.0,"nom":162.56000000000003},"1880+":{"cps":800.0,"nom":162.56000000000003},"1880 UHS":{"cps":1250.0,"nom":254.00000000000003},"1880 HR":{"cps":1323.8636363636363,"nom":179.33939393939394}},"9x12 Single":{"1210/20":{"cps":307.2,"nom":78.0288},"1510/20/50":{"cps":307.2,"nom":78.0288},"1610/20/50/DH":{"cps":307.2,"nom":78.0288},"1620/50 HR":{"cps":832.1428571428571,"nom":140.90952380952382},"1710":{"cps":320.0,"nom":81.28000000000002},"1240/1280":{"cps":307.2,"nom":78.0288},"1280 ES":{"cps":307.2,"nom":78.0288},"1580+":{"cps":307.2,"nom":78.0288},"1580 C":{"cps":320.0,"nom":81.28000000000002},"1880+":{"cps":307.2,"nom":78.0288},"1880 UHS":{"cps":666.6666666666667,"nom":169.33333333333337},"1880 HR":{"cps":832.1428571428571,"nom":140.90952380952382}},"10x16 Single":{"Excel UHS":{"cps":227.27272727272728,"nom":63.50000000000001},"1210/20":{"cps":211.5702479338843,"nom":59.112727272727284},"1510/20/50":{"cps":211.5702479338843,"nom":59.112727272727284},"1610/20/50/DH":{"cps":332.46753246753246,"nom":92.89142857142858},"1620/50 UHS":{"cps":432.90043290043286,"nom":120.95238095238093},"1620/50 HR":{"cps":378.2467532467532,"nom":70.4547619047619},"1710":{"cps":277.05627705627705,"nom":77.4095238095238},"1240/1280":{"cps":211.5702479338843,"nom":59.112727272727284},"1280 ES":{"cps":211.5702479338843,"nom":59.112727272727284},"1580+":{"cps":211.5702479338843,"nom":59.112727272727284},"1580 C":{"cps":277.05627705627705,"nom":77.4095238095238},"1880+":{"cps":332.46753246753246,"nom":92.89142857142858},"1880 UHS":{"cps":432.90043290043286,"nom":120.95238095238093},"1880 HR":{"cps":378.2467532467532,"nom":70.4547619047619}},"16x24 Single":{"Excel UHS":{"cps":39.2156862745098,"nom":16.93333333333333},"1210/20":{"cps":67.42756804214223,"nom":29.115223880597018},"1510/20/50":{"cps":67.42756804214223,"nom":29.115223880597018},"1610/20/50/DH":{"cps":67.42756804214223,"nom":29.115223880597018},"1620/50 UHS":{"cps":87.7963125548727,"nom":37.910447761194035},"1620/50 HR":{"cps":70.6488781079442,"nom":20.337457044673535},"1710":{"cps":56.18964003511853,"nom":24.26268656716418},"1240/1280":{"cps":67.42756804214223,"nom":29.115223880597018},"1280 ES":{"cps":67.42756804214223,"nom":29.115223880597018},"1580+":{"cps":67.42756804214223,"nom":29.115223880597018},"1580 C":{"cps":56.18964003511853,"nom":24.26268656716418},"1880+":{"cps":67.42756804214223,"nom":29.115223880597018},"1880 UHS":{"cps":87.7963125548727,"nom":37.910447761194035},"1880 HR":{"cps":70.6488781079442,"nom":20.337457044673535}},"25x34 Single":{"1210/20":{"cps":25.68561872909699,"nom":16.96278260869565},"1510/20/50":{"cps":25.68561872909699,"nom":16.96278260869565},"1610/20/50/DH":{"cps":25.68561872909699,"nom":16.96278260869565},"1710":{"cps":21.40468227424749,"nom":14.135652173913044},"1240/1280":{"cps":25.68561872909699,"nom":16.96278260869565},"1280 ES":{"cps":25.68561872909699,"nom":16.96278260869565},"1580+":{"cps":25.68561872909699,"nom":16.96278260869565},"1580 C":{"cps":21.40468227424749,"nom":14.135652173913044},"1880+":{"cps":25.68561872909699,"nom":16.96278260869565}},"4x5 Twin":{"1620/50 UHS":{"cps":1666.6666666666667,"nom":254.00000000000003},"1620/50 HR":{"cps":1226.3157894736842,"nom":124.59368421052633},"1240/1280":{"cps":614.4,"nom":93.63456000000001},"1280 ES":{"cps":614.4,"nom":93.63456000000001},"1580+":{"cps":614.4,"nom":93.63456000000001},"1580 C":{"cps":752.9411764705882,"nom":114.74823529411766},"1880+":{"cps":903.529411764706,"nom":137.6978823529412},"1880 UHS":{"cps":1666.6666666666667,"nom":254.00000000000003},"1880 HR":{"cps":1226.3157894736842,"nom":124.59368421052633}},"5x5 Twin":{"1210/20":{"cps":387.87878787878793,"nom":59.112727272727284},"1510/20/50":{"cps":512.0,"nom":78.0288},"1610/20/50/DH":{"cps":752.9411764705883,"nom":114.74823529411768},"1620/50 UHS":{"cps":1388.888888888889,"nom":211.66666666666669},"1620/50 HR":{"cps":1021.9298245614035,"nom":103.82807017543861},"1710":{"cps":627.4509803921568,"nom":95.62352941176471},"1240/1280":{"cps":512.0,"nom":78.0288},"1280 ES":{"cps":512.0,"nom":78.0288},"1580+":{"cps":512.0,"nom":78.0288},"1580 C":{"cps":627.4509803921568,"nom":95.62352941176471},"1880+":{"cps":752.9411764705883,"nom":114.74823529411768},"1880 UHS":{"cps":1388.888888888889,"nom":211.66666666666669},"1880 HR":{"cps":1021.9298245614035,"nom":103.82807017543861}},"4x7 Twin":{"1610/20/50/DH":{"cps":960.0,"nom":146.304},"1620/50 UHS":{"cps":1250.0,"nom":190.5},"1620/50 HR":{"cps":862.9629629629629,"nom":87.67703703703704},"1710":{"cps":800.0,"nom":121.92},"1240/1280":{"cps":465.4545454545455,"nom":70.93527272727273},"1280 ES":{"cps":640.0,"nom":97.536},"1580+":{"cps":640.0,"nom":97.536},"1580 C":{"cps":800.0,"nom":121.92},"1880+":{"cps":903.529411764706,"nom":137.6978823529412},"1880 UHS":{"cps":1250.0,"nom":190.5},"1880 HR":{"cps":862.9629629629629,"nom":87.67703703703704}},"5x7 Twin":{"Excel UHS":{"cps":888.8888888888888,"nom":135.46666666666667},"1210/20":{"cps":387.87878787878793,"nom":59.112727272727284},"1510/20/50":{"cps":533.3333333333334,"nom":81.28000000000002},"1610/20/50/DH":{"cps":800.0,"nom":121.92},"1620/50 UHS":{"cps":1041.6666666666667,"nom":158.75000000000003},"1620/50 HR":{"cps":719.1358024691358,"nom":73.06419753086419},"1710":{"cps":666.6666666666666,"nom":101.6},"1240/1280":{"cps":387.87878787878793,"nom":59.112727272727284},"1280 ES":{"cps":533.3333333333334,"nom":81.28000000000002},"1580+":{"cps":533.3333333333334,"nom":81.28000000000002},"1580 C":{"cps":666.6666666666666,"nom":101.6},"1880+":{"cps":752.9411764705883,"nom":114.74823529411768},"1880 UHS":{"cps":1041.6666666666667,"nom":158.75000000000003},"1880 HR":{"cps":719.1358024691358,"nom":73.06419753086419}},"7x9 Twin":{"1210/20":{"cps":143.28358208955223,"nom":29.115223880597018},"1510/20/50":{"cps":188.23529411764707,"nom":38.24941176470589},"1610/20/50/DH":{"cps":342.85714285714283,"nom":69.66857142857143},"1620/50 UHS":{"cps":446.42857142857144,"nom":90.71428571428572},"1620/50 HR":{"cps":291.25,"nom":39.454666666666675},"1710":{"cps":285.7142857142857,"nom":58.05714285714287},"1240/1280":{"cps":143.28358208955223,"nom":29.115223880597018},"1280 ES":{"cps":188.23529411764707,"nom":38.24941176470589},"1580+":{"cps":188.23529411764707,"nom":38.24941176470589},"1580 C":{"cps":285.7142857142857,"nom":58.05714285714287},"1880+":{"cps":342.85714285714283,"nom":69.66857142857143},"1880 UHS":{"cps":446.42857142857144,"nom":90.71428571428572},"1880 HR":{"cps":291.25,"nom":39.454666666666675}},"9x12 Twin":{"1210/20":{"cps":102.4,"nom":26.0096},"1510/20/50":{"cps":102.4,"nom":26.0096},"1610/20/50/DH":{"cps":102.4,"nom":26.0096},"1710":{"cps":84.21052631578947,"nom":21.389473684210525},"1240/1280":{"cps":102.4,"nom":26.0096},"1280 ES":{"cps":102.4,"nom":26.0096},"1580+":{"cps":102.4,"nom":26.0096},"1580 C":{"cps":85.33333333333334,"nom":21.674666666666667},"1880+":{"cps":102.4,"nom":26.0096}},"10x16 Twin":{"1210/20":{"cps":60.71146245059288,"nom":16.96278260869565},"1510/20/50":{"cps":60.71146245059288,"nom":16.96278260869565},"1610/20/50/DH":{"cps":60.71146245059288,"nom":16.96278260869565},"1710":{"cps":50.59288537549407,"nom":14.135652173913043},"1240/1280":{"cps":60.71146245059288,"nom":16.96278260869565},"1280 ES":{"cps":60.71146245059288,"nom":16.96278260869565},"1580+":{"cps":60.71146245059288,"nom":16.96278260869565},"1580 C":{"cps":48.48484848484849,"nom":13.546666666666669},"1880+":{"cps":60.71146245059288,"nom":16.96278260869565}},"4x5 Three":{"1620/50 UHS":{"cps":1176.4705882352941,"nom":179.29411764705884},"1620/50 HR":{"cps":706.0606060606061,"nom":71.73575757575759},"1240/1280":{"cps":229.25373134328356,"nom":34.938268656716424},"1280 ES":{"cps":301.1764705882353,"nom":45.899294117647074},"1580+":{"cps":301.1764705882353,"nom":45.899294117647074},"1580 C":{"cps":250.98039215686276,"nom":38.24941176470589},"1880+":{"cps":731.4285714285714,"nom":111.46971428571429},"1880 UHS":{"cps":1176.4705882352941,"nom":179.29411764705884},"1880 HR":{"cps":706.0606060606061,"nom":71.73575757575759}},"5x5 Three":{"1210/20":{"cps":191.04477611940297,"nom":29.115223880597018},"1510/20/50":{"cps":250.98039215686276,"nom":38.24941176470589},"1610/20/50/DH":{"cps":250.98039215686276,"nom":38.24941176470589},"1620/50 UHS":{"cps":980.3921568627451,"nom":149.41176470588238},"1620/50 HR":{"cps":588.3838383838385,"nom":59.77979797979798},"1710":{"cps":209.15032679738565,"nom":31.87450980392157},"1240/1280":{"cps":191.04477611940297,"nom":29.115223880597018},"1280 ES":{"cps":250.98039215686276,"nom":38.24941176470589},"1580+":{"cps":250.98039215686276,"nom":38.24941176470589},"1580 C":{"cps":209.15032679738565,"nom":31.87450980392157},"1880+":{"cps":609.5238095238095,"nom":92.89142857142858},"1880 UHS":{"cps":980.3921568627451,"nom":149.41176470588238},"1880 HR":{"cps":588.3838383838385,"nom":59.77979797979798}},"4x7 Three":{"1610/20/50/DH":{"cps":529.6551724137931,"nom":80.71944827586208},"1620/50 UHS":{"cps":869.5652173913044,"nom":132.52173913043478},"1620/50 HR":{"cps":485.4166666666667,"nom":49.318333333333335},"1710":{"cps":441.3793103448276,"nom":67.26620689655174},"1240/1280":{"cps":216.33802816901408,"nom":32.969915492957746},"1280 ES":{"cps":216.33802816901408,"nom":32.969915492957746},"1580+":{"cps":216.33802816901408,"nom":32.969915492957746},"1580 C":{"cps":177.77777777777777,"nom":27.093333333333334},"1880+":{"cps":548.5714285714286,"nom":83.60228571428571},"1880 UHS":{"cps":869.5652173913044,"nom":132.52173913043478},"1880 HR":{"cps":485.4166666666667,"nom":49.318333333333335}},"5x7 Three":{"Excel UHS":{"cps":606.0606060606061,"nom":92.36363636363637},"1210/20":{"cps":180.28169014084506,"nom":27.47492957746479},"1510/20/50":{"cps":180.28169014084506,"nom":27.47492957746479},"1610/20/50/DH":{"cps":441.3793103448276,"nom":67.26620689655174},"1620/50 UHS":{"cps":724.6376811594204,"nom":110.43478260869568},"1620/50 HR":{"cps":404.5138888888889,"nom":41.09861111111111},"1710":{"cps":367.816091954023,"nom":56.05517241379311},"1240/1280":{"cps":180.28169014084506,"nom":27.47492957746479},"1280 ES":{"cps":180.28169014084506,"nom":27.47492957746479},"1580+":{"cps":180.28169014084506,"nom":27.47492957746479},"1580 C":{"cps":148.14814814814815,"nom":22.577777777777776},"1880+":{"cps":457.1428571428571,"nom":69.66857142857144},"1880 UHS":{"cps":724.6376811594204,"nom":110.43478260869568},"1880 HR":{"cps":404.5138888888889,"nom":41.09861111111111}},"7x9 Three":{"1210/20":{"cps":83.47826086956522,"nom":16.96278260869565},"1510/20/50":{"cps":83.47826086956522,"nom":16.96278260869565},"1610/20/50/DH":{"cps":181.1320754716981,"nom":36.80603773584906},"1710":{"cps":150.9433962264151,"nom":30.67169811320755},"1240/1280":{"cps":83.47826086956522,"nom":16.96278260869565},"1280 ES":{"cps":83.47826086956522,"nom":16.96278260869565},"1580+":{"cps":83.47826086956522,"nom":16.96278260869565},"1580 C":{"cps":150.9433962264151,"nom":30.67169811320755},"1880+":{"cps":181.1320754716981,"nom":36.80603773584906}},"4x5 Four":{"1620/50 UHS":{"cps":298.5074626865672,"nom":45.49253731343284},"1240/1280":{"cps":204.8,"nom":31.211520000000004},"1280 ES":{"cps":204.8,"nom":31.211520000000004},"1580+":{"cps":204.8,"nom":31.211520000000004},"1580 C":{"cps":168.42105263157893,"nom":25.66736842105263},"1880+":{"cps":465.4545454545455,"nom":70.93527272727273}},"5x5 Four":{"1210/20":{"cps":170.66666666666666,"nom":26.0096},"1510/20/50":{"cps":170.66666666666666,"nom":26.0096},"1610/20/50/DH":{"cps":170.66666666666666,"nom":26.0096},"1620/50 UHS":{"cps":248.75621890547265,"nom":37.910447761194035},"1710":{"cps":140.35087719298244,"nom":21.389473684210525},"1240/1280":{"cps":170.66666666666666,"nom":26.0096},"1280 ES":{"cps":170.66666666666666,"nom":26.0096},"1580+":{"cps":170.66666666666666,"nom":26.0096},"1580 C":{"cps":140.35087719298244,"nom":21.389473684210525},"1880+":{"cps":387.87878787878793,"nom":59.112727272727284}},"4x7 Four":{"1610/20/50/DH":{"cps":133.56521739130434,"nom":20.355339130434782},"1710":{"cps":111.30434782608695,"nom":16.96278260869565},"1240/1280":{"cps":133.56521739130434,"nom":20.355339130434782},"1280 ES":{"cps":133.56521739130434,"nom":20.355339130434782},"1580+":{"cps":133.56521739130434,"nom":20.355339130434782},"1580 C":{"cps":106.66666666666667,"nom":16.256},"1880+":{"cps":326.8085106382979,"nom":49.8056170212766}},"5x7 Four":{"1210/20":{"cps":111.30434782608695,"nom":16.96278260869565},"1510/20/50":{"cps":111.30434782608695,"nom":16.96278260869565},"1610/20/50/DH":{"cps":111.30434782608695,"nom":16.96278260869565},"1710":{"cps":92.7536231884058,"nom":14.135652173913044},"1240/1280":{"cps":111.30434782608695,"nom":16.96278260869565},"1280 ES":{"cps":111.30434782608695,"nom":16.96278260869565},"1580+":{"cps":111.30434782608695,"nom":16.96278260869565},"1580 C":{"cps":88.8888888888889,"nom":13.546666666666669},"1880+":{"cps":272.3404255319149,"nom":41.50468085106383}},"5x5 Five":{"1210/20":{"cps":111.30434782608695,"nom":16.96278260869565},"1510/20/50":{"cps":111.30434782608695,"nom":16.96278260869565},"1610/20/50/DH":{"cps":111.30434782608695,"nom":16.96278260869565},"1710":{"cps":92.7536231884058,"nom":14.135652173913044},"1240/1280":{"cps":111.30434782608695,"nom":16.96278260869565},"1280 ES":{"cps":111.30434782608695,"nom":16.96278260869565},"1580+":{"cps":111.30434782608695,"nom":16.96278260869565},"1580 C":{"cps":88.8888888888889,"nom":13.546666666666669},"1880+":{"cps":111.30434782608695,"nom":16.96278260869565}},"21 QR Code":{"1580+":{"cps":1146.2686567164178,"nom":29.115223880597018},"1580 C":{"cps":955.223880597015,"nom":24.262686567164177},"1880+":{"cps":1146.2686567164178,"nom":29.115223880597018},"1880 UHS":{"cps":1492.5373134328358,"nom":37.91044776119403},"1880 HR":{"cps":1201.0309278350514,"nom":20.33745704467354}},"25 QR Code":{"1580+":{"cps":1081.6901408450703,"nom":27.47492957746479},"1580 C":{"cps":888.8888888888889,"nom":22.57777777777778},"1880+":{"cps":1081.6901408450703,"nom":27.47492957746479},"1880 UHS":{"cps":1123.5955056179776,"nom":28.539325842696634},"1880 HR":{"cps":1142.1568627450981,"nom":19.340522875816998}},"29 QR Code":{"1580+":{"cps":667.8260869565217,"nom":16.96278260869565},"1580 C":{"cps":533.3333333333334,"nom":13.546666666666669},"1880+":{"cps":667.8260869565217,"nom":16.96278260869565}},"33 QR Code":{"1580+":{"cps":667.8260869565217,"nom":16.96278260869565},"1580 C":{"cps":533.3333333333334,"nom":13.546666666666669},"1880+":{"cps":667.8260869565217,"nom":16.96278260869565}}},"set2":{"4x5 Single":{"1620/50 UHS":{"cps":3333.3333333333335,"nom":508.00000000000006},"1620/50 HR":{"cps":3883.3333333333335,"nom":394.5466666666667},"1240/1280":{"cps":1280.0,"nom":195.072},"1280 ES":{"cps":2194.285714285714,"nom":334.40914285714285},"1580/1580+":{"cps":2194.285714285714,"nom":334.40914285714285},"1580 C":{"cps":2133.333333333333,"nom":325.11999999999995},"1880+":{"cps":2194.285714285714,"nom":334.40914285714285},"1880 UHS":{"cps":3333.3333333333335,"nom":508.00000000000006},"1880 HR":{"cps":3883.3333333333335,"nom":591.82}},"5x5 Single":{"Excel UHS":{"cps":2222.222222222222,"nom":338.6666666666667},"1210/20":{"cps":1066.6666666666667,"nom":162.56000000000003},"1510/20/50":{"cps":1828.5714285714284,"nom":278.67428571428576},"1610/20/50/DH":{"cps":1828.5714285714284,"nom":278.67428571428576},"1620/50 UHS":{"cps":2777.777777777778,"nom":423.33333333333337},"1620/50 HR":{"cps":3236.1111111111113,"nom":328.7888888888889},"1710":{"cps":1777.7777777777776,"nom":270.93333333333334},"1240/1280":{"cps":1066.6666666666667,"nom":162.56000000000003},"1280 ES":{"cps":1828.5714285714284,"nom":278.67428571428576},"1580/1580+":{"cps":1828.5714285714284,"nom":278.67428571428576},"1580 C":{"cps":1777.7777777777776,"nom":270.93333333333334},"1880+":{"cps":1828.5714285714284,"nom":278.67428571428576},"1880 UHS":{"cps":2777.777777777778,"nom":423.33333333333337},"1880 HR":{"cps":3236.1111111111113,"nom":493.1833333333334}},"4x7 Single":{"1610/20/50/DH":{"cps":1920.0,"nom":292.608},"1620/50 UHS":{"cps":2222.222222222222,"nom":338.66666666666674},"1620/50 HR":{"cps":2588.888888888889,"nom":263.03111111111116},"1710":{"cps":1600.0,"nom":243.84},"1240/1280":{"cps":1097.142857142857,"nom":167.20457142857143},"1280 ES":{"cps":1920.0,"nom":292.608},"1580/1580+":{"cps":1920.0,"nom":292.608},"1580 C":{"cps":1600.0,"nom":243.84},"1880+":{"cps":1920.0,"nom":292.608},"1880 UHS":{"cps":2222.222222222222,"nom":338.66666666666674},"1880 HR":{"cps":2588.888888888889,"nom":394.54666666666674}},"5x7 Single":{"Excel UHS":{"cps":1666.6666666666667,"nom":254.00000000000003},"1210/20":{"cps":914.2857142857142,"nom":139.33714285714288},"1510/20/50":{"cps":1600.0,"nom":243.84},"1610/20/50/DH":{"cps":1600.0,"nom":243.84},"1620/50 UHS":{"cps":1851.851851851852,"nom":282.22222222222223},"1620/50 HR":{"cps":2157.4074074074074,"nom":219.1925925925926},"1710":{"cps":1333.3333333333333,"nom":203.2},"1240/1280":{"cps":914.2857142857142,"nom":139.33714285714288},"1280 ES":{"cps":1600.0,"nom":243.84},"1580/1580+":{"cps":1600.0,"nom":243.84},"1580 C":{"cps":1333.3333333333333,"nom":203.2},"1880+":{"cps":1600.0,"nom":243.84},"1880 UHS":{"cps":1851.851851851852,"nom":282.22222222222223},"1880 HR":{"cps":2157.4074074074074,"nom":328.7888888888889}},"7x9 Single":{"1210/20":{"cps":355.55555555555554,"nom":72.24888888888889},"1510/20/50":{"cps":533.3333333333334,"nom":108.37333333333335},"1610/20/50/DH":{"cps":800.0,"nom":162.56000000000003},"1620/50 UHS":{"cps":1250.0,"nom":254.00000000000003},"1620/50 HR":{"cps":1323.8636363636363,"nom":179.33939393939394},"1710":{"cps":800.0,"nom":162.56000000000003},"1240/1280":{"cps":342.85714285714283,"nom":69.66857142857143},"1280 ES":{"cps":533.3333333333334,"nom":108.37333333333335},"1580/1580+":{"cps":533.3333333333334,"nom":108.37333333333335},"1580 C":{"cps":800.0,"nom":162.56000000000003},"1880+":{"cps":800.0,"nom":162.56000000000003},"1880 UHS":{"cps":1250.0,"nom":254.00000000000003},"1880 HR":{"cps":1323.8636363636363,"nom":269.0090909090909}},"9x12 Single":{"1210/20":{"cps":307.2,"nom":78.0288},"1510/20/50":{"cps":307.2,"nom":78.0288},"1610/20/50/DH":{"cps":307.2,"nom":78.0288},"1620/50 HR":{"cps":832.1428571428571,"nom":140.90952380952382},"1710":{"cps":320.0,"nom":81.28000000000002},"1240/1280":{"cps":307.2,"nom":78.0288},"1280 ES":{"cps":307.2,"nom":78.0288},"1580/1580+":{"cps":307.2,"nom":78.0288},"1580 C":{"cps":320.0,"nom":81.28000000000002},"1880+":{"cps":307.2,"nom":78.0288},"1880 UHS":{"cps":666.6666666666667,"nom":169.33333333333337},"1880 HR":{"cps":832.1428571428571,"nom":211.36428571428573}},"10x16 Single":{"Excel UHS":{"cps":227.27272727272728,"nom":63.50000000000001},"1210/20":{"cps":211.5702479338843,"nom":59.112727272727284},"1510/20/50":{"cps":211.5702479338843,"nom":59.112727272727284},"1610/20/50/DH":{"cps":332.46753246753246,"nom":92.89142857142858},"1620/50 UHS":{"cps":432.90043290043286,"nom":120.95238095238093},"1620/50 HR":{"cps":378.2467532467532,"nom":70.4547619047619},"1710":{"cps":277.05627705627705,"nom":77.4095238095238},"1240/1280":{"cps":211.5702479338843,"nom":59.112727272727284},"1280 ES":{"cps":218.1818181818182,"nom":60.96},"1580/1580+":{"cps":211.5702479338843,"nom":59.112727272727284},"1580 C":{"cps":277.05627705627705,"nom":77.4095238095238},"1880+":{"cps":332.46753246753246,"nom":92.89142857142858},"1880 UHS":{"cps":432.90043290043286,"nom":120.95238095238093},"1880 HR":{"cps":378.2467532467532,"nom":105.68214285714285}},"16x24 Single":{"Excel UHS":{"cps":39.2156862745098,"nom":16.93333333333333},"1210/20":{"cps":67.42756804214223,"nom":29.115223880597018},"1510/20/50":{"cps":67.42756804214223,"nom":29.115223880597018},"1610/20/50/DH":{"cps":67.42756804214223,"nom":29.115223880597018},"1620/50 UHS":{"cps":87.7963125548727,"nom":37.910447761194035},"1620/50 HR":{"cps":70.6488781079442,"nom":20.337457044673535},"1710":{"cps":56.18964003511853,"nom":24.26268656716418},"1240/1280":{"cps":67.42756804214223,"nom":29.115223880597018},"1280 ES":{"cps":67.42756804214223,"nom":29.115223880597018},"1580/1580+":{"cps":67.42756804214223,"nom":29.115223880597018},"1580 C":{"cps":56.18964003511853,"nom":24.26268656716418},"1880+":{"cps":67.42756804214223,"nom":29.115223880597018},"1880 UHS":{"cps":87.7963125548727,"nom":37.910447761194035},"1880 HR":{"cps":70.6488781079442,"nom":30.506185567010306}},"25x34 Single":{"1210/20":{"cps":25.68561872909699,"nom":16.96278260869565},"1510/20/50":{"cps":25.68561872909699,"nom":16.96278260869565},"1610/20/50/DH":{"cps":25.68561872909699,"nom":16.96278260869565},"1710":{"cps":21.40468227424749,"nom":14.135652173913044},"1240/1280":{"cps":25.68561872909699,"nom":16.96278260869565},"1280 ES":{"cps":24.615384615384617,"nom":16.256},"1580/1580+":{"cps":25.68561872909699,"nom":16.96278260869565},"1580 C":{"cps":20.512820512820515,"nom":13.546666666666669},"1880+":{"cps":25.68561872909699,"nom":16.96278260869565}},"4x5 Twin":{"1620/50 UHS":{"cps":1666.6666666666667,"nom":254.00000000000003},"1620/50 HR":{"cps":1226.3157894736842,"nom":124.59368421052633},"1240/1280":{"cps":614.4,"nom":93.63456000000001},"1280 ES":{"cps":614.4,"nom":93.63456000000001},"1580/1580+":{"cps":614.4,"nom":93.63456000000001},"1580 C":{"cps":752.9411764705882,"nom":114.74823529411766},"1880+":{"cps":903.529411764706,"nom":137.6978823529412},"1880 UHS":{"cps":1666.6666666666667,"nom":254.00000000000003},"1880 HR":{"cps":1226.3157894736842,"nom":186.8905263157895}},"5x5 Twin":{"1210/20":{"cps":387.87878787878793,"nom":59.112727272727284},"1510/20/50":{"cps":512.0,"nom":78.0288},"1610/20/50/DH":{"cps":752.9411764705883,"nom":114.74823529411768},"1620/50 UHS":{"cps":1388.888888888889,"nom":211.66666666666669},"1620/50 HR":{"cps":1021.9298245614035,"nom":103.82807017543861},"1710":{"cps":627.4509803921568,"nom":95.62352941176471},"1240/1280":{"cps":512.0,"nom":78.0288},"1280 ES":{"cps":512.0,"nom":78.0288},"1580/1580+":{"cps":512.0,"nom":78.0288},"1580 C":{"cps":627.4509803921568,"nom":95.62352941176471},"1880+":{"cps":752.9411764705883,"nom":114.74823529411768},"1880 UHS":{"cps":1388.888888888889,"nom":211.66666666666669},"1880 HR":{"cps":1021.9298245614035,"nom":155.7421052631579}},"4x7 Twin":{"1610/20/50/DH":{"cps":960.0,"nom":146.304},"1620/50 UHS":{"cps":1250.0,"nom":190.5},"1620/50 HR":{"cps":862.9629629629629,"nom":87.67703703703704},"1710":{"cps":800.0,"nom":121.92},"1240/1280":{"cps":465.4545454545455,"nom":70.93527272727273},"1280 ES":{"cps":480.0,"nom":73.152},"1580/1580+":{"cps":640.0,"nom":97.536},"1580 C":{"cps":800.0,"nom":121.92},"1880+":{"cps":960.0,"nom":146.304},"1880 UHS":{"cps":1250.0,"nom":190.5},"1880 HR":{"cps":862.9629629629629,"nom":131.51555555555555}},"5x7 Twin":{"Excel UHS":{"cps":888.8888888888888,"nom":135.46666666666667},"1210/20":{"cps":387.87878787878793,"nom":59.112727272727284},"1510/20/50":{"cps":533.3333333333334,"nom":81.28000000000002},"1610/20/50/DH":{"cps":800.0,"nom":121.92},"1620/50 UHS":{"cps":1041.6666666666667,"nom":158.75000000000003},"1620/50 HR":{"cps":719.1358024691358,"nom":73.06419753086419},"1710":{"cps":666.6666666666666,"nom":101.6},"1240/1280":{"cps":387.87878787878793,"nom":59.112727272727284},"1280 ES":{"cps":400.0,"nom":60.96},"1580/1580+":{"cps":533.3333333333334,"nom":81.28000000000002},"1580 C":{"cps":666.6666666666666,"nom":101.6},"1880+":{"cps":800.0,"nom":121.92},"1880 UHS":{"cps":1041.6666666666667,"nom":158.75000000000003},"1880 HR":{"cps":719.1358024691358,"nom":109.5962962962963}},"7x9 Twin":{"1210/20":{"cps":143.28358208955223,"nom":29.115223880597018},"1510/20/50":{"cps":188.23529411764707,"nom":38.24941176470589},"1610/20/50/DH":{"cps":342.85714285714283,"nom":69.66857142857143},"1620/50 UHS":{"cps":446.42857142857144,"nom":90.71428571428572},"1620/50 HR":{"cps":291.25,"nom":39.454666666666675},"1710":{"cps":285.7142857142857,"nom":58.05714285714287},"1240/1280":{"cps":143.28358208955223,"nom":29.115223880597018},"1280 ES":{"cps":177.77777777777777,"nom":36.12444444444444},"1580/1580+":{"cps":188.23529411764707,"nom":38.24941176470589},"1580 C":{"cps":285.7142857142857,"nom":58.05714285714287},"1880+":{"cps":188.23529411764707,"nom":38.24941176470589},"1880 UHS":{"cps":446.42857142857144,"nom":90.71428571428572},"1880 HR":{"cps":291.25,"nom":59.182}},"9x12 Twin":{"1210/20":{"cps":102.4,"nom":26.0096},"1510/20/50":{"cps":102.4,"nom":26.0096},"1610/20/50/DH":{"cps":102.4,"nom":26.0096},"1710":{"cps":84.21052631578947,"nom":21.389473684210525},"1240/1280":{"cps":102.4,"nom":26.0096},"1280 ES":{"cps":102.4,"nom":26.0096},"1580/1580+":{"cps":102.4,"nom":26.0096},"1580 C":{"cps":85.33333333333334,"nom":21.674666666666667},"1880+":{"cps":102.4,"nom":26.0096}},"10x16 Twin":{"1210/20":{"cps":60.71146245059288,"nom":16.96278260869565},"1510/20/50":{"cps":60.71146245059288,"nom":16.96278260869565},"1610/20/50/DH":{"cps":60.71146245059288,"nom":16.96278260869565},"1710":{"cps":50.59288537549407,"nom":14.135652173913043},"1240/1280":{"cps":60.71146245059288,"nom":16.96278260869565},"1280 ES":{"cps":58.18181818181818,"nom":16.256},"1580/1580+":{"cps":60.71146245059288,"nom":16.96278260869565},"1580 C":{"cps":48.48484848484849,"nom":13.546666666666669},"1880+":{"cps":60.71146245059288,"nom":16.96278260869565}},"4x5 Three":{"1620/50 UHS":{"cps":1176.4705882352941,"nom":179.29411764705884},"1620/50 HR":{"cps":706.0606060606061,"nom":71.73575757575759},"1240/1280":{"cps":229.25373134328356,"nom":34.938268656716424},"1280 ES":{"cps":284.44444444444446,"nom":43.349333333333334},"1580/1580+":{"cps":301.1764705882353,"nom":45.899294117647074},"1580 C":{"cps":250.98039215686276,"nom":38.24941176470589},"1880+":{"cps":731.4285714285714,"nom":111.46971428571429},"1880 UHS":{"cps":1176.4705882352941,"nom":179.29411764705884},"1880 HR":{"cps":706.0606060606061,"nom":107.60363636363638}},"5x5 Three":{"1210/20":{"cps":191.04477611940297,"nom":29.115223880597018},"1510/20/50":{"cps":250.98039215686276,"nom":38.24941176470589},"1610/20/50/DH":{"cps":250.98039215686276,"nom":38.24941176470589},"1620/50 UHS":{"cps":980.3921568627451,"nom":149.41176470588238},"1620/50 HR":{"cps":588.3838383838385,"nom":59.77979797979798},"1710":{"cps":209.15032679738565,"nom":31.87450980392157},"1240/1280":{"cps":191.04477611940297,"nom":29.115223880597018},"1280 ES":{"cps":237.03703703703704,"nom":36.12444444444445},"1580/1580+":{"cps":250.98039215686276,"nom":38.24941176470589},"1580 C":{"cps":209.15032679738565,"nom":31.87450980392157},"1880+":{"cps":609.5238095238095,"nom":92.89142857142858},"1880 UHS":{"cps":980.3921568627451,"nom":149.41176470588238},"1880 HR":{"cps":588.3838383838385,"nom":89.66969696969699}},"4x7 Three":{"1610/20/50/DH":{"cps":529.6551724137931,"nom":80.71944827586208},"1620/50 UHS":{"cps":869.5652173913044,"nom":132.52173913043478},"1620/50 HR":{"cps":485.4166666666667,"nom":49.318333333333335},"1710":{"cps":441.3793103448276,"nom":67.26620689655174},"1240/1280":{"cps":216.33802816901408,"nom":32.969915492957746},"1280 ES":{"cps":216.33802816901408,"nom":32.969915492957746},"1580/1580+":{"cps":216.33802816901408,"nom":32.969915492957746},"1580 C":{"cps":441.3793103448276,"nom":67.26620689655174},"1880+":{"cps":529.6551724137931,"nom":80.71944827586208},"1880 UHS":{"cps":869.5652173913044,"nom":132.52173913043478},"1880 HR":{"cps":485.4166666666667,"nom":73.9775}},"5x7 Three":{"Excel UHS":{"cps":606.0606060606061,"nom":92.36363636363637},"1210/20":{"cps":180.28169014084506,"nom":27.47492957746479},"1510/20/50":{"cps":180.28169014084506,"nom":27.47492957746479},"1610/20/50/DH":{"cps":441.3793103448276,"nom":67.26620689655174},"1620/50 UHS":{"cps":724.6376811594204,"nom":110.43478260869568},"1620/50 HR":{"cps":404.5138888888889,"nom":41.09861111111111},"1710":{"cps":367.816091954023,"nom":56.05517241379311},"1240/1280":{"cps":180.28169014084506,"nom":27.47492957746479},"1280 ES":{"cps":180.28169014084506,"nom":27.47492957746479},"1580/1580+":{"cps":180.28169014084506,"nom":27.47492957746479},"1580 C":{"cps":367.816091954023,"nom":56.05517241379311},"1880+":{"cps":441.3793103448276,"nom":67.26620689655174},"1880 UHS":{"cps":724.6376811594204,"nom":110.43478260869568},"1880 HR":{"cps":404.5138888888889,"nom":61.647916666666674}},"7x9 Three":{"1210/20":{"cps":83.47826086956522,"nom":16.96278260869565},"1510/20/50":{"cps":83.47826086956522,"nom":16.96278260869565},"1610/20/50/DH":{"cps":181.1320754716981,"nom":36.80603773584906},"1710":{"cps":150.9433962264151,"nom":30.67169811320755},"1240/1280":{"cps":83.47826086956522,"nom":16.96278260869565},"1280 ES":{"cps":80.0,"nom":16.256},"1580/1580+":{"cps":83.47826086956522,"nom":16.96278260869565},"1580 C":{"cps":150.9433962264151,"nom":30.67169811320755},"1880+":{"cps":83.47826086956522,"nom":16.96278260869565}},"4x5 Four":{"1620/50 UHS":{"cps":298.5074626865672,"nom":45.49253731343284},"1240/1280":{"cps":204.8,"nom":31.211520000000004},"1280 ES":{"cps":204.8,"nom":31.211520000000004},"1580/1580+":{"cps":204.8,"nom":31.211520000000004},"1580 C":{"cps":170.66666666666669,"nom":26.009600000000002},"1880+":{"cps":204.8,"nom":31.211520000000004}},"5x5 Four":{"1210/20":{"cps":170.66666666666666,"nom":26.0096},"1510/20/50":{"cps":170.66666666666666,"nom":26.0096},"1610/20/50/DH":{"cps":170.66666666666666,"nom":26.0096},"1620/50 UHS":{"cps":248.75621890547265,"nom":37.910447761194035},"1710":{"cps":140.35087719298244,"nom":21.389473684210525},"1240/1280":{"cps":170.66666666666666,"nom":26.0096},"1280 ES":{"cps":170.66666666666666,"nom":26.0096},"1580/1580+":{"cps":170.66666666666666,"nom":26.0096},"1580 C":{"cps":142.22222222222223,"nom":21.674666666666667},"1880+":{"cps":170.66666666666666,"nom":26.0096}},"4x7 Four":{"1610/20/50/DH":{"cps":133.56521739130434,"nom":20.355339130434782},"1710":{"cps":111.30434782608695,"nom":16.96278260869565},"1240/1280":{"cps":133.56521739130434,"nom":20.355339130434782},"1280 ES":{"cps":128.0,"nom":19.5072},"1580/1580+":{"cps":133.56521739130434,"nom":20.355339130434782},"1580 C":{"cps":106.66666666666667,"nom":16.256},"1880+":{"cps":133.56521739130434,"nom":20.355339130434782}},"5x7 Four":{"1210/20":{"cps":111.30434782608695,"nom":16.96278260869565},"1510/20/50":{"cps":111.30434782608695,"nom":16.96278260869565},"1610/20/50/DH":{"cps":111.30434782608695,"nom":16.96278260869565},"1710":{"cps":92.7536231884058,"nom":14.135652173913044},"1240/1280":{"cps":111.30434782608695,"nom":16.96278260869565},"1280 ES":{"cps":106.66666666666667,"nom":16.256},"1580/1580+":{"cps":111.30434782608695,"nom":16.96278260869565},"1580 C":{"cps":88.8888888888889,"nom":13.546666666666669},"1880+":{"cps":111.30434782608695,"nom":16.96278260869565}},"5x5 Five":{"1210/20":{"cps":111.30434782608695,"nom":16.96278260869565},"1510/20/50":{"cps":111.30434782608695,"nom":16.96278260869565},"1610/20/50/DH":{"cps":111.30434782608695,"nom":16.96278260869565},"1710":{"cps":92.7536231884058,"nom":14.135652173913044},"1240/1280":{"cps":111.30434782608695,"nom":16.96278260869565},"1280 ES":{"cps":106.66666666666667,"nom":16.256},"1580/1580+":{"cps":111.30434782608695,"nom":16.96278260869565},"1580 C":{"cps":88.8888888888889,"nom":13.546666666666669},"1880+":{"cps":111.30434782608695,"nom":16.96278260869565}},"21 QR Code":{"1580/1580+":{"cps":1146.2686567164178,"nom":29.115223880597018},"1580 C":{"cps":955.223880597015,"nom":24.262686567164177},"1880+":{"cps":1146.2686567164178,"nom":29.115223880597018},"1880 UHS":{"cps":1492.5373134328358,"nom":37.91044776119403},"1880 HR":{"cps":1201.0309278350514,"nom":30.50618556701031}},"25 QR Code":{"1580/1580+":{"cps":1081.6901408450703,"nom":27.47492957746479},"1580 C":{"cps":901.4084507042254,"nom":22.895774647887325},"1880+":{"cps":1081.6901408450703,"nom":27.47492957746479},"1880 UHS":{"cps":1123.5955056179776,"nom":28.539325842696634},"1880 HR":{"cps":1142.1568627450981,"nom":29.010784313725495}},"29 QR Code":{"1580/1580+":{"cps":667.8260869565217,"nom":16.96278260869565},"1580 C":{"cps":533.3333333333334,"nom":13.546666666666669},"1880+":{"cps":667.8260869565217,"nom":16.96278260869565}},"33 QR Code":{"1580/1580+":{"cps":667.8260869565217,"nom":16.96278260869565},"1580 C":{"cps":533.3333333333334,"nom":13.546666666666669},"1880+":{"cps":667.8260869565217,"nom":16.96278260869565}}},"tco":{"vj1040":{"ref":"VJ1000","nozzles":["60"]},"vj1210":{"ref":"VJ1000","nozzles":["60","70"]},"vj1220":{"ref":"VJ1000","nozzles":["60","70"]},"vj1240":{"ref":"VJ1000","nozzles":["60","70"]},"vj1280":{"ref":"VJ1000","nozzles":["60","70"]},"vj1510":{"ref":"VJ1000","nozzles":["60","70"]},"vj1520":{"ref":"VJ1000","nozzles":["60","70"]},"vj1530":{"ref":"VJ1000","nozzles":["60","70"]},"vj1550":{"ref":"VJ1000","nozzles":["60","70"]},"vj1560":{"ref":"VJ1000","nozzles":["60","70"]},"vj1580":{"ref":"VJ1000","nozzles":["60","70"]},"vj1580c":{"ref":"VJ1000","nozzles":["60","70"]},"vj1610":{"ref":"VJ1000","nozzles":["60","70"]},"vj1620":{"ref":"VJ1000","nozzles":["60","70"]},"vj1630":{"ref":"VJ1000","nozzles":["60","70"]},"vj1650":{"ref":"VJ1000","nozzles":["60","70"]},"vj1660":{"ref":"VJ1000","nozzles":["60","70"]},"vj1860":{"ref":"VJ1000","nozzles":["60","70"]},"vj188060m":{"ref":"VJ1000","nozzles":["60"]},"vj188070m":{"ref":"VJ1000","nozzles":["70"]},"vj1620uhs":{"ref":"VJ1000UHS","nozzles":["50"]},"vj1650uhs":{"ref":"VJ1000UHS","nozzles":["50"]},"vj1880uhs":{"ref":"VJ1000UHS","nozzles":["50"]},"vj1620hr":{"ref":"VJ1000HR","nozzles":["40"]},"vj1650hr":{"ref":"VJ1000HR","nozzles":["40"]},"vj1880hr":{"ref":"VJ1000HR","nozzles":["40"]},"vj1610dh":{"ref":"VJ1000","nozzles":["60","70"]},"vj1710":{"ref":"VJ1000","nozzles":["60","70"]},"none":{"ref":"None","nozzles":[]},"37e":{"ref":"37e","nozzles":["66"]},"43s46s":{"ref":"Willett","nozzles":["60"]},"dominoaseries":{"ref":"Domino","nozzles":["60","75"]},"dominoa320i":{"ref":"Domino","nozzles":["60","75"]},"dominoa420ia520i":{"ref":"Domino","nozzles":["60","75"]},"dominoax150i":{"ref":"Domino","nozzles":["60","75"]},"dominoax350i":{"ref":"Domino","nozzles":["60","75"]},"dominoax550i":{"ref":"Domino","nozzles":["60","75"]},"excel100":{"ref":"Excel170","nozzles":["66"]},"excel170":{"ref":"Excel170","nozzles":["66"]},"excel178":{"ref":"Excel2000","nozzles":["66"]},"excel2000":{"ref":"Excel2000","nozzles":["66"]},"excel273":{"ref":"Excel2000","nozzles":["66"]},"exceluhs":{"ref":"ExcelUHS","nozzles":["53"]},"hitachipxr":{"ref":"Hitachi","nozzles":["65"]},"hitachirx":{"ref":"Hitachi","nozzles":["65"]},"hitachiuxbd":{"ref":"Hitachi","nozzles":["65"]},"keyencemkg1000":{"ref":"Keyence","nozzles":["60"]},"keyencemkg1000mf":{"ref":"Keyence","nozzles":["60"]},"keyencemkg1100":{"ref":"Keyence","nozzles":["50"]},"leibingerjet2neoneos":{"ref":"Leibinger","nozzles":["60","70"]},"leibingerjet3up":{"ref":"Leibinger","nozzles":["50","60","70"]},"leibingerjet3upmi":{"ref":"Leibinger","nozzles":["35","40"]},"leibingerjet3uppl":{"ref":"Leibinger","nozzles":["60","70"]},"linxcj400":{"ref":"Linx","nozzles":["62"]},"linx49005900":{"ref":"Linx","nozzles":["62","75"]},"linx68006900":{"ref":"Linx","nozzles":["62","75"]},"linx73007900":{"ref":"Linx","nozzles":["62","75"]},"linx10":{"ref":"Linx","nozzles":["62"]},"linx8900":{"ref":"Linx","nozzles":["62"]},"linx8910":{"ref":"Linx","nozzles":["62","75"]},"linx8920":{"ref":"Linx","nozzles":["62","75"]},"linx8940":{"ref":"Linx","nozzles":["62","75"]},"linx8820":{"ref":"Linx","nozzles":["62"]},"linx8830":{"ref":"Linx","nozzles":["62","75"]},"mi9018":{"ref":"MI","nozzles":["72"]},"mi9020":{"ref":"MI","nozzles":["72"]},"mi9028":{"ref":"MI","nozzles":["72"]},"mi9029":{"ref":"MI","nozzles":["72"]},"mi9030":{"ref":"MI","nozzles":["72","50"]},"mi9040":{"ref":"MI","nozzles":["72","50"]},"mi9040contrast":{"ref":"MI","nozzles":["72","50"]},"mi9040dh":{"ref":"MI","nozzles":["72","50"]},"mi9042":{"ref":"MI","nozzles":["50","72"]},"mi9410":{"ref":"MI","nozzles":["65"]},"mi9450":{"ref":"MI","nozzles":["65","72"]},"vj188060m750ml":{"ref":"VJ1000","nozzles":["60"]},"vj188070m750ml":{"ref":"VJ1000","nozzles":["70"]},"w430460":{"ref":"Willett","nozzles":["60"]}},"maintenance":{"VJ 1040":{"items":[{"part":"Filter","hours":3000.0}],"pn":{"Filter":"399307"}},"VJ 1210":{"items":[{"part":"Core","hours":6000.0}],"pn":{}},"VJ 1220":{"items":[{"part":"Core","hours":9000.0}],"pn":{"Core":"SP392167"}},"VJ 1240":{"items":[{"part":"Service Module 1","hours":3000.0}],"pn":{"Service Module 1":"383556"}},"VJ 1280":{"items":[{"part":"Service Module 1","hours":3000.0}],"pn":{"Service Module 1":"383556"}},"VJ 1510":{"items":[{"part":"Core","hours":9000.0}],"pn":{"Core":"399070"}},"VJ 1520":{"items":[{"part":"Core","hours":12000.0}],"pn":{"Core":"SP392165 / SP392093"}},"VJ 1530":{"items":[{"part":"Core","hours":45360.0}],"pn":{"Core":"397550"}},"VJ 1550":{"items":[{"part":"Core","hours":12000.0}],"pn":{"Core":"SP392165 / SP392093"}},"VJ 1560":{"items":[{"part":"Core","hours":45360.0}],"pn":{"Core":"397550"}},"VJ 1580":{"items":[{"part":"Service Module 1","hours":5000.0}],"pn":{"Service Module 1":"397550"}},"VJ 1580+":{"items":[{"part":"Service Module 1","hours":5000.0,"pn_estimated":true}],"pn":{"Service Module 1":"397550"}},"VJ 1580C":{"items":[{"part":"Service Module 1","hours":5000.0,"pn_estimated":true}],"pn":{"Service Module 1":"397550"}},"VJ 1610":{"items":[{"part":"Core","hours":12000.0}],"pn":{"Core":"399341 / 399340"}},"VJ 1620":{"items":[{"part":"Core","hours":14000.0}],"pn":{"Core":"SP392169 / SP392128"}},"VJ 1630":{"items":[{"part":"Core","hours":45360.0}],"pn":{"Core":"397552"}},"VJ 1650":{"items":[{"part":"Core","hours":14000.0}],"pn":{"Core":"SP392169 / SP392128"}},"VJ 1660":{"items":[{"part":"Core","hours":45360.0}],"pn":{"Core":"397552"}},"VJ 1860":{"items":[{"part":"Service Module 1","hours":5000.0},{"part":"Service Module 2","hours":12000.0}],"pn":{"Service Module 1":"611220","Service Module 2":"611170"}},"VJ 1880":{"items":[{"part":"Service Module 1","hours":8760.0}],"pn":{"Service Module 1":"611554"}},"VJ 1880+":{"items":[{"part":"Service Module 1","hours":8760.0,"pn_estimated":true}],"pn":{"Service Module 1":"611554"}},"VJ 1620 UHS":{"items":[{"part":"Core","hours":14000.0}],"pn":{"Core":"395965 / 395964"}},"VJ 1650 UHS":{"items":[{"part":"Core","hours":12000.0}],"pn":{"Core":"395965 / 395964"}},"VJ 1880 UHS":{"items":[{"part":"Service Module 1","hours":8760.0,"pn_estimated":true}],"pn":{"Service Module 1":"611554"}},"VJ 1620 HR":{"items":[{"part":"Core","hours":12000.0}],"pn":{"Core":"395965 / 395964"}},"VJ 1650 HR":{"items":[{"part":"Core","hours":12000.0}],"pn":{"Core":"395965 / 395964"}},"VJ 1880 HR":{"items":[{"part":"Service Module 1","hours":8760.0,"pn_estimated":true}],"pn":{"Service Module 1":"611554"}},"VJ 1610 DH":{"items":[{"part":"Core","hours":12000.0}],"pn":{"Core":"399341 / 399340"}},"VJ 1710":{"items":[{"part":"Core","hours":4000.0},{"part":"PV Module","hours":15000.0}],"pn":{"Core":"395623","PV Module":"395624"}}},"inkContainers":{"V4201":{"base":"MEK","inkSizes":[750,1000],"muCode":"V7201","muSizes":[750,1000]},"V4210":{"base":"MEK","inkSizes":[750,1000],"muCode":"V7205","muSizes":[750,1000]},"V4210A":{"base":"MEK","inkSizes":[750,1000],"muCode":"V7205A","muSizes":[750,1000]},"V4211":{"base":"MEK","inkSizes":[750,1000],"muCode":"V7206","muSizes":[750,1000]},"V4240":{"base":"MEK","inkSizes":[750,1000],"muCode":"V7206","muSizes":[750,1000]},"V4250":{"base":"MPK/Ethanol","inkSizes":[750,1000],"muCode":"V7250","muSizes":[750,1000]},"V4262":{"base":"Ethanol/Isoprop","inkSizes":[750,1000],"muCode":"V7222","muSizes":[750,1000]},"V4263":{"base":"MIPK","inkSizes":[750,1000],"muCode":"V7225","muSizes":[750,1000]},"V4264":{"base":"MPK/Ethanol","inkSizes":[750,1000],"muCode":"V7250","muSizes":[750,1000]},"V4220":{"base":"MEK","inkSizes":[750,1000],"muCode":"V7223","muSizes":[750,1000]},"V4221":{"base":"Methanol","inkSizes":[750,1000],"muCode":"V7207","muSizes":[750,1000]},"V4230":{"base":"MEK","inkSizes":[750,1000],"muCode":"V7206","muSizes":[750,1000]},"V4231":{"base":"MEK","inkSizes":[750,1000],"muCode":"V7206","muSizes":[750,1000]},"V4234":{"base":"MPK/Ethanol","inkSizes":[750,1000],"muCode":"V7250","muSizes":[750,1000]},"V4235":{"base":"MEK","inkSizes":[750,1000],"muCode":"V7208","muSizes":[750,1000]},"V4236":{"base":"MEK","inkSizes":[750,1000],"muCode":"V7206","muSizes":[750,1000]},"V4237":{"base":"MEK","inkSizes":[750,1000],"muCode":"V7206","muSizes":[750,1000]},"V4259":{"base":"MEK","inkSizes":[750,1000],"muCode":"V7201","muSizes":[750,1000]},"V4274":{"base":"MPK/Ethanol","inkSizes":[750,1000],"muCode":"V7211","muSizes":[750,1000]},"V4202":{"base":"MEK","inkSizes":[750,1000],"muCode":"V7206","muSizes":[750,1000]},"V4204":{"base":"MEK","inkSizes":[750,1000],"muCode":"V7201","muSizes":[750,1000]},"V4212":{"base":"MEK","inkSizes":[750,1000],"muCode":"V7217","muSizes":[750,1000]},"V4214":{"base":"MEK","inkSizes":[750,1000],"muCode":"V7218","muSizes":[750,1000]},"V4215":{"base":"Ethanol/MEK","inkSizes":[750,1000],"muCode":"V7219","muSizes":[750,1000]},"V4216":{"base":"MEK","inkSizes":[750,1000],"muCode":"V7206","muSizes":[750,1000]},"V4218":{"base":"MEK","inkSizes":[750,1000],"muCode":"V7205","muSizes":[750,1000]},"V4222":{"base":"Methanol","inkSizes":[750,1000],"muCode":"V7207","muSizes":[750,1000]},"V4238":{"base":"MEK / Methanol","inkSizes":[750,1000],"muCode":"V7204","muSizes":[750,1000]},"V4248":{"base":"MEK","inkSizes":[750,1000],"muCode":"V7248","muSizes":[750,1000]},"V4251":{"base":"Methanol / Water","inkSizes":[750,1000],"muCode":"V7215","muSizes":[750,1000]},"V4257":{"base":"MIPK","inkSizes":[750,1000],"muCode":"V7257","muSizes":[750,1000]},"V4258":{"base":"MEK","inkSizes":[750,1000],"muCode":"V7208","muSizes":[750,1000]},"V4260":{"base":"Ethanol","inkSizes":[750,1000],"muCode":"V7212","muSizes":[750,1000]},"V4267":{"base":"Ethanol/Acetone","inkSizes":[750,1000],"muCode":"V7210","muSizes":[750,1000]},"V4269":{"base":"Ethanol/Acetone","inkSizes":[750,1000],"muCode":"V7210","muSizes":[750,1000]},"V4271":{"base":"MEK","inkSizes":[750,1000],"muCode":"V7216","muSizes":[750,1000]},"V4275":{"base":"MPK/Ethanol","inkSizes":[750,1000],"muCode":"V7211","muSizes":[750,1000]},"V4276":{"base":"MPK/Ethanol","inkSizes":[750,1000],"muCode":"V7211","muSizes":[750,1000]},"V4278":{"base":"MPK/Ethanol","inkSizes":[750,1000],"muCode":"V7278","muSizes":[750,1000]},"V4299":{"base":"Ethanol","inkSizes":[750,1000],"muCode":"V7231","muSizes":[750,1000]},"V4225":{"base":"MEK","inkSizes":[700],"muCode":"V7220","muSizes":[750]},"V4226":{"base":"MEK","inkSizes":[700],"muCode":"V7220","muSizes":[750]},"V4283":{"base":"MEK","inkSizes":[700],"muCode":"V7221","muSizes":[750]},"V4289":{"base":"MEK","inkSizes":[700],"muCode":"V7208","muSizes":[750]},"V4287":{"base":"MPK","inkSizes":[700],"muCode":"V7250","muSizes":[750]},"V571":{"base":"MEK","inkSizes":[750],"muCode":"V851","muSizes":[750]},"V572":{"base":"MEK","inkSizes":[750],"muCode":"V852","muSizes":[750]},"V572A":{"base":"MEK","inkSizes":[750],"muCode":"V852A","muSizes":[750]},"V573":{"base":"MEK","inkSizes":[750],"muCode":"V853","muSizes":[750]},"V574":{"base":"Ethanol/Isoprop","inkSizes":[750],"muCode":"V854","muSizes":[750]},"V401":{"base":"MEK","inkSizes":[750,5000],"muCode":"V701","muSizes":[750,5000]},"V402":{"base":"MEK","inkSizes":[750],"muCode":"V706","muSizes":[750,5000]},"V403":{"base":"MEK","inkSizes":[750],"muCode":"V701","muSizes":[750,5000]},"V404":{"base":"MEK","inkSizes":[750],"muCode":"V701","muSizes":[750,5000]},"V410":{"base":"MEK","inkSizes":[750,5000],"muCode":"V705","muSizes":[750,5000]},"V411":{"base":"MEK","inkSizes":[750,5000],"muCode":"V706","muSizes":[750,5000]},"V412":{"base":"MEK","inkSizes":[750,5000],"muCode":"V717","muSizes":[750,5000]},"V413":{"base":"MEK","inkSizes":[750,5000],"muCode":"V713 / 823","muSizes":[750,5000]},"V414":{"base":"MEK","inkSizes":[750],"muCode":"V718","muSizes":[750,5000]},"V415":{"base":"MEK","inkSizes":[750],"muCode":"V719","muSizes":[750]},"V416":{"base":"MEK","inkSizes":[750],"muCode":"V706","muSizes":[750,5000]},"V418":{"base":"MEK","inkSizes":[750],"muCode":"V705","muSizes":[750,5000]},"V420":{"base":"MEK","inkSizes":[750,5000],"muCode":"V723","muSizes":[750,5000]},"V421":{"base":"Methanol","inkSizes":[750,5000],"muCode":"V707","muSizes":[750,5000]},"V422":{"base":"Methanol","inkSizes":[750],"muCode":"V707","muSizes":[750,5000]},"V431":{"base":"MEK","inkSizes":[750],"muCode":"V706","muSizes":[750]},"V435":{"base":"MEK","inkSizes":[750],"muCode":"V708","muSizes":[750]},"V436":{"base":"MEK","inkSizes":[750],"muCode":"V706","muSizes":[750,5000]},"V437":{"base":"MEK","inkSizes":[750],"muCode":"V706","muSizes":[750,5000]},"V438":{"base":"MEK","inkSizes":[750],"muCode":"V704","muSizes":[750]},"V448":{"base":"MEK","inkSizes":[750],"muCode":"V748","muSizes":[750]},"V451":{"base":"Methanol","inkSizes":[750],"muCode":"V715","muSizes":[750]},"V457":{"base":"MIPK","inkSizes":[750],"muCode":"V725","muSizes":[740]},"V458":{"base":"MEK","inkSizes":[750],"muCode":"V708","muSizes":[750]},"V459":{"base":"MEK","inkSizes":[750],"muCode":"V701","muSizes":[750,5000]},"V460":{"base":"Ethanol","inkSizes":[750,5000],"muCode":"V712","muSizes":[750,5000]},"V461":{"base":"Ethyl Acetate","inkSizes":[750,5000],"muCode":"V709","muSizes":[750,5000]},"V462":{"base":"Ethanol/Isoprop","inkSizes":[750],"muCode":"V722","muSizes":[750]},"V463":{"base":"MIPK","inkSizes":[750],"muCode":"V725","muSizes":[750]},"V464":{"base":"MPK/Ethanol","inkSizes":[750],"muCode":"V750","muSizes":[750]},"V465":{"base":"CycloHex/Ethanol","inkSizes":[750],"muCode":"V714","muSizes":[750]},"V467":{"base":"Ethanol/Acetone","inkSizes":[750],"muCode":"V710","muSizes":[750]},"V468":{"base":"Ethanol/Acetone","inkSizes":[750],"muCode":"V710","muSizes":[750]},"V469":{"base":"Ethanol/Acetone","inkSizes":[750,5000],"muCode":"V710","muSizes":[750,5000]},"V470":{"base":"Pentanone/Ethanol","inkSizes":[750,5000],"muCode":"V711","muSizes":[750,5000]},"V471":{"base":"MEK","inkSizes":[750,5000],"muCode":"V716","muSizes":[750,5000]},"V472":{"base":"MEK","inkSizes":[750],"muCode":"V716","muSizes":[750,5000]},"V473":{"base":"Pentanone/Ethanol","inkSizes":[750,5000],"muCode":"V711","muSizes":[750,5000]},"V474":{"base":"Pentanone/Ethanol","inkSizes":[750,5000],"muCode":"V711","muSizes":[750,5000]},"V475":{"base":"Pentanone/Ethanol","inkSizes":[750,5000],"muCode":"V711","muSizes":[750,5000]},"V476":{"base":"Pentanone/Ethanol","inkSizes":[750,5000],"muCode":"V711","muSizes":[750,5000]},"V495":{"base":"Ethanol","inkSizes":[750],"muCode":"V730","muSizes":[750]},"V496":{"base":"Ethanol","inkSizes":[750],"muCode":"V730","muSizes":[750]},"V497":{"base":"Ethanol/Acetone","inkSizes":[750],"muCode":"V732","muSizes":[750]},"V498":{"base":"Ethanol/Acetone","inkSizes":[750],"muCode":"V733","muSizes":[750]},"V499":{"base":"Ethanol","inkSizes":[750],"muCode":"V731","muSizes":[750]},"V480":{"base":"MEK","inkSizes":[600],"muCode":"V720","muSizes":[750]},"V481":{"base":"MEK","inkSizes":[600],"muCode":"V720","muSizes":[750]},"V482":{"base":"MEK","inkSizes":[600],"muCode":"V720","muSizes":[750]},"V483AB":{"base":"MEK","inkSizes":[600],"muCode":"V721","muSizes":[750]},"V484":{"base":"Methanol/Water","inkSizes":[600],"muCode":"V724","muSizes":[750]},"V485":{"base":"MEK","inkSizes":[600],"muCode":"V755","muSizes":[750]},"V486":{"base":"MIPK","inkSizes":[600],"muCode":"V725","muSizes":[750]},"V488":{"base":"MEK","inkSizes":[600],"muCode":"V720","muSizes":[750]},"V489":{"base":"MEK","inkSizes":[600],"muCode":"V708","muSizes":[750]},"V490":{"base":"MEK","inkSizes":[600],"muCode":"V720","muSizes":[750]},"V491":{"base":"MEK","inkSizes":[600],"muCode":"V720","muSizes":[750]},"V493":{"base":"MEK","inkSizes":[600],"muCode":"V720","muSizes":[750]},"V494":{"base":"MEK","inkSizes":[600],"muCode":"V720","muSizes":[750]},"V505":{"base":"MEK","inkSizes":[750,5000],"muCode":"V820","muSizes":[750,5000]},"V507":{"base":"MEK","inkSizes":[750,5000],"muCode":"V822","muSizes":[750,5000]},"V508":{"base":"MEK","inkSizes":[750,5000],"muCode":"V828","muSizes":[750,5000]},"V509":{"base":"MEK","inkSizes":[750,5000],"muCode":"V823","muSizes":[750,5000]},"V513":{"base":"Pentanone/Ethanol","inkSizes":[750,5000],"muCode":"V825","muSizes":[750,5000]},"V514":{"base":"MEK","inkSizes":[750,5000],"muCode":"V826","muSizes":[750,5000]},"V515":{"base":"Pentanone/Ethanol","inkSizes":[750,5000],"muCode":"V825","muSizes":[750,5000]},"V516":{"base":"MEK","inkSizes":[750],"muCode":"V821","muSizes":[750,5000]},"V517":{"base":"CycloHex/Ethanol","inkSizes":[750],"muCode":"V829","muSizes":[750]},"V518":{"base":"MEK","inkSizes":[750],"muCode":"V826","muSizes":[750,5000]},"V519":{"base":"Pentanone/Ethanol","inkSizes":[750,5000],"muCode":"V825","muSizes":[750,5000]},"V520":{"base":"Pentanone/Ethanol","inkSizes":[750,5000],"muCode":"V825","muSizes":[750,5000]},"V521":{"base":"Pentanone/Ethanol","inkSizes":[750,5000],"muCode":"V825","muSizes":[750,5000]},"V523":{"base":"MEK","inkSizes":[750],"muCode":"V827","muSizes":[750]},"V524":{"base":"MEK","inkSizes":[750],"muCode":"V824","muSizes":[750]},"V525":{"base":"MEK","inkSizes":[750],"muCode":"V821","muSizes":[750,5000]},"V526":{"base":"MEK","inkSizes":[750,5000],"muCode":"V821","muSizes":[750,5000]},"V528":{"base":"MEK","inkSizes":[750,5000],"muCode":"V840","muSizes":[750,5000]},"V530":{"base":"Ethanol/Acetone","inkSizes":[750,5000],"muCode":"V831","muSizes":[750,5000]},"V531":{"base":"Ethanol","inkSizes":[750,5000],"muCode":"V833","muSizes":[750,5000]},"V532":{"base":"Ethanol/Isoprop","inkSizes":[750],"muCode":"V835","muSizes":[750]},"V536":{"base":"MEK","inkSizes":[750],"muCode":"V822","muSizes":[750,5000]},"V537":{"base":"Methanol","inkSizes":[750,5000],"muCode":"V837","muSizes":[750,5000]},"V538":{"base":"MEK","inkSizes":[750],"muCode":"V821","muSizes":[750,5000]},"V539":{"base":"MEK","inkSizes":[750],"muCode":"V824","muSizes":[750]},"V540":{"base":"Ethanol/Acetone","inkSizes":[750],"muCode":"V838","muSizes":[750]},"V541":{"base":"Ethanol","inkSizes":[750],"muCode":"V839","muSizes":[750]},"V542":{"base":"Ethanol","inkSizes":[750],"muCode":"V839","muSizes":[750]},"V543":{"base":"Ethanol","inkSizes":[750],"muCode":"V834","muSizes":[750]},"V548":{"base":"MEK","inkSizes":[750],"muCode":"V848","muSizes":[750]},"V5245":{"base":"MEK","inkSizes":[750,1000],"muCode":"V7206","muSizes":[750,1000]},"Selection":{"base":"MPK","inkSizes":[700],"muCode":"V7250","muSizes":[750]},"0":{"base":null,"inkSizes":[],"muCode":"","muSizes":[]}},"printerContainers":{"37e":{"ink":946,"mu":946},"43s/46s":{"ink":1000,"mu":1000},"Domino A Series":{"ink":825,"mu":825},"Domino A320i":{"ink":825,"mu":1200},"Domino A420i/A520i":{"ink":825,"mu":1200},"Domino Ax150i":{"ink":825,"mu":1200},"Domino Ax350i":{"ink":825,"mu":1200},"Domino Ax550i":{"ink":825,"mu":1200},"Excel 100":{"ink":946,"mu":946},"Excel 170":{"ink":946,"mu":946},"Excel 178":{"ink":946,"mu":946},"Excel 2000":{"ink":946,"mu":946},"Excel 273":{"ink":946,"mu":946},"Excel UHS":{"ink":946,"mu":946},"Hitachi PXR":{"ink":1000,"mu":1000},"Hitachi RX":{"ink":1000,"mu":1000},"Hitachi UX (-B & -D)":{"ink":1000,"mu":1000},"Keyence MK-G1000":{"ink":800,"mu":800},"Keyence MK-G1000MF":{"ink":800,"mu":800},"Keyence MK-G1100":{"ink":800,"mu":800},"Leibinger Jet 2 neo/neoS":{"ink":1300,"mu":1300},"Leibinger Jet 3up":{"ink":1300,"mu":1300},"Leibinger Jet 3up MI":{"ink":1300,"mu":1300},"Leibinger Jet 3up PL":{"ink":1300,"mu":1300},"Linx CJ400":{"ink":500,"mu":500},"Linx 4900/5900":{"ink":500,"mu":500},"Linx 6800/6900":{"ink":500,"mu":500},"Linx 7300/7900":{"ink":500,"mu":500},"Linx 10":{"ink":500,"mu":500},"Linx 8900":{"ink":500,"mu":500},"Linx 8910":{"ink":500,"mu":1000},"Linx 8920":{"ink":500,"mu":1000},"Linx 8940":{"ink":500,"mu":1000},"Linx 8820":{"ink":500,"mu":1000},"Linx 8830":{"ink":500,"mu":1000},"MI 9018":{"ink":800,"mu":800},"MI 9020":{"ink":800,"mu":800},"MI 9028":{"ink":800,"mu":800},"MI 9029":{"ink":800,"mu":800},"MI 9030":{"ink":800,"mu":800},"MI 9040":{"ink":1000,"mu":1000},"MI 9040 Contrast":{"ink":1000,"mu":1000},"MI 9040 DH":{"ink":1000,"mu":1000},"MI 9042":{"ink":800,"mu":800},"MI 9410":{"ink":800,"mu":800},"MI 9450":{"ink":800,"mu":800},"VJ 1040":{"ink":750,"mu":750},"VJ 1210":{"ink":750,"mu":750},"VJ 1220":{"ink":750,"mu":750},"VJ 1240":{"ink":750,"mu":750},"VJ 1280":{"ink":750,"mu":750},"VJ 1510":{"ink":750,"mu":750},"VJ 1520":{"ink":750,"mu":750},"VJ 1530":{"ink":750,"mu":750},"VJ 1550":{"ink":750,"mu":750},"VJ 1560":{"ink":750,"mu":750},"VJ 1580":{"ink":750,"mu":750},"VJ 1580+":{"ink":750,"mu":750},"VJ 1580C":{"ink":750,"mu":750},"VJ 1610":{"ink":750,"mu":750},"VJ 1610 DH":{"ink":750,"mu":750},"VJ 1620":{"ink":750,"mu":750},"VJ 1620 HR":{"ink":750,"mu":750},"VJ 1620 UHS":{"ink":750,"mu":750},"VJ 1630":{"ink":750,"mu":750},"VJ 1650":{"ink":750,"mu":750},"VJ 1650 HR":{"ink":750,"mu":750},"VJ 1650 UHS":{"ink":750,"mu":750},"VJ 1660":{"ink":750,"mu":750},"VJ 1710":{"ink":750,"mu":750},"VJ 1860":{"ink":1000,"mu":1000},"VJ 1880 60µm":{"ink":1000,"mu":1000},"VJ 1880 70µm":{"ink":1000,"mu":1000},"VJ 1880+ 60µm":{"ink":1000,"mu":1000},"VJ 1880+ 70µm":{"ink":1000,"mu":1000},"VJ 1880+ 60µm 750mL":{"ink":750,"mu":750},"VJ 1880+ 70µm 750mL":{"ink":750,"mu":750},"VJ 1880 UHS":{"ink":1000,"mu":1000},"VJ 1880 HR":{"ink":1000,"mu":1000},"W430/460":{"ink":1000,"mu":1000}}};
+
+/* ============================================================
+   UTILIDADES
+   ============================================================ */
+const $ = (id) => document.getElementById(id);
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+const nf = (v, dec = 1) => {
+  if (!isFinite(v)) return "—";
+  return v.toLocaleString("es-ES", { minimumFractionDigits: dec, maximumFractionDigits: dec });
+};
+const nfi = (v) => (!isFinite(v) ? "—" : Math.round(v).toLocaleString("es-ES"));
+/* Números grandes en notación compacta (evita desbordes en pantallas estrechas) */
+const compact = (v) => {
+  if (!isFinite(v)) return "—";
+  const a = Math.abs(v);
+  if (a >= 1e9) return nf(v / 1e9, 2) + " B";
+  if (a >= 1e6) return nf(v / 1e6, 2) + " M";
+  if (a >= 1e4) return nf(v / 1e3, 1) + " k";
+  return nf(v, a >= 100 ? 0 : 2);
+};
+
+function toast(msg) {
+  const t = $("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(t._h);
+  t._h = setTimeout(() => t.classList.remove("show"), 2600);
+}
+
+/* ============================================================
+   CONSTANTES DEL MODELO
+   ============================================================ */
+const K_PUBLISHED = 0.4514285714285714;       // = 2,923 / 6,475 (CIJ Makeup Usage Model v14)
+const DROPS_4X5_ESTIMATE = 10;               // estimado (no está en TCO v35)
+const DROPS_QR_ESTIMATE = 220;               // estimado para QR estándar
+
+function dropsPerChar(matrix) {
+  if (matrix === "4x5") return DROPS_4X5_ESTIMATE;
+  if (matrix === "QR") return DROPS_QR_ESTIMATE;
+  return DATA.dropsChar[matrix] || 13;
+}
+
+/* ============================================================
+   FAMILIAS OFICIALES
+   · Simplicity ....... 1240, 1280, 1580, 1580+, 1580C, 1880, 1880+, 1880 UHS, 1880 HR
+   · Serie 1000VJ ..... 1040, 1210, 1220, 1510, 1520, 1530, 1550, 1560, 1610, 1610 DH,
+                        1620, 1630, 1650, 1660, 1620/1650 UHS, 1620/1650 HR, 1710, 1860
+   ============================================================ */
+const RE_SIMPLICITY = /^(VJ\s*)?(1240|1280|1580|1880)/i;
+function familyOf(name) { return RE_SIMPLICITY.test(name) ? "simplicity" : "serie1000"; }
+
+function normalizeId(s) {
+  return (s || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+}
+function baseNameOf(id) { return id.replace(/\s*(60|70|50|40)\s*µm.*$/i, "").trim(); }
+function nozzleHintOf(id) {
+  const m = id.match(/\s*(60|70|50|40)\s*µm/i);
+  return m ? m[1] : null;
+}
+function speedColOf(id) {
+  if (/1040/.test(id)) return "1240/1280";
+  if (/1210|1220/.test(id)) return "1210/20";
+  if (/1240|1280/.test(id)) return "1240/1280";
+  if (/1510|1520|1530|1550|1560/.test(id)) return "1510/20/50";
+  if (/1580C/i.test(id)) return "1580 C";
+  if (/1580|1860/.test(id)) return "1580+";
+  if (/1710/.test(id)) return "1710";
+  if (/UHS/.test(id)) return /1880/.test(id) ? "1880 UHS" : "1620/50 UHS";
+  if (/HR/.test(id)) return /1880/.test(id) ? "1880 HR" : "1620/50 HR";
+  if (/1880/.test(id)) return "1880+";
+  return "1610/20/50/DH";
+}
+function inkGroupOf(id) {
+  if (/1040/.test(id)) return "1040";
+  if (/1240/.test(id)) return "1240";
+  if (/1280/.test(id)) return "1280";
+  if (/1580C/i.test(id)) return "1580C";
+  if (/1580|1860/.test(id)) return "1580";
+  if (/1880 UHS/.test(id)) return "1880UHS";
+  if (/1880 HR/.test(id)) return "1880HR";
+  if (/1880/.test(id)) return "1880+";
+  if (/1620 UHS|1650 UHS/.test(id)) return "1620UHS";
+  if (/1620 HR|1650 HR/.test(id)) return "1620HR";
+  if (/1710/.test(id)) return "1710";
+  return "std";
+}
+
+/* Une las variantes de boquilla en un único modelo
+   (p. ej. "VJ 1880 60µm" y "VJ 1880 70µm" → modelo "VJ 1880" con boquillas 60/70) */
+const MODEL_MAP = new Map();
+DATA.printers.forEach((p) => {
+  const base = baseNameOf(p.id);
+  const nz = nozzleHintOf(p.id);
+  if (!MODEL_MAP.has(base)) {
+    const t = DATA.tco[normalizeId(base)] || DATA.tco[normalizeId(p.id)] || {};
+    MODEL_MAP.set(base, {
+      id: base,
+      platform: familyOf(base),
+      speedCol: speedColOf(base),
+      inkGroup: inkGroupOf(base),
+      ref: t.ref || "VJ1000",
+      nozzles: (t.nozzles && t.nozzles.length) ? t.nozzles.slice() : [],
+      variants: {},
+      defaultVariant: null,
+      cart: (p.cart && p.cart.length) ? p.cart.slice() : [750],
+    });
+  }
+  const m = MODEL_MAP.get(base);
+  const v = { hrsL: p.hrsL, cart: (p.cart && p.cart.length) ? p.cart.slice() : [750], eq: p.eq, kconst: p.kconst };
+  if (nz) {
+    m.variants[nz] = v;
+    if (!m.nozzles.includes(nz)) m.nozzles.push(nz);
+  } else {
+    m.defaultVariant = v;
+    if (v.cart.length > m.cart.length) m.cart = v.cart.slice();
+  }
+});
+
+const MODELS = [...MODEL_MAP.values()];
+MODELS.forEach((m) => {
+  if (!m.defaultVariant) {
+    const firstKey = Object.keys(m.variants)[0];
+    m.defaultVariant = firstKey ? m.variants[firstKey] : { hrsL: 200, cart: [750], eq: 1, kconst: K_PUBLISHED };
+  }
+  m.nozzles.sort((a, b) => Number(a) - Number(b));
+  if (!m.nozzles.length) m.nozzles = ["60"];
+});
+
+/* Orden: Simplicity primero, después Serie 1000VJ en orden numérico */
+MODELS.sort((a, b) => {
+  if (a.platform !== b.platform) return a.platform === "simplicity" ? -1 : 1;
+  const na = parseInt((a.id.match(/\d{4}/) || ["0"])[0], 10);
+  const nb = parseInt((b.id.match(/\d{4}/) || ["0"])[0], 10);
+  return na - nb || a.id.localeCompare(b.id);
+});
+
+function variantOf(model, nozzle) {
+  return (model && model.variants[nozzle]) || (model && model.defaultVariant) ||
+    { hrsL: 200, cart: [750], eq: 1, kconst: K_PUBLISHED };
+}
+
+const DEFAULT_PRINTER = MODELS.some((p) => p.id === "VJ 1880+")
+  ? "VJ 1880+" : (MODELS[0] ? MODELS[0].id : "");
+
+/* mapa grupo de tintas: etiquetas del modelo → clave interna (normalizada igual en ambos lados) */
+const INK_GROUP_MAP = {};
+DATA.inkGroups.forEach((g) => {
+  INK_GROUP_MAP[g.label.replace(/\s+/g, "").toLowerCase()] = g.inks;
+});
+const INK_GROUP_TABLE = {
+  "1040": "1040",
+  "1240": "1240",
+  "1280": "1280",
+  "1580": "1580",
+  "1580C": "1580C",
+  "1880+": "1880\n1880+",
+  "1880UHS": "1880UHS",
+  "1880HR": "1880HR",
+  "1710": "1710",
+  "1620UHS": "1620UHS\n1650UHS",
+  "1620HR": "1620HR\n1650HR",
+  "std": "1210\n1220\n1510\n1520\n1530\n1550\n1560\n1610\n1620\n1630\n1650\n1660\n1610DH",
+};
+function inksFor(group) {
+  const label = INK_GROUP_TABLE[group] || INK_GROUP_TABLE.std;
+  const key = label.replace(/\s+/g, "").toLowerCase();
+  return INK_GROUP_MAP[key] || Object.keys(DATA.inks);
+}
+
+function dropsLiterFor(nozzle, ref) {
+  return DATA.dropsLiter[nozzle + "|" + ref] || DATA.dropsLiter["60|VJ1000"];
+}
+
+/* ============================================================
+   MOTOR DE CÁLCULO
+   ============================================================ */
+function getInputs() {
+  return {
+    printer: $("printer").value,
+    nozzle: $("nozzle").value,
+    ink: $("ink").value,
+    inkBase: $("inkBase").value,
+    tempModel: $("tempModel").value,
+    inkCart: parseFloat($("inkCart").value) || 750,
+    muCart: parseFloat($("muCart").value) || 750,
+    font: $("font").value,
+    chars: clamp(parseFloat($("chars").value) || 1, 1, 500),
+    lines: clamp(parseFloat($("lines").value) || 1, 1, 5),
+    stroke: clamp(parseFloat($("stroke").value) || 1, 1, 4),
+    width: clamp(parseFloat($("width").value) || 1, 1, 500),
+    temp: clamp(parseFloat($("temp").value) || 20, -20, 60),
+    ppm: clamp(parseFloat($("ppm").value) || 0, 0, 5000),
+    hrsDay: clamp(parseFloat($("hrsDay").value) || 0, 0, 24),
+    daysWeek: clamp(parseFloat($("daysWeek").value) || 0, 0, 7),
+    daysMonth: clamp(parseFloat($("daysMonth").value) || 0, 0, 31),
+    eff: clamp(parseFloat($("eff").value) || 0, 0, 100) / 100,
+    lineSpeed: clamp(parseFloat($("lineSpeed").value) || 0, 0, 1000),
+    prodW: clamp(parseFloat($("prodW").value) || 0, 0, 5000),
+    gap: clamp(parseFloat($("gap").value) || 0, 0, 1000),
+    shelfLife: clamp(parseFloat($("shelfLife").value) || 0, 0, 120),
+    coreHours: clamp(parseFloat($("coreHours").value) || 0, 0, 50000),
+    coreDays: clamp(parseFloat($("coreDays").value) || 0, 0, 5000),
+    fHum: clamp(parseFloat($("fHum").value) || 1, 0.1, 5),
+    fRecir: clamp(parseFloat($("fRecir").value) || 1, 0.1, 5),
+    fCond: clamp(parseFloat($("fCond").value) || 1, 0.1, 5),
+    fNozzle: clamp(parseFloat($("fNozzle").value) || 1, 0.1, 5),
+    fOther: clamp(parseFloat($("fOther").value) || 1, 0.1, 5),
+  };
+}
+
+function computeAll(inp) {
+  const pr = MODELS.find((p) => p.id === inp.printer) || MODELS[0];
+  const pv = variantOf(pr, inp.nozzle);          // datos de la boquilla elegida
+  const hrsL = pv.hrsL;                          // horas por litro de solvente a 20 °C
+  const base = DATA.inkBases[inp.inkBase] || DATA.inkBases.MEK;
+  const font = DATA.fonts[inp.font] || { lines: 1, w: 5, h: 7 };
+  const matrix = inp.font.split(" ")[0];
+  const dpc = dropsPerChar(matrix === "QR" ? "QR" : matrix);
+
+  /* ---- Solvente ---- */
+  const envFactor = inp.fHum * inp.fRecir * inp.fCond * inp.fNozzle * inp.fOther;
+  const kT = inp.tempModel === "equation" ? (base.k[pv.eq - 1] || base.k[0]) : base.k[0];
+  const kK = inp.tempModel === "equation" ? (pv.kconst || K_PUBLISHED) : K_PUBLISHED;
+  const muPerHour = (1000 / hrsL) * base.cons * kK * Math.exp(kT * inp.temp) * envFactor;
+
+  /* ---- Tinta ---- */
+  const dropsMsg = dpc * inp.chars * inp.lines * inp.stroke;
+  const dpl = dropsLiterFor(inp.nozzle, pr.ref);
+  const inkMlPerPrint = (dropsMsg / dpl) * 1000;
+  const printsPerHour = inp.ppm * 60 * inp.eff;
+  const inkPerHour = inkMlPerPrint * printsPerHour;
+
+  /* ---- Escalado temporal ---- */
+  const hrsDay = inp.hrsDay;
+  const hrsMonth = hrsDay * inp.daysMonth;
+  const hrsYear = hrsDay * inp.daysWeek * 52;
+  const perDay = (v) => v * hrsDay;
+  const perMonth = (v) => v * hrsMonth;
+  const perYear = (v) => v * hrsYear;
+
+  const muMonth = perMonth(muPerHour);
+  const inkMonth = perMonth(inkPerHour);
+  const ratio = inkMonth > 0 ? muMonth / inkMonth : Infinity;
+
+  /* ---- Cartuchos ---- */
+  const hrsPerMuCart = muPerHour > 0 ? inp.muCart / muPerHour : Infinity;
+  const hrsPerInkCart = inkPerHour > 0 ? inp.inkCart / inkPerHour : Infinity;
+  const printsPerInkCart = inkMlPerPrint > 0 ? inp.inkCart / inkMlPerPrint : Infinity;
+  const muCartMonth = muMonth / inp.muCart;
+  const inkCartMonth = inkMonth / inp.inkCart;
+
+  /* ---- Velocidad (CIJ Line Speed Calculator v9.7) ---- */
+  const set = inp.nozzle === "70" ? DATA.set2 : DATA.set1;
+  const spEntry = (set[inp.font] || {})[pr.speedCol];
+  const cps = spEntry ? spEntry.cps : null;
+  const nomSpeed = spEntry ? spEntry.nom : null;
+  const strokesPerChar = font.w + 1;
+  const strokes = inp.chars * strokesPerChar * inp.lines;
+  const printWidthIn = inp.width / 25.4;
+  const cpi = printWidthIn > 0 ? inp.chars / printWidthIn : 0;
+  const dpi = printWidthIn > 0 ? (strokes / inp.lines) / printWidthIn : 0;
+  const maxLineSpeed = cps ? (cps / inp.chars) * inp.width * 0.06 : null;
+  const minPrintWidth = cps && inp.lineSpeed ? (inp.lineSpeed / 0.06) / (cps / inp.chars) : null;
+  const maxChars = cps && inp.lineSpeed ? (cps * inp.width) / (inp.lineSpeed / 0.06) : null;
+  const maxPpmBySpeed = inp.lineSpeed && (inp.prodW + inp.gap) > 0
+    ? inp.lineSpeed / ((inp.prodW + inp.gap) / 1000) : null;
+  return {
+    pr, pv, hrsL, base, font, matrix, dpc, envFactor, kT, kK,
+    muPerHour, inkPerHour, inkMlPerPrint, dropsMsg, dpl, printsPerHour,
+    hrsDay, hrsMonth, hrsYear,
+    muDay: perDay(muPerHour), inkDay: perDay(inkPerHour),
+    muMonth, inkMonth, muYear: perYear(muPerHour), inkYear: perYear(inkPerHour),
+    ratio,
+    hrsPerMuCart, hrsPerInkCart, printsPerInkCart, muCartMonth, inkCartMonth,
+    cps, nomSpeed, strokes, cpi, dpi, maxLineSpeed, minPrintWidth, maxChars, maxPpmBySpeed,
+  };
+}
+
+/* ============================================================
+   RENDER DE RESULTADOS
+   ============================================================ */
+let LAST = null;
+
+function render() {
+  const inp = getInputs();
+  const r = computeAll(inp);
+  LAST = { inp, r };
+
+  /* Hero */
+  $("heroVal").innerHTML = `${nf(r.muPerHour, 2)} <small>ml/hora</small>`;
+  $("heroInk").innerHTML = `${nf(r.inkPerHour, 2)} <small>ml/h</small>`;
+  $("heroRatio").innerHTML = isFinite(r.ratio) ? `${nf(r.ratio, 2)} <small>: 1</small>` : "∞";
+  $("heroCartMu").innerHTML = isFinite(r.hrsPerMuCart) ? `${nf(r.hrsPerMuCart, 0)} <small>h</small>` : "—";
+  $("heroCartInk").innerHTML = isFinite(r.hrsPerInkCart) ? `${nf(r.hrsPerInkCart, 0)} <small>h</small>` : "—";
+
+  /* KPIs */
+  $("kpiMuMonth").innerHTML = `${nf(r.muMonth, 0)}<small>ml</small>`;
+  $("kpiMuMonthSub").textContent = `= ${nf(r.muMonth / 1000, 2)} L · ${nf(r.muDay, 0)} ml/día`;
+  $("kpiInkMonth").innerHTML = `${nf(r.inkMonth, 0)}<small>ml</small>`;
+  $("kpiInkMonthSub").textContent = `= ${nf(r.inkMonth / 1000, 2)} L · ${nf(r.inkDay, 0)} ml/día`;
+  $("kpiMuCart").innerHTML = `${nf(r.muCartMonth, 1)}`;
+  $("kpiMuCartSub").textContent = `${nf(r.hrsPerMuCart, 0)} h por cartucho de ${nf(inp.muCart, 0)} ml`;
+  $("kpiInkCart").innerHTML = `${nf(r.inkCartMonth, 1)}`;
+  $("kpiInkCartSub").textContent = `${nfi(r.printsPerInkCart)} impresiones por cartucho`;
+
+  /* Tabla detalle */
+  const rows = [
+    ["Consumo de solvente (make-up)", r.muPerHour, r.muDay, r.muMonth, r.muYear, "ml"],
+    ["Consumo de tinta", r.inkPerHour, r.inkDay, r.inkMonth, r.inkYear, "ml"],
+    ["Impresiones (códigos impresos)", r.printsPerHour, r.printsPerHour * inp.hrsDay, r.printsPerHour * r.hrsMonth, r.printsPerHour * r.hrsYear, ""],
+    ["Gotas de tinta", r.dropsMsg * r.printsPerHour, r.dropsMsg * r.printsPerHour * inp.hrsDay, r.dropsMsg * r.printsPerHour * r.hrsMonth, r.dropsMsg * r.printsPerHour * r.hrsYear, "gotas"],
+  ];
+  $("detailBody").innerHTML = rows.map(([lab, h, d, m, y, u]) =>
+    `<tr><td>${lab}${u ? ` <span style="color:var(--txt-3)">(${u})</span>` : ""}</td>
+     <td class="num">${compact(h)}</td>
+     <td class="num">${compact(d)}</td>
+     <td class="num">${compact(m)}</td>
+     <td class="num">${compact(y)}</td></tr>`
+  ).join("") + `
+    <tr class="total"><td>Relación solvente : tinta</td><td class="num" colspan="4">${isFinite(r.ratio) ? nf(r.ratio, 2) + " : 1" : "—"} ${r.ratio > 0 ? `<span style="color:var(--txt-3)">(regla práctica 4 : 1)</span>` : ""}</td></tr>
+    <tr><td>Cartuchos de solvente (${nf(inp.muCart, 0)} ml)</td><td class="num">—</td><td class="num">${nf(r.muDay / inp.muCart, 2)}</td><td class="num">${nf(r.muCartMonth, 1)}</td><td class="num">${nf(r.muYear / inp.muCart, 1)}</td></tr>
+    <tr><td>Cartuchos de tinta (${nf(inp.inkCart, 0)} ml)</td><td class="num">—</td><td class="num">${nf(r.inkDay / inp.inkCart, 2)}</td><td class="num">${nf(r.inkCartMonth, 1)}</td><td class="num">${nf(r.inkYear / inp.inkCart, 1)}</td></tr>
+  `;
+  renderMaintenance(inp, r);
+  renderAlerts(inp, r);
+  drawTempChart(inp, r);
+  drawBarChart(inp, r);
+  drawTimeline(inp, r);
+  saveState(inp);
+  return { inp, r };
+}
+
+
+/* ---- Seguimiento de mantenimiento (núcleo / kit) ---- */
+function renderMaintenance(inp, r) {
+  const items = [];
+  const bar = (pct, color) =>
+    `<div class="progress-bar"><div class="progress-fill" style="width:${clamp(pct, 0, 100)}%;background:${color}"></div></div>`;
+
+  if (inp.coreHours > 0 && r.hrsYear > 0) {
+    const pctYear = (r.hrsYear / inp.coreHours) * 100;
+    const months = (inp.coreHours / r.hrsMonth) * 12 / 12; // meses de producción
+    items.push(`
+      <div>
+        <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline">
+          <b>Núcleo / kit — por horas de operación</b>
+          <span style="color:var(--txt-3);font-size:.84rem">${nf(r.hrsYear, 0)} h de uso al año · vida ${nfi(inp.coreHours)} h</span>
+        </div>
+        ${bar(pctYear, pctYear > 100 ? "#f87171" : pctYear > 75 ? "#fbbf24" : "#4ade80")}
+        <div style="font-size:.82rem;color:var(--txt-2);margin-top:6px">
+          Al ritmo actual se consume el <b>${nf(pctYear, 0)} %</b> de la vida del núcleo por año
+          → cambio recomendado cada <b>${nf(months, 1)} meses</b> de producción.
+        </div>
+      </div>`);
+  }
+  if (inp.coreDays > 0 && inp.daysWeek > 0) {
+    const daysYear = inp.daysWeek * 52;
+    const pctYear = (daysYear / inp.coreDays) * 100;
+    const months = (inp.coreDays / (inp.daysWeek * 4.345));
+    items.push(`
+      <div>
+        <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline">
+          <b>Núcleo / kit — por días de producción</b>
+          <span style="color:var(--txt-3);font-size:.84rem">${nf(daysYear, 0)} días de uso al año · vida ${nfi(inp.coreDays)} días</span>
+        </div>
+        ${bar(pctYear, pctYear > 100 ? "#f87171" : pctYear > 75 ? "#fbbf24" : "#4ade80")}
+        <div style="font-size:.82rem;color:var(--txt-2);margin-top:6px">
+          Al ritmo actual se consume el <b>${nf(pctYear, 0)} %</b> de la vida del núcleo por año
+          → cambio recomendado cada <b>${nf(months, 1)} meses</b>.
+        </div>
+      </div>`);
+  }
+  const mnt = (DATA.maintenance || {})[inp.printer];
+  let partsHtml = "";
+  if (mnt && mnt.items && mnt.items.length) {
+    const rows = mnt.items.map((it) => {
+      const pn = mnt.pn ? mnt.pn[it.part] : "";
+      return `<li><b>${it.part}</b> — ${fmtInterval(it.hours)}${pn ? ` · P/N ${pn}${it.pn_estimated ? " (orientativo)" : ""}` : ""}</li>`;
+    }).join("");
+    partsHtml = `
+      <div class="alert info">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.8v.2"/></svg>
+        <div><b>Mantenimiento programado de ${inp.printer}</b> (fuente: CIJ TCO Calculator v35 · Maintenance Setup):
+        <ul style="margin:6px 0 0;padding-left:18px">${rows}</ul></div>
+      </div>`;
+  }
+  $("coreBox").innerHTML = partsHtml + (items.join("") || `
+    <div class="alert info">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.8v.2"/></svg>
+      <div>Introduzca la vida del núcleo / kit (horas o días) para ver el seguimiento de mantenimiento.</div>
+    </div>`);
+}
+
+function renderAlerts(inp, r) {
+  const A = [];
+  if (isFinite(r.ratio)) {
+    if (r.ratio >= 3 && r.ratio <= 5) {
+      A.push(["ok", `Relación solvente : tinta = <b>${nf(r.ratio, 2)} : 1</b>, dentro de la regla práctica de 4 cartuchos de solvente por cada uno de tinta.`]);
+    } else if (r.ratio > 5) {
+      A.push(["warn", `Relación solvente : tinta = <b>${nf(r.ratio, 2)} : 1</b>, superior a la regla práctica de 4 : 1. Suele deberse a pocas impresiones/minuto o muchas horas de encendido: el solvente se evapora aunque no se imprima.`]);
+    } else {
+      A.push(["info", `Relación solvente : tinta = <b>${nf(r.ratio, 2)} : 1</b>, inferior a la regla práctica de 4 : 1: la línea tiene alta actividad de impresión.`]);
+    }
+  }
+  if (inp.temp >= 32) {
+    A.push(["warn", `Temperatura de <b>${nf(inp.temp, 1)} °C</b>: el consumo de solvente se dispara (factor exponencial). Considere ventilación o condensador activo.`]);
+  } else if (inp.temp <= 12) {
+    A.push(["info", `Temperatura baja (${nf(inp.temp, 1)} °C): menor evaporación de solvente, pero vigile la viscosidad de la tinta y el arranque en frío.`]);
+  }
+  A.push(["info", `A esta temperatura (${nf(inp.temp, 1)} °C) un litro de solvente dura <b>${nf(1000 / r.muPerHour, 0)} horas</b> y un cartucho de ${nf(inp.muCart, 0)} ml dura <b>${nf(r.hrsPerMuCart, 0)} horas</b> de operación.`]);
+  A.push(["info", `Consumo de tinta: <b>${nf(r.inkMlPerPrint * 1000, 2)} µl</b> por impresión (${nfi(r.dropsMsg)} gotas · ${nf(r.dpl / 1e9, 3)} × 10⁹ gotas/litro con boquilla de ${inp.nozzle} µm).`]);
+
+  /* caducidad de cartuchos en almacén */
+  if (inp.shelfLife > 0) {
+    const monthsMu = r.muMonth > 0 ? inp.muCart / r.muMonth : 0;
+    const monthsInk = r.inkMonth > 0 ? inp.inkCart / r.inkMonth : 0;
+    const worst = Math.max(monthsMu, monthsInk);
+    if (worst > inp.shelfLife) {
+      A.push(["warn", `Un cartucho tarda <b>${nf(worst, 1)} meses</b> en gastarse y su vida útil en almacén es de ${nf(inp.shelfLife, 0)} meses: riesgo de caducidad. Compre envases menores o ajuste el consumo.`]);
+    } else if (worst > 0) {
+      A.push(["ok", `Los cartuchos se consumen en <b>${nf(worst, 1)} meses</b> de producción, dentro de la vida útil en almacén (${nf(inp.shelfLife, 0)} meses).`]);
+    }
+  }
+
+  /* validación de velocidad */
+  if (r.maxLineSpeed) {
+    if (inp.lineSpeed > r.maxLineSpeed) {
+      A.push(["danger", `La velocidad de línea de <b>${nf(inp.lineSpeed, 0)} m/min</b> supera la máxima permitida para ${inp.font} con ${inp.chars} caracteres y ${nf(inp.width, 1)} mm de ancho: <b>${nf(r.maxLineSpeed, 1)} m/min</b>. Reduzca caracteres, use fuente más pequeña o aumente el ancho.`]);
+    } else {
+      A.push(["ok", `Velocidad de línea válida: máx. <b>${nf(r.maxLineSpeed, 1)} m/min</b> para ${inp.font} · ${inp.chars} car. · ${nf(inp.width, 1)} mm (capacidad ${nf(r.cps, 0)} caracteres/seg).`]);
+    }
+  }
+  if (r.maxPpmBySpeed && inp.ppm > r.maxPpmBySpeed) {
+    A.push(["warn", `Las <b>${nf(inp.ppm, 0)} impresiones/min</b> superan las ${nf(r.maxPpmBySpeed, 0)} máximas que permite la velocidad de línea con producto de ${nf(inp.prodW, 0)} mm + ${nf(inp.gap, 0)} mm de hueco.`]);
+  }
+  if (inp.chars > (r.maxChars || Infinity)) {
+    A.push(["warn", `El número de caracteres (${inp.chars}) excede el máximo de ${nf(r.maxChars, 0)} para esa velocidad y ancho de impresión.`]);
+  }
+
+  $("alerts").innerHTML = A.map(([t, msg]) => alertHtml(t, msg)).join("");
+  $("speedBox").innerHTML = r.cps ? `
+    <div class="alert info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.8v.2"/></svg>
+      <div>
+        <b>${inp.font}</b> en ${r.pr.id} · boquilla ${inp.nozzle} µm:
+        ${nf(r.cps, 0)} caracteres/seg · velocidad nominal ${nf(r.nomSpeed, 1)} m/min @ nominal cpi.<br>
+        cpi = <b>${nf(r.cpi, 1)}</b> · dpi (golpos/pulgada) = <b>${nf(r.dpi, 0)}</b> · golpos/mensaje = <b>${nfi(r.strokes)}</b>.<br>
+        Máx. velocidad de línea: <b>${nf(r.maxLineSpeed, 1)} m/min</b> · mín. ancho de impresión a ${nf(inp.lineSpeed, 0)} m/min: <b>${nf(r.minPrintWidth, 2)} mm</b> · máx. caracteres: <b>${nf(r.maxChars, 0)}</b>.
+      </div></div>` : `
+    <div class="alert warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3.5 22 20H2z"/><path d="M12 10v4M12 16.8v.2"/></svg>
+      <div>No hay datos de velocidad de <b>${inp.font}</b> para ${r.pr.id} (boquilla ${inp.nozzle} µm) en el CIJ Line Speed Calculator. El cálculo de consumos es válido; la validación de velocidad no está disponible.</div></div>`;
+}
+
+function alertHtml(type, msg) {
+  const icons = {
+    ok: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.2 12.4l2.6 2.6 5-5.4"/></svg>',
+    info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.8v.2"/></svg>',
+    warn: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 22 20H2z"/><path d="M12 10v4M12 16.8v.2"/></svg>',
+    danger: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v6M12 16.4v.2"/></svg>',
+  };
+  return `<div class="alert ${type}">${icons[type] || icons.info}<div>${msg}</div></div>`;
+}
+
+/* ============================================================
+   GRÁFICOS (canvas puro, sin librerías)
+   ============================================================ */
+function setupCanvas(canvas) {
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  const w = Math.max(320, rect.width || canvas.width);
+  const h = Math.max(180, (canvas.height / canvas.width) * w);
+  canvas.width = Math.round(w * dpr);
+  canvas.height = Math.round(h * dpr);
+  canvas.style.height = h + "px";
+  const ctx = canvas.getContext("2d");
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  return { ctx, w, h };
+}
+
+function cssVar(name, fallback) {
+  const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  return v || fallback;
+}
+
+function drawTempChart(inp, r) {
+  const canvas = $("chartTemp");
+  const { ctx, w, h } = setupCanvas(canvas);
+  const padL = 62, padR = 18, padT = 20, padB = 42;
+  const iw = w - padL - padR, ih = h - padT - padB;
+
+  ctx.clearRect(0, 0, w, h);
+
+  const temps = [];
+  for (let t = 10; t <= 40; t += 1) temps.push(t);
+  const vals = temps.map((t) => (1000 / r.hrsL) * r.base.cons * r.kK * Math.exp(r.kT * t) * r.envFactor);
+  const maxV = Math.max(...vals, r.muPerHour) * 1.12;
+  const x = (t) => padL + ((t - 10) / 30) * iw;
+  const y = (v) => padT + ih - (v / maxV) * ih;
+
+  /* rejilla */
+  const grid = cssVar("--border", "#24344f");
+  const txt3 = cssVar("--txt-3", "#7287a8");
+  ctx.strokeStyle = grid; ctx.lineWidth = 1; ctx.fillStyle = txt3;
+  ctx.font = "12px " + cssVar("--font", "sans-serif");
+  ctx.textAlign = "right"; ctx.textBaseline = "middle";
+  for (let i = 0; i <= 5; i++) {
+    const v = (maxV / 5) * i;
+    const yy = y(v);
+    ctx.beginPath(); ctx.moveTo(padL, yy); ctx.lineTo(padL + iw, yy); ctx.stroke();
+    ctx.fillText(nf(v, 1), padL - 10, yy);
+  }
+  ctx.textAlign = "center"; ctx.textBaseline = "top";
+  for (let t = 10; t <= 40; t += 5) {
+    ctx.fillText(t + "°", x(t), padT + ih + 10);
+  }
+  ctx.fillText("Temperatura ambiente (°C)", padL + iw / 2, padT + ih + 28);
+
+  /* área bajo la curva */
+  const grad = ctx.createLinearGradient(0, padT, 0, padT + ih);
+  grad.addColorStop(0, "rgba(45, 212, 191, .34)");
+  grad.addColorStop(1, "rgba(45, 212, 191, 0)");
+  ctx.beginPath();
+  temps.forEach((t, i) => (i ? ctx.lineTo(x(t), y(vals[i])) : ctx.moveTo(x(t), y(vals[i]))));
+  ctx.lineTo(x(40), padT + ih); ctx.lineTo(x(10), padT + ih); ctx.closePath();
+  ctx.fillStyle = grad; ctx.fill();
+
+  /* curva */
+  ctx.beginPath();
+  temps.forEach((t, i) => (i ? ctx.lineTo(x(t), y(vals[i])) : ctx.moveTo(x(t), y(vals[i]))));
+  ctx.strokeStyle = "#2dd4bf"; ctx.lineWidth = 3; ctx.lineJoin = "round"; ctx.stroke();
+
+  /* referencia 20 °C */
+  ctx.setLineDash([6, 6]);
+  ctx.beginPath(); ctx.moveTo(x(20), padT); ctx.lineTo(x(20), padT + ih);
+  ctx.strokeStyle = "#38bdf8"; ctx.lineWidth = 2; ctx.stroke();
+  ctx.setLineDash([]);
+
+  /* temperatura actual */
+  const tCur = clamp(inp.temp, 10, 40);
+  const vCur = (1000 / r.hrsL) * r.base.cons * r.kK * Math.exp(r.kT * tCur) * r.envFactor;
+  ctx.setLineDash([5, 5]);
+  ctx.beginPath(); ctx.moveTo(x(tCur), padT); ctx.lineTo(x(tCur), padT + ih);
+  ctx.strokeStyle = "#fbbf24"; ctx.lineWidth = 2; ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.beginPath(); ctx.arc(x(tCur), y(vCur), 7, 0, Math.PI * 2);
+  ctx.fillStyle = "#fbbf24"; ctx.fill();
+  ctx.lineWidth = 3; ctx.strokeStyle = cssVar("--card", "#111c31"); ctx.stroke();
+
+  /* etiqueta */
+  const label = `${nf(vCur, 2)} ml/h @ ${nf(inp.temp, 1)}°C`;
+  ctx.font = "bold 13px " + cssVar("--font", "sans-serif");
+  const tw = ctx.measureText(label).width + 16;
+  let lx = clamp(x(tCur) - tw / 2, padL, padL + iw - tw);
+  let ly = y(vCur) - 38; if (ly < padT) ly = y(vCur) + 18;
+  ctx.fillStyle = "rgba(251, 191, 36, .16)";
+  roundRect(ctx, lx, ly, tw, 26, 8); ctx.fill();
+  ctx.fillStyle = "#fbbf24"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+  ctx.fillText(label, lx + tw / 2, ly + 13);
+}
+
+function drawBarChart(inp, r) {
+  const canvas = $("chartBars");
+  const { ctx, w, h } = setupCanvas(canvas);
+  ctx.clearRect(0, 0, w, h);
+  const padL = 62, padR = 18, padT = 24, padB = 46;
+  const iw = w - padL - padR, ih = h - padT - padB;
+
+  const data = [
+    { lab: "Solvente", v: r.muMonth, c: "#2dd4bf" },
+    { lab: "Tinta", v: r.inkMonth, c: "#38bdf8" },
+  ];
+  const maxV = Math.max(data[0].v, data[1].v, 1) * 1.18;
+  const grid = cssVar("--border", "#24344f");
+  const txt3 = cssVar("--txt-3", "#7287a8");
+  const txt2 = cssVar("--txt-2", "#a8b8d4");
+
+  ctx.strokeStyle = grid; ctx.lineWidth = 1; ctx.fillStyle = txt3;
+  ctx.font = "12px " + cssVar("--font", "sans-serif");
+  ctx.textAlign = "right"; ctx.textBaseline = "middle";
+  for (let i = 0; i <= 5; i++) {
+    const v = (maxV / 5) * i;
+    const yy = padT + ih - (v / maxV) * ih;
+    ctx.beginPath(); ctx.moveTo(padL, yy); ctx.lineTo(padL + iw, yy); ctx.stroke();
+    ctx.fillText(nfi(v), padL - 10, yy);
+  }
+
+  const bw = Math.min(140, iw / 4);
+  data.forEach((d, i) => {
+    const bx = padL + iw * (i === 0 ? 0.22 : 0.62) - bw / 2 + (i === 0 ? 0 : 0);
+    const bh = (d.v / maxV) * ih;
+    const by = padT + ih - bh;
+    const grad = ctx.createLinearGradient(0, by, 0, by + bh);
+    grad.addColorStop(0, d.c); grad.addColorStop(1, d.c + "55");
+    ctx.fillStyle = grad;
+    roundRect(ctx, bx, by, bw, Math.max(bh, 2), 12); ctx.fill();
+    ctx.fillStyle = txt2; ctx.textAlign = "center"; ctx.textBaseline = "top";
+    ctx.font = "bold 13px " + cssVar("--font", "sans-serif");
+    ctx.fillText(nfi(d.v) + " ml", bx + bw / 2, by - 22);
+    ctx.fillText(d.lab + " / mes", bx + bw / 2, padT + ih + 12);
+  });
+
+  /* relación */
+  ctx.fillStyle = txt3; ctx.textAlign = "center"; ctx.textBaseline = "top";
+  ctx.font = "12.5px " + cssVar("--font", "sans-serif");
+  ctx.fillText(`Relación solvente : tinta = ${isFinite(r.ratio) ? nf(r.ratio, 2) : "—"} : 1  ·  regla práctica 4 : 1`,
+    padL + iw / 2, padT + ih + 32);
+}
+
+function drawTimeline(inp, r) {
+  const canvas = $("chartTimeline");
+  const { ctx, w, h } = setupCanvas(canvas);
+  ctx.clearRect(0, 0, w, h);
+  const padL = 62, padR = 18, padT = 22, padB = 44;
+  const iw = w - padL - padR, ih = h - padT - padB;
+  const hrs = Math.max(1, inp.hrsDay);
+  const muEnd = r.muPerHour * hrs;
+  const inkEnd = r.inkPerHour * hrs;
+  const maxV = Math.max(muEnd, inkEnd, inp.muCart, 1) * 1.15;
+
+  const x = (t) => padL + (t / hrs) * iw;
+  const y = (v) => padT + ih - (v / maxV) * ih;
+
+  const grid = cssVar("--border", "#24344f");
+  const txt3 = cssVar("--txt-3", "#7287a8");
+  ctx.strokeStyle = grid; ctx.lineWidth = 1; ctx.fillStyle = txt3;
+  ctx.font = "12px " + cssVar("--font", "sans-serif");
+  ctx.textAlign = "right"; ctx.textBaseline = "middle";
+  for (let i = 0; i <= 5; i++) {
+    const v = (maxV / 5) * i;
+    const yy = y(v);
+    ctx.beginPath(); ctx.moveTo(padL, yy); ctx.lineTo(padL + iw, yy); ctx.stroke();
+    ctx.fillText(nfi(v), padL - 10, yy);
+  }
+  ctx.textAlign = "center"; ctx.textBaseline = "top";
+  const steps = Math.min(8, Math.max(2, Math.round(hrs)));
+  for (let i = 0; i <= steps; i++) {
+    const t = (hrs / steps) * i;
+    ctx.fillText(nf(t, t % 1 ? 1 : 0) + "h", x(t), padT + ih + 10);
+  }
+  ctx.fillText("Horas de operación en la jornada", padL + iw / 2, padT + ih + 28);
+
+  /* cartucho de solvente (referencia) */
+  if (inp.muCart > 0 && inp.muCart < maxV) {
+    ctx.setLineDash([6, 6]);
+    ctx.beginPath(); ctx.moveTo(padL, y(inp.muCart)); ctx.lineTo(padL + iw, y(inp.muCart));
+    ctx.strokeStyle = "#fbbf24"; ctx.lineWidth = 2; ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  /* series acumuladas */
+  const series = [
+    { c: "#2dd4bf", end: muEnd, lab: "Solvente" },
+    { c: "#38bdf8", end: inkEnd, lab: "Tinta" },
+  ];
+  series.forEach((s) => {
+    if (s.end <= 0) return;
+    const grad = ctx.createLinearGradient(0, padT, 0, padT + ih);
+    grad.addColorStop(0, s.c + "44"); grad.addColorStop(1, s.c + "05");
+    ctx.beginPath();
+    ctx.moveTo(x(0), y(0));
+    ctx.lineTo(x(hrs), y(s.end));
+    ctx.lineTo(x(hrs), padT + ih);
+    ctx.lineTo(x(0), padT + ih);
+    ctx.closePath();
+    ctx.fillStyle = grad; ctx.fill();
+
+    ctx.beginPath();
+    ctx.moveTo(x(0), y(0));
+    ctx.lineTo(x(hrs), y(s.end));
+    ctx.strokeStyle = s.c; ctx.lineWidth = 3; ctx.stroke();
+
+    ctx.fillStyle = s.c;
+    ctx.beginPath(); ctx.arc(x(hrs), y(s.end), 6, 0, Math.PI * 2); ctx.fill();
+    ctx.font = "bold 12.5px " + cssVar("--font", "sans-serif");
+    ctx.textAlign = "right"; ctx.textBaseline = "bottom";
+    ctx.fillText(`${s.lab}: ${nfi(s.end)} ml`, x(hrs) - 10, y(s.end) - 8);
+  });
+}
+
+function roundRect(ctx, x, y, w, h, rad) {
+  const r = Math.min(rad, w / 2, h / 2);
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
+
+/* ============================================================
+   POBLADO DE SELECTS
+   ============================================================ */
+let famFilter = "all";
+
+function fillPrinters() {
+  const sel = $("printer");
+  const cur = sel.value;
+  const list = MODELS.filter((p) => famFilter === "all" || p.platform === famFilter);
+  sel.innerHTML = list.map((p) => {
+    const plat = p.platform === "simplicity" ? "Simplicity" : "Serie 1000VJ";
+    return `<option value="${p.id}">${p.id} · ${plat} · boquilla ${p.nozzles.join("/")} µm</option>`;
+  }).join("");
+  if (list.some((p) => p.id === cur)) sel.value = cur;
+  else if (list.some((p) => p.id === DEFAULT_PRINTER)) sel.value = DEFAULT_PRINTER;
+  fillNozzle();
+}
+
+function fillNozzle() {
+  const pr = MODELS.find((p) => p.id === $("printer").value) || MODELS[0];
+  const sel = $("nozzle");
+  const cur = sel.value;
+  sel.innerHTML = pr.nozzles.map((n) => `<option value="${n}">${n} µm</option>`).join("");
+  if (pr.nozzles.includes(cur)) sel.value = cur;
+  else sel.value = pr.nozzles[0];
+  syncPrinterDefaults();
+}
+
+function syncPrinterDefaults() {
+  const pr = MODELS.find((p) => p.id === $("printer").value) || MODELS[0];
+  const pv = variantOf(pr, $("nozzle").value);
+  const cart = pv.cart && pv.cart.length ? pv.cart[0] : 750;
+  const plat = pr.platform === "simplicity" ? "Simplicity" : "Serie 1000VJ";
+  const mnt = (DATA.maintenance || {})[pr.id];
+  let mntTxt = "";
+  if (mnt && mnt.items && mnt.items.length) {
+    const parts = mnt.items.map((it) => {
+      const pn = mnt.pn ? mnt.pn[it.part] : "";
+      return `${it.part}${pn ? ` (P/N ${pn})` : ""} · ${fmtInterval(it.hours)}`;
+    }).join(" · ");
+    mntTxt = ` Mantenimiento programado: <b>${parts}</b>.`;
+    /* auto-carga la vida del núcleo / módulo si el usuario no la está editando */
+    if (document.activeElement !== $("coreHours") && document.activeElement !== $("coreDays")) {
+      const it = mnt.items[0];
+      if (it.hours >= 45360) {          // 63 meses (intervalo por calendario)
+        $("coreDays").value = 1890; $("coreHours").value = 0;
+      } else if (it.hours === 8760) {   // 12 meses
+        $("coreDays").value = 365; $("coreHours").value = 0;
+      } else {
+        $("coreHours").value = it.hours; $("coreDays").value = 0;
+      }
+    }
+  }
+  $("printerInfo").innerHTML = `
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3.5" y="4.5" width="17" height="12" rx="2.2"/><path d="M7 20h10"/></svg>
+    <div><b>${pr.id}</b> — familia <b>${plat}</b> · boquilla seleccionada <b>${$("nozzle").value} µm</b> · ref. ${pr.ref}.
+    Duración de 1 L de solvente a 20 °C: <b>${nf(pv.hrsL, 0)} h</b> (${nf(1000 / pv.hrsL, 2)} ml/h).
+    Ecuación de temperatura: <b>${pv.eq}</b> · cartuchos de tinta: ${pv.cart.join(" / ")} ml.${mntTxt}</div>`;
+  fillInks();
+}
+
+/* Intervalo de mantenimiento en texto legible */
+function fmtInterval(hours) {
+  if (!hours) return "—";
+  if (hours === 8760) return "12 meses (≈ 8.760 h)";
+  if (hours >= 45360) return "63 meses (≈ 45.360 h)";
+  return `${nfi(hours)} horas`;
+}
+
+function fillInks() {
+  const pr = MODELS.find((p) => p.id === $("printer").value) || MODELS[0];
+  const sel = $("ink");
+  const cur = sel.value;
+  const inks = inksFor(pr.inkGroup);
+  sel.innerHTML = inks.map((k) => {
+    const b = DATA.inks[k] || "?";
+    return `<option value="${k}">${k} · base ${b}</option>`;
+  }).join("");
+  if (inks.includes(cur)) sel.value = cur;
+  syncInkBase();
+}
+
+function syncInkBase() {
+  const ink = $("ink").value;
+  const b = DATA.inks[ink] || "MEK";
+  const sel = $("inkBase");
+  sel.innerHTML = Object.keys(DATA.inkBases).map((k) => `<option value="${k}">${k}</option>`).join("");
+  if (DATA.inkBases[b]) sel.value = b;
+  fillMuTypes();
+}
+
+function fillMuTypes() {
+  const ink = $("ink").value;
+  const ic = (DATA.inkContainers || {})[ink];
+  const b = $("inkBase").value;
+  const muCode = ic && ic.muCode ? ic.muCode : "V72xx";
+  $("muType").innerHTML = `<option>${muCode} · Make-up base ${b}</option>`;
+  const base = DATA.inkBases[b] || DATA.inkBases.MEK;
+  const m = MODELS.find((p) => p.id === $("printer").value) || MODELS[0];
+  const hL = variantOf(m, $("nozzle").value).hrsL;
+  $("inkBaseInfo").innerHTML = `
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.8v.2"/></svg>
+    <div>Base <b>${b}</b> — factor de consumo <b>${nf(base.cons, 3)}</b> · factor exponencial de temperatura
+    <b>${nf(base.k[0] * 100, 2)} %/°C</b> (ecuación 1).
+    Con ${m.id} (boquilla ${$("nozzle").value} µm) un litro de solvente dura <b>${nf(hL, 0)} h</b> a 20 °C.
+    Solvente asociado: <b>${muCode}</b>.</div>`;
+  fillContainers();
+}
+
+/* Cartuchos reales por tinta y por solvente (fuente: CIJ TCO Calculator v35) */
+function fillContainers() {
+  const ink = $("ink").value;
+  const m = MODELS.find((p) => p.id === $("printer").value) || MODELS[0];
+  const pv = variantOf(m, $("nozzle").value);
+  const ic = (DATA.inkContainers || {})[ink] || {};
+  const pc = (DATA.printerContainers || {})[m.id] || {};
+
+  const inkSizes = (ic.inkSizes && ic.inkSizes.length)
+    ? ic.inkSizes
+    : (pc.ink ? [pc.ink] : (pv.cart && pv.cart.length ? [pv.cart[0]] : [750]));
+  const muSizes = (ic.muSizes && ic.muSizes.length)
+    ? ic.muSizes
+    : (pc.mu ? [pc.mu] : (pv.cart && pv.cart.length ? [pv.cart[pv.cart.length - 1]] : [750]));
+
+  const keepInk = $("inkCart").value;
+  const keepMu = $("muCart").value;
+  $("inkCart").innerHTML = inkSizes.map((s) => `<option value="${s}">${s} ml</option>`).join("");
+  $("muCart").innerHTML = muSizes.map((s) => `<option value="${s}">${s} ml</option>`).join("");
+  if (inkSizes.map(String).includes(keepInk)) $("inkCart").value = keepInk;
+  if (muSizes.map(String).includes(keepMu)) $("muCart").value = keepMu;
+}
+
+function fillFonts() {
+  const sel = $("font");
+  const fonts = Object.keys(DATA.fonts);
+  sel.innerHTML = fonts.map((f) => {
+    const m = DATA.fonts[f];
+    return `<option value="${f}">${f} · ${m.lines} línea${m.lines > 1 ? "s" : ""} · ${m.w}×${m.h}</option>`;
+  }).join("");
+  sel.value = fonts.includes("5x7 Single") ? "5x7 Single" : fonts[0];
+  syncFont();
+}
+
+function syncFont() {
+  const f = DATA.fonts[$("font").value];
+  if (f && document.activeElement !== $("lines")) $("lines").value = f.lines;
+}
+
+/* ============================================================
+   EXPORTACIÓN
+   ============================================================ */
+function download(filename, content, mime) {
+  const blob = new Blob(["\uFEFF" + content], { type: mime || "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click();
+  setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 400);
+}
+
+function buildReport(inp, r) {
+  const L = [];
+  L.push("CALCULADORA DE CONSUMO DE TINTA Y SOLVENTE — VIDEOJET CIJ");
+  L.push("Modelos: CIJ Makeup Usage Model v14 · CIJ Line Speed Calculator v9.7 · CIJ TCO Calculator v35");
+  L.push("Fecha: " + new Date().toLocaleString("es-ES"));
+  L.push("");
+  L.push("== EQUIPO ==");
+  L.push(`Modelo............: ${r.pr.id} (${r.pr.platform === "simplicity" ? "Simplicity" : "Serie 1000VJ"})`);
+  L.push(`Boquilla..........: ${inp.nozzle} µm`);
+  L.push(`Tinta.............: ${inp.ink} (base ${inp.inkBase})`);
+  L.push(`Solvente (make-up): ${$("muType").value}`);
+  L.push(`Cartuchos.........: tinta ${inp.inkCart} ml · solvente ${inp.muCart} ml`);
+  L.push("");
+  L.push("== MENSAJE ==");
+  L.push(`Fuente............: ${inp.font}`);
+  L.push(`Caracteres/línea..: ${inp.chars}`);
+  L.push(`Líneas............: ${inp.lines}`);
+  L.push(`Stroke rate.......: ${inp.stroke}`);
+  L.push(`Ancho impresión...: ${inp.width} mm`);
+  L.push(`Gotas/mensaje.....: ${Math.round(r.dropsMsg)} (${r.dpc} gotas/car.)`);
+  L.push("");
+  L.push("== PRODUCCIÓN ==");
+  L.push(`Temperatura.......: ${inp.temp} °C`);
+  L.push(`Impresiones/min...: ${inp.ppm} (eficiencia ${Math.round(inp.eff * 100)}%)`);
+  L.push(`Horas/día.........: ${inp.hrsDay} · días/semana ${inp.daysWeek} · días/mes ${inp.daysMonth}`);
+  L.push("");
+  L.push("== RESULTADOS ==");
+  L.push(`SOLVENTE: ${nf(r.muPerHour, 3)} ml/h · ${nf(r.muDay, 1)} ml/día · ${nf(r.muMonth, 0)} ml/mes · ${nf(r.muYear / 1000, 2)} L/año`);
+  L.push(`TINTA....: ${nf(r.inkPerHour, 3)} ml/h · ${nf(r.inkDay, 1)} ml/día · ${nf(r.inkMonth, 0)} ml/mes · ${nf(r.inkYear / 1000, 2)} L/año`);
+  L.push(`RELACIÓN.: ${isFinite(r.ratio) ? nf(r.ratio, 2) : "—"} : 1 (regla práctica 4 : 1)`);
+  L.push(`CARTUCHOS: solvente ${nf(r.muCartMonth, 1)}/mes (${nf(r.hrsPerMuCart, 0)} h c/u) · tinta ${nf(r.inkCartMonth, 1)}/mes (${nfi(r.printsPerInkCart)} impresiones c/u)`);  if (inp.coreHours > 0 || inp.coreDays > 0) {
+    L.push("");
+    L.push("== MANTENIMIENTO (NÚCLEO / KIT) ==");
+    const mnt = (DATA.maintenance || {})[inp.printer];
+    if (mnt && mnt.items && mnt.items.length) {
+      mnt.items.forEach((it) => {
+        const pn = mnt.pn ? mnt.pn[it.part] : "";
+        L.push(`Pieza oficial....: ${it.part} · ${fmtInterval(it.hours)}${pn ? ` · P/N ${pn}` : ""}`);
+      });
+    }
+    if (inp.coreHours > 0 && r.hrsYear > 0) {
+      L.push(`Núcleo por horas: vida ${nfi(inp.coreHours)} h · uso ${nf(r.hrsYear, 0)} h/año → cambio cada ${nf((inp.coreHours / r.hrsMonth), 1)} meses`);
+    }
+    if (inp.coreDays > 0 && inp.daysWeek > 0) {
+      L.push(`Núcleo por días..: vida ${nfi(inp.coreDays)} días · uso ${nf(inp.daysWeek * 52, 0)} días/año → cambio cada ${nf(inp.coreDays / (inp.daysWeek * 4.345), 1)} meses`);
+    }
+    if (inp.shelfLife > 0) {
+      L.push(`Vida útil en almacén: ${nfi(inp.shelfLife)} meses`);
+    }
+  }
+  L.push("");
+  L.push("== VELOCIDAD DE LÍNEA ==");
+  if (r.cps) {
+    L.push(`Caracteres/seg....: ${nf(r.cps, 1)} · velocidad nominal ${nf(r.nomSpeed, 1)} m/min`);
+    L.push(`cpi / dpi.........: ${nf(r.cpi, 1)} / ${nf(r.dpi, 0)} · golpos/tira ${r.strokes}`);
+    L.push(`Velocidad máx.....: ${nf(r.maxLineSpeed, 1)} m/min (real ${inp.lineSpeed} m/min)`);
+    L.push(`Ancho mín. imp....: ${nf(r.minPrintWidth, 2)} mm · máx. caracteres ${nf(r.maxChars, 0)}`);
+  } else {
+    L.push("Sin datos de velocidad para esta combinación equipo/fuente.");
+  }
+  L.push("");
+  L.push("== MODELO DE CÁLCULO ==");
+  L.push(`Solvente: ml/h = (1000 / ${nf(r.hrsL, 0)} h/L) × ${nf(r.base.cons, 3)} × ${nf(r.kK, 5)} × e^(${nf(r.kT, 5)} × ${inp.temp} °C) × ${nf(r.envFactor, 2)}`);
+  L.push(`Tinta...: ml/impresión = (${Math.round(r.dropsMsg)} gotas ÷ ${nfi(r.dpl)} gotas/L) × 1000`);
+  L.push("");
+  L.push("Herramienta de estimación. THIS CALCULATOR IS FOR ESTIMATION PURPOSES ONLY.");
+  return L.join("\n");
+}
+
+function buildCsv(inp, r) {
+  const rows = [
+    ["Concepto", "Valor", "Unidad"],
+    ["Modelo de impresora", r.pr.id, ""],
+    ["Familia", r.pr.platform === "simplicity" ? "Simplicity" : "Serie 1000VJ", ""],
+    ["Boquilla", inp.nozzle, "µm"],
+    ["Duración 1 L de solvente a 20°C", nf(r.hrsL, 0), "h"],
+    ["Tinta", inp.ink, ""],
+    ["Base de solvente", inp.inkBase, ""],
+    ["Tipo de fuente", inp.font, ""],
+    ["Caracteres por línea", inp.chars, ""],
+    ["Líneas", inp.lines, ""],
+    ["Stroke rate", inp.stroke, ""],
+    ["Ancho de impresión", inp.width, "mm"],
+    ["Temperatura", inp.temp, "°C"],
+    ["Impresiones por minuto", inp.ppm, ""],
+    ["Horas por día", inp.hrsDay, "h"],
+    ["Días por mes", inp.daysMonth, ""],
+    ["Eficiencia", Math.round(inp.eff * 100), "%"],
+    ["Gotas por mensaje", Math.round(r.dropsMsg), ""],
+    ["Gotas por litro", Math.round(r.dpl), ""],
+    ["Consumo solvente", nf(r.muPerHour, 3), "ml/h"],
+    ["Consumo solvente día", nf(r.muDay, 1), "ml/día"],
+    ["Consumo solvente mes", nf(r.muMonth, 0), "ml/mes"],
+    ["Consumo solvente año", nf(r.muYear / 1000, 2), "L/año"],
+    ["Consumo tinta", nf(r.inkPerHour, 3), "ml/h"],
+    ["Consumo tinta día", nf(r.inkDay, 1), "ml/día"],
+    ["Consumo tinta mes", nf(r.inkMonth, 0), "ml/mes"],
+    ["Consumo tinta año", nf(r.inkYear / 1000, 2), "L/año"],
+    ["Relación solvente:tinta", isFinite(r.ratio) ? nf(r.ratio, 2) : "", ":1"],
+    ["Cartuchos solvente mes", nf(r.muCartMonth, 1), ""],
+    ["Cartuchos tinta mes", nf(r.inkCartMonth, 1), ""],
+    ["Horas por cartucho solvente", nf(r.hrsPerMuCart, 0), "h"],
+    ["Impresiones por cartucho tinta", Math.round(r.printsPerInkCart), ""],
+    ["Velocidad máxima de línea", r.maxLineSpeed ? nf(r.maxLineSpeed, 1) : "", "m/min"],    ["Vida núcleo (horas)", inp.coreHours || "", "h"],
+    ["Vida núcleo (días)", inp.coreDays || "", "días"],
+    ["Vida útil en almacén", inp.shelfLife || "", "meses"],
+    ["Usos de núcleo al año", inp.coreHours > 0 ? nf((r.hrsYear / inp.coreHours) * 100, 0) : "", "%"],
+  ];
+  return rows.map((r0) => r0.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(";")).join("\r\n");
+}
+
+/* ============================================================
+   HISTORIAL Y PERSISTENCIA
+   ============================================================ */
+const HKEY = "vj_calc_history_v1";
+const SKEY = "vj_calc_state_v1";
+
+function saveState(inp) {
+  try { localStorage.setItem(SKEY, JSON.stringify(inp)); } catch (e) {}
+}
+function loadState() {
+  try {
+    const s = JSON.parse(localStorage.getItem(SKEY) || "null");
+    if (!s) return null;
+    // campos numéricos y de texto primero
+    Object.keys(s).forEach((k) => {
+      const el = $(k);
+      if (!el || el.tagName === "SELECT") return;
+      el.value = s[k];
+    });
+    return s;
+  } catch (e) { return null; }
+}
+function applySelects(s) {
+  if (!s) { fillNozzle(); return; }
+  const prSel = $("printer");
+  if ([...prSel.options].some((o) => o.value === s.printer)) prSel.value = s.printer;
+  fillNozzle();
+  const nz = $("nozzle");
+  if ([...nz.options].some((o) => o.value === s.nozzle)) nz.value = s.nozzle;
+  const ft = $("font");
+  if ([...ft.options].some((o) => o.value === s.font)) ft.value = s.font;
+  syncFont();
+  fillInks();
+  const ik = $("ink");
+  if ([...ik.options].some((o) => o.value === s.ink)) ik.value = s.ink;
+  syncInkBase();
+  const ib = $("inkBase");
+  if ([...ib.options].some((o) => o.value === s.inkBase)) ib.value = s.inkBase;
+  fillMuTypes();
+  // restaura cartuchos guardados
+  if (s.inkCart) $("inkCart").value = s.inkCart;
+  if (s.muCart) $("muCart").value = s.muCart;
+  if (s.lines) $("lines").value = s.lines;
+}
+function getHist() {
+  try { return JSON.parse(localStorage.getItem(HKEY) || "[]"); } catch (e) { return []; }
+}
+function setHist(h) {
+  try { localStorage.setItem(HKEY, JSON.stringify(h.slice(0, 20))); } catch (e) {}
+}
+function renderHist() {
+  const h = getHist();
+  const box = $("histList");
+  if (!h.length) {
+    box.innerHTML = `<p class="sub" style="margin:0">Todavía no hay cálculos guardados en este dispositivo.</p>`;
+    return;
+  }
+  box.innerHTML = h.map((it, i) => `
+    <div class="hist-item">
+      <div>
+        <b>${it.model}</b> · ${it.font} · ${it.temp} °C
+        <div class="t">${it.date} · solvente ${it.mu} ml/h · tinta ${it.ink} ml/h · relación ${it.ratio} : 1</div>
+      </div>
+      <div class="g">
+        <button class="btn-ghost" data-restore="${i}" style="padding:8px 12px;min-height:38px">Cargar</button>
+        <button class="btn-ghost" data-del="${i}" style="padding:8px 12px;min-height:38px">Borrar</button>
+      </div>
+    </div>`).join("");
+}
+
+/* ============================================================
+   EVENTOS
+   ============================================================ */
+function bind() {
+  /* chips familia */
+  $("famChips").addEventListener("click", (e) => {
+    const b = e.target.closest(".chip");
+    if (!b) return;
+    famFilter = b.dataset.fam;
+    [...$("famChips").querySelectorAll(".chip")].forEach((c) =>
+      c.setAttribute("aria-pressed", c === b ? "true" : "false"));
+    fillPrinters();
+    render();
+  });
+
+  $("printer").addEventListener("change", () => { fillNozzle(); render(); });
+  $("nozzle").addEventListener("change", () => { syncPrinterDefaults(); render(); });
+  $("ink").addEventListener("change", () => { syncInkBase(); render(); });
+  $("inkBase").addEventListener("change", () => { fillMuTypes(); render(); });
+  $("font").addEventListener("change", () => { syncFont(); render(); });
+
+  document.querySelectorAll("input, select").forEach((el) => {
+    if (["printer", "nozzle", "ink", "inkBase", "font"].includes(el.id)) return;
+    el.addEventListener("input", debounce(render, 120));
+    el.addEventListener("change", render);
+  });
+
+  $("btnTheme").addEventListener("click", () => {
+    const cur = document.documentElement.getAttribute("data-theme");
+    const next = cur === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", next);
+    try { localStorage.setItem("vj_calc_theme", next); } catch (e) {}
+    render();
+    toast(next === "dark" ? "Tema oscuro activado" : "Tema claro activado");
+  });
+
+  $("btnPrint").addEventListener("click", () => window.print());
+  $("btnPrint2").addEventListener("click", () => window.print());
+
+  $("btnCsv").addEventListener("click", exportCsv);
+  $("btnCsv2").addEventListener("click", exportCsv);
+
+  $("btnTxt").addEventListener("click", () => {
+    const { inp, r } = render();
+    download(`Consumo_Videojet_${sanitize(r.pr.id)}_${dateStamp()}.txt`, buildReport(inp, r));
+    toast("Informe TXT descargado");
+  });
+
+  $("btnCopy").addEventListener("click", async () => {
+    const { inp, r } = render();
+    const txt = buildReport(inp, r);
+    try {
+      await navigator.clipboard.writeText(txt);
+      toast("Resumen copiado al portapapeles");
+    } catch (e) {
+      const ta = document.createElement("textarea");
+      ta.value = txt; document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy"); toast("Resumen copiado"); } catch (e2) { toast("No se pudo copiar"); }
+      document.body.removeChild(ta);
+    }
+  });
+
+  $("btnAddHist").addEventListener("click", () => {
+    const { inp, r } = render();
+    const h = getHist();
+    h.unshift({
+      date: new Date().toLocaleString("es-ES"),
+      model: r.pr.id, font: inp.font, temp: inp.temp,
+      mu: nf(r.muPerHour, 2), ink: nf(r.inkPerHour, 2),
+      ratio: isFinite(r.ratio) ? nf(r.ratio, 2) : "—",
+      state: inp,
+    });
+    setHist(h);
+    renderHist();
+    toast("Cálculo guardado en el historial del dispositivo");
+  });
+
+  $("histList").addEventListener("click", (e) => {
+    const b = e.target.closest("button");
+    if (!b) return;
+    const h = getHist();
+    if (b.dataset.del !== undefined) {
+      h.splice(parseInt(b.dataset.del, 10), 1);
+      setHist(h); renderHist(); toast("Cálculo eliminado");
+    } else if (b.dataset.restore !== undefined) {
+      const it = h[parseInt(b.dataset.restore, 10)];
+      if (it && it.state) {
+        Object.keys(it.state).forEach((k) => { const el = $(k); if (el) el.value = it.state[k]; });
+        fillPrinters(); render();
+        toast("Configuración cargada desde el historial");
+      }
+    }
+  });
+
+  $("btnReset").addEventListener("click", () => {
+    try { localStorage.removeItem(SKEY); } catch (e) {}
+    location.reload();
+  });
+
+  $("btnSaveCfg").addEventListener("click", () => {
+    const { inp, r } = render();
+    download(`Config_Calculadora_Videojet_${dateStamp()}.json`,
+      JSON.stringify({ version: 1, date: new Date().toISOString(), input: inp }, null, 2),
+      "application/json;charset=utf-8");
+    toast("Configuración guardada (JSON)");
+  });
+
+  $("btnLoadCfg").addEventListener("click", () => {
+    const input = document.createElement("input");
+    input.type = "file"; input.accept = ".json,application/json";
+    input.addEventListener("change", () => {
+      const f = input.files && input.files[0];
+      if (!f) return;
+      const rd = new FileReader();
+      rd.onload = () => {
+        try {
+          const obj = JSON.parse(rd.result);
+          const st = obj.input || obj;
+          Object.keys(st).forEach((k) => { const el = $(k); if (el) el.value = st[k]; });
+          fillPrinters(); render();
+          toast("Configuración cargada");
+        } catch (e) { toast("Archivo no válido"); }
+      };
+      rd.readAsText(f);
+    });
+    input.click();
+  });
+
+  window.addEventListener("resize", debounce(() => {
+    if (!LAST) return;
+    drawTempChart(LAST.inp, LAST.r);
+    drawBarChart(LAST.inp, LAST.r);
+    drawTimeline(LAST.inp, LAST.r);
+  }, 180));
+}
+
+function exportCsv() {
+  const { inp, r } = render();
+  download(`Consumo_Videojet_${sanitize(r.pr.id)}_${dateStamp()}.csv`, buildCsv(inp, r), "text/csv;charset=utf-8");
+  toast("Informe CSV descargado");
+}
+
+function sanitize(s) { return String(s).replace(/[^\w\-]+/g, "_").slice(0, 40); }
+function dateStamp() {
+  const d = new Date();
+  return `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, "0")}${String(d.getDate()).padStart(2, "0")}_${String(d.getHours()).padStart(2, "0")}${String(d.getMinutes()).padStart(2, "0")}`;
+}
+function debounce(fn, ms) {
+  let t;
+  return function (...a) { clearTimeout(t); t = setTimeout(() => fn.apply(this, a), ms); };
+}
+
+/* ============================================================
+   ARRANQUE
+   ============================================================ */
+function init() {
+  try {
+    const th = localStorage.getItem("vj_calc_theme");
+    if (th) document.documentElement.setAttribute("data-theme", th);
+  } catch (e) {}
+
+  fillPrinters();
+  fillFonts();
+  const st = loadState();
+  applySelects(st);
+  bind();
+  renderHist();
+  render();
+}
+
+document.addEventListener("DOMContentLoaded", init);
+</script>
+</body>
+</html>
