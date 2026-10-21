@@ -1,5 +1,11 @@
 # Consumo CIJ · Calculadora de tinta y solvente
 
+[![Android CI](https://github.com/emanuelindustri-source/consumo-cij-calculadora/actions/workflows/android.yml/badge.svg)](https://github.com/emanuelindustri-source/consumo-cij-calculadora/actions/workflows/android.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-2dd4bf)](LICENSE)
+[![Android 14+](https://img.shields.io/badge/Android-14%2B-3ddc84)](android)
+[![100% offline](https://img.shields.io/badge/offline-100%25-2dd4bf)](#características)
+[![Web](https://img.shields.io/badge/web-single%20file-38bdf8)](web/calculadora-offline.html)
+
 Calculadora técnica de **consumo de tinta y solvente (make-up)** para impresoras de inyección continua
 (**CIJ**) **Videojet** de las familias **Simplicity** y **Serie 1000VJ**, basada en los modelos oficiales
 de cálculo de Videojet.
