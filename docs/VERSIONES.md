@@ -2,6 +2,11 @@
 
 Registro detallado de versiones anteriores, cambios de la versión actual y estado de los artefactos.
 
+> **Las notas de versión son permanentes.** Cada versión publicada tiene su `NOTAS-X.Y.Z.md` (raíz y
+> `docs/`, idénticas), registrado con su huella SHA-256 en [`notas-indice.json`](notas-indice.json).
+> No se borran ni se reescriben: `python tools/check_notas.py` hace fallar la validación si alguna
+> desaparece o cambia. Este historial es, por tanto, **inmutable**.
+
 ## Resumen
 
 | Versión | Fecha | Web | APK | Cambio principal |

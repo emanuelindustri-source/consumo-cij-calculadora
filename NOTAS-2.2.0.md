@@ -1,5 +1,8 @@
 # Notas de la versión 2.2.0
 
+**Producto:** **Consumo CIJ** — calculadora de consumo de tinta y solvente para impresoras de
+inyección continua (CIJ) de Videojet, en web 100 % offline y app Android nativa.
+
 **Fecha:** 2026-10-22 · **Ámbito:** web (archivo único), portada y notas públicas, APK Android,
 catálogo de idiomas, pruebas automáticas y repositorio.
 
@@ -200,6 +203,29 @@ Valores anclados a los **documentos oficiales**, no a la implementación:
 - Estado final: **413 cadenas × 6 idiomas**, todo el contenido en UTF-8 y finales de línea
   normalizados según `.gitattributes`.
 
+### 3.10 · Las notas de versión no se borran (garantía permanente)
+
+Hasta ahora, el historial dependía de que nadie borrase ni reescribiese las notas. Eso ya no es una
+recomendación: **la validación falla si ocurre**.
+
+- **`docs/notas-indice.json`** registra cada versión con su fecha, los bloques que debe contener y,
+  al publicarse, la **huella SHA-256** de sus dos copias (`NOTAS-X.Y.Z.md` y `docs/NOTAS-X.Y.Z.md`).
+- **`tools/check_notas.py`** (integrado en `tools/validar.py` y en la CI) comprueba:
+  1. que la nota exista en la **raíz y en `docs/`**, con contenido **idéntico**;
+  2. que toda nota **congelada** conserve su huella exacta —editarla o borrarla rompe la validación—;
+  3. que cada nota tenga los bloques que necesita una IA o una persona para entender el proyecto:
+     **cómo estaba antes**, **qué se hizo** y **qué queda pendiente** (las nuevas, además, el plan);
+  4. que la versión de `version.json` tenga su nota y que toda versión publicada en `docs/VERSIONES.md`
+     esté registrada;
+  5. si hay `git`, que **ninguna nota que existió en el historial falte hoy**.
+- La 2.1.0 solo estaba en `docs/`; se añadió su copia en la raíz para que ambas carpetas coincidan.
+- Para una versión nueva: `python tools/check_notas.py --new 2.3.0` crea la plantilla y
+  `--freeze` congela las anteriores al publicar.
+
+> Esta sección se añadió **después** de publicar la 2.2.0, mientras su nota seguía abierta. A partir de
+> la próxima entrega, la nota de la 2.2.0 quedará **congelada** y no admitirá cambios: lo que venga
+> después se contará en la nota de la versión siguiente.
+
 ---
 
 ## 4 · Qué queda pendiente a futuro
@@ -236,14 +262,19 @@ Valores anclados a los **documentos oficiales**, no a la implementación:
 13. Ampliar las pruebas con los **2 400 valores contrastados** de las fichas oficiales (hoy se fijan
     los valores de referencia, no la tabla completa).
 14. Revisar el `android.yml` para que publique la **APK de release** como artefacto de la CI.
+15. **Congelar la nota de la 2.2.0** al preparar la entrega siguiente (`check_notas.py --freeze`), para
+    que quede inmutable como las de 2.1.0 y 2.1.1.
 
 ---
 
 ## 5 · Cómo comprobar esta entrega
 
 ```powershell
-# 1. Validación completa (catálogo, web, HTML y motor de la web)
+# 1. Validación completa (notas de versión, catálogo, web, HTML y motor de la web)
 python tools/validar.py
+
+# 1b. Solo las notas de versión (existencia, identidad de copias, huellas y bloques)
+python tools/check_notas.py
 
 # 2. Solo el motor de la web (43 pruebas)
 node tools/test_engine.js

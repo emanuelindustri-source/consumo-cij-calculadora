@@ -2,6 +2,11 @@
 
 Hoja de ruta del proyecto. Las prioridades pueden cambiar según el uso real en planta.
 
+> **Regla permanente:** las notas de versión (`NOTAS-X.Y.Z.md`) **no se borran ni se reescriben**.
+> Son el historial del proyecto y la memoria que permite a cualquier persona o IA entender qué es la
+> aplicación, qué cambió y qué falta. Se crean con `python tools/check_notas.py --new X.Y.Z` y se
+> congelan al publicar con `--freeze`; la validación falla si desaparecen o se modifican.
+
 ## v2.2.0 — Pendientes resueltos y calidad (hecho)
 - [x] **Cabeceras del informe TXT traducidas** en los seis idiomas (web y app).
 - [x] **Negrita y formato conservados** en los textos traducidos de la web.
@@ -41,6 +46,7 @@ Hoja de ruta del proyecto. Las prioridades pueden cambiar según el uso real en 
 ## Pendiente inmediato (2.2.1 / 2.3)
 - [ ] Revisión por hablantes nativos de chino simplificado y portugués de Portugal.
 - [ ] Ampliar las pruebas con los 2 400 valores contrastados de las fichas oficiales.
+- [x] **Notas de versión protegidas**: no se pueden borrar ni reescribir (`tools/check_notas.py`).
 - [ ] Capturas nuevas de la app con el selector de idioma visible.
 - [ ] Publicar la APK de release como artefacto de la CI.
 - [ ] Revocar los tokens de publicación antiguos y custodiar el keystore de firma.

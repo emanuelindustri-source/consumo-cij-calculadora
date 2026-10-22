@@ -18,6 +18,14 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y e
 - Comprobaciones nuevas en `tools/check_i18n.py`: párrafos traducibles sin clave, marcadores de
   negrita `**…**` desequilibrados, artefactos generados desactualizados y claves sin uso.
 - Las pruebas unitarias de Kotlin se ejecutan en la CI antes de compilar la APK.
+- **Notas de versión permanentes**: `docs/notas-indice.json` registra cada versión con su huella
+  SHA-256 y `tools/check_notas.py` (paso 1 de `tools/validar.py` y de la CI) **falla** si una nota
+  desaparece, si sus dos copias no son idénticas, si una nota publicada se reescribe o si le faltan
+  los bloques antes / plan / hecho / pendiente. Revisa además el historial de Git para denunciar
+  eliminaciones. Nuevos modos `--new X.Y.Z` y `--freeze`.
+- Copia en la raíz de `NOTAS-2.1.0.md` (antes solo estaba en `docs/`), para que raíz y `docs/`
+  contengan siempre las mismas notas.
+- `validar.yml` hace *checkout* del historial completo y ejecuta la comprobación de notas.
 
 ### Cambiado
 - **Cabeceras y etiquetas del informe TXT traducidas** en los seis idiomas, en la web y en la app,
@@ -32,6 +40,8 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y e
 - Los números y fechas de Android (`Fmt`) usan el idioma activo de la app y no el del sistema.
 - Catálogo de idiomas: **413 cadenas** × 6 idiomas (antes 364).
 - `versionName 2.2.0` → `versionCode 7` (antes 2.1.1 → 6).
+- `tools/validar.py` pasa a tener cuatro pasos: notas de versión, catálogo/web, motor de la web y
+  motor de Kotlin.
 - Portada, notas públicas, README, VERSIONES y ROADMAP sincronizados con el estado real.
 - Workflows de CI (`validar.yml` y `android.yml`) ampliados y limpiados.
 

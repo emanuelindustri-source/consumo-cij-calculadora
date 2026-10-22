@@ -1,4 +1,4 @@
-name: Validar web, idiomas y motor
+name: Validar notas, web, idiomas y motor
 
 on:
   push:
@@ -12,11 +12,13 @@ permissions:
 
 jobs:
   validar:
-    name: Catalogo, web y pruebas del motor
+    name: Notas, catalogo, web y pruebas del motor
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout (historial completo, para comprobar las notas)
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Configurar Python
         uses: actions/setup-python@v5
@@ -27,6 +29,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+
+      # Las notas de version son el historial del proyecto: no se borran ni se
+      # reescriben. Este paso falla si falta una, si sus dos copias difieren o si
+      # una nota publicada cambio despues de congelarse.
+      - name: Notas de version (permanencia e historial)
+        run: python tools/check_notas.py
 
       - name: Catalogo, copias web, assets, parrafos traducibles y HTML
         run: python tools/check_i18n.py

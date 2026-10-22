@@ -132,6 +132,7 @@ footer{border-top:1px solid var(--border);background:rgba(17,28,49,.55);margin-t
         <li><b>60 pruebas del motor</b> (43 web + 17 Android) con los modelos oficiales.</li>
         <li><b>Un solo comando</b>: <code>python tools/validar.py</code>, también en la CI.</li>
         <li>Catálogo de <b>413 cadenas</b>, con comprobación de claves sin uso y párrafos sin traducir.</li>
+        <li><b>Notas de versión protegidas</b>: no se pueden borrar ni reescribir (huella SHA-256 + validación).</li>
       </ul>
     </article>
 
@@ -197,9 +198,19 @@ footer{border-top:1px solid var(--border);background:rgba(17,28,49,.55);margin-t
     ejecuta con <code>python tools/validar.py</code>.
   </div>
 
+  <div class="note">
+    <b>Estas notas son permanentes.</b> Cada versión conserva su archivo para siempre: no se borra ni
+    se reescribe. El registro <code>docs/notas-indice.json</code> guarda su huella SHA-256 y
+    <code>python tools/check_notas.py</code> hace fallar la validación si alguna desaparece o cambia.
+    Así, cualquier persona —o una IA— puede reconstruir qué es la aplicación, qué cambió en cada
+    entrega y qué metas quedan.
+  </div>
+
   <h2 class="sec">Documentación relacionada</h2>
   <p>
     <a href="https://github.com/emanuelindustri-source/consumo-cij-calculadora/blob/main/docs/NOTAS-2.2.0.md" target="_blank" rel="noopener">Notas completas 2.2.0 (Markdown)</a> ·
+    <a href="https://github.com/emanuelindustri-source/consumo-cij-calculadora/blob/main/docs/NOTAS-2.1.1.md" target="_blank" rel="noopener">2.1.1</a> ·
+    <a href="https://github.com/emanuelindustri-source/consumo-cij-calculadora/blob/main/docs/NOTAS-2.1.0.md" target="_blank" rel="noopener">2.1.0</a> ·
     <a href="VERSIONES.md">Historial de versiones</a> ·
     <a href="https://github.com/emanuelindustri-source/consumo-cij-calculadora/blob/main/CHANGELOG.md" target="_blank" rel="noopener">CHANGELOG</a> ·
     <a href="https://github.com/emanuelindustri-source/consumo-cij-calculadora/blob/main/ROADMAP.md" target="_blank" rel="noopener">Roadmap</a> ·

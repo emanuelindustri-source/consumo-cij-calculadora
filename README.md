@@ -32,9 +32,28 @@ Funciona **100 % sin internet**: web autónoma en un solo archivo y aplicación 
 | [`docs/DATOS.md`](docs/DATOS.md) | Fuentes de datos, fórmulas y validación |
 | [`docs/VERSIONES.md`](docs/VERSIONES.md) | Historial detallado de versiones |
 | [`docs/notas.html`](docs/notas.html) | Notas públicas: antes / plan / hecho / pendiente y compilaciones |
+| [`NOTAS-2.2.0.md`](NOTAS-2.2.0.md) | Notas de la versión actual (raíz y `docs/`, idénticas) |
+| [`docs/notas-indice.json`](docs/notas-indice.json) | Registro de notas con su huella SHA-256 (no se pueden borrar) |
 | [`version.json`](version.json) | Versión, compilación, fecha y artefactos (legible por máquina) |
 | [`ROADMAP.md`](ROADMAP.md) | Próximas mejoras |
 | [`CHANGELOG.md`](CHANGELOG.md) | Cambios por versión |
+
+## Notas de versión: permanentes
+
+Las notas de cada versión (`NOTAS-X.Y.Z.md`) son el **historial del proyecto** y **no se borran ni se
+reescriben**: son lo que permite a cualquier persona —o a una IA— entender qué es la aplicación, qué
+cambió en cada entrega y cuáles son las metas a futuro.
+
+- Cada versión añade la suya, en la raíz y en `docs/`, con los bloques **antes / plan / hecho /
+  pendiente**.
+- `docs/notas-indice.json` guarda la **huella SHA-256** de las notas publicadas.
+- `python tools/check_notas.py` (paso 1 de `python tools/validar.py` y de la CI) **falla** si una nota
+  desaparece, si sus dos copias difieren, si una nota congelada se modifica o si a alguna le faltan
+  los bloques de contexto. Con `git` disponible, además revisa el historial y denuncia cualquier
+  eliminación.
+
+Para una versión nueva: `python tools/check_notas.py --new X.Y.Z`, y al publicar
+`python tools/check_notas.py --freeze`.
 
 ## Enlaces
 
@@ -155,11 +174,12 @@ descriptivos de compatibilidad.
 Un solo comando comprueba todo el proyecto:
 
 ```bash
-python tools/validar.py     # catálogo · web · HTML · motor de la web · motor de Kotlin
+python tools/validar.py     # notas · catálogo · web · HTML · motor de la web · motor de Kotlin
 ```
 
 | Qué | Dónde | Cuántas |
 |---|---|---|
+| Notas de versión: existencia, copias idénticas, huellas y bloques de contexto | [`tools/check_notas.py`](tools/check_notas.py) | 5 comprobaciones (+ historial de git) |
 | Catálogo, copias web, assets, párrafos traducibles, JavaScript y HTML | [`tools/check_i18n.py`](tools/check_i18n.py) | 10 comprobaciones |
 | Motor de cálculo de la web | [`tools/test_engine.js`](tools/test_engine.js) | **43 pruebas** |
 | Motor de cálculo de Android | [`android/app/src/test/`](android/app/src/test) | **17 pruebas** |
@@ -169,4 +189,4 @@ VJ 1880+ / V4201 a 30 °C = 5,21 ml/h, 286 y 222 h/L a 20 °C, 13/19/61 gotas po
 14 000 h en los modelos HR), de modo que web y app nunca se separan de las fichas de Videojet.
 
 La **CI** (`.github/workflows/`) ejecuta la validación y las pruebas en cada push: `validar.yml`
-para web e idiomas y `android.yml` para las pruebas de Kotlin y la compilación de la APK.
+para notas, web e idiomas y `android.yml` para las pruebas de Kotlin y la compilación de la APK.

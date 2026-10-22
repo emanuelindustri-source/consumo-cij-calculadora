@@ -7,6 +7,31 @@
 - Revisa [`ROADMAP.md`](../ROADMAP.md) y las *issues* abiertas para evitar duplicados.
 - Para cambios grandes, abre primero una *issue* explicando la propuesta.
 
+## Notas de versión: no se borran ni se reescriben
+
+Las notas de versión (`NOTAS-X.Y.Z.md` en la raíz y en `docs/`) son el **historial del proyecto**:
+explican qué es la aplicación, qué cambió en cada versión y cuáles son las metas a futuro. Sirven
+también para que otra persona —o una IA— retome el proyecto sin contexto previo.
+
+- **Nunca** se elimina una nota, ni se reescribe la de una versión ya publicada.
+- Cada versión añade la suya con los bloques **antes / plan / hecho / pendiente**, y la raíz y
+  `docs/` deben ser **idénticas**.
+- Al publicar, `python tools/check_notas.py --freeze` guarda la huella SHA-256 en
+  `docs/notas-indice.json`. Desde ese momento, cualquier cambio o borrado **hace fallar la CI**.
+- Para empezar una versión nueva:
+
+  ```bash
+  python tools/check_notas.py --new 2.3.0    # crea raíz + docs con la plantilla
+  python tools/validar.py                    # valida todo, incluidas las notas
+  python tools/check_notas.py --freeze       # al publicar: congela las anteriores
+  ```
+
+- Si añades contenido a una versión ya publicada, **no la edites**: crea la nota de la versión
+  siguiente y explica allí el cambio.
+
+La comprobación del historial de Git es opcional: si `git` no está en el `PATH`, defina la variable
+de entorno `GIT` con la ruta al ejecutable y la validación revisará también las eliminaciones.
+
 ## Entorno
 
 | Herramienta | Versión |
@@ -22,9 +47,13 @@
 2. Implementa el cambio respetando el estilo existente.
 3. **Valida los datos**: si tocas cálculos o tablas, comprueba los valores contra los documentos oficiales
    y documenta la fuente en el *pull request*.
-4. Ejecuta las pruebas:
+4. Ejecuta la validación completa (notas de versión, catálogo, web y motor):
    ```bash
-   cd android && gradle test assembleDebug
+   python tools/validar.py
+   ```
+   y, si tocas Android, también las pruebas y la compilación:
+   ```bash
+   cd android && gradle testDebugUnitTest assembleDebug
    ```
 5. Abre el *pull request* completando la plantilla.
 
