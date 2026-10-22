@@ -90,47 +90,60 @@ footer{border-top:1px solid var(--border);background:rgba(17,28,49,.55);margin-t
 
 <main class="wrap">
 
-  <span class="pill"><span class="dot"></span> Versión 2.1.1 · 21/10/2026</span>
-  <h1>Notas de la <span>versión 2.1.1</span></h1>
+  <span class="pill"><span class="dot"></span> Versión 2.2.0 · 22/10/2026</span>
+  <h1>Notas de la <span>versión 2.2.0</span></h1>
   <p class="lead">
-    Esta página resume, en tres bloques, <b>cómo estaba el proyecto antes</b>, <b>qué se hizo</b> en esta
-    entrega y <b>qué queda pendiente</b>. Se actualiza con cada versión, igual que el
+    Esta página resume, en cuatro bloques, <b>cómo se encontró el proyecto</b>, <b>qué se iba a hacer</b>,
+    <b>qué se consiguió</b> y <b>qué queda pendiente</b>. Se actualiza con cada versión, igual que el
     <a href="https://github.com/emanuelindustri-source/consumo-cij-calculadora/blob/main/CHANGELOG.md" target="_blank" rel="noopener">CHANGELOG</a>.
   </p>
 
   <div class="grid">
     <article class="card before">
-      <h2>Antes <span class="tag">hasta 2.1.0</span></h2>
+      <h2>Antes <span class="tag">cómo estaba</span></h2>
       <ul>
-        <li>La calculadora web y la app Android estaban <b>solo en español</b>.</li>
-        <li>No había forma de <b>reportar un error</b> desde la web ni desde la app.</li>
-        <li>Dos tarjetas de la web tenían <b>HTML roto</b> (exportación y mantenimiento).</li>
-        <li>La <b>portada del proyecto</b> seguía mostrando 2.0.0 y 1,8 MB.</li>
-        <li>No existían <b>notas públicas</b> ni validación automática de la web y los idiomas.</li>
-      </ul>
-    </article>
-
-    <article class="card ok">
-      <h2>Hecho <span class="tag">2.1.1</span></h2>
-      <ul>
-        <li><b>Seis idiomas</b> (ES, EN, PT-BR, PT-PT, IT, ZH) con detección automática y selector en la web.</li>
-        <li><b>Reporte de errores sin red</b>: correo prellenado y copia al portapapeles en web y Android.</li>
-        <li>Corregidas las <b>dos tarjetas HTML</b> y sincronizada la copia publicada.</li>
-        <li><b>Portada al día</b>: novedades, idiomas, versiones y notas.</li>
-        <li><b>Versión y compilación visibles</b> en la web y en la app (2.1.1 · código 6).</li>
-        <li><b>Validación automática</b>: catálogo, web, assets, JavaScript y HTML en cada push.</li>
+        <li>Los <b>informes TXT</b> salían con las cabeceras en español en los seis idiomas.</li>
+        <li>Al traducir, los párrafos con <b>negrita</b> perdían el formato y quedaban en texto plano.</li>
+        <li>Dos párrafos del pie dejaban literalmente <b>«Basado en» sin traducir</b>.</li>
+        <li>La app seguía el idioma del sistema: <b>no había selector</b> dentro de la aplicación.</li>
+        <li>El proyecto <b>no tenía pruebas automáticas</b> del motor de cálculo.</li>
+        <li>La web mostraba un literal <code>${t(…)}</code> sin procesar en el historial vacío.</li>
       </ul>
     </article>
 
     <article class="card">
-      <h2>Pendiente <span class="tag">próximas</span></h2>
+      <h2>Plan <span class="tag">qué se iba a hacer</span></h2>
       <ul>
-        <li>Traducir las cabeceras del <b>informe TXT</b> (el CSV ya está traducido).</li>
-        <li>Revisión por hablantes nativos de <b>chino</b> y <b>portugués de Portugal</b>.</li>
-        <li>Conservar la <b>negrita</b> en los párrafos traducidos de la web.</li>
-        <li>Valorar un <b>selector de idioma dentro de la app</b> (hoy sigue el idioma del sistema).</li>
-        <li>Conservar el <b>keystore</b> de firma para futuras actualizaciones.</li>
-        <li>Revocar los <b>tokens de publicación</b> que ya no se usen.</li>
+        <li><b>Traducir</b> por completo las cabeceras y etiquetas del informe TXT y del informe técnico.</li>
+        <li><b>Conservar la negrita</b> y el formato de los textos traducidos en la web.</li>
+        <li>Añadir un <b>selector de idioma dentro de la app</b>, con memoria de la elección.</li>
+        <li>Crear <b>pruebas automáticas</b> del motor con los valores de referencia oficiales.</li>
+        <li>Dejar <b>un solo comando de validación</b> y ejecutarlo en la CI.</li>
+        <li>Actualizar portada, notas públicas, documentación y repositorio.</li>
+      </ul>
+    </article>
+
+    <article class="card ok">
+      <h2>Hecho <span class="tag">2.2.0</span></h2>
+      <ul>
+        <li><b>Informes TXT traducidos</b> en los seis idiomas, con etiquetas alineadas automáticamente.</li>
+        <li><b>Negrita conservada</b> mediante marcadores <code>**…**</code> en el catálogo de idiomas.</li>
+        <li><b>Selector de idioma en la app</b>: seis idiomas sin depender del sistema.</li>
+        <li><b>60 pruebas del motor</b> (43 web + 17 Android) con los modelos oficiales.</li>
+        <li><b>Un solo comando</b>: <code>python tools/validar.py</code>, también en la CI.</li>
+        <li>Catálogo de <b>413 cadenas</b>, con comprobación de claves sin uso y párrafos sin traducir.</li>
+      </ul>
+    </article>
+
+    <article class="card">
+      <h2>Pendiente <span class="tag">a futuro</span></h2>
+      <ul>
+        <li>Revisión por <b>hablantes nativos</b> de chino simplificado y portugués de Portugal.</li>
+        <li>Comparador de escenarios A/B y planificador de mantenimiento con calendario <code>.ics</code>.</li>
+        <li>Widget de pantalla de inicio y modo tableta con panel lateral en Android.</li>
+        <li>Importación de la tabla de tintas desde <b>CSV</b> sin recompilar.</li>
+        <li>Revocar los <b>tokens de publicación</b> antiguos y custodiar el keystore de firma.</li>
+        <li>Versión de escritorio y API local (solo si se necesitan en planta).</li>
       </ul>
     </article>
   </div>
@@ -141,45 +154,52 @@ footer{border-top:1px solid var(--border);background:rgba(17,28,49,.55);margin-t
     <tbody>
       <tr>
         <td><b>Web</b> · <code>docs/calculadora.html</code></td>
-        <td>2.1.1</td>
+        <td>2.2.0</td>
         <td>—</td>
-        <td>21/10/2026</td>
-        <td>Archivo único, 363 KB, sin recursos externos.</td>
+        <td>22/10/2026</td>
+        <td>Archivo único, 381 KB, sin recursos externos.</td>
       </tr>
       <tr>
-        <td><b>Android</b> · <code>ConsumoCIJ-2.1.1.apk</code></td>
-        <td>2.1.1</td>
-        <td>6</td>
-        <td>21/10/2026</td>
+        <td><b>Android</b> · <code>ConsumoCIJ-2.2.0.apk</code></td>
+        <td>2.2.0</td>
+        <td>7</td>
+        <td>22/10/2026</td>
         <td>minSdk 34 · sin permiso <code>INTERNET</code> · misma firma que 2.0.</td>
       </tr>
       <tr>
         <td><b>Catálogo de idiomas</b></td>
-        <td>2.1.1</td>
+        <td>2.2.0</td>
         <td>—</td>
-        <td>21/10/2026</td>
-        <td>364 cadenas × 6 idiomas en <code>i18n/catalog.json</code>.</td>
+        <td>22/10/2026</td>
+        <td>413 cadenas × 6 idiomas en <code>i18n/catalog.json</code>.</td>
+      </tr>
+      <tr>
+        <td><b>Pruebas del motor</b></td>
+        <td>2.2.0</td>
+        <td>60</td>
+        <td>22/10/2026</td>
+        <td><code>tools/test_engine.js</code> (43) y <code>CalcEngineTest.kt</code> (17).</td>
       </tr>
       <tr>
         <td><b>Repositorio</b></td>
-        <td>v2.1.1</td>
+        <td>v2.2.0</td>
         <td>—</td>
-        <td>21/10/2026</td>
+        <td>22/10/2026</td>
         <td>Etiqueta y release con el APK adjunto.</td>
       </tr>
     </tbody>
   </table>
 
   <div class="note">
-    <b>Cómo comprobar esta versión:</b> abra la <a href="calculadora.html">calculadora web</a> y cambie el
-    idioma en la cabecera; pulse <b>«Reportar un error»</b> en el pie. En Android, instale el APK y
-    consulte <b>Ajustes › Aplicaciones › Consumo CIJ › Idioma</b>. La validación del repositorio se
-    ejecuta con <code>python tools/check_i18n.py</code>.
+    <b>Cómo comprobar esta versión:</b> abra la <a href="calculadora.html">calculadora web</a>, cambie el
+    idioma en la cabecera y descargue un <b>informe TXT</b>: sale traducido y con la negrita intacta en las
+    notas técnicas. En Android, pulse el <b>selector de idioma</b> de la cabecera. La validación completa se
+    ejecuta con <code>python tools/validar.py</code>.
   </div>
 
   <h2 class="sec">Documentación relacionada</h2>
   <p>
-    <a href="https://github.com/emanuelindustri-source/consumo-cij-calculadora/blob/main/docs/NOTAS-2.1.1.md" target="_blank" rel="noopener">Notas completas 2.1.1 (Markdown)</a> ·
+    <a href="https://github.com/emanuelindustri-source/consumo-cij-calculadora/blob/main/docs/NOTAS-2.2.0.md" target="_blank" rel="noopener">Notas completas 2.2.0 (Markdown)</a> ·
     <a href="VERSIONES.md">Historial de versiones</a> ·
     <a href="https://github.com/emanuelindustri-source/consumo-cij-calculadora/blob/main/CHANGELOG.md" target="_blank" rel="noopener">CHANGELOG</a> ·
     <a href="https://github.com/emanuelindustri-source/consumo-cij-calculadora/blob/main/ROADMAP.md" target="_blank" rel="noopener">Roadmap</a> ·

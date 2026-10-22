@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   build:
-    name: Compilar APK de depuración
+    name: Probar y compilar la APK
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -38,7 +38,7 @@ jobs:
             yes | "$SDKMAN" --licenses > /dev/null 2>&1 || true
             "$SDKMAN" "platforms;android-34" "build-tools;34.0.0" > /dev/null || true
           else
-            echo "sdkmanager no disponible; se usará el SDK del runner"
+            echo "sdkmanager no disponible; se usara el SDK del runner"
           fi
 
       - name: Configurar Gradle 8.7
@@ -46,7 +46,11 @@ jobs:
         with:
           gradle-version: '8.7'
 
-      - name: Compilar APK
+      - name: Pruebas unitarias del motor de calculo (Kotlin)
+        working-directory: android
+        run: gradle testDebugUnitTest --no-daemon --stacktrace
+
+      - name: Compilar APK de depuracion
         working-directory: android
         run: gradle assembleDebug --no-daemon --stacktrace
 
@@ -58,7 +62,7 @@ jobs:
           fi
           echo "OK: sin permisos de red"
 
-      - name: Verificar web autónoma (sin dependencias externas)
+      - name: Verificar web autonoma (sin dependencias externas)
         run: |
           python3 - <<'PY'
           import re, sys

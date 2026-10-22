@@ -36,5 +36,9 @@ desktop.ini
 *.tmp
 *.bak
 
+# Python
+__pycache__/
+*.pyc
+
 # Datos locales de pruebas
 *.xml.bak

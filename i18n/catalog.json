@@ -1,5 +1,5 @@
 {
- "version": "2.1.1",
+ "version": "2.2.0",
  "source": "es",
  "languages": [
   "en",
@@ -9,20 +9,6 @@
   "zh"
  ],
  "strings": {
-  "(gotas/litro, gotas/carácter, contenedores y mantenimiento). Contrastados con 734 fichas": {
-   "en": "(drops/litre, drops/character, containers and maintenance). Cross-checked against 734 data sheets",
-   "pt-BR": "(gotas/litro, gotas/caractere, contêineres e manutenção). Comparados com 734 fichas",
-   "pt-PT": "(gotas/litro, gotas/caráter, contentores e manutenção). Validados com 734 fichas",
-   "it": "(gocce/litro, gocce/carattere, contenitori e manutenzione). Convalidati con 734 schede",
-   "zh": "（滴数/升、滴数/字符、容器与维护）。已对照 734 份"
-  },
-  "(la ficha original da #N/D). El cálculo usará MEK como estimación.": {
-   "en": "(the original data sheet returns #N/D). The calculation will use MEK as an estimate.",
-   "pt-BR": "(a ficha original retorna #N/D). O cálculo usará MEK como estimativa.",
-   "pt-PT": "(a ficha original devolve #N/D). O cálculo usará MEK como estimativa.",
-   "it": "(la scheda originale restituisce #N/D). Il calcolo utilizzerà MEK come stima.",
-   "zh": "（原始数据表返回 #N/D）。计算将使用 MEK 作为估算。"
-  },
   "100 % offline": {
    "en": "100 % offline",
    "pt-BR": "100 % offline",
@@ -71,13 +57,6 @@
    "pt-PT": ": VJ 1240 · 1280 · 1580 · 1580+ · 1580C · 1880 · 1880+ · 1880 UHS · 1880 HR.",
    "it": ": VJ 1240 · 1280 · 1580 · 1580+ · 1580C · 1880 · 1880+ · 1880 UHS · 1880 HR.",
    "zh": "：VJ 1240 · 1280 · 1580 · 1580+ · 1580C · 1880 · 1880+ · 1880 UHS · 1880 HR。"
-  },
-  "#N/D para V4238 (MEK / Methanol) y V4251 (Methanol / Water). El consumo mostrado es una": {
-   "en": "#N/D for V4238 (MEK / Methanol) and V4251 (Methanol / Water). The consumption shown is an",
-   "pt-BR": "#N/D para V4238 (MEK / Methanol) e V4251 (Methanol / Water). O consumo exibido é uma",
-   "pt-PT": "#N/D para V4238 (MEK / Methanol) e V4251 (Methanol / Water). O consumo apresentado é uma",
-   "it": "#N/D per V4238 (MEK / Methanol) e V4251 (Methanol / Water). Il consumo mostrato è una",
-   "zh": "#N/D，对应 V4238（MEK / Methanol）和 V4251（Methanol / Water）。显示的消耗是"
   },
   "Ajustes avanzados": {
    "en": "Advanced settings",
@@ -128,13 +107,6 @@
    "it": "Base del solvente / make-up",
    "zh": "溶剂基料 / 补充液"
   },
-  "Base {base} — factor de consumo {cons} · factor exponencial {k} %/°C · solvente asociado {mu}": {
-   "en": "Base {base} — consumption factor {cons} · exponential factor {k} %/°C · associated solvent {mu}",
-   "pt-BR": "Base {base} — fator de consumo {cons} · fator exponencial {k} %/°C · solvente associado {mu}",
-   "pt-PT": "Base {base} — fator de consumo {cons} · fator exponencial {k} %/°C · solvente associado {mu}",
-   "it": "Base {base} — fattore di consumo {cons} · fattore esponenziale {k} %/°C · solvente associato {mu}",
-   "zh": "基料 {base} — 消耗系数 {cons} · 指数系数 {k} %/°C · 关联溶剂 {mu}"
-  },
   "Boquillas": {
    "en": "Nozzles",
    "pt-BR": "Bicos",
@@ -148,13 +120,6 @@
    "pt-PT": "Apagar",
    "it": "Cancella",
    "zh": "清除"
-  },
-  "Calculadora de Consumo de Tinta y Solvente · Videojet CIJ": {
-   "en": "Ink and Solvent Consumption Calculator · Videojet CIJ",
-   "pt-BR": "Calculadora de Consumo de Tinta e Solvente · Videojet CIJ",
-   "pt-PT": "Calculadora de Consumo de Tinta e Solvente · Videojet CIJ",
-   "it": "Calcolatore del consumo di inchiostro e solvente · Videojet CIJ",
-   "zh": "墨水与溶剂消耗计算器 · Videojet CIJ"
   },
   "CALCULADORA DE CONSUMO DE TINTA Y SOLVENTE — VIDEOJET CIJ": {
    "en": "INK AND SOLVENT CONSUMPTION CALCULATOR — VIDEOJET CIJ",
@@ -464,20 +429,6 @@
    "it": "è la durata di un litro a 20 °C per apparecchiatura,",
    "zh": "是各设备在 20 °C 下每升的使用时长，"
   },
-  "estimación con base MEK, no un dato oficial.": {
-   "en": "a MEK-based estimate, not an official figure.",
-   "pt-BR": "estimativa com base MEK, não um dado oficial.",
-   "pt-PT": "estimativa com base MEK, não um dado oficial.",
-   "it": "stima con base MEK, non un dato ufficiale.",
-   "zh": "为基于 MEK 的估算，而非官方数据。"
-  },
-  "Estimación técnica: contraste los valores con el consumo real del equipo antes de planificar": {
-   "en": "Technical estimation: compare the values with the actual equipment consumption before planning",
-   "pt-BR": "Estimativa técnica: compare os valores com o consumo real do equipamento antes de planejar",
-   "pt-PT": "Estimativa técnica: confirme os valores com o consumo real do equipamento antes de planificar",
-   "it": "Stima tecnica: confrontare i valori con il consumo reale dell'apparecchiatura prima di pianificare",
-   "zh": "技术估算：在规划之前，请将数值与设备实际消耗进行对比"
-  },
   "Estimación técnica: contraste los valores con el consumo real del equipo antes de planificar pedidos de consumibles.": {
    "en": "Technical estimation: compare the values with the actual equipment consumption before planning consumable orders.",
    "pt-BR": "Estimativa técnica: compare os valores com o consumo real do equipamento antes de planejar pedidos de consumíveis.",
@@ -660,13 +611,6 @@
    "it": "Stampe (codici stampati)",
    "zh": "打印量（打印的代码数）"
   },
-  "Impresoras CIJ Videojet · Simplicity &amp; Serie 1000VJ · Basada en los modelos oficiales CIJ Makeup Usage v14, Line Speed v9.7 y TCO v35": {
-   "en": "Videojet CIJ printers · Simplicity &amp; Serie 1000VJ · Based on the official models CIJ Makeup Usage v14, Line Speed v9.7 and TCO v35",
-   "pt-BR": "Impressoras CIJ Videojet · Simplicity &amp; Serie 1000VJ · Baseada nos modelos oficiais CIJ Makeup Usage v14, Line Speed v9.7 e TCO v35",
-   "pt-PT": "Impressoras CIJ Videojet · Simplicity &amp; Serie 1000VJ · Baseada nos modelos oficiais CIJ Makeup Usage v14, Line Speed v9.7 e TCO v35",
-   "it": "Stampanti CIJ Videojet · Simplicity &amp; Serie 1000VJ · Basata sui modelli ufficiali CIJ Makeup Usage v14, Line Speed v9.7 e TCO v35",
-   "zh": "Videojet CIJ 喷码机 · Simplicity &amp; Serie 1000VJ · 基于官方模型 CIJ Makeup Usage v14、Line Speed v9.7 和 TCO v35"
-  },
   "Imprimir": {
    "en": "Print",
    "pt-BR": "Imprimir",
@@ -716,13 +660,6 @@
    "it": "La base del solvente determina il fattore di consumo e la sua sensibilità termica.",
    "zh": "溶剂基料决定消耗系数及其温度敏感度。"
   },
-  "La base «{base}» no tiene factor oficial en el Makeup Usage Model v14 (la ficha original da #N/D). El cálculo usará MEK como estimación.": {
-   "en": "The base «{base}» has no official factor in the Makeup Usage Model v14 (the original data sheet returns #N/D). The calculation will use MEK as an estimate.",
-   "pt-BR": "A base «{base}» não possui fator oficial no Makeup Usage Model v14 (a ficha original retorna #N/D). O cálculo usará MEK como estimativa.",
-   "pt-PT": "A base «{base}» não tem fator oficial no Makeup Usage Model v14 (a ficha original devolve #N/D). O cálculo usará MEK como estimativa.",
-   "it": "La base «{base}» non ha un fattore ufficiale nel Makeup Usage Model v14 (la scheda originale restituisce #N/D). Il calcolo utilizzerà MEK come stima.",
-   "zh": "基料「{base}」在 Makeup Usage Model v14 中没有官方系数（原始数据表返回 #N/D）。计算将使用 MEK 作为估算。"
-  },
   "La matriz de la fuente define las gotas por carácter.": {
    "en": "The font matrix defines the drops per character.",
    "pt-BR": "A matriz da fonte define as gotas por caractere.",
@@ -737,13 +674,6 @@
    "it": "La durata del nucleo / kit e la scadenza sono opzionali: vengono mostrate come monitoraggio della manutenzione e sono caricate automaticamente in base al modello scelto.",
    "zh": "核心 / 套件寿命与有效期均为可选：它们作为维护跟踪显示，并根据所选机型自动载入。"
   },
-  "Los cálculos proceden de los modelos oficiales: CIJ Makeup Usage Model v14 (solvente por": {
-   "en": "The calculations come from the official models: CIJ Makeup Usage Model v14 (solvent by",
-   "pt-BR": "Os cálculos vêm dos modelos oficiais: CIJ Makeup Usage Model v14 (solvente por",
-   "pt-PT": "Os cálculos provêm dos modelos oficiais: CIJ Makeup Usage Model v14 (solvente por",
-   "it": "I calcoli derivano dai modelli ufficiali: CIJ Makeup Usage Model v14 (solvente per",
-   "zh": "计算数据来自官方模型：CIJ Makeup Usage Model v14（溶剂按"
-  },
   "Los cálculos proceden de los modelos oficiales: CIJ Makeup Usage Model v14 (solvente por temperatura), CIJ Line Speed Calculator v9.7 (velocidades, cpi y dpi) y CIJ TCO Calculator v35 (gotas/litro, gotas/carácter, contenedores y mantenimiento). Contrastados con 734 fichas de solvente y 535 de velocidad de línea.": {
    "en": "The calculations come from the official models: CIJ Makeup Usage Model v14 (solvent by temperature), CIJ Line Speed Calculator v9.7 (speeds, cpi and dpi) and CIJ TCO Calculator v35 (drops/litre, drops/character, containers and maintenance). Cross-checked against 734 solvent data sheets and 535 line speed data sheets.",
    "pt-BR": "Os cálculos vêm dos modelos oficiais: CIJ Makeup Usage Model v14 (solvente por temperatura), CIJ Line Speed Calculator v9.7 (velocidades, cpi e dpi) e CIJ TCO Calculator v35 (gotas/litro, gotas/caractere, contêineres e manutenção). Comparados com 734 fichas de solvente e 535 de velocidade de linha.",
@@ -757,13 +687,6 @@
    "pt-PT": "Os tamanhos de cartucho mudam consoante a tinta e o equipamento (p. ex. V4225 = 700 ml, V480 = 600 ml, V401 = 750/5000 ml; o solvente associado —V7201, V7257, V7220…— é indicado junto de cada tinta).",
    "it": "Le dimensioni delle cartucce cambiano in base all'inchiostro e all'apparecchiatura (ad es. V4225 = 700 ml, V480 = 600 ml, V401 = 750/5000 ml; il solvente associato —V7201, V7257, V7220…— è indicato accanto a ciascun inchiostro).",
    "zh": "墨水盒容量随墨水和设备而变（例如 V4225 = 700 ml，V480 = 600 ml，V401 = 750/5000 ml；关联溶剂 —V7201、V7257、V7220…— 标注在每种墨水旁）。"
-  },
-  "Los tamaños de cartucho varían según la tinta y el equipo (p. ej. V4225 = 700 ml, V480 = 600 ml,": {
-   "en": "Cartridge sizes vary depending on the ink and the printer (e.g. V4225 = 700 ml, V480 = 600 ml,",
-   "pt-BR": "Os tamanhos de cartucho variam conforme a tinta e o equipamento (p. ex. V4225 = 700 ml, V480 = 600 ml,",
-   "pt-PT": "Os tamanhos de cartucho variam consoante a tinta e o equipamento (p. ex. V4225 = 700 ml, V480 = 600 ml,",
-   "it": "Le dimensioni delle cartucce variano in base all'inchiostro e all'apparecchiatura (ad es. V4225 = 700 ml, V480 = 600 ml,",
-   "zh": "墨水盒容量随墨水和设备而变（例如 V4225 = 700 ml，V480 = 600 ml，"
   },
   "Los tamaños de cartucho varían según la tinta y el equipo (p. ej. V4225 = 700 ml, V480 = 600 ml, V401 = 750/5000 ml); el solvente asociado (V7201, V7257, V7220…) se indica junto a cada tinta.": {
    "en": "Cartridge sizes vary depending on the ink and the printer (e.g. V4225 = 700 ml, V480 = 600 ml, V401 = 750/5000 ml); the associated solvent (V7201, V7257, V7220…) is shown next to each ink.",
@@ -863,13 +786,6 @@
    "it": "Impossibile salvare il file",
    "zh": "无法保存文件"
   },
-  "oficiales de solvente y 535 de velocidad de línea.": {
-   "en": "official solvent data sheets and 535 line speed data sheets.",
-   "pt-BR": "oficiais de solvente e 535 de velocidade de linha.",
-   "pt-PT": "oficiais de solvente e 535 de velocidade de linha.",
-   "it": "ufficiali di solvente e 535 di velocità di linea.",
-   "zh": "官方溶剂数据表和 535 份线速度数据表。"
-  },
   "Oscuro": {
    "en": "Dark",
    "pt-BR": "Escuro",
@@ -883,13 +799,6 @@
    "pt-PT": "Escuro AMOLED (preto puro)",
    "it": "Scuro AMOLED (nero puro)",
    "zh": "深色 AMOLED（纯黑）"
-  },
-  "pedidos de consumibles.": {
-   "en": "consumable orders.",
-   "pt-BR": "pedidos de consumíveis.",
-   "pt-PT": "encomendas de consumíveis.",
-   "it": "ordini di consumabili.",
-   "zh": "耗材订单。"
   },
   "Por año": {
    "en": "Per year",
@@ -1045,13 +954,6 @@
    "it": "Nessun dato di velocità per questa combinazione apparecchiatura/font.",
    "zh": "此设备/字体组合无速度数据。"
   },
-  "Sin datos oficiales para la base de esta tinta: el CIJ Makeup Usage Model v14 devuelve": {
-   "en": "No official data for the base of this ink: the CIJ Makeup Usage Model v14 returns",
-   "pt-BR": "Sem dados oficiais para a base desta tinta: o CIJ Makeup Usage Model v14 retorna",
-   "pt-PT": "Sem dados oficiais para a base desta tinta: o CIJ Makeup Usage Model v14 devolve",
-   "it": "Nessun dato ufficiale per la base di questo inchiostro: il CIJ Makeup Usage Model v14 restituisce",
-   "zh": "此墨水基料无官方数据：CIJ Makeup Usage Model v14 返回"
-  },
   "Sin datos oficiales para la base de esta tinta: el CIJ Makeup Usage Model v14 devuelve #N/D para V4238 (MEK / Methanol) y V4251 (Methanol / Water). El consumo mostrado es una estimación con base MEK, no un dato oficial.": {
    "en": "No official data for the base of this ink: the CIJ Makeup Usage Model v14 returns #N/D for V4238 (MEK / Methanol) and V4251 (Methanol / Water). The consumption shown is a MEK-based estimate, not an official figure.",
    "pt-BR": "Sem dados oficiais para a base desta tinta: o CIJ Makeup Usage Model v14 retorna #N/D para V4238 (MEK / Methanol) e V4251 (Methanol / Water). O consumo exibido é uma estimativa com base MEK, não um dado oficial.",
@@ -1107,13 +1009,6 @@
    "pt-PT": "Calcula também cpi (carateres/polegada), dpi (golpes/polegada) e verifica a velocidade de linha e o rendimento de produto introduzidos.",
    "it": "Calcola inoltre cpi (caratteri/pollice), dpi (gocce/pollice) e verifica la velocità di linea e la resa del prodotto inserite.",
    "zh": "还可计算 cpi（字符/英寸）、dpi（点/英寸），并校验输入的线速度和产品产能。"
-  },
-  "temperatura), CIJ Line Speed Calculator v9.7 (velocidades, cpi y dpi) y CIJ TCO Calculator v35": {
-   "en": "temperature), CIJ Line Speed Calculator v9.7 (speeds, cpi and dpi) and CIJ TCO Calculator v35",
-   "pt-BR": "temperatura), CIJ Line Speed Calculator v9.7 (velocidades, cpi e dpi) e CIJ TCO Calculator v35",
-   "pt-PT": "temperatura), CIJ Line Speed Calculator v9.7 (velocidades, cpi e dpi) e CIJ TCO Calculator v35",
-   "it": "temperatura), CIJ Line Speed Calculator v9.7 (velocità, cpi e dpi) e CIJ TCO Calculator v35",
-   "zh": "温度）、CIJ Line Speed Calculator v9.7（速度、cpi 和 dpi）以及 CIJ TCO Calculator v35"
   },
   "Tinta vs solvente mensual": {
    "en": "Monthly ink vs solvent",
@@ -1206,13 +1101,6 @@
    "it": "v max = (car/s ÷ car/riga) × ancho_mm × 0,06",
    "zh": "v máx = (car/seg ÷ car/línea) × ancho_mm × 0,06"
   },
-  "V401 = 750/5000 ml); el solvente asociado —V7201, V7257, V7220…— se indica junto a cada tinta.": {
-   "en": "V401 = 750/5000 ml); the associated solvent —V7201, V7257, V7220…— is shown next to each ink.",
-   "pt-BR": "V401 = 750/5000 ml); o solvente associado —V7201, V7257, V7220…— é indicado junto a cada tinta.",
-   "pt-PT": "V401 = 750/5000 ml); o solvente associado —V7201, V7257, V7220…— é indicado junto de cada tinta.",
-   "it": "V401 = 750/5000 ml); il solvente associato —V7201, V7257, V7220…— è indicato accanto a ciascun inchiostro.",
-   "zh": "V401 = 750/5000 ml）；关联溶剂 —V7201、V7257、V7220…— 标注在每种墨水旁。"
-  },
   "Velocidad de línea": {
    "en": "Line speed",
    "pt-BR": "Velocidade de linha",
@@ -1226,20 +1114,6 @@
    "pt-PT": "Velocidade de linha e produto (validação do CIJ Line-Speed Calculator)",
    "it": "Velocità di linea e prodotto (validazione del CIJ Line-Speed Calculator)",
    "zh": "线速度与产品（CIJ Line-Speed Calculator 校验）"
-  },
-  "Versión 2.0 · herramienta técnica interna · funciona sin internet · familias Simplicity y Serie 1000VJ.": {
-   "en": "Version 2.0 · internal technical tool · works without internet · Simplicity and Serie 1000VJ families.",
-   "pt-BR": "Versão 2.0 · ferramenta técnica interna · funciona sem internet · famílias Simplicity e Serie 1000VJ.",
-   "pt-PT": "Versão 2.0 · ferramenta técnica interna · funciona sem internet · famílias Simplicity e Serie 1000VJ.",
-   "it": "Versione 2.0 · strumento tecnico interno · funziona senza internet · famiglie Simplicity e Serie 1000VJ.",
-   "zh": "版本 2.0 · 内部技术工具 · 无需联网即可使用 · Simplicity 和 Serie 1000VJ 系列。"
-  },
-  "Versión {v} · herramienta técnica interna · funciona sin internet · familias Simplicity y Serie 1000VJ.": {
-   "en": "Version {v} · internal technical tool · works without internet · Simplicity and Serie 1000VJ families.",
-   "pt-BR": "Versão {v} · ferramenta técnica interna · funciona sem internet · famílias Simplicity e Serie 1000VJ.",
-   "pt-PT": "Versão {v} · ferramenta técnica interna · funciona sem internet · famílias Simplicity e Serie 1000VJ.",
-   "it": "Versione {v} · strumento tecnico interno · funziona senza internet · famiglie Simplicity e Serie 1000VJ.",
-   "zh": "版本 {v} · 内部技术工具 · 无需联网即可使用 · Simplicity 和 Serie 1000VJ 系列。"
   },
   "Vida del núcleo consumida al año": {
    "en": "Core life consumed per year",
@@ -2081,90 +1955,6 @@
    "it": "AMOLED",
    "zh": "AMOLED"
   },
-  "Basado en CIJ Line Speed Calculator v9.7 (escenarios 1–3):": {
-   "en": "Based on CIJ Line Speed Calculator v9.7 (scenarios 1–3):",
-   "pt-BR": "Baseado no CIJ Line Speed Calculator v9.7 (cenários 1–3):",
-   "pt-PT": "Baseado no CIJ Line Speed Calculator v9.7 (cenários 1–3):",
-   "it": "Basato su CIJ Line Speed Calculator v9.7 (scenari 1–3):",
-   "zh": "基于 CIJ Line Speed Calculator v9.7 (场景 1–3):"
-  },
-  "Basado en CIJ Makeup Usage Model v14 — el mismo modelo que genera los PDFs “CIJ Makeup Usage Model v14_<equipo>_<tinta>.pdf”:": {
-   "en": "Based on CIJ Makeup Usage Model v14 — the same model that generates the “CIJ Makeup Usage Model v14_<printer>_<ink>.pdf” PDFs:",
-   "pt-BR": "Baseado no CIJ Makeup Usage Model v14 — o mesmo modelo que gera os PDFs “CIJ Makeup Usage Model v14_<equipamento>_<tinta>.pdf”:",
-   "pt-PT": "Baseado no CIJ Makeup Usage Model v14 — o mesmo modelo que gera os ficheiros PDF “CIJ Makeup Usage Model v14_<equipamento>_<tinta>.pdf”:",
-   "it": "Basato su CIJ Makeup Usage Model v14 — lo stesso modello che genera i PDF “CIJ Makeup Usage Model v14_<apparecchiatura>_<inchiostro>.pdf”:",
-   "zh": "基于 CIJ Makeup Usage Model v14 — 与生成 “CIJ Makeup Usage Model v14_<设备>_<墨水>.pdf” PDF 文件的模型相同："
-  },
-  "Boquillas: 40 µm (HR) · 50 µm (UHS) · 60 µm · 70 µm — las opciones dependen del modelo elegido. En VJ 1880 y 1880+ la boquilla cambia el consumo de solvente (60 µm: 286 h/L · 70 µm: 222 h/L a 20 °C).": {
-   "en": "Nozzles: 40 µm (HR) · 50 µm (UHS) · 60 µm · 70 µm — the options depend on the selected model. On VJ 1880 and 1880+ the nozzle changes solvent consumption (60 µm: 286 h/L · 70 µm: 222 h/L at 20 °C).",
-   "pt-BR": "Bicos: 40 µm (HR) · 50 µm (UHS) · 60 µm · 70 µm — as opções dependem do modelo escolhido. No VJ 1880 e 1880+ o bico altera o consumo de solvente (60 µm: 286 h/L · 70 µm: 222 h/L a 20 °C).",
-   "pt-PT": "Bicos: 40 µm (HR) · 50 µm (UHS) · 60 µm · 70 µm — as opções dependem do modelo selecionado. No VJ 1880 e 1880+ o bico altera o consumo de solvente (60 µm: 286 h/L · 70 µm: 222 h/L a 20 °C).",
-   "it": "Ugelli: 40 µm (HR) · 50 µm (UHS) · 60 µm · 70 µm — le opzioni dipendono dal modello scelto. Su VJ 1880 e 1880+ l'ugello modifica il consumo di solvente (60 µm: 286 h/L · 70 µm: 222 h/L a 20 °C).",
-   "zh": "喷嘴: 40 µm (HR) · 50 µm (UHS) · 60 µm · 70 µm — 可选项取决于所选机型。在 VJ 1880 和 1880+ 上，喷嘴会改变溶剂消耗量 (60 µm: 286 h/L · 70 µm: 222 h/L, 20 °C)。"
-  },
-  "CIJ Line Speed Calculator v9.7 — velocidades, cpi y dpi por equipo y fuente (contrastado con 535 fichas).": {
-   "en": "CIJ Line Speed Calculator v9.7 — speeds, cpi and dpi per printer and font (cross-checked against 535 records).",
-   "pt-BR": "CIJ Line Speed Calculator v9.7 — velocidades, cpi e dpi por equipamento e fonte (verificado com 535 fichas).",
-   "pt-PT": "CIJ Line Speed Calculator v9.7 — velocidades, cpi e dpi por equipamento e tipo de letra (validado com 535 fichas).",
-   "it": "CIJ Line Speed Calculator v9.7 — velocità, cpi e dpi per apparecchiatura e font (confrontato con 535 schede).",
-   "zh": "CIJ Line Speed Calculator v9.7 — 各机型与字体的速度、cpi 和 dpi (已与 535 份记录核对)。"
-  },
-  "CIJ Makeup Usage Model v14 — consumo de solvente por temperatura (contrastado con 734 fichas oficiales).": {
-   "en": "CIJ Makeup Usage Model v14 — solvent consumption by temperature (cross-checked against 734 official records).",
-   "pt-BR": "CIJ Makeup Usage Model v14 — consumo de solvente por temperatura (verificado com 734 fichas oficiais).",
-   "pt-PT": "CIJ Makeup Usage Model v14 — consumo de solvente por temperatura (validado com 734 fichas oficiais).",
-   "it": "CIJ Makeup Usage Model v14 — consumo di solvente per temperatura (confrontato con 734 schede ufficiali).",
-   "zh": "CIJ Makeup Usage Model v14 — 溶剂消耗量随温度的变化 (已与 734 份官方记录核对)。"
-  },
-  "CIJ TCO Calculator v35 — gotas/litro, gotas/carácter, contenedores por tinta y mantenimiento.": {
-   "en": "CIJ TCO Calculator v35 — drops/liter, drops/character, containers per ink and maintenance.",
-   "pt-BR": "CIJ TCO Calculator v35 — gotas/litro, gotas/caractere, recipientes por tinta e manutenção.",
-   "pt-PT": "CIJ TCO Calculator v35 — gotas/litro, gotas/caráter, recipientes por tinta e manutenção.",
-   "it": "CIJ TCO Calculator v35 — gocce/litro, gocce/carattere, contenitori per inchiostro e manutenzione.",
-   "zh": "CIJ TCO Calculator v35 — 滴/升、滴/字符、每种墨水的容器数量以及维护。"
-  },
-  "Donde hrs·L⁻¹@20°C es la duración de un litro a 20 °C por equipo, F_cons el factor de la base de solvente y k su factor exponencial de temperatura.": {
-   "en": "Where hrs·L⁻¹@20°C is the duration of one liter at 20 °C per printer, F_cons the solvent base factor and k its exponential temperature factor.",
-   "pt-BR": "Onde hrs·L⁻¹@20°C é a duração de um litro a 20 °C por equipamento, F_cons o fator da base de solvente e k o seu fator exponencial de temperatura.",
-   "pt-PT": "Onde hrs·L⁻¹@20°C é a duração de um litro a 20 °C por equipamento, F_cons o fator de base do solvente e k o respetivo fator exponencial de temperatura.",
-   "it": "Dove hrs·L⁻¹@20°C è la durata di un litro a 20 °C per apparecchiatura, F_cons il fattore della base solvente e k il suo fattore esponenziale di temperatura.",
-   "zh": "其中 hrs·L⁻¹@20°C 为各机型在 20 °C 下每升溶剂的持续时间，F_cons 为溶剂基准系数，k 为其温度指数系数。"
-  },
-  "En la práctica, por cada cartucho de tinta se consumen unos 4 de solvente en líneas con baja actividad de impresión (la evaporación es constante aunque no se imprima). La relación real la muestra esta calculadora y depende de la cantidad de caracteres, las impresiones por minuto, las horas de encendido y la temperatura.": {
-   "en": "In practice, for each ink cartridge about 4 solvent cartridges are consumed on lines with low printing activity (evaporation is constant even when nothing is printed). The actual ratio is shown by this calculator and depends on the number of characters, the prints per minute, the hours powered on and the temperature.",
-   "pt-BR": "Na prática, para cada cartucho de tinta são consumidos cerca de 4 de solvente em linhas com baixa atividade de impressão (a evaporação é constante mesmo sem impressão). A relação real é mostrada por esta calculadora e depende da quantidade de caracteres, das impressões por minuto, das horas ligado e da temperatura.",
-   "pt-PT": "Na prática, por cada cartucho de tinta consomem-se cerca de 4 de solvente em linhas com baixa atividade de impressão (a evaporação é constante mesmo quando não se imprime). A relação real é indicada por esta calculadora e depende da quantidade de caracteres, das impressões por minuto, das horas de funcionamento e da temperatura.",
-   "it": "In pratica, per ogni cartuccia di inchiostro si consumano circa 4 cartucce di solvente nelle linee con bassa attività di stampa (l'evaporazione è costante anche quando non si stampa). Il rapporto reale è mostrato da questo calcolatore e dipende dal numero di caratteri, dalle stampe al minuto, dalle ore di accensione e dalla temperatura.",
-   "zh": "实际使用中，在打印作业较少的产线上，每消耗 1 个墨水盒大约要消耗 4 个溶剂盒 (即使不打印，蒸发也是持续的)。实际比例由本计算器给出，取决于字符数量、每分钟打印次数、开机时长和温度。"
-  },
-  "Esta herramienta es autónoma y funciona sin internet: no usa librerías, fuentes ni servicios externos, no recoge datos y no usa analítica. Puede copiarse a un USB, enviarse por correo y abrirse en Windows, macOS, Linux, Android e iOS en PC, tableta, teléfono o TV.": {
-   "en": "This tool is self-contained and works without internet: it uses no libraries, fonts or external services, collects no data and uses no analytics. It can be copied to a USB drive, sent by email and opened on Windows, macOS, Linux, Android and iOS on a PC, tablet, phone or TV.",
-   "pt-BR": "Esta ferramenta é autônoma e funciona sem internet: não usa bibliotecas, fontes nem serviços externos, não coleta dados e não usa análise. Pode ser copiada para um USB, enviada por e-mail e aberta no Windows, macOS, Linux, Android e iOS em PC, tablet, celular ou TV.",
-   "pt-PT": "Esta ferramenta é autónoma e funciona sem internet: não utiliza bibliotecas, tipos de letra nem serviços externos, não recolhe dados e não usa analítica. Pode ser copiada para uma pen USB, enviada por e-mail e aberta no Windows, macOS, Linux, Android e iOS em PC, tablet, telemóvel ou TV.",
-   "it": "Questo strumento è autonomo e funziona senza internet: non utilizza librerie, font né servizi esterni, non raccoglie dati e non usa analisi. Può essere copiato su una chiavetta USB, inviato per e-mail e aperto su Windows, macOS, Linux, Android e iOS in PC, tablet, telefono o TV.",
-   "zh": "本工具可独立运行，无需联网: 不使用任何库、字体或外部服务，不收集数据，也不使用分析工具。可复制到 U 盘、通过电子邮件发送，并在 Windows、macOS、Linux、Android 和 iOS 的 PC、平板电脑、手机或电视上打开。"
-  },
-  "Las gotas por carácter dependen de la matriz de la fuente (5×7 = 13 gotas, 7×9 = 19, 10×16 = 61…) y las gotas por litro del diámetro de boquilla.": {
-   "en": "Drops per character depend on the font matrix (5×7 = 13 drops, 7×9 = 19, 10×16 = 61…) and drops per liter on the nozzle diameter.",
-   "pt-BR": "As gotas por caractere dependem da matriz da fonte (5×7 = 13 gotas, 7×9 = 19, 10×16 = 61…) e as gotas por litro do diâmetro do bico.",
-   "pt-PT": "As gotas por caráter dependem da matriz do tipo de letra (5×7 = 13 gotas, 7×9 = 19, 10×16 = 61…) e as gotas por litro do diâmetro do bico.",
-   "it": "Le gocce per carattere dipendono dalla matrice del font (5×7 = 13 gocce, 7×9 = 19, 10×16 = 61…) e le gocce per litro dal diametro dell'ugello.",
-   "zh": "每字符的墨滴数取决于字体点阵 (5×7 = 13 滴, 7×9 = 19, 10×16 = 61…)，每升的墨滴数取决于喷嘴孔径。"
-  },
-  "Serie 1000VJ (1XX0): VJ 1040 · 1210 · 1220 · 1510 · 1520 · 1530 · 1550 · 1560 · 1610 · 1610 DH · 1620 · 1630 · 1650 · 1660 · 1620/1650 UHS · 1620/1650 HR · 1710 · 1860.": {
-   "en": "1000VJ Series (1XX0): VJ 1040 · 1210 · 1220 · 1510 · 1520 · 1530 · 1550 · 1560 · 1610 · 1610 DH · 1620 · 1630 · 1650 · 1660 · 1620/1650 UHS · 1620/1650 HR · 1710 · 1860.",
-   "pt-BR": "Série 1000VJ (1XX0): VJ 1040 · 1210 · 1220 · 1510 · 1520 · 1530 · 1550 · 1560 · 1610 · 1610 DH · 1620 · 1630 · 1650 · 1660 · 1620/1650 UHS · 1620/1650 HR · 1710 · 1860.",
-   "pt-PT": "Série 1000VJ (1XX0): VJ 1040 · 1210 · 1220 · 1510 · 1520 · 1530 · 1550 · 1560 · 1610 · 1610 DH · 1620 · 1630 · 1650 · 1660 · 1620/1650 UHS · 1620/1650 HR · 1710 · 1860.",
-   "it": "Serie 1000VJ (1XX0): VJ 1040 · 1210 · 1220 · 1510 · 1520 · 1530 · 1550 · 1560 · 1610 · 1610 DH · 1620 · 1630 · 1650 · 1660 · 1620/1650 UHS · 1620/1650 HR · 1710 · 1860.",
-   "zh": "1000VJ 系列 (1XX0): VJ 1040 · 1210 · 1220 · 1510 · 1520 · 1530 · 1550 · 1560 · 1610 · 1610 DH · 1620 · 1630 · 1650 · 1660 · 1620/1650 UHS · 1620/1650 HR · 1710 · 1860。"
-  },
-  "Simplicity: VJ 1240 · 1280 · 1580 · 1580+ · 1580C · 1880 · 1880+ · 1880 UHS · 1880 HR.": {
-   "en": "Simplicity: VJ 1240 · 1280 · 1580 · 1580+ · 1580C · 1880 · 1880+ · 1880 UHS · 1880 HR.",
-   "pt-BR": "Simplicity: VJ 1240 · 1280 · 1580 · 1580+ · 1580C · 1880 · 1880+ · 1880 UHS · 1880 HR.",
-   "pt-PT": "Simplicity: VJ 1240 · 1280 · 1580 · 1580+ · 1580C · 1880 · 1880+ · 1880 UHS · 1880 HR.",
-   "it": "Simplicity: VJ 1240 · 1280 · 1580 · 1580+ · 1580C · 1880 · 1880+ · 1880 UHS · 1880 HR.",
-   "zh": "Simplicity: VJ 1240 · 1280 · 1580 · 1580+ · 1580C · 1880 · 1880+ · 1880 UHS · 1880 HR。"
-  },
   "(cartuchos)": {
    "en": "(cartridges)",
    "pt-BR": "(cartuchos)",
@@ -2410,54 +2200,12 @@
    "it": "{0} ore",
    "zh": "{0} 小时"
   },
-  "Versión 2.1.1 · compilación 6 · herramienta técnica interna · funciona sin internet · familias Simplicity y Serie 1000VJ.": {
-   "en": "Version 2.1.1 · build 6 · internal technical tool · works offline · Simplicity and 1000VJ Series families.",
-   "pt-BR": "Versão 2.1.1 · compilação 6 · ferramenta técnica interna · funciona sem internet · famílias Simplicity e Série 1000VJ.",
-   "pt-PT": "Versão 2.1.1 · compilação 6 · ferramenta técnica interna · funciona sem internet · famílias Simplicity e Série 1000VJ.",
-   "it": "Versione 2.1.1 · build 6 · strumento tecnico interno · funziona senza internet · famiglie Simplicity e Serie 1000VJ.",
-   "zh": "版本 2.1.1 · 构建 6 · 内部技术工具 · 无需联网 · Simplicity 和 1000VJ 系列。"
-  },
-  "Versión 2.1.1 · herramienta técnica interna · familias Simplicity y Serie 1000VJ.": {
-   "en": "Version 2.1.1 · internal technical tool · Simplicity and 1000VJ Series families.",
-   "pt-BR": "Versão 2.1.1 · ferramenta técnica interna · famílias Simplicity e Série 1000VJ.",
-   "pt-PT": "Versão 2.1.1 · ferramenta técnica interna · famílias Simplicity e Série 1000VJ.",
-   "it": "Versione 2.1.1 · strumento tecnico interno · famiglie Simplicity e Serie 1000VJ.",
-   "zh": "版本 2.1.1 · 内部技术工具 · Simplicity 和 1000VJ 系列。"
-  },
   "Novedades de esta versión": {
    "en": "What's new in this version",
    "pt-BR": "Novidades desta versão",
    "pt-PT": "Novidades desta versão",
    "it": "Novità di questa versione",
    "zh": "本版本的新增内容"
-  },
-  "Web y Android en seis idiomas, con detección automática.": {
-   "en": "Web and Android in six languages, with automatic detection.",
-   "pt-BR": "Web e Android em seis idiomas, com detecção automática.",
-   "pt-PT": "Web e Android em seis idiomas, com deteção automática.",
-   "it": "Web e Android in sei lingue, con rilevamento automatico.",
-   "zh": "网页和安卓应用支持六种语言，并可自动检测。"
-  },
-  "Reporte de errores por correo, sin permisos de red.": {
-   "en": "Error reporting by email, with no network permissions.",
-   "pt-BR": "Relato de erros por e-mail, sem permissões de rede.",
-   "pt-PT": "Relato de erros por e-mail, sem permissões de rede.",
-   "it": "Segnalazione errori via e-mail, senza permessi di rete.",
-   "zh": "通过电子邮件报告错误，无需网络权限。"
-  },
-  "Portada y notas públicas actualizadas; dos tarjetas HTML corregidas.": {
-   "en": "Updated landing page and public notes; two HTML cards fixed.",
-   "pt-BR": "Página inicial e notas públicas atualizadas; dois cartões HTML corrigidos.",
-   "pt-PT": "Página inicial e notas públicas atualizadas; dois cartões HTML corrigidos.",
-   "it": "Pagina iniziale e note pubbliche aggiornate; corretti due riquadri HTML.",
-   "zh": "主页和公开说明已更新；修复了两个 HTML 卡片。"
-  },
-  "Versión 2.1.1 · compilación 6 · 21/10/2026.": {
-   "en": "Version 2.1.1 · build 6 · 2026-10-21.",
-   "pt-BR": "Versão 2.1.1 · compilação 6 · 21/10/2026.",
-   "pt-PT": "Versão 2.1.1 · compilação 6 · 21/10/2026.",
-   "it": "Versione 2.1.1 · build 6 · 21/10/2026.",
-   "zh": "版本 2.1.1 · 构建 6 · 2026/10/21。"
   },
   "Calculadora de Consumo de Tinta y Solvente": {
    "en": "Ink and Solvent Consumption Calculator",
@@ -2556,6 +2304,601 @@
    "pt-PT": "Aviso: a base «{0}» não tem fator oficial (ficha original: #N/D). O resultado é uma estimativa com base MEK.",
    "it": "Avviso: la base «{0}» non ha un fattore ufficiale (scheda originale: #N/D). Il risultato è una stima con base MEK.",
    "zh": "警告：基料「{0}」没有官方系数（原始数据表：#N/D）。结果为基于 MEK 的估算。"
+  },
+  "Basado en **CIJ Makeup Usage Model v14** — el mismo modelo que genera los PDFs “CIJ Makeup Usage Model v14_<equipo>_<tinta>.pdf”:": {
+   "en": "Based on **CIJ Makeup Usage Model v14** — the same model that generates the “CIJ Makeup Usage Model v14_<printer>_<ink>.pdf” PDFs:",
+   "pt-BR": "Baseado no **CIJ Makeup Usage Model v14** — o mesmo modelo que gera os PDFs “CIJ Makeup Usage Model v14_<equipamento>_<tinta>.pdf”:",
+   "pt-PT": "Baseado no **CIJ Makeup Usage Model v14** — o mesmo modelo que gera os ficheiros PDF “CIJ Makeup Usage Model v14_<equipamento>_<tinta>.pdf”:",
+   "it": "Basato su **CIJ Makeup Usage Model v14** — lo stesso modello che genera i PDF “CIJ Makeup Usage Model v14_<apparecchiatura>_<inchiostro>.pdf”:",
+   "zh": "基于 **CIJ Makeup Usage Model v14** — 与生成 “CIJ Makeup Usage Model v14_<设备>_<墨水>.pdf” PDF 文件的模型相同："
+  },
+  "Donde **hrs·L⁻¹@20°C** es la duración de un litro a 20 °C por equipo, **F_cons** el factor de la base de solvente y **k** su factor exponencial de temperatura.": {
+   "en": "Where **hrs·L⁻¹@20°C** is the duration of one liter at 20 °C per printer, **F_cons** the solvent base factor and **k** its exponential temperature factor.",
+   "pt-BR": "Onde **hrs·L⁻¹@20°C** é a duração de um litro a 20 °C por equipamento, **F_cons** o fator da base de solvente e **k** o seu fator exponencial de temperatura.",
+   "pt-PT": "Onde **hrs·L⁻¹@20°C** é a duração de um litro a 20 °C por equipamento, **F_cons** o fator de base do solvente e **k** o respetivo fator exponencial de temperatura.",
+   "it": "Dove **hrs·L⁻¹@20°C** è la durata di un litro a 20 °C per apparecchiatura, **F_cons** il fattore della base solvente e **k** il suo fattore esponenziale di temperatura.",
+   "zh": "其中 **hrs·L⁻¹@20°C** 为各机型在 20 °C 下每升溶剂的持续时间，**F_cons** 为溶剂基准系数，**k** 为其温度指数系数。"
+  },
+  "Las **gotas por carácter** dependen de la matriz de la fuente (5×7 = 13 gotas, 7×9 = 19, 10×16 = 61…) y las **gotas por litro** del diámetro de boquilla.": {
+   "en": "**Drops per character** depend on the font matrix (5×7 = 13 drops, 7×9 = 19, 10×16 = 61…) and **drops per liter** on the nozzle diameter.",
+   "pt-BR": "As **gotas por caractere** dependem da matriz da fonte (5×7 = 13 gotas, 7×9 = 19, 10×16 = 61…) e as **gotas por litro** do diâmetro do bico.",
+   "pt-PT": "As **gotas por caráter** dependem da matriz do tipo de letra (5×7 = 13 gotas, 7×9 = 19, 10×16 = 61…) e as **gotas por litro** do diâmetro do bico.",
+   "it": "Le **gocce per carattere** dipendono dalla matrice del font (5×7 = 13 gocce, 7×9 = 19, 10×16 = 61…) e le **gocce per litro** dal diametro dell'ugello.",
+   "zh": "**每字符的墨滴数**取决于字体点阵 (5×7 = 13 滴, 7×9 = 19, 10×16 = 61…)，**每升的墨滴数**取决于喷嘴孔径。"
+  },
+  "Basado en **CIJ Line Speed Calculator v9.7** (escenarios 1–3):": {
+   "en": "Based on **CIJ Line Speed Calculator v9.7** (scenarios 1–3):",
+   "pt-BR": "Baseado no **CIJ Line Speed Calculator v9.7** (cenários 1–3):",
+   "pt-PT": "Baseado no **CIJ Line Speed Calculator v9.7** (cenários 1–3):",
+   "it": "Basato su **CIJ Line Speed Calculator v9.7** (scenari 1–3):",
+   "zh": "基于 **CIJ Line Speed Calculator v9.7** (场景 1–3)："
+  },
+  "**Simplicity**: VJ 1240 · 1280 · 1580 · 1580+ · 1580C · 1880 · 1880+ · 1880 UHS · 1880 HR.": {
+   "en": "**Simplicity**: VJ 1240 · 1280 · 1580 · 1580+ · 1580C · 1880 · 1880+ · 1880 UHS · 1880 HR.",
+   "pt-BR": "**Simplicity**: VJ 1240 · 1280 · 1580 · 1580+ · 1580C · 1880 · 1880+ · 1880 UHS · 1880 HR.",
+   "pt-PT": "**Simplicity**: VJ 1240 · 1280 · 1580 · 1580+ · 1580C · 1880 · 1880+ · 1880 UHS · 1880 HR.",
+   "it": "**Simplicity**: VJ 1240 · 1280 · 1580 · 1580+ · 1580C · 1880 · 1880+ · 1880 UHS · 1880 HR.",
+   "zh": "**Simplicity**: VJ 1240 · 1280 · 1580 · 1580+ · 1580C · 1880 · 1880+ · 1880 UHS · 1880 HR。"
+  },
+  "**Serie 1000VJ (1XX0)**: VJ 1040 · 1210 · 1220 · 1510 · 1520 · 1530 · 1550 · 1560 · 1610 · 1610 DH · 1620 · 1630 · 1650 · 1660 · 1620/1650 UHS · 1620/1650 HR · 1710 · 1860.": {
+   "en": "**1000VJ Series (1XX0)**: VJ 1040 · 1210 · 1220 · 1510 · 1520 · 1530 · 1550 · 1560 · 1610 · 1610 DH · 1620 · 1630 · 1650 · 1660 · 1620/1650 UHS · 1620/1650 HR · 1710 · 1860.",
+   "pt-BR": "**Série 1000VJ (1XX0)**: VJ 1040 · 1210 · 1220 · 1510 · 1520 · 1530 · 1550 · 1560 · 1610 · 1610 DH · 1620 · 1630 · 1650 · 1660 · 1620/1650 UHS · 1620/1650 HR · 1710 · 1860.",
+   "pt-PT": "**Série 1000VJ (1XX0)**: VJ 1040 · 1210 · 1220 · 1510 · 1520 · 1530 · 1550 · 1560 · 1610 · 1610 DH · 1620 · 1630 · 1650 · 1660 · 1620/1650 UHS · 1620/1650 HR · 1710 · 1860.",
+   "it": "**Serie 1000VJ (1XX0)**: VJ 1040 · 1210 · 1220 · 1510 · 1520 · 1530 · 1550 · 1560 · 1610 · 1610 DH · 1620 · 1630 · 1650 · 1660 · 1620/1650 UHS · 1620/1650 HR · 1710 · 1860.",
+   "zh": "**1000VJ 系列 (1XX0)**: VJ 1040 · 1210 · 1220 · 1510 · 1520 · 1530 · 1550 · 1560 · 1610 · 1610 DH · 1620 · 1630 · 1650 · 1660 · 1620/1650 UHS · 1620/1650 HR · 1710 · 1860。"
+  },
+  "**Boquillas**: 40 µm (HR) · 50 µm (UHS) · 60 µm · 70 µm — las opciones dependen del modelo elegido. En VJ 1880 y 1880+ la boquilla cambia el consumo de solvente (60 µm: 286 h/L · 70 µm: 222 h/L a 20 °C).": {
+   "en": "**Nozzles**: 40 µm (HR) · 50 µm (UHS) · 60 µm · 70 µm — the options depend on the selected model. On VJ 1880 and 1880+ the nozzle changes solvent consumption (60 µm: 286 h/L · 70 µm: 222 h/L at 20 °C).",
+   "pt-BR": "**Bicos**: 40 µm (HR) · 50 µm (UHS) · 60 µm · 70 µm — as opções dependem do modelo escolhido. No VJ 1880 e 1880+ o bico altera o consumo de solvente (60 µm: 286 h/L · 70 µm: 222 h/L a 20 °C).",
+   "pt-PT": "**Bicos**: 40 µm (HR) · 50 µm (UHS) · 60 µm · 70 µm — as opções dependem do modelo selecionado. No VJ 1880 e 1880+ o bico altera o consumo de solvente (60 µm: 286 h/L · 70 µm: 222 h/L a 20 °C).",
+   "it": "**Ugelli**: 40 µm (HR) · 50 µm (UHS) · 60 µm · 70 µm — le opzioni dipendono dal modello scelto. Su VJ 1880 e 1880+ l'ugello modifica il consumo di solvente (60 µm: 286 h/L · 70 µm: 222 h/L a 20 °C).",
+   "zh": "**喷嘴**: 40 µm (HR) · 50 µm (UHS) · 60 µm · 70 µm — 可选项取决于所选机型。在 VJ 1880 和 1880+ 上，喷嘴会改变溶剂消耗量 (60 µm: 286 h/L · 70 µm: 222 h/L, 20 °C)。"
+  },
+  "En la práctica, por cada cartucho de tinta se consumen unos **4 de solvente** en líneas con baja actividad de impresión (la evaporación es constante aunque no se imprima). La relación real la muestra esta calculadora y depende de la cantidad de caracteres, las impresiones por minuto, las horas de encendido y la temperatura.": {
+   "en": "In practice, for each ink cartridge about **4 solvent cartridges** are consumed on lines with low printing activity (evaporation is constant even when nothing is printed). The actual ratio is shown by this calculator and depends on the number of characters, the prints per minute, the hours powered on and the temperature.",
+   "pt-BR": "Na prática, para cada cartucho de tinta são consumidos cerca de **4 de solvente** em linhas com baixa atividade de impressão (a evaporação é constante mesmo sem impressão). A relação real é mostrada por esta calculadora e depende da quantidade de caracteres, das impressões por minuto, das horas ligado e da temperatura.",
+   "pt-PT": "Na prática, por cada cartucho de tinta consomem-se cerca de **4 de solvente** em linhas com baixa atividade de impressão (a evaporação é constante mesmo quando não se imprime). A relação real é indicada por esta calculadora e depende da quantidade de caracteres, das impressões por minuto, das horas de funcionamento e da temperatura.",
+   "it": "In pratica, per ogni cartuccia di inchiostro si consumano circa **4 cartucce di solvente** nelle linee con bassa attività di stampa (l'evaporazione è costante anche quando non si stampa). Il rapporto reale è mostrato da questo calcolatore e dipende dal numero di caratteri, dalle stampe al minuto, dalle ore di accensione e dalla temperatura.",
+   "zh": "实际使用中，在打印作业较少的产线上，每消耗 1 个墨水盒大约要消耗 **4 个溶剂盒** (即使不打印，蒸发也是持续的)。实际比例由本计算器给出，取决于字符数量、每分钟打印次数、开机时长和温度。"
+  },
+  "Esta herramienta es **autónoma y funciona sin internet**: no usa librerías, fuentes ni servicios externos, no recoge datos y no usa analítica. Puede copiarse a un USB, enviarse por correo y abrirse en Windows, macOS, Linux, Android e iOS en PC, tableta, teléfono o TV.": {
+   "en": "This tool is **self-contained and works without internet**: it uses no libraries, fonts or external services, collects no data and uses no analytics. It can be copied to a USB drive, sent by email and opened on Windows, macOS, Linux, Android and iOS on a PC, tablet, phone or TV.",
+   "pt-BR": "Esta ferramenta é **autônoma e funciona sem internet**: não usa bibliotecas, fontes nem serviços externos, não coleta dados e não usa análise. Pode ser copiada para um USB, enviada por e-mail e aberta no Windows, macOS, Linux, Android e iOS em PC, tablet, celular ou TV.",
+   "pt-PT": "Esta ferramenta é **autónoma e funciona sem internet**: não utiliza bibliotecas, tipos de letra nem serviços externos, não recolhe dados e não usa analítica. Pode ser copiada para uma pen USB, enviada por e-mail e aberta no Windows, macOS, Linux, Android e iOS em PC, tablet, telemóvel ou TV.",
+   "it": "Questo strumento è **autonomo e funziona senza internet**: non utilizza librerie, font né servizi esterni, non raccoglie dati e non usa analisi. Può essere copiato su una chiavetta USB, inviato per e-mail e aperto su Windows, macOS, Linux, Android e iOS in PC, tablet, telefono o TV.",
+   "zh": "本工具**可独立运行，无需联网**: 不使用任何库、字体或外部服务，不收集数据，也不使用分析工具。可复制到 U 盘、通过电子邮件发送，并在 Windows、macOS、Linux、Android 和 iOS 的 PC、平板电脑、手机或电视上打开。"
+  },
+  "**CIJ Makeup Usage Model v14** — consumo de solvente por temperatura (contrastado con 734 fichas oficiales).": {
+   "en": "**CIJ Makeup Usage Model v14** — solvent consumption by temperature (cross-checked against 734 official records).",
+   "pt-BR": "**CIJ Makeup Usage Model v14** — consumo de solvente por temperatura (verificado com 734 fichas oficiais).",
+   "pt-PT": "**CIJ Makeup Usage Model v14** — consumo de solvente por temperatura (validado com 734 fichas oficiais).",
+   "it": "**CIJ Makeup Usage Model v14** — consumo di solvente per temperatura (confrontato con 734 schede ufficiali).",
+   "zh": "**CIJ Makeup Usage Model v14** — 溶剂消耗量随温度的变化 (已与 734 份官方记录核对)。"
+  },
+  "**CIJ Line Speed Calculator v9.7** — velocidades, cpi y dpi por equipo y fuente (contrastado con 535 fichas).": {
+   "en": "**CIJ Line Speed Calculator v9.7** — speeds, cpi and dpi per printer and font (cross-checked against 535 records).",
+   "pt-BR": "**CIJ Line Speed Calculator v9.7** — velocidades, cpi e dpi por equipamento e fonte (verificado com 535 fichas).",
+   "pt-PT": "**CIJ Line Speed Calculator v9.7** — velocidades, cpi e dpi por equipamento e tipo de letra (validado com 535 fichas).",
+   "it": "**CIJ Line Speed Calculator v9.7** — velocità, cpi e dpi per apparecchiatura e font (confrontato con 535 schede).",
+   "zh": "**CIJ Line Speed Calculator v9.7** — 各机型与字体的速度、cpi 和 dpi (已与 535 份记录核对)。"
+  },
+  "**CIJ TCO Calculator v35** — gotas/litro, gotas/carácter, contenedores por tinta y mantenimiento.": {
+   "en": "**CIJ TCO Calculator v35** — drops/liter, drops/character, containers per ink and maintenance.",
+   "pt-BR": "**CIJ TCO Calculator v35** — gotas/litro, gotas/caractere, recipientes por tinta e manutenção.",
+   "pt-PT": "**CIJ TCO Calculator v35** — gotas/litro, gotas/caráter, recipientes por tinta e manutenção.",
+   "it": "**CIJ TCO Calculator v35** — gocce/litro, gocce/carattere, contenitori per inchiostro e manutenzione.",
+   "zh": "**CIJ TCO Calculator v35** — 滴/升、滴/字符、每种墨水的容器数量以及维护。"
+  },
+  "Basado en **CIJ TCO Calculator v35**:": {
+   "en": "Based on **CIJ TCO Calculator v35**:",
+   "pt-BR": "Baseado no **CIJ TCO Calculator v35**:",
+   "pt-PT": "Baseado no **CIJ TCO Calculator v35**:",
+   "it": "Basato su **CIJ TCO Calculator v35**:",
+   "zh": "基于 **CIJ TCO Calculator v35**："
+  },
+  "EQUIPO": {
+   "en": "PRINTER",
+   "pt-BR": "EQUIPAMENTO",
+   "pt-PT": "EQUIPAMENTO",
+   "it": "APPARECCHIATURA",
+   "zh": "设备"
+  },
+  "MENSAJE": {
+   "en": "MESSAGE",
+   "pt-BR": "MENSAGEM",
+   "pt-PT": "MENSAGEM",
+   "it": "MESSAGGIO",
+   "zh": "喷印信息"
+  },
+  "PRODUCCIÓN": {
+   "en": "PRODUCTION",
+   "pt-BR": "PRODUÇÃO",
+   "pt-PT": "PRODUÇÃO",
+   "it": "PRODUZIONE",
+   "zh": "生产"
+  },
+  "RESULTADOS": {
+   "en": "RESULTS",
+   "pt-BR": "RESULTADOS",
+   "pt-PT": "RESULTADOS",
+   "it": "RISULTATI",
+   "zh": "结果"
+  },
+  "MANTENIMIENTO (NÚCLEO / KIT)": {
+   "en": "MAINTENANCE (CORE / KIT)",
+   "pt-BR": "MANUTENÇÃO (NÚCLEO / KIT)",
+   "pt-PT": "MANUTENÇÃO (NÚCLEO / KIT)",
+   "it": "MANUTENZIONE (NUCLEO / KIT)",
+   "zh": "维护（核心 / 套件）"
+  },
+  "VELOCIDAD DE LÍNEA": {
+   "en": "LINE SPEED",
+   "pt-BR": "VELOCIDADE DE LINHA",
+   "pt-PT": "VELOCIDADE DE LINHA",
+   "it": "VELOCITÀ DI LINEA",
+   "zh": "线速度"
+  },
+  "MODELO DE CÁLCULO": {
+   "en": "CALCULATION MODEL",
+   "pt-BR": "MODELO DE CÁLCULO",
+   "pt-PT": "MODELO DE CÁLCULO",
+   "it": "MODELLO DI CALCOLO",
+   "zh": "计算模型"
+  },
+  "Modelo": {
+   "en": "Model",
+   "pt-BR": "Modelo",
+   "pt-PT": "Modelo",
+   "it": "Modello",
+   "zh": "机型"
+  },
+  "Solvente (make-up)": {
+   "en": "Solvent (make-up)",
+   "pt-BR": "Solvente (make-up)",
+   "pt-PT": "Solvente (make-up)",
+   "it": "Solvente (make-up)",
+   "zh": "溶剂（补充液）"
+  },
+  "Cartuchos": {
+   "en": "Cartridges",
+   "pt-BR": "Cartuchos",
+   "pt-PT": "Cartuchos",
+   "it": "Cartucce",
+   "zh": "墨盒"
+  },
+  "Caracteres/línea": {
+   "en": "Chars/line",
+   "pt-BR": "Caracteres/linha",
+   "pt-PT": "Caracteres/linha",
+   "it": "Caratteri/riga",
+   "zh": "字符/行"
+  },
+  "Gotas/mensaje": {
+   "en": "Drops/message",
+   "pt-BR": "Gotas/mensagem",
+   "pt-PT": "Gotas/mensagem",
+   "it": "Gocce/messaggio",
+   "zh": "滴/喷印"
+  },
+  "Impresiones/min": {
+   "en": "Prints/min",
+   "pt-BR": "Impressões/min",
+   "pt-PT": "Impressões/min",
+   "it": "Stampe/min",
+   "zh": "次/分钟"
+  },
+  "Horas/día": {
+   "en": "Hours/day",
+   "pt-BR": "Horas/dia",
+   "pt-PT": "Horas/dia",
+   "it": "Ore/giorno",
+   "zh": "小时/天"
+  },
+  "Pieza oficial": {
+   "en": "Official part",
+   "pt-BR": "Peça oficial",
+   "pt-PT": "Peça oficial",
+   "it": "Ricambio ufficiale",
+   "zh": "官方零件"
+  },
+  "Núcleo por horas": {
+   "en": "Core by hours",
+   "pt-BR": "Núcleo por horas",
+   "pt-PT": "Núcleo por horas",
+   "it": "Nucleo per ore",
+   "zh": "按小时计的核心"
+  },
+  "Núcleo por días": {
+   "en": "Core by days",
+   "pt-BR": "Núcleo por dias",
+   "pt-PT": "Núcleo por dias",
+   "it": "Nucleo per giorni",
+   "zh": "按天数计的核心"
+  },
+  "Caracteres/seg": {
+   "en": "Chars/sec",
+   "pt-BR": "Caracteres/seg",
+   "pt-PT": "Caracteres/seg",
+   "it": "Caratteri/sec",
+   "zh": "字符/秒"
+  },
+  "cpi / dpi": {
+   "en": "cpi / dpi",
+   "pt-BR": "cpi / dpi",
+   "pt-PT": "cpi / dpi",
+   "it": "cpi / dpi",
+   "zh": "cpi / dpi"
+  },
+  "Relación": {
+   "en": "Ratio",
+   "pt-BR": "Relação",
+   "pt-PT": "Relação",
+   "it": "Rapporto",
+   "zh": "比例"
+  },
+  "gotas/car.": {
+   "en": "drops/char.",
+   "pt-BR": "gotas/caract.",
+   "pt-PT": "gotas/carát.",
+   "it": "gocce/car.",
+   "zh": "滴/字符"
+  },
+  "ml/día": {
+   "en": "ml/day",
+   "pt-BR": "ml/dia",
+   "pt-PT": "ml/dia",
+   "it": "ml/giorno",
+   "zh": "毫升/天"
+  },
+  "ml/mes": {
+   "en": "ml/month",
+   "pt-BR": "ml/mês",
+   "pt-PT": "ml/mês",
+   "it": "ml/mese",
+   "zh": "毫升/月"
+  },
+  "L/año": {
+   "en": "L/year",
+   "pt-BR": "L/ano",
+   "pt-PT": "L/ano",
+   "it": "L/anno",
+   "zh": "升/年"
+  },
+  "h c/u": {
+   "en": "h each",
+   "pt-BR": "h c/u",
+   "pt-PT": "h c/u",
+   "it": "h cad.",
+   "zh": "小时/个"
+  },
+  "impresiones c/u": {
+   "en": "prints each",
+   "pt-BR": "impressões c/u",
+   "pt-PT": "impressões c/u",
+   "it": "stampe cad.",
+   "zh": "次/个"
+  },
+  "h/año": {
+   "en": "h/year",
+   "pt-BR": "h/ano",
+   "pt-PT": "h/ano",
+   "it": "h/anno",
+   "zh": "小时/年"
+  },
+  "días/año": {
+   "en": "days/year",
+   "pt-BR": "dias/ano",
+   "pt-PT": "dias/ano",
+   "it": "giorni/anno",
+   "zh": "天/年"
+  },
+  "velocidad nominal": {
+   "en": "nominal speed",
+   "pt-BR": "velocidade nominal",
+   "pt-PT": "velocidade nominal",
+   "it": "velocità nominale",
+   "zh": "额定速度"
+  },
+  "golpes/tira": {
+   "en": "strokes/strip",
+   "pt-BR": "pulsos/tira",
+   "pt-PT": "pulsos/tira",
+   "it": "impulsi/striscia",
+   "zh": "脉冲/条"
+  },
+  "máx. caracteres": {
+   "en": "max. characters",
+   "pt-BR": "máx. caracteres",
+   "pt-PT": "máx. caracteres",
+   "it": "max. caratteri",
+   "zh": "最大字符数"
+  },
+  "real": {
+   "en": "actual",
+   "pt-BR": "real",
+   "pt-PT": "real",
+   "it": "reale",
+   "zh": "实际"
+  },
+  "vida": {
+   "en": "life",
+   "pt-BR": "vida",
+   "pt-PT": "vida",
+   "it": "durata",
+   "zh": "寿命"
+  },
+  "uso": {
+   "en": "use",
+   "pt-BR": "uso",
+   "pt-PT": "uso",
+   "it": "uso",
+   "zh": "使用"
+  },
+  "cambio cada": {
+   "en": "replace every",
+   "pt-BR": "cambio cada",
+   "pt-PT": "substituição a cada",
+   "it": "sostituzione ogni",
+   "zh": "更换周期"
+  },
+  "Solvente: ml/h = (1000 / {0} h/L) × {1} × {2} × e^({3} × {4} °C) × {5}": {
+   "en": "Solvent: ml/h = (1000 / {0} h/L) × {1} × {2} × e^({3} × {4} °C) × {5}",
+   "pt-BR": "Solvente: ml/h = (1000 / {0} h/L) × {1} × {2} × e^({3} × {4} °C) × {5}",
+   "pt-PT": "Solvente: ml/h = (1000 / {0} h/L) × {1} × {2} × e^({3} × {4} °C) × {5}",
+   "it": "Solvente: ml/h = (1000 / {0} h/L) × {1} × {2} × e^({3} × {4} °C) × {5}",
+   "zh": "溶剂: ml/h = (1000 / {0} h/L) × {1} × {2} × e^({3} × {4} °C) × {5}"
+  },
+  "Tinta: ml/impresión = ({0} gotas ÷ {1} gotas/L) × 1000": {
+   "en": "Ink: ml/print = ({0} drops ÷ {1} drops/L) × 1000",
+   "pt-BR": "Tinta: ml/impressão = ({0} gotas ÷ {1} gotas/L) × 1000",
+   "pt-PT": "Tinta: ml/impressão = ({0} gotas ÷ {1} gotas/L) × 1000",
+   "it": "Inchiostro: ml/stampa = ({0} gocce ÷ {1} gocce/L) × 1000",
+   "zh": "墨水: ml/次 = ({0} 滴 ÷ {1} 滴/L) × 1000"
+  },
+  "Consumo CIJ · web {0}": {
+   "en": "CIJ Consumption · web {0}",
+   "pt-BR": "Consumo CIJ · web {0}",
+   "pt-PT": "Consumo CIJ · web {0}",
+   "it": "Consumo CIJ · web {0}",
+   "zh": "CIJ 消耗计算器 · 网页 {0}"
+  },
+  "Idioma: {0} · Zona: {1}": {
+   "en": "Language: {0} · Time zone: {1}",
+   "pt-BR": "Idioma: {0} · Fuso: {1}",
+   "pt-PT": "Idioma: {0} · Fuso horário: {1}",
+   "it": "Lingua: {0} · Fuso orario: {1}",
+   "zh": "语言: {0} · 时区: {1}"
+  },
+  "Navegador: {0}": {
+   "en": "Browser: {0}",
+   "pt-BR": "Navegador: {0}",
+   "pt-PT": "Navegador: {0}",
+   "it": "Browser: {0}",
+   "zh": "浏览器: {0}"
+  },
+  "Pantalla: {0} · DPR {1}": {
+   "en": "Screen: {0} · DPR {1}",
+   "pt-BR": "Tela: {0} · DPR {1}",
+   "pt-PT": "Ecrã: {0} · DPR {1}",
+   "it": "Schermo: {0} · DPR {1}",
+   "zh": "屏幕: {0} · DPR {1}"
+  },
+  "Archivo: {0}": {
+   "en": "File: {0}",
+   "pt-BR": "Arquivo: {0}",
+   "pt-PT": "Ficheiro: {0}",
+   "it": "File: {0}",
+   "zh": "文件: {0}"
+  },
+  "Equipo: {0} · boquilla {1} µm · tinta {2} · base {3}": {
+   "en": "Printer: {0} · nozzle {1} µm · ink {2} · base {3}",
+   "pt-BR": "Equipamento: {0} · bico {1} µm · tinta {2} · base {3}",
+   "pt-PT": "Equipamento: {0} · bico {1} µm · tinta {2} · base {3}",
+   "it": "Apparecchiatura: {0} · ugello {1} µm · inchiostro {2} · base {3}",
+   "zh": "机型: {0} · 喷嘴 {1} µm · 墨水 {2} · 基料 {3}"
+  },
+  "Mensaje: {0} · {1} car. · {2} líneas · {3} mm": {
+   "en": "Message: {0} · {1} chars · {2} lines · {3} mm",
+   "pt-BR": "Mensagem: {0} · {1} caract. · {2} linhas · {3} mm",
+   "pt-PT": "Mensagem: {0} · {1} carát. · {2} linhas · {3} mm",
+   "it": "Messaggio: {0} · {1} car. · {2} righe · {3} mm",
+   "zh": "喷印信息: {0} · {1} 字符 · {2} 行 · {3} mm"
+  },
+  "Producción: {0} imp/min · {1} h/día · {2} días/mes · {3} °C": {
+   "en": "Production: {0} prints/min · {1} h/day · {2} days/month · {3} °C",
+   "pt-BR": "Produção: {0} imp/min · {1} h/dia · {2} dias/mês · {3} °C",
+   "pt-PT": "Produção: {0} imp/min · {1} h/dia · {2} dias/mês · {3} °C",
+   "it": "Produzione: {0} stampe/min · {1} h/giorno · {2} giorni/mese · {3} °C",
+   "zh": "生产: {0} 次/分钟 · {1} 小时/天 · {2} 天/月 · {3} °C"
+  },
+  "Último error: {0}": {
+   "en": "Last error: {0}",
+   "pt-BR": "Último erro: {0}",
+   "pt-PT": "Último erro: {0}",
+   "it": "Ultimo errore: {0}",
+   "zh": "最近一次错误: {0}"
+  },
+  "Informe de error · Consumo CIJ (web)": {
+   "en": "Error report · CIJ Consumption (web)",
+   "pt-BR": "Relatório de erro · Consumo CIJ (web)",
+   "pt-PT": "Relatório de erro · Consumo CIJ (web)",
+   "it": "Rapporto di errore · Consumo CIJ (web)",
+   "zh": "错误报告 · CIJ 消耗计算器（网页）"
+  },
+  "Informe de error · Consumo CIJ (Android)": {
+   "en": "Error report · CIJ Consumption (Android)",
+   "pt-BR": "Relatório de erro · Consumo CIJ (Android)",
+   "pt-PT": "Relatório de erro · Consumo CIJ (Android)",
+   "it": "Rapporto di errore · Consumo CIJ (Android)",
+   "zh": "错误报告 · CIJ 消耗计算器（Android）"
+  },
+  "Descripción:": {
+   "en": "Description:",
+   "pt-BR": "Descrição:",
+   "pt-PT": "Descrição:",
+   "it": "Descrizione:",
+   "zh": "问题描述："
+  },
+  "Contacto: {0}": {
+   "en": "Contact: {0}",
+   "pt-BR": "Contato: {0}",
+   "pt-PT": "Contacto: {0}",
+   "it": "Contatto: {0}",
+   "zh": "联系方式: {0}"
+  },
+  "— Datos técnicos —": {
+   "en": "— Technical details —",
+   "pt-BR": "— Dados técnicos —",
+   "pt-PT": "— Dados técnicos —",
+   "it": "— Dati tecnici —",
+   "zh": "— 技术信息 —"
+  },
+  "(sin descripción)": {
+   "en": "(no description)",
+   "pt-BR": "(sem descrição)",
+   "pt-PT": "(sem descrição)",
+   "it": "(nessuna descrizione)",
+   "zh": "（未填写描述）"
+  },
+  "Versión: {0} (compilación {1})": {
+   "en": "Version: {0} (build {1})",
+   "pt-BR": "Versão: {0} (compilação {1})",
+   "pt-PT": "Versão: {0} (compilação {1})",
+   "it": "Versione: {0} (build {1})",
+   "zh": "版本: {0}（编译 {1}）"
+  },
+  "Dispositivo: {0} · Android {1} (API {2})": {
+   "en": "Device: {0} · Android {1} (API {2})",
+   "pt-BR": "Dispositivo: {0} · Android {1} (API {2})",
+   "pt-PT": "Dispositivo: {0} · Android {1} (API {2})",
+   "it": "Dispositivo: {0} · Android {1} (API {2})",
+   "zh": "设备: {0} · Android {1} (API {2})"
+  },
+  "— Último fallo registrado —": {
+   "en": "— Last recorded crash —",
+   "pt-BR": "— Última falha registrada —",
+   "pt-PT": "— Última falha registada —",
+   "it": "— Ultimo errore registrato —",
+   "zh": "— 最近一次记录的崩溃 —"
+  },
+  "Idioma de la aplicación": {
+   "en": "App language",
+   "pt-BR": "Idioma do aplicativo",
+   "pt-PT": "Idioma da aplicação",
+   "it": "Lingua dell'app",
+   "zh": "应用语言"
+  },
+  "Idioma del sistema": {
+   "en": "System language",
+   "pt-BR": "Idioma do sistema",
+   "pt-PT": "Idioma do sistema",
+   "it": "Lingua di sistema",
+   "zh": "系统语言"
+  },
+  "Selector de idioma dentro de la app: seis idiomas sin depender del sistema.": {
+   "en": "In-app language selector: six languages, independent of the system.",
+   "pt-BR": "Seletor de idioma dentro do app: seis idiomas, sem depender do sistema.",
+   "pt-PT": "Seletor de idioma dentro da aplicação: seis idiomas, sem depender do sistema.",
+   "it": "Selettore di lingua nell'app: sei lingue, indipendenti dal sistema.",
+   "zh": "应用内语言选择器：六种语言，不依赖系统设置。"
+  },
+  "Informes TXT traducidos a los seis idiomas.": {
+   "en": "TXT reports translated into all six languages.",
+   "pt-BR": "Relatórios TXT traduzidos para os seis idiomas.",
+   "pt-PT": "Relatórios TXT traduzidos para os seis idiomas.",
+   "it": "Rapporti TXT tradotti nelle sei lingue.",
+   "zh": "TXT 报告已翻译为全部六种语言。"
+  },
+  "Negrita y formato conservados en los textos traducidos.": {
+   "en": "Bold and formatting preserved in translated texts.",
+   "pt-BR": "Negrito e formatação preservados nos textos traduzidos.",
+   "pt-PT": "Negrito e formatação preservados nos textos traduzidos.",
+   "it": "Grassetto e formattazione conservati nei testi tradotti.",
+   "zh": "译文保留加粗与格式。"
+  },
+  "Pruebas automáticas del motor de cálculo en la web y en la app.": {
+   "en": "Automatic tests of the calculation engine on web and app.",
+   "pt-BR": "Testes automáticos do motor de cálculo na web e no app.",
+   "pt-PT": "Testes automáticos do motor de cálculo na web e na aplicação.",
+   "it": "Test automatici del motore di calcolo su web e app.",
+   "zh": "网页与应用的计算引擎自动测试。"
+  },
+  "Versión 2.2.0 · compilación 7 · 22/10/2026.": {
+   "en": "Version 2.2.0 · build 7 · 22/10/2026.",
+   "pt-BR": "Versão 2.2.0 · compilação 7 · 22/10/2026.",
+   "pt-PT": "Versão 2.2.0 · compilação 7 · 22/10/2026.",
+   "it": "Versione 2.2.0 · build 7 · 22/10/2026.",
+   "zh": "版本 2.2.0 · 编译 7 · 2026/10/22。"
+  },
+  "Versión 2.2.0 · compilación 7 · herramienta técnica interna · funciona sin internet · familias Simplicity y Serie 1000VJ.": {
+   "en": "Version 2.2.0 · build 7 · internal technical tool · works without internet · Simplicity and 1000VJ Series families.",
+   "pt-BR": "Versão 2.2.0 · compilação 7 · ferramenta técnica interna · funciona sem internet · famílias Simplicity e Série 1000VJ.",
+   "pt-PT": "Versão 2.2.0 · compilação 7 · ferramenta técnica interna · funciona sem internet · famílias Simplicity e Série 1000VJ.",
+   "it": "Versione 2.2.0 · build 7 · strumento tecnico interno · funziona senza internet · famiglie Simplicity e Serie 1000VJ.",
+   "zh": "版本 2.2.0 · 编译 7 · 内部技术工具 · 无需联网 · Simplicity 与 1000VJ 系列。"
+  },
+  "Versión 2.2.0 · herramienta técnica interna · familias Simplicity y Serie 1000VJ.": {
+   "en": "Version 2.2.0 · internal technical tool · Simplicity and 1000VJ Series families.",
+   "pt-BR": "Versão 2.2.0 · ferramenta técnica interna · famílias Simplicity e Série 1000VJ.",
+   "pt-PT": "Versão 2.2.0 · ferramenta técnica interna · famílias Simplicity e Série 1000VJ.",
+   "it": "Versione 2.2.0 · strumento tecnico interno · famiglie Simplicity e Serie 1000VJ.",
+   "zh": "版本 2.2.0 · 内部技术工具 · Simplicity 与 1000VJ 系列。"
+  },
+  "Impresoras CIJ Videojet · Simplicity & Serie 1000VJ · Basada en los modelos oficiales CIJ Makeup Usage v14, Line Speed v9.7 y TCO v35": {
+   "en": "Videojet CIJ printers · Simplicity & Serie 1000VJ · Based on the official models CIJ Makeup Usage v14, Line Speed v9.7 and TCO v35",
+   "pt-BR": "Impressoras CIJ Videojet · Simplicity & Serie 1000VJ · Baseada nos modelos oficiais CIJ Makeup Usage v14, Line Speed v9.7 e TCO v35",
+   "pt-PT": "Impressoras CIJ Videojet · Simplicity & Serie 1000VJ · Baseada nos modelos oficiais CIJ Makeup Usage v14, Line Speed v9.7 e TCO v35",
+   "it": "Stampanti CIJ Videojet · Simplicity & Serie 1000VJ · Basata sui modelli ufficiali CIJ Makeup Usage v14, Line Speed v9.7 e TCO v35",
+   "zh": "Videojet CIJ 喷码机 · Simplicity & Serie 1000VJ · 基于官方模型 CIJ Makeup Usage v14、Line Speed v9.7 和 TCO v35"
+  },
+  "Días/semana": {
+   "en": "Days/week",
+   "pt-BR": "Dias/semana",
+   "pt-PT": "Dias/semana",
+   "it": "Giorni/settimana",
+   "zh": "天/周"
+  },
+  "Relación S:T": {
+   "en": "Solvent:ink",
+   "pt-BR": "Solvente:T",
+   "pt-PT": "Solvente:T",
+   "it": "Solvente:I",
+   "zh": "溶剂:墨水"
+  },
+  "Cart. solvente": {
+   "en": "Solvent cart.",
+   "pt-BR": "Cart. solvente",
+   "pt-PT": "Cart. solvente",
+   "it": "Cart. solvente",
+   "zh": "溶剂盒"
+  },
+  "Fallo automático registrado": {
+   "en": "Automatic crash report",
+   "pt-BR": "Falha automática registrada",
+   "pt-PT": "Falha automática registada",
+   "it": "Errore automatico registrato",
+   "zh": "自动记录的崩溃报告"
+  },
+  "cambio cada {0} meses de producción": {
+   "en": "replace every {0} production months",
+   "pt-BR": "cambio cada {0} meses de producción",
+   "pt-PT": "substituição a cada {0} meses de produção",
+   "it": "sostituzione ogni {0} mesi di produzione",
+   "zh": "每 {0} 个生产月更换一次"
+  },
+  "cambio cada {0} meses": {
+   "en": "replace every {0} months",
+   "pt-BR": "cambio cada {0} meses",
+   "pt-PT": "substituição a cada {0} meses",
+   "it": "sostituzione ogni {0} mesi",
+   "zh": "每 {0} 个月更换一次"
+  },
+  "Resultado: {0} ml/h solvente · {1} ml/h tinta": {
+   "en": "Result: {0} ml/h solvent · {1} ml/h ink",
+   "pt-BR": "Resultado: {0} ml/h solvente · {1} ml/h tinta",
+   "pt-PT": "Resultado: {0} ml/h solvente · {1} ml/h tinta",
+   "it": "Risultato: {0} ml/h solvente · {1} ml/h inchiostro",
+   "zh": "结果: 溶剂 {0} ml/h · 墨水 {1} ml/h"
   }
  }
 }

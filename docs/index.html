@@ -135,13 +135,14 @@ footer{border-top:1px solid var(--border);background:rgba(17,28,49,.55);margin-t
 
   <section class="hero" id="inicio">
     <div>
-      <span class="pill"><span class="dot"></span> Versión 2.1.1 · 6 idiomas · 100 % offline</span>
+      <span class="pill"><span class="dot"></span> Versión 2.2.0 · 6 idiomas · 100 % offline</span>
       <h1>Consumo de <span>tinta y solvente</span> para impresoras CIJ</h1>
       <p class="lead">
         Calculadora técnica para equipos <b>Videojet Simplicity</b> y <b>Serie 1000VJ</b>: solvente por
         temperatura, tinta por carácter, velocidad de línea, cartuchos y mantenimiento. Web autónoma y
-        app Android nativa, <b>100 % sin internet</b>. Interfaz en <b>seis idiomas</b> con detección
-        automática y <b>reporte de errores</b> por correo, también sin conexión.
+        app Android nativa, <b>100 % sin internet</b>. Interfaz en <b>seis idiomas</b> —con selector propio
+        en la app—, <b>informes traducidos</b>, <b>reporte de errores</b> por correo y
+        <b>pruebas automáticas</b> del motor de cálculo.
       </p>
       <div class="cta">
         <a class="btn primary" href="calculadora.html">
@@ -201,33 +202,33 @@ footer{border-top:1px solid var(--border);background:rgba(17,28,49,.55);margin-t
 
   <section id="novedades">
     <div class="sec-head">
-      <h2>Novedades 2.1.1</h2>
+      <h2>Novedades 2.2.0</h2>
       <p>Lo último que se ha incorporado, con el detalle completo en <a href="notas.html">Notas de la versión</a>.</p>
     </div>
     <div class="grid">
       <article class="card">
-        <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9S14.5 18.3 12 21c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3Z"/></svg></span> Seis idiomas</h3>
-        <p>Español, inglés, portugués de Brasil, portugués de Portugal, italiano y chino simplificado.
-        Detección automática en Android y en la web, con selector en la cabecera y memoria de la elección.</p>
+        <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9S14.5 18.3 12 21c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.3 12 3Z"/></svg></span> Selector de idioma en la app</h3>
+        <p>Ahora se elige el idioma <b>dentro de la aplicación</b>, sin depender de la configuración del
+        sistema: Español, English, Português (BR/PT), Italiano y 中文. La elección se recuerda.</p>
       </article>
       <article class="card">
-        <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5.5h16v11H8l-4 3.5z"/><path d="M8.5 9.5h7M8.5 12.5h4"/></svg></span> Reportar un error</h3>
-        <p>Botón en el pie de la web y tarjeta en Android. El informe incluye versión, idioma, dispositivo
-        y datos del cálculo; se abre el correo del usuario y <b>no se añade ningún permiso de red</b>.</p>
+        <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3.5h8l4 4v13H6z"/><path d="M14 3.5v4h4"/><path d="M9 12h6M9 15.5h4"/></svg></span> Informes TXT traducidos</h3>
+        <p>Las <b>cabeceras y etiquetas</b> de los informes TXT y CSV se generan ya en el idioma elegido,
+        con la misma maquetación alineada en los seis idiomas.</p>
       </article>
       <article class="card">
-        <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12.5 4.5 4.5L19 6.5"/></svg></span> Correcciones y control</h3>
-        <p>Reparadas las tarjetas «Exportar resultado» y «Mantenimiento y vida útil». Validación automática
-        de catálogo, copias web, recursos, JavaScript y HTML en cada cambio.</p>
+        <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 5h12M6 12h12M6 19h7"/><path d="M4 5h.01M4 12h.01M4 19h.01"/></svg></span> Negrita conservada</h3>
+        <p>Los párrafos traducidos mantienen el <b>formato original</b> (negrita, cursiva y código técnico).
+        El catálogo marca los tramos resaltados con <code>**…**</code> y el validador comprueba su equilibrio.</p>
       </article>
       <article class="card">
-        <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3.5v12M8 11.5l4 4 4-4"/><path d="M5 17.5v2h14v-2"/></svg></span> Versión y seguimiento</h3>
-        <p>Web y app muestran su versión (<b>2.1.1</b> · compilación <b>6</b>). Cada entrega deja notas de
-        «antes / hecho / pendiente» en el repositorio y en esta web.</p>
+        <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12.5 4.5 4.5L19 6.5"/></svg></span> 60 pruebas del motor</h3>
+        <p><b>43 comprobaciones</b> sobre el motor de la web y <b>17</b> sobre el de Android, con los valores
+        de referencia de los modelos oficiales. Se ejecutan solas en cada cambio (CI).</p>
       </article>
     </div>
     <div class="note">
-      <b>Seguimiento:</b> <a href="notas.html">Notas de la versión 2.1.1</a> ·
+      <b>Seguimiento:</b> <a href="notas.html">Notas de la versión 2.2.0</a> ·
       <a href="VERSIONES.md">historial de versiones</a> ·
       <a href="https://github.com/emanuelindustri-source/consumo-cij-calculadora/releases/latest" target="_blank" rel="noopener">última release</a>.
     </div>
@@ -242,7 +243,7 @@ footer{border-top:1px solid var(--border);background:rgba(17,28,49,.55);margin-t
       <div class="stat"><b>150</b><span>PDFs de solvente</span></div>
       <div class="stat"><b>40</b><span>PDFs de velocidad</span></div>
       <div class="stat"><b>2 400</b><span>valores contrastados</span></div>
-      <div class="stat"><b>28</b><span>pruebas del motor</span></div>
+      <div class="stat"><b>60</b><span>pruebas del motor</span></div>
     </div>
     <div style="height:18px"></div>
     <table>
@@ -275,6 +276,9 @@ footer{border-top:1px solid var(--border);background:rgba(17,28,49,.55);margin-t
       <figure><img src="assets/pantalla-clasica.png" alt="Pantalla clásica 720x1280" loading="lazy"><figcaption>Pantalla clásica 16:9</figcaption></figure>
       <figure><img src="assets/apaisado.png" alt="Vista apaisada de dos columnas" loading="lazy"><figcaption>Apaisado · dos columnas</figcaption></figure>
       <figure><img src="assets/amoled.png" alt="Tema AMOLED negro puro" loading="lazy"><figcaption>Tema AMOLED</figcaption></figure>
+      <figure><img src="assets/idiomas.png" alt="Selector de idioma de la aplicación" loading="lazy"><figcaption>Selector de idioma · 2.2.0</figcaption></figure>
+      <figure><img src="assets/idioma-chino.png" alt="Interfaz en chino simplificado" loading="lazy"><figcaption>Interfaz en chino</figcaption></figure>
+      <figure><img src="assets/web-idiomas.png" alt="Calculadora web en chino conservando la negrita" loading="lazy"><figcaption>Web traducida · 2.2.0</figcaption></figure>
     </div>
   </section>
 
@@ -315,7 +319,8 @@ footer{border-top:1px solid var(--border);background:rgba(17,28,49,.55);margin-t
     <table>
       <thead><tr><th>Versión</th><th>Fecha</th><th>Cambios principales</th></tr></thead>
       <tbody>
-        <tr><td><b>2.1.1</b></td><td>21/10/2026</td><td>Portada actualizada, notas públicas y versión/compilación visibles en web y Android · APK 2.1.1 (código 6)</td></tr>
+        <tr><td><b>2.2.0</b></td><td>22/10/2026</td><td>Selector de idioma en la app · informes TXT traducidos · negrita conservada · 60 pruebas del motor · APK 2.2.0 (código 7)</td></tr>
+        <tr><td>2.1.1</td><td>21/10/2026</td><td>Portada actualizada, notas públicas y versión/compilación visibles en web y Android · APK 2.1.1 (código 6)</td></tr>
         <tr><td>2.1.0</td><td>21/10/2026</td><td>Seis idiomas (ES/EN/PT-BR/PT-PT/IT/ZH) · reporte de errores sin red · dos tarjetas HTML corregidas</td></tr>
         <tr><td>2.0.1</td><td>21/10/2026</td><td>Correcciones de datos: mantenimiento, boquilla de 70 µm, QR y cartuchos</td></tr>
         <tr><td>2.0.0</td><td>21/10/2026</td><td>Limpieza total: sin módulos experimentales ni costes · 100 % offline · sin permisos de red</td></tr>
@@ -366,7 +371,7 @@ footer{border-top:1px solid var(--border);background:rgba(17,28,49,.55);margin-t
       respectivos titulares y se citan con fines descriptivos de compatibilidad.</p>
     </div>
   </div>
-  <div class="wrap copy">© 2026 Khristyan Hidalgo · Licencia MIT · Consumo CIJ v2.1.1 · Hecho para trabajar sin conexión</div>
+  <div class="wrap copy">© 2026 Khristyan Hidalgo · Licencia MIT · Consumo CIJ v2.2.0 · Hecho para trabajar sin conexión</div>
 </footer>
 
 </body>

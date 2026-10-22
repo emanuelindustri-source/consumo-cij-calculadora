@@ -80,6 +80,31 @@ libros de cálculo oficiales y se verifican contra los PDFs publicados. El proce
 4. Contraste con 734 fichas de solvente y 535 de velocidad de línea.
 5. Generación de los archivos de datos para web (JSON) y Android (Kotlin).
 
+## Idiomas e informes
+
+- **Fuente única de verdad**: [`i18n/catalog.json`](../i18n/catalog.json). De ahí se generan el
+  bloque `<script id="i18n-data">` de la web, los `assets/i18n/*.json` de Android y la copia
+  `docs/calculadora.html` con `python tools/gen_i18n.py`. **Ninguna copia se edita a mano.**
+- **Negrita y formato**: los tramos resaltados se encierran entre `**…**` en la clave y en cada
+  traducción; la web reconstruye la etiqueta HTML original (`<b>`, `<em>`, `<code>`) y escapa el
+  resto del texto. Así la traducción conserva el formato sin editar el HTML.
+- **Informes**: las cabeceras y etiquetas del informe TXT/CSV y del informe técnico pasan por
+  `t()` / `tf()`, con las etiquetas alineadas por idioma (`rptRow` en web, `padRow` en Android).
+
+## Herramientas y pruebas
+
+| Herramienta | Qué hace |
+|---|---|
+| `tools/gen_i18n.py` | Genera todos los artefactos de traducción desde el catálogo (`--check` para comprobar) |
+| `tools/check_i18n.py` | Catálogo, copias web, assets, párrafos traducibles, JavaScript y HTML |
+| `tools/test_engine.js` | 43 pruebas del motor de la web contra los valores de referencia oficiales |
+| `tools/validar.py` | Ejecuta todo lo anterior y las pruebas de Kotlin de una sola vez |
+| `android/app/src/test/` | 17 pruebas del motor de Android (JVM, sin dispositivo) |
+
+Las pruebas no reimplementan las fórmulas: **extraen el motor real** del HTML (web) o compilan
+`CalcEngine.kt` (Android) y lo comparan con los valores publicados en los modelos oficiales de
+Videojet. La CI las ejecuta en cada push.
+
 ## Compilación
 
 **Web:** no requiere compilación; se abre el HTML o se publica en cualquier servidor estático.
@@ -87,12 +112,13 @@ libros de cálculo oficiales y se verifican contra los PDFs publicados. El proce
 **Android:**
 ```bash
 cd android
-gradle assembleDebug     # desarrollo
-gradle assembleRelease   # producción (firmado, R8 + shrinkResources)
+gradle testDebugUnitTest  # 17 pruebas del motor
+gradle assembleDebug      # desarrollo
+gradle assembleRelease    # producción (firmado, R8 + shrinkResources)
 ```
 
-La integración continua (`.github/workflows/android.yml`) compila el APK en cada push y lo publica como
-artefacto de la ejecución.
+La integración continua (`.github/workflows/`) valida web e idiomas (`validar.yml`) y ejecuta las
+pruebas de Kotlin y la compilación de la APK (`android.yml`) en cada push.
 
 ## Decisiones de diseño
 

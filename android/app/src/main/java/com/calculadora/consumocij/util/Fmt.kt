@@ -1,11 +1,12 @@
 package com.calculadora.consumocij.util
 
+import com.calculadora.consumocij.i18n.I18n
 import java.text.NumberFormat
 import java.util.Locale
 
-/** Formato numérico según el idioma del dispositivo (es-ES / es-MX / etc.). */
+/** Formato numérico según el idioma activo de la app (es-ES / en-GB / pt-BR / zh-CN...). */
 object Fmt {
-    private val locale: Locale get() = Locale.getDefault()
+    private val locale: Locale get() = I18n.activeLocale()
 
     fun n(v: Double, dec: Int = 1): String {
         if (!v.isFinite()) return "—"

@@ -13,6 +13,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -24,8 +25,10 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -33,12 +36,14 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.NewReleases
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.material.icons.filled.Share
@@ -115,6 +120,7 @@ private fun NoOfficialDataNote() {
 fun CalculatorScreen(vm: CalculatorViewModel) {
     val input = vm.input
     val result = vm.result
+    val context = LocalContext.current
 
     // ancho disponible → 1 columna (teléfono) o 2 columnas (tableta/apaisado)
     BoxWithConstraintsCompat { wide ->
@@ -127,6 +133,11 @@ fun CalculatorScreen(vm: CalculatorViewModel) {
             AppHeader(
                 themeMode = vm.themeMode,
                 onTheme = { vm.setTheme(it) },
+                lang = I18n.preference,
+                onLang = { tag ->
+                    I18n.setLanguage(context, tag)
+                    (context as? android.app.Activity)?.recreate()
+                },
             )
 
             val scroll = rememberScrollState()
@@ -199,42 +210,81 @@ private fun BoxWithConstraintsCompat(content: @Composable (wide: Boolean) -> Uni
 private fun AppHeader(
     themeMode: ThemeMode,
     onTheme: (ThemeMode) -> Unit,
+    lang: String,
+    onLang: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var menuOpen by remember { mutableStateOf(false) }
-    Row(
+    var langOpen by remember { mutableStateOf(false) }
+    Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 12.dp),
-        verticalAlignment = Alignment.CenterVertically
+            .padding(horizontal = 16.dp, vertical = 12.dp)
     ) {
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                "Consumo de Tinta y Solvente".tr(),
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-            Text(
-                "Herramienta de apoyo no oficial · equipos CIJ (Simplicity / Serie 1000VJ) · 100 % offline".tr(),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-        }
-        Box {
-            OutlinedButton(onClick = { menuOpen = true }) {
-                Text(themeLabel(themeMode), style = MaterialTheme.typography.labelMedium)
-                Icon(Icons.Filled.ArrowDropDown, contentDescription = null)
-            }
-            DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
-                ThemeMode.entries.forEach { mode ->
-                    DropdownMenuItem(
-                        text = { Text(themeLabel(mode)) },
-                        onClick = { onTheme(mode); menuOpen = false }
+        Text(
+            "Consumo de Tinta y Solvente".tr(),
+            style = MaterialTheme.typography.titleLarge,
+            fontWeight = FontWeight.Bold,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+        Text(
+            "Herramienta de apoyo no oficial · equipos CIJ (Simplicity / Serie 1000VJ) · 100 % offline".tr(),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+        Spacer(Modifier.height(8.dp))
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Box {
+                OutlinedButton(
+                    onClick = { langOpen = true },
+                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp)
+                ) {
+                    Icon(
+                        Icons.Filled.Language,
+                        contentDescription = I18n.t("Idioma de la aplicación"),
+                        modifier = Modifier.size(18.dp)
                     )
+                    Spacer(Modifier.width(6.dp))
+                    Text(
+                        I18n.labelOf(lang),
+                        style = MaterialTheme.typography.labelMedium,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.widthIn(max = 150.dp)
+                    )
+                    Icon(Icons.Filled.ArrowDropDown, contentDescription = null)
+                }
+                DropdownMenu(expanded = langOpen, onDismissRequest = { langOpen = false }) {
+                    I18n.LANGUAGES.forEach { tag ->
+                        DropdownMenuItem(
+                            text = { Text(I18n.labelOf(tag)) },
+                            leadingIcon = if (tag == lang) {
+                                { Icon(Icons.Filled.Check, contentDescription = null) }
+                            } else null,
+                            onClick = { if (tag != lang) onLang(tag); langOpen = false }
+                        )
+                    }
+                }
+            }
+            Spacer(Modifier.width(8.dp))
+            Box {
+                OutlinedButton(
+                    onClick = { menuOpen = true },
+                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp)
+                ) {
+                    Text(themeLabel(themeMode), style = MaterialTheme.typography.labelMedium)
+                    Icon(Icons.Filled.ArrowDropDown, contentDescription = null)
+                }
+                DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
+                    ThemeMode.entries.forEach { mode ->
+                        DropdownMenuItem(
+                            text = { Text(themeLabel(mode)) },
+                            onClick = { onTheme(mode); menuOpen = false }
+                        )
+                    }
                 }
             }
         }
@@ -428,14 +478,19 @@ private fun InkSection(vm: CalculatorViewModel) {
         val ic = VideojetData.inkContainers[input.ink]
         if (base != null) {
             InfoBox(
-                text = "Base ${input.inkBase} — factor de consumo ${Fmt.n(base.cons, 3)} · " +
-                    "factor exponencial ${Fmt.n(base.k[0] * 100, 2)} %/°C" +
-                    if (ic != null && ic.muCode.isNotEmpty()) " · solvente asociado ${ic.muCode}" else ""
+                text = I18n.tf(
+                    "Base {0} — factor de consumo {1} · factor exponencial {2} %/°C · solvente asociado {3}",
+                    input.inkBase, Fmt.n(base.cons, 3), Fmt.n(base.k[0] * 100, 2),
+                    ic?.muCode?.takeIf { it.isNotEmpty() } ?: "—"
+                )
             )
         } else {
             InfoBox(
-                text = "La base «${input.inkBase}» no tiene factor oficial en el Makeup Usage Model v14 " +
-                    "(la ficha original da #N/D). El cálculo usará MEK como estimación.",
+                text = I18n.tf(
+                    "La base «{0}» no tiene factor oficial en el Makeup Usage Model v14 "
+                        + "(la ficha original da #N/D). El cálculo usará MEK como estimación.",
+                    input.inkBase
+                ),
                 color = MaterialTheme.colorScheme.errorContainer
             )
         }
@@ -463,11 +518,11 @@ private fun MessageSection(vm: CalculatorViewModel) {
         )
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             NumberField(
-                label = "Caracteres/línea", value = input.chars.toDouble(), isInt = true,
+                label = "Caracteres/línea".tr(), value = input.chars.toDouble(), isInt = true,
                 modifier = Modifier.weight(1f)
             ) { v -> vm.update { it.copy(chars = v.toInt().coerceIn(1, 500)) } }
             NumberField(
-                label = "Líneas", value = input.lines.toDouble(), isInt = true,
+                label = "Líneas".tr(), value = input.lines.toDouble(), isInt = true,
                 modifier = Modifier.weight(1f)
             ) { v -> vm.update { it.copy(lines = v.toInt().coerceIn(1, 5)) } }
         }
@@ -477,7 +532,7 @@ private fun MessageSection(vm: CalculatorViewModel) {
                 modifier = Modifier.weight(1f)
             ) { v -> vm.update { it.copy(stroke = v.toInt().coerceIn(1, 4)) } }
             NumberField(
-                label = "Ancho impresión", value = input.widthMm, suffix = "mm",
+                label = "Ancho de impresión".tr(), value = input.widthMm, suffix = "mm",
                 modifier = Modifier.weight(1f)
             ) { v -> vm.update { it.copy(widthMm = v) } }
         }
@@ -504,17 +559,17 @@ private fun ProductionSection(vm: CalculatorViewModel) {
         }
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             NumberField(
-                label = "Horas/día", value = input.hoursDay, suffix = "h",
+                label = "Horas/día".tr(), value = input.hoursDay, suffix = "h",
                 modifier = Modifier.weight(1f)
             ) { v -> vm.update { it.copy(hoursDay = v) } }
             NumberField(
-                label = "Días/semana", value = input.daysWeek.toDouble(), isInt = true,
+                label = "Días/semana".tr(), value = input.daysWeek.toDouble(), isInt = true,
                 modifier = Modifier.weight(1f)
             ) { v -> vm.update { it.copy(daysWeek = v.toInt().coerceIn(1, 7)) } }
         }
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             NumberField(
-                label = "Días/mes", value = input.daysMonth.toDouble(), isInt = true,
+                label = "Días por mes".tr(), value = input.daysMonth.toDouble(), isInt = true,
                 modifier = Modifier.weight(1f)
             ) { v -> vm.update { it.copy(daysMonth = v.toInt().coerceIn(1, 31)) } }
             NumberField(
@@ -525,7 +580,7 @@ private fun ProductionSection(vm: CalculatorViewModel) {
         Spacer(Modifier.height(8.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             NumberField(
-                label = "Velocidad línea", value = input.lineSpeed, suffix = "m/min",
+                label = "Velocidad de línea".tr(), value = input.lineSpeed, suffix = "m/min",
                 modifier = Modifier.weight(1f)
             ) { v -> vm.update { it.copy(lineSpeed = v) } }
             NumberField(
@@ -578,15 +633,15 @@ private fun AdvancedSection(vm: CalculatorViewModel) {
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     NumberField(
-                        label = "Vida en almacén", value = input.shelfLifeMonths, suffix = "meses",
+                        label = "Vida útil en almacén".tr(), value = input.shelfLifeMonths, suffix = "meses".tr(),
                         modifier = Modifier.weight(1f)
                     ) { v -> vm.update { it.copy(shelfLifeMonths = v) } }
                     NumberField(
-                        label = "Núcleo (horas)", value = input.coreHours, suffix = "h",
+                        label = "Vida núcleo (horas)".tr(), value = input.coreHours, suffix = "h",
                         modifier = Modifier.weight(1f)
                     ) { v -> vm.update { it.copy(coreHours = v) } }
                     NumberField(
-                        label = "Núcleo (días)", value = input.coreDays, suffix = "días",
+                        label = "Vida núcleo (días)".tr(), value = input.coreDays, suffix = "días".tr(),
                         modifier = Modifier.weight(1f)
                     ) { v -> vm.update { it.copy(coreDays = v) } }
                 }
@@ -594,7 +649,7 @@ private fun AdvancedSection(vm: CalculatorViewModel) {
                     label = "Modelo de temperatura del solvente".tr(),
                     options = listOf("Publicado (Makeup Usage v14)".tr(), "Por ecuación del equipo (TCO v35)".tr()),
                     selected = if (input.temperatureModel == TemperatureModel.PUBLISHED)
-                        "Publicado (Makeup Usage v14)" else "Por ecuación del equipo (TCO v35)",
+                        "Publicado (Makeup Usage v14)".tr() else "Por ecuación del equipo (TCO v35)".tr(),
                     onSelect = { s ->
                         vm.update {
                             it.copy(
@@ -688,8 +743,8 @@ private fun ResultsSection(vm: CalculatorViewModel, input: CalcInput, r: CalcRes
             Spacer(Modifier.height(10.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(18.dp)) {
                 MiniStat("Tinta".tr(), "${Fmt.n(r.inkPerHour, 2)} ml/h")
-                MiniStat("Relación S:T", "${Fmt.n(r.ratio, 2)} : 1")
-                MiniStat("Cart. solvente", "${Fmt.n(r.hoursPerMuCart, 0)} h")
+                MiniStat("Relación S:T".tr(), "${Fmt.n(r.ratio, 2)} : 1")
+                MiniStat("Cart. solvente".tr(), "${Fmt.n(r.hoursPerMuCart, 0)} h")
             }
         }
     }
@@ -700,8 +755,8 @@ private fun ResultsSection(vm: CalculatorViewModel, input: CalcInput, r: CalcRes
         KpiCard("Tinta / mes".tr(), "${Fmt.i(r.inkMonth)} ml", "≈ ${Fmt.n(r.inkMonth / 1000.0, 2)} L", Modifier.weight(1f))
     }
     Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-        KpiCard("Cart. solvente/mes", Fmt.n(r.muCartMonth, 1), "${Fmt.n(r.hoursPerMuCart, 0)} h c/u", Modifier.weight(1f))
-        KpiCard("Cart. tinta/mes", Fmt.n(r.inkCartMonth, 1), "${Fmt.i(r.printsPerInkCart)} imp. c/u", Modifier.weight(1f))
+        KpiCard("Cartuchos solvente mes".tr(), Fmt.n(r.muCartMonth, 1), "${Fmt.n(r.hoursPerMuCart, 0)} ${I18n.t("h c/u")}", Modifier.weight(1f))
+        KpiCard("Cartuchos tinta mes".tr(), Fmt.n(r.inkCartMonth, 1), "${Fmt.i(r.printsPerInkCart)} ${I18n.t("impresiones c/u")}", Modifier.weight(1f))
     }
 
     // tabla de detalle
@@ -710,7 +765,7 @@ private fun ResultsSection(vm: CalculatorViewModel, input: CalcInput, r: CalcRes
         DetailRow("Consumo tinta".tr(), r.inkPerHour, r.inkDay, r.inkMonth, r.inkYear, "ml")
         DetailRow("Impresiones".tr(), r.printsPerHour, r.printsPerHour * input.hoursDay, r.printsPerHour * r.hoursMonth, r.printsPerHour * r.hoursYear, "")
         DetailRow(
-            "Gotas de tinta",
+            "Gotas de tinta".tr(),
             r.dropsPerMessage * r.printsPerHour,
             r.dropsPerMessage * r.printsPerHour * input.hoursDay,
             r.dropsPerMessage * r.printsPerHour * r.hoursMonth,
@@ -718,7 +773,7 @@ private fun ResultsSection(vm: CalculatorViewModel, input: CalcInput, r: CalcRes
             "gotas".tr()
         )
         Spacer(Modifier.height(8.dp))
-        InfoBox("Relación solvente : tinta = ${Fmt.n(r.ratio, 2)} : 1  (regla práctica 4 : 1)")
+        InfoBox("${I18n.t("Relación solvente : tinta")} = ${Fmt.n(r.ratio, 2)} : 1  ${I18n.t("(regla práctica 4 : 1)")}")
     }
 
     // gráficos
@@ -729,7 +784,7 @@ private fun ResultsSection(vm: CalculatorViewModel, input: CalcInput, r: CalcRes
     SectionCard(title = "Tinta vs solvente mensual".tr(), icon = Icons.Filled.Info) {
         BarsChart(solventMonth = r.muMonth, inkMonth = r.inkMonth, heightDp = 200)
     }
-    SectionCard(title = "Consumo acumulado en la jornada", icon = Icons.Filled.Info) {
+    SectionCard(title = "Consumo acumulado en la jornada".tr(), icon = Icons.Filled.Info) {
         TimelineChart(
             muPerHour = r.muPerHour,
             inkPerHour = r.inkPerHour,
@@ -758,7 +813,7 @@ private fun ResultsSection(vm: CalculatorViewModel, input: CalcInput, r: CalcRes
             ProgressLine(
                 label = "Vida del núcleo consumida al año".tr(),
                 pct = pctYear,
-                detail = "cambio cada ${Fmt.n(input.coreHours / r.hoursMonth, 1)} meses de producción"
+                detail = I18n.tf("cambio cada {0} meses de producción", Fmt.n(input.coreHours / r.hoursMonth, 1))
             )
         }
         if (input.coreDays > 0 && input.daysWeek > 0) {
@@ -766,7 +821,7 @@ private fun ResultsSection(vm: CalculatorViewModel, input: CalcInput, r: CalcRes
             ProgressLine(
                 label = "Vida por días consumida al año".tr(),
                 pct = pctYear,
-                detail = "cambio cada ${Fmt.n(input.coreDays / (input.daysWeek * 4.345), 1)} meses"
+                detail = I18n.tf("cambio cada {0} meses", Fmt.n(input.coreDays / (input.daysWeek * 4.345), 1))
             )
         }
     }
@@ -955,27 +1010,27 @@ private fun AlertsList(input: CalcInput, r: CalcResult) {
         when {
             r.ratio in 3.0..5.0 -> alerts.add(
                 Triple(Icons.Filled.CheckCircle, extra.success,
-                    "Relación solvente : tinta = ${Fmt.n(r.ratio, 2)} : 1, dentro de la regla práctica de 4 : 1.")
+                    I18n.tf("Relación solvente : tinta = {0} : 1, dentro de la regla práctica de 4 cartuchos de solvente por cada uno de tinta.", Fmt.n(r.ratio, 2)))
             )
             r.ratio > 5.0 -> alerts.add(
                 Triple(Icons.Filled.Warning, extra.warning,
-                    "Relación solvente : tinta = ${Fmt.n(r.ratio, 2)} : 1, superior a 4 : 1. Suele deberse a pocas impresiones/min o muchas horas de encendido.")
+                    I18n.tf("Relación solvente : tinta = {0} : 1, superior a la regla práctica de 4 : 1. Suele deberse a pocas impresiones/minuto o muchas horas de encendido: el solvente se evapora aunque no se imprima.", Fmt.n(r.ratio, 2)))
             )
             else -> alerts.add(
                 Triple(Icons.Filled.Info, extra.accent2,
-                    "Relación solvente : tinta = ${Fmt.n(r.ratio, 2)} : 1, inferior a 4 : 1: línea con alta actividad de impresión.")
+                    I18n.tf("Relación solvente : tinta = {0} : 1, inferior a la regla práctica de 4 : 1: la línea tiene alta actividad de impresión.", Fmt.n(r.ratio, 2)))
             )
         }
     }
     if (input.tempC >= 32) {
         alerts.add(
             Triple(Icons.Filled.Warning, extra.warning,
-                "Temperatura de ${Fmt.n(input.tempC, 1)} °C: el consumo de solvente se dispara. Considere ventilación o condensador activo.")
+                I18n.tf("Temperatura de {0} °C: el consumo de solvente se dispara (factor exponencial). Considere ventilación o condensador activo.", Fmt.n(input.tempC, 1)))
         )
     } else if (input.tempC <= 12) {
         alerts.add(
             Triple(Icons.Filled.Info, extra.accent2,
-                "Temperatura baja (${Fmt.n(input.tempC, 1)} °C): menor evaporación, vigile la viscosidad de la tinta.")
+                I18n.tf("Temperatura baja ({0} °C): menor evaporación de solvente, pero vigile la viscosidad de la tinta y el arranque en frío.", Fmt.n(input.tempC, 1)))
         )
     }
     alerts.add(
@@ -991,7 +1046,7 @@ private fun AlertsList(input: CalcInput, r: CalcResult) {
         if (months > input.shelfLifeMonths) {
             alerts.add(
                 Triple(Icons.Filled.Warning, extra.warning,
-                    "Un cartucho tarda ${Fmt.n(months, 1)} meses en gastarse y su vida en almacén es de ${Fmt.i(input.shelfLifeMonths)} meses: riesgo de caducidad.")
+                    I18n.tf("Un cartucho tarda {0} meses en gastarse y su vida útil en almacén es de {1} meses: riesgo de caducidad. Compre envases menores o ajuste el consumo.", Fmt.n(months, 1), Fmt.i(input.shelfLifeMonths)))
             )
         }
     }
@@ -999,12 +1054,12 @@ private fun AlertsList(input: CalcInput, r: CalcResult) {
         if (input.lineSpeed > max) {
             alerts.add(
                 Triple(Icons.Filled.Error, extra.danger,
-                    "La velocidad de ${Fmt.n(input.lineSpeed, 0)} m/min supera la máxima (${Fmt.n(max, 1)} m/min) para ${input.font} con ${input.chars} caracteres y ${Fmt.n(input.widthMm, 1)} mm.")
+                    I18n.tf("La velocidad de línea de {0} m/min supera la máxima permitida para {1} con {2} caracteres y {3} mm de ancho: {4} m/min. Reduzca caracteres, use fuente más pequeña o aumente el ancho.", Fmt.n(input.lineSpeed, 0), input.font, input.chars, Fmt.n(input.widthMm, 1), Fmt.n(max, 1)))
             )
         } else {
             alerts.add(
                 Triple(Icons.Filled.CheckCircle, extra.success,
-                    "Velocidad válida: máx. ${Fmt.n(max, 1)} m/min para ${input.font} · ${input.chars} car. · ${Fmt.n(input.widthMm, 1)} mm.")
+                    I18n.tf("Velocidad de línea válida: máx. {0} m/min para {1} · {2} car. · {3} mm (capacidad {4} caracteres/seg).", Fmt.n(max, 1), input.font, input.chars, Fmt.n(input.widthMm, 1), Fmt.n(r.cps ?: 0.0, 1)))
             )
         }
     }
@@ -1012,7 +1067,7 @@ private fun AlertsList(input: CalcInput, r: CalcResult) {
         if (input.ppm > maxPpm) {
             alerts.add(
                 Triple(Icons.Filled.Warning, extra.warning,
-                    "Las ${Fmt.n(input.ppm, 0)} impresiones/min superan las ${Fmt.n(maxPpm, 0)} máximas para esa velocidad de línea.")
+                    I18n.tf("Las {0} impresiones/min superan las {1} máximas que permite la velocidad de línea con producto de {2} mm + {3} mm de hueco.", Fmt.n(input.ppm, 0), Fmt.n(maxPpm, 0), Fmt.n(input.productWidthMm, 0), Fmt.n(input.gapMm, 0)))
             )
         }
     }
@@ -1064,7 +1119,7 @@ private fun ReportSection(vm: CalculatorViewModel) {
                 )
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     Button(onClick = {
-                        ReportIssue.send(ctx, ReportIssue.build(ctx, "Fallo automático registrado"))
+                        ReportIssue.send(ctx, ReportIssue.build(ctx, I18n.t("Fallo automático registrado")))
                     }) { Text("Enviar el detalle".tr()) }
                     OutlinedButton(onClick = {
                         ReportIssue.clearCrash(ctx)
@@ -1096,10 +1151,10 @@ private fun contextDetail(vm: CalculatorViewModel): String {
     val i = vm.input
     val r = vm.result
     return buildString {
-        appendLine("Equipo: " + i.modelId + " · boquilla " + i.nozzle + " µm · tinta " + i.ink + " · base " + i.inkBase)
-        appendLine("Mensaje: " + i.font + " · " + i.chars + " caracteres · " + i.lines + " líneas · " + i.widthMm + " mm")
-        appendLine("Producción: " + i.ppm + " imp/min · " + i.hoursDay + " h/día · " + i.daysMonth + " días/mes · " + i.tempC + " °C")
-        appendLine("Resultado: " + Fmt.n(r.muPerHour, 2) + " ml/h solvente · " + Fmt.n(r.inkPerHour, 2) + " ml/h tinta")
+        appendLine(I18n.tf("Equipo: {0} · boquilla {1} µm · tinta {2} · base {3}", i.modelId, i.nozzle, i.ink, i.inkBase))
+        appendLine(I18n.tf("Mensaje: {0} · {1} car. · {2} líneas · {3} mm", i.font, i.chars, i.lines, Fmt.n(i.widthMm, 1)))
+        appendLine(I18n.tf("Producción: {0} imp/min · {1} h/día · {2} días/mes · {3} °C", Fmt.n(i.ppm, 0), Fmt.n(i.hoursDay, 1), i.daysMonth, Fmt.n(i.tempC, 1)))
+        appendLine(I18n.tf("Resultado: {0} ml/h solvente · {1} ml/h tinta", Fmt.n(r.muPerHour, 2), Fmt.n(r.inkPerHour, 2)))
     }
 }
 
@@ -1125,11 +1180,12 @@ private fun WhatsNewSection() {
                     fontWeight = FontWeight.Bold
                 )
             }
-            Text("Web y Android en seis idiomas, con detección automática.".tr(), style = MaterialTheme.typography.bodySmall)
-            Text("Reporte de errores por correo, sin permisos de red.".tr(), style = MaterialTheme.typography.bodySmall)
-            Text("Portada y notas públicas actualizadas; dos tarjetas HTML corregidas.".tr(), style = MaterialTheme.typography.bodySmall)
+            Text("Selector de idioma dentro de la app: seis idiomas sin depender del sistema.".tr(), style = MaterialTheme.typography.bodySmall)
+            Text("Informes TXT traducidos a los seis idiomas.".tr(), style = MaterialTheme.typography.bodySmall)
+            Text("Negrita y formato conservados en los textos traducidos.".tr(), style = MaterialTheme.typography.bodySmall)
+            Text("Pruebas automáticas del motor de cálculo en la web y en la app.".tr(), style = MaterialTheme.typography.bodySmall)
             Text(
-                "Versión 2.1.1 · compilación 6 · 21/10/2026.".tr(),
+                "Versión 2.2.0 · compilación 7 · 22/10/2026.".tr(),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -1188,7 +1244,7 @@ private fun LegalSection() {
                     style = MaterialTheme.typography.bodySmall
                 )
                 Text(
-                    "Versión 2.1.1 · compilación 6 · herramienta técnica interna · funciona sin internet · familias Simplicity y Serie 1000VJ.".tr(),
+                    "Versión 2.2.0 · compilación 7 · herramienta técnica interna · funciona sin internet · familias Simplicity y Serie 1000VJ.".tr(),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

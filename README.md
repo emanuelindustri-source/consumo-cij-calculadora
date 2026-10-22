@@ -12,8 +12,8 @@ de cálculo de Videojet.
 
 Funciona **100 % sin internet**: web autónoma en un solo archivo y aplicación Android nativa sin permisos de red.
 
-**Versión actual:** **2.1.1** · compilación **6** · 21/10/2026 —
-[notas de la versión](docs/NOTAS-2.1.1.md) · [página pública de notas](docs/notas.html) ·
+**Versión actual:** **2.2.0** · compilación **7** · 22/10/2026 —
+[notas de la versión](docs/NOTAS-2.2.0.md) · [página pública de notas](docs/notas.html) ·
 [version.json](version.json)
 
 <p align="center">
@@ -27,9 +27,11 @@ Funciona **100 % sin internet**: web autónoma en un solo archivo y aplicación 
 | [`web/`](web) | Calculadora web **offline** en un único archivo HTML (sin dependencias) |
 | [`docs/`](docs) | Sitio publicado en GitHub Pages: calculadora + documentación técnica |
 | [`android/`](android) | Proyecto Android nativo (Kotlin + Jetpack Compose, Android 14+) |
+| [`i18n/catalog.json`](i18n/catalog.json) | Catálogo único de traducciones (fuente de verdad de los idiomas) |
+| [`tools/`](tools) | Generador de traducciones, validador y pruebas del motor de cálculo |
 | [`docs/DATOS.md`](docs/DATOS.md) | Fuentes de datos, fórmulas y validación |
 | [`docs/VERSIONES.md`](docs/VERSIONES.md) | Historial detallado de versiones |
-| [`docs/notas.html`](docs/notas.html) | Notas públicas: antes / hecho / pendiente y compilaciones |
+| [`docs/notas.html`](docs/notas.html) | Notas públicas: antes / plan / hecho / pendiente y compilaciones |
 | [`version.json`](version.json) | Versión, compilación, fecha y artefactos (legible por máquina) |
 | [`ROADMAP.md`](ROADMAP.md) | Próximas mejoras |
 | [`CHANGELOG.md`](CHANGELOG.md) | Cambios por versión |
@@ -127,18 +129,44 @@ descriptivos de compatibilidad.
 
 ---
 
-## Idiomas, reporte de errores y seguimiento (2.1.0 – 2.1.1)
+## Idiomas, informes y reporte de errores (2.1.0 – 2.2.0)
 
-- **Español** es el idioma principal; la interfaz se adapta automáticamente a **inglés, portugués
-  de Brasil, portugués de Portugal, italiano y chino simplificado** (según el idioma del navegador
-  o del sistema, con selector en la web y idioma por aplicación en Android 13+).
-- Catálogo único de traducciones: [`i18n/catalog.json`](i18n/catalog.json).
+- **Español** es el idioma principal; la interfaz se adapta a **inglés, portugués de Brasil,
+  portugués de Portugal, italiano y chino simplificado**, con detección automática, selector en la
+  web y **selector propio dentro de la app** (con memoria de la elección).
+- Catálogo único de traducciones: [`i18n/catalog.json`](i18n/catalog.json) — **413 cadenas × 6
+  idiomas**. De ahí se generan el bloque de la web y los `assets/i18n/*.json` de Android
+  (`python tools/gen_i18n.py`); las copias nunca se editan a mano.
+- **Negrita y formato conservados** en los textos traducidos: los tramos resaltados se marcan con
+  `**…**` en el catálogo y la web reconstruye la etiqueta HTML original.
+- **Informes traducidos**: las cabeceras y etiquetas de los informes **TXT** y **CSV** y del informe
+  técnico se generan en el idioma elegido, con la maquetación alineada automáticamente.
 - **Reportar un error**: botón en el pie de la web y tarjeta al final de la app. El informe se abre
   en la aplicación de correo del usuario y se envía a `emanuel.industri@gmail.com`; si no hay
   cliente de correo se puede copiar. **No se añade ningún permiso de red.**
-- **Versión y compilación visibles**: la web muestra `v2.1.1 · 21/10/2026` en el pie y la app
-  incluye una tarjeta **«Novedades de esta versión»** y `2.1.1 · compilación 6` en las notas técnicas.
-- **Seguimiento**: notas completas en [`docs/NOTAS-2.1.1.md`](docs/NOTAS-2.1.1.md) y
-  [`docs/NOTAS-2.1.0.md`](docs/NOTAS-2.1.0.md); historial en
-  [`docs/VERSIONES.md`](docs/VERSIONES.md) y [`CHANGELOG.md`](CHANGELOG.md).
-- Validación: `python tools/check_i18n.py` (catálogo, copias web, assets, JavaScript y HTML).
+- **Versión y compilación visibles**: la web muestra `v2.2.0 · 22/10/2026` en el pie y la app
+  incluye una tarjeta **«Novedades de esta versión»** y `2.2.0 · compilación 7` en las notas técnicas.
+- **Seguimiento**: notas completas en [`docs/NOTAS-2.2.0.md`](docs/NOTAS-2.2.0.md),
+  [`docs/NOTAS-2.1.1.md`](docs/NOTAS-2.1.1.md) y [`docs/NOTAS-2.1.0.md`](docs/NOTAS-2.1.0.md);
+  historial en [`docs/VERSIONES.md`](docs/VERSIONES.md) y [`CHANGELOG.md`](CHANGELOG.md).
+
+## Pruebas y validación
+
+Un solo comando comprueba todo el proyecto:
+
+```bash
+python tools/validar.py     # catálogo · web · HTML · motor de la web · motor de Kotlin
+```
+
+| Qué | Dónde | Cuántas |
+|---|---|---|
+| Catálogo, copias web, assets, párrafos traducibles, JavaScript y HTML | [`tools/check_i18n.py`](tools/check_i18n.py) | 10 comprobaciones |
+| Motor de cálculo de la web | [`tools/test_engine.js`](tools/test_engine.js) | **43 pruebas** |
+| Motor de cálculo de Android | [`android/app/src/test/`](android/app/src/test) | **17 pruebas** |
+
+Las pruebas anclan el motor a los **valores de referencia de los documentos oficiales** (p. ej.
+VJ 1880+ / V4201 a 30 °C = 5,21 ml/h, 286 y 222 h/L a 20 °C, 13/19/61 gotas por carácter, núcleo de
+14 000 h en los modelos HR), de modo que web y app nunca se separan de las fichas de Videojet.
+
+La **CI** (`.github/workflows/`) ejecuta la validación y las pruebas en cada push: `validar.yml`
+para web e idiomas y `android.yml` para las pruebas de Kotlin y la compilación de la APK.

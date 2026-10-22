@@ -21,8 +21,8 @@ android {
         // Android 14 (API 34) como versión mínima, según requisito
         minSdk = 34
         targetSdk = 34
-        versionCode = 6
-        versionName = "2.1.1"
+        versionCode = 7
+        versionName = "2.2.0"
         vectorDrawables { useSupportLibrary = true }
     }
 
@@ -71,6 +71,9 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -89,4 +92,7 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended")
 
     debugImplementation("androidx.compose.ui:ui-tooling")
+
+    // Pruebas unitarias del motor de cálculo (JVM, sin dispositivo)
+    testImplementation("junit:junit:4.13.2")
 }

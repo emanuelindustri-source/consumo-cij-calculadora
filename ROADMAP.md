@@ -2,6 +2,14 @@
 
 Hoja de ruta del proyecto. Las prioridades pueden cambiar según el uso real en planta.
 
+## v2.2.0 — Pendientes resueltos y calidad (hecho)
+- [x] **Cabeceras del informe TXT traducidas** en los seis idiomas (web y app).
+- [x] **Negrita y formato conservados** en los textos traducidos de la web.
+- [x] **Selector de idioma dentro de la app**, con memoria de la elección.
+- [x] **Prueba automática del motor** con valores de referencia (43 web + 17 Android).
+- [x] **Un solo comando de validación** (`tools/validar.py`) ejecutado también en la CI.
+- [x] **Generador de traducciones** (`tools/gen_i18n.py`): una única fuente de verdad.
+
 ## v2.1.1 — Seguimiento y puesta al día (hecho)
 - [x] **Portada del proyecto y notas públicas al día (antes / hecho / pendiente).**
 - [x] **Versión y compilación visibles** en la web y en la app (`2.1.1` · `6`).
@@ -30,13 +38,12 @@ Hoja de ruta del proyecto. Las prioridades pueden cambiar según el uso real en 
 - [ ] Versión de escritorio (Windows/macOS) con el mismo motor.
 - [ ] API local (sin nube) para integrar el cálculo en otras herramientas internas.
 
-## Pendiente inmediato (2.1.2)
-- [ ] Traducir las cabeceras del informe TXT (el CSV ya está traducido).
+## Pendiente inmediato (2.2.1 / 2.3)
 - [ ] Revisión por hablantes nativos de chino simplificado y portugués de Portugal.
-- [ ] Conservar la negrita en los párrafos traducidos de la web.
-- [ ] Selector de idioma dentro de la app (hoy sigue el idioma del sistema).
-- [ ] Conservar el keystore de firma y revocar tokens de publicación antiguos.
-- [ ] Prueba automática del motor de cálculo con valores de referencia.
+- [ ] Ampliar las pruebas con los 2 400 valores contrastados de las fichas oficiales.
+- [ ] Capturas nuevas de la app con el selector de idioma visible.
+- [ ] Publicar la APK de release como artefacto de la CI.
+- [ ] Revocar los tokens de publicación antiguos y custodiar el keystore de firma.
 
 ## Ideas en evaluación
 - Detección automática del modelo por fotografía de la placa de características.

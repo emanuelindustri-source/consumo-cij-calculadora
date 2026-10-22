@@ -1,11 +1,12 @@
 {
   "product": "Consumo CIJ",
-  "version": "2.1.1",
-  "versionCode": 6,
-  "date": "2026-10-21",
+  "version": "2.2.0",
+  "versionCode": 7,
+  "date": "2026-10-22",
   "web": "docs/calculadora.html",
-  "apk": "ConsumoCIJ-2.1.1.apk",
-  "notes": "docs/NOTAS-2.1.1.md",
+  "apk": "ConsumoCIJ-2.2.0.apk",
+  "apkSizeBytes": 1935502,
+  "notes": "docs/NOTAS-2.2.0.md",
   "notesPage": "docs/notas.html",
   "languages": [
     "es",
@@ -16,5 +17,10 @@
     "zh"
   ],
   "offline": true,
-  "catalogStrings": 364
+  "catalogStrings": 413,
+  "tests": {
+    "web": 43,
+    "android": 17,
+    "total": 60
+  }
 }

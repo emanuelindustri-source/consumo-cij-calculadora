@@ -6,7 +6,8 @@ Registro detallado de versiones anteriores, cambios de la versión actual y esta
 
 | Versión | Fecha | Web | APK | Cambio principal |
 |---|---|---|---|---|
-| **2.1.1** | 2026-10-21 | ✅ | ✅ v2.1.1 (código 6) | Portada y notas públicas al día · versión y compilación visibles · seguimiento |
+| **2.2.0** | 2026-10-22 | ✅ | ✅ v2.2.0 (código 7) | Informes traducidos · negrita conservada · selector de idioma en la app · 60 pruebas del motor |
+| 2.1.1 | 2026-10-21 | ✅ | ✅ v2.1.1 (código 6) | Portada y notas públicas al día · versión y compilación visibles · seguimiento |
 | 2.1.0 | 2026-10-21 | ✅ | ✅ v2.1.0 (código 5) | Idiomas (ES/EN/PT-BR/PT-PT/IT/ZH) + reporte de errores + HTML corregido |
 | 2.0.1 | 2026-10-21 | ✅ | ✅ v2.0.1 | Correcciones de datos: mantenimiento, 70 µm, QR y cartuchos |
 | 2.0.0 | 2026-10-21 | ✅ | ✅ v2.0 | Limpieza total: sin minería, sin costes, **100 % offline** |
@@ -16,7 +17,41 @@ Registro detallado de versiones anteriores, cambios de la versión actual y esta
 
 ---
 
-## Versión 2.1.1 — 2026-10-21 (actual)
+## Versión 2.2.0 — 2026-10-22 (actual)
+
+**Objetivo:** cerrar los pendientes inmediatos de la 2.1.1 (informes, negrita, selector de idioma y
+pruebas del motor) y dejar el repositorio con validación completa en un solo comando.
+
+### Cambios
+- Informes **TXT y CSV traducidos** en los seis idiomas, con etiquetas alineadas automáticamente.
+- **Negrita conservada** en los párrafos traducidos mediante marcadores `**…**` en el catálogo.
+- **Selector de idioma dentro de la app** (seis idiomas + idioma del sistema), con memoria.
+- **60 pruebas del motor** (43 web + 17 Android) ancladas a los valores de referencia oficiales.
+- Herramientas nuevas: `tools/gen_i18n.py` (genera todas las traducciones desde un catálogo) y
+  `tools/validar.py` (valida todo el proyecto de una vez).
+- Catálogo: **413 cadenas** × 6 idiomas (antes 364), sin claves muertas.
+- Portada, notas públicas y documentación actualizadas.
+
+### Estado de los artefactos
+| Artefacto | Estado | Notas |
+|---|---|---|
+| `web/calculadora-offline.html` | ✅ | 381 KB · 0 dependencias · 0 peticiones de red |
+| `docs/calculadora.html` | ✅ | Copia idéntica publicada en GitHub Pages |
+| `docs/index.html` · `docs/notas.html` | ✅ | Portada 2.2.0 y notas antes / plan / hecho / pendiente |
+| `android/` (proyecto) | ✅ | Kotlin + Compose · compila con Gradle 8.7 · 17 pruebas |
+| APK v2.2.0 | ✅ | `versionCode 7` · 1,85 MB · firmada · sin permisos de red |
+
+### Verificación
+- `python tools/validar.py`: catálogo, web, assets, párrafos traducibles, JavaScript, HTML y motor.
+- `node tools/test_engine.js`: 43/43 sobre el motor de la web.
+- `gradle testDebugUnitTest`: 17/17 sobre el motor de Android.
+- APK: `aapt2 dump badging` (versionCode 7, minSdk 34, sin permisos de red) y `apksigner verify`
+  con la misma firma que las versiones 2.0 y 2.1 (actualiza encima).
+- Emulador Pixel 7 / API 34: instalación, arranque y cambio de idioma sin fallos.
+
+---
+
+## Versión 2.1.1 — 2026-10-21
 
 **Objetivo:** poner al día la web pública y dejar un seguimiento claro de versiones y compilaciones,
 sin romper el modo offline ni cambiar el motor de cálculo.

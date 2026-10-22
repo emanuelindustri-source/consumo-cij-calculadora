@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import com.calculadora.consumocij.i18n.I18n
 import java.io.File
 import java.io.PrintWriter
 import java.io.StringWriter
@@ -25,35 +26,36 @@ object ReportIssue {
     private const val CRASH_FILE = "last_crash.txt"
 
     fun build(context: Context, detail: String): String {
-        val locale = context.resources.configuration.locales[0]
         val info = runCatching {
             context.packageManager.getPackageInfo(context.packageName, 0)
         }.getOrNull()
-        val version = info?.versionName ?: "2.1.1"
+        val version = info?.versionName ?: "2.2.0"
         val build = info?.longVersionCode?.toString() ?: "-"
         return buildString {
-            appendLine("Informe de error · Consumo CIJ (Android)")
+            appendLine(I18n.t("Informe de error · Consumo CIJ (Android)"))
             appendLine()
-            appendLine("Descripción:")
-            appendLine(detail.ifBlank { "(sin descripción)" })
+            appendLine(I18n.t("Descripción:"))
+            appendLine(detail.ifBlank { I18n.t("(sin descripción)") })
             appendLine()
-            appendLine("— Datos técnicos —")
-            appendLine("Versión: " + version + " (compilación " + build + ")")
-            appendLine("Idioma: " + locale.toLanguageTag())
-            appendLine("Dispositivo: " + Build.MANUFACTURER + " " + Build.MODEL +
-                " · Android " + Build.VERSION.RELEASE + " (API " + Build.VERSION.SDK_INT + ")")
-            appendLine("Fecha: " + SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(Date()))
+            appendLine(I18n.t("— Datos técnicos —"))
+            appendLine(I18n.tf("Versión: {0} (compilación {1})", version, build))
+            appendLine(I18n.tf("Idioma: {0} · Zona: {1}", I18n.lang,
+                java.util.TimeZone.getDefault().id))
+            appendLine(I18n.tf("Dispositivo: {0} · Android {1} (API {2})",
+                Build.MANUFACTURER + " " + Build.MODEL, Build.VERSION.RELEASE, Build.VERSION.SDK_INT))
+            appendLine(I18n.t("Fecha") + ": " +
+                SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(Date()))
             val crash = lastCrash(context)
             if (!crash.isNullOrBlank()) {
                 appendLine()
-                appendLine("— Último fallo registrado —")
+                appendLine(I18n.t("— Último fallo registrado —"))
                 appendLine(crash.take(4000))
             }
         }
     }
 
     fun send(context: Context, body: String) {
-        val subject = "Consumo CIJ · informe de error"
+        val subject = I18n.t("Informe de error · Consumo CIJ (Android)")
         val mail = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + MAIL)).apply {
             putExtra(Intent.EXTRA_SUBJECT, subject)
             putExtra(Intent.EXTRA_TEXT, body)
@@ -78,7 +80,7 @@ object ReportIssue {
 
     fun copy(context: Context, text: String) {
         val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        cm.setPrimaryClip(ClipData.newPlainText("Consumo CIJ", text))
+        cm.setPrimaryClip(ClipData.newPlainText(I18n.t("Consumo de Tinta y Solvente"), text))
     }
 
     fun saveCrash(context: Context, throwable: Throwable) {

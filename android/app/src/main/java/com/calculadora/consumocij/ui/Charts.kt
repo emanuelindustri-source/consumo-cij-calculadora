@@ -167,7 +167,7 @@ fun BarsChart(
         }
         val ratio = if (inkMonth > 0) solventMonth / inkMonth else Double.POSITIVE_INFINITY
         drawContext.canvas.nativeCanvas.drawText(
-            "Relación solvente : tinta = ${Fmt.n(ratio, 2)} : 1  ·  regla práctica 4 : 1",
+            "${com.calculadora.consumocij.i18n.I18n.t("Relación solvente : tinta")} = ${Fmt.n(ratio, 2)} : 1  ·  ${com.calculadora.consumocij.i18n.I18n.t("Regla práctica 1 : 4")}",
             padL, (padT + ih + 42f * density), textPaint
         )
     }

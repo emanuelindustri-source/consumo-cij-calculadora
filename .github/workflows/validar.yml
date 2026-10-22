@@ -1,4 +1,4 @@
-name: Validar web e idiomas
+name: Validar web, idiomas y motor
 
 on:
   push:
@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   validar:
-    name: Web, catálogo y assets
+    name: Catalogo, web y pruebas del motor
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -23,5 +23,21 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Comprobar catálogo, copias web, assets y HTML
+      - name: Configurar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Catalogo, copias web, assets, parrafos traducibles y HTML
         run: python tools/check_i18n.py
+
+      - name: Pruebas del motor de calculo (valores de referencia)
+        run: node tools/test_engine.js
+
+      - name: Comprobar que la app no usa red
+        run: |
+          if grep -rn "android.permission.INTERNET" android/app/src/main/AndroidManifest.xml; then
+            echo "::error::La app no debe declarar INTERNET"
+            exit 1
+          fi
+          echo "OK: sin permisos de red"

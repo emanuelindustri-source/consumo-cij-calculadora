@@ -4,6 +4,47 @@ Todos los cambios relevantes de este proyecto.
 El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y el versionado
 [SemVer](https://semver.org/lang/es/).
 
+## [2.2.0] — 2026-10-22
+
+### Añadido
+- **Selector de idioma dentro de la app Android**: seis idiomas + «Idioma del sistema», con memoria
+  de la elección (`SharedPreferences`) y recreación de la actividad al cambiar.
+- **Pruebas automáticas del motor de cálculo**: 43 sobre el motor de la web
+  (`tools/test_engine.js`) y 17 sobre el de Android (`CalcEngineTest.kt`), con los valores de
+  referencia de los modelos oficiales de Videojet.
+- **`tools/gen_i18n.py`**: genera los `assets/i18n/*.json` de Android, el bloque `i18n-data` de la
+  web y `docs/calculadora.html` desde `i18n/catalog.json`. Las copias ya no se editan a mano.
+- **`tools/validar.py`**: un solo comando para toda la validación del proyecto.
+- Comprobaciones nuevas en `tools/check_i18n.py`: párrafos traducibles sin clave, marcadores de
+  negrita `**…**` desequilibrados, artefactos generados desactualizados y claves sin uso.
+- Las pruebas unitarias de Kotlin se ejecutan en la CI antes de compilar la APK.
+
+### Cambiado
+- **Cabeceras y etiquetas del informe TXT traducidas** en los seis idiomas, en la web y en la app,
+  con las etiquetas alineadas automáticamente por idioma. El CSV traduce también las unidades.
+- **Interfaz de Android completamente traducida**: las etiquetas de los campos, las cajas
+  informativas, los avisos, los rótulos de los gráficos y el detalle del informe se escribían en
+  español literal y no pasaban por `I18n`; ahora usan las mismas plantillas traducidas que la web.
+- **Informe técnico y de error traducidos** (`techInfo` / `reportText` en web, `ReportIssue` en
+  Android), incluido el `versionCode`.
+- **Negrita y formato conservados** en los párrafos traducidos de la web: los tramos resaltados se
+  marcan con `**…**` en el catálogo y se reconstruye la etiqueta HTML original (`<b>`, `<em>`, `<code>`).
+- Los números y fechas de Android (`Fmt`) usan el idioma activo de la app y no el del sistema.
+- Catálogo de idiomas: **413 cadenas** × 6 idiomas (antes 364).
+- `versionName 2.2.0` → `versionCode 7` (antes 2.1.1 → 6).
+- Portada, notas públicas, README, VERSIONES y ROADMAP sincronizados con el estado real.
+- Workflows de CI (`validar.yml` y `android.yml`) ampliados y limpiados.
+
+### Corregido
+- Dos párrafos del pie de la web se quedaban a medias: `Basado en CIJ Makeup Usage Model v14…` y
+  `Basado en CIJ TCO Calculator v35:` no estaban en el catálogo y el «Basado en» aparecía en español
+  dentro de una frase ya traducida.
+- Se perdía la **negrita** de los 13 párrafos con formato inline al traducir la web.
+- Literal `${t(…)}` sin procesar visible en la web cuando el historial de cálculos estaba vacío.
+- La clave del subtítulo de la portada estaba escrita con `&amp;` y por eso nunca se traducía.
+- Errata «golpos/tira» → «golpes/tira» en el informe.
+- 27 claves muertas retiradas del catálogo (fragmentos, plantillas antiguas y etiquetas sustituidas).
+
 ## [2.1.1] — 2026-10-21
 
 ### Añadido
