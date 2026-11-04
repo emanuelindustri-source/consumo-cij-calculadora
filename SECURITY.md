@@ -35,8 +35,9 @@ No se solicita acceso a almacenamiento, ubicación, contactos, cámara ni micró
 
 | Versión | Soporte |
 |---|---|
-| 2.3.x | ✅ Activa |
-| 2.2.x y anteriores | ⚠️ Sin aviso automático de actualizaciones (se recomienda instalar la 2.3.0 una vez) |
+| 2.4.x | ✅ Activa |
+| 2.3.x | ⚠️ Recibe el aviso de la 2.4.0, pero no incluye las correcciones de cartuchos |
+| 2.2.x y anteriores | ⚠️ Sin aviso automático de actualizaciones (se recomienda instalar la 2.4.0 una vez) |
 | 1.x | ⚠️ Solo referencia histórica (incluía un módulo retirado en 2.0) |
 
 ## Reportar una vulnerabilidad

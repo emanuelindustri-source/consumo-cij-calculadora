@@ -373,9 +373,14 @@ private fun EquipmentSection(vm: CalculatorViewModel) {
             onSelect = { id ->
                 vm.update { cur ->
                     val m = CalcEngine.model(id)
-                    val (inkSizes, muSizes) = cartSizesFor(id, cur.ink)
+                    val inks = VideojetData.inksFor(m.inkGroup)
+                    val newInk = if (cur.ink in inks) cur.ink else (inks.firstOrNull() ?: cur.ink)
+                    val newBase = VideojetData.inks[newInk] ?: cur.inkBase
+                    val (inkSizes, muSizes) = cartSizesFor(id, newInk)
                     cur.copy(
                         modelId = id,
+                        ink = newInk,
+                        inkBase = newBase,
                         nozzle = m.nozzles.firstOrNull() ?: cur.nozzle,
                         inkCartMl = keepOrFirst(cur.inkCartMl, inkSizes),
                         muCartMl = keepOrFirst(cur.muCartMl, muSizes)

@@ -19,7 +19,7 @@ Contrastado con **734 fichas de solvente** y **535 de velocidad** de línea (coi
 |---|---|
 | Tipo | Aplicación **nativa** (Kotlin + Jetpack Compose, Material 3) |
 | Versión mínima | **Android 14 (API 34)** — compatible con 15 y superiores |
-| Compilación | compileSdk 34 · targetSdk 34 · minSdk 34 · **versionName 2.3.0** · versionCode 8 |
+| Compilación | compileSdk 34 · targetSdk 34 · minSdk 34 · **versionName 2.4.0** · versionCode 9 |
 | Paquete | `com.calculadora.consumocij` |
 | Nombre visible | **Consumo CIJ · Calculadora** |
 | Internet | **Solo para comprobar actualizaciones** (HTTPS a `version.json`, anónimo y desactivable) |
@@ -27,7 +27,8 @@ Contrastado con **734 fichas de solvente** y **535 de velocidad** de línea (coi
 | Pantallas | `small · normal · large · xlarge` · densidades 160…65534 |
 | Persistencia | `SharedPreferences` (local) |
 | Exportación | CSV / TXT con el selector de archivos del sistema (SAF) |
-| Tamaño | **≈ 1,95 MB** (release, R8 + recursos reducidos) |
+| Copia de seguridad | JSON con configuración, historial, tema e idioma (SAF) |
+| Tamaño | **≈ 2,0 MB** (release, R8 + recursos reducidos) |
 
 ### Adaptación de pantalla
 
@@ -99,7 +100,7 @@ android/
             ├── ui/UpdateUi.kt        aviso, diálogo y ajustes de actualización
             ├── ui/theme/Theme.kt
             ├── update/               comprobación, descarga, SHA-256 e instalación
-            └── util/                 formato e informes
+            └── util/                 formato, informes y copia de seguridad (Backup.kt)
 ```
 
 ## Notas
@@ -112,7 +113,7 @@ android/
 
 ---
 
-## Idiomas, reporte de errores y actualizaciones (2.1.0 – 2.3.0)
+## Idiomas, reporte de errores y actualizaciones (2.1.0 – 2.4.0)
 
 - La interfaz sigue el **idioma del sistema** (o el idioma por aplicación de Android 13+, en
   Ajustes > Aplicaciones > Consumo CIJ > Idioma). Idiomas: español, inglés, portugués de Brasil,
@@ -128,9 +129,12 @@ android/
 - La app envía el informe con la aplicación de correo del usuario; por eso necesita `INTERNET`
   solo para la comprobación de versión y el correo lo abre otra app.
 - **Versión y compilación**: la tarjeta «Novedades de esta versión» y las notas técnicas leen
-  `BuildConfig` (`2.3.0 · compilación 8`); el informe de error añade el `versionCode`.
+  `BuildConfig` (`2.4.0 · compilación 9`); el informe de error añade el `versionCode`.
 - **Actualizaciones**: `update/UpdateChecker.kt` consulta `version.json`; `UpdateJobService` lo hace
   una vez al día si el usuario activa los avisos; `UpdateDownloader` descarga el APK y
   `UpdateDownloadProcessor` verifica el SHA-256 antes de ofrecer el instalador.
-- Notas completas: [`docs/NOTAS-2.3.0.md`](../docs/NOTAS-2.3.0.md) y
+- **Cartuchos**: `VideojetData.inkSizesFor(modelId, ink)` respeta la lista «750 mL Only» del TCO v35
+  (VJ 1210, 1220, 1240, 1280, 1510 y 1580 solo admiten 750 ml).
+- **Copia de seguridad**: `util/Backup.kt` codifica y valida el JSON; la interfaz usa SAF.
+- Notas completas: [`docs/NOTAS-2.4.0.md`](../docs/NOTAS-2.4.0.md) y
   [`version.json`](../version.json).

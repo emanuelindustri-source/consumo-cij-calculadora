@@ -130,9 +130,10 @@ libros de cálculo oficiales y se verifican contra los PDFs publicados. El proce
 | `tools/check_notas.py` | Notas de versión: permanencia, copias idénticas, huellas y bloques de contexto |
 | `tools/check_update.py` | `version.json` vs. Gradle, APK, notas, idiomas, catálogo y red permitida |
 | `tools/release.py` | Compila, calcula el SHA-256, actualiza `version.json` y publica la release |
-| `tools/test_engine.js` | 43 pruebas del motor de la web contra los valores de referencia oficiales |
+| `tools/test_engine.js` | 51 pruebas del motor de la web contra los valores de referencia oficiales |
+| `tools/test_solvent.js` | 800 fichas de solvente · 12.800 valores del Makeup Usage Model v14 |
 | `tools/validar.py` | Ejecuta todo lo anterior y las pruebas de Kotlin de una sola vez |
-| `android/app/src/test/` | 22 pruebas de Android (motor + manifiesto de actualización) |
+| `android/app/src/test/` | 32 pruebas de Android (motor, contenedores, actualizaciones y copia) |
 
 Las pruebas no reimplementan las fórmulas: **extraen el motor real** del HTML (web) o compilan
 `CalcEngine.kt` (Android) y lo comparan con los valores publicados en los modelos oficiales de
@@ -145,7 +146,7 @@ Videojet. La CI las ejecuta en cada push.
 **Android:**
 ```bash
 cd android
-gradle testDebugUnitTest  # 22 pruebas (motor + actualizaciones)
+gradle testDebugUnitTest  # 32 pruebas (motor, contenedores, actualizaciones, copia)
 gradle assembleDebug      # desarrollo
 gradle assembleRelease    # producción (firmado, R8 + shrinkResources)
 ```

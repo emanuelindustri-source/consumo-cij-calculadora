@@ -346,16 +346,22 @@ class CalculatorViewModel(app: Application) : AndroidViewModel(app) {
 
     private fun loadInput(): CalcInput {
         val i = loadInputFrom(prefs, "", CalcInput())
-        // Corrige configuraciones guardadas con tamaños que el modelo no admite
-        // (p. ej. 5000 ml en un equipo «750 mL Only»).
+        // Corrige configuraciones guardadas: tinta que no pertenece al modelo y
+        // tamaños que el modelo no admite (p. ej. 5000 ml en un equipo «750 mL Only»).
         fun pick(v: Double, sizes: List<Int>): Double {
             val valid = sizes.map { it.toDouble() }
             return if (valid.any { kotlin.math.abs(it - v) < 0.5 }) v
             else valid.firstOrNull() ?: v
         }
+        val model = VideojetData.models.firstOrNull { it.id == i.modelId } ?: VideojetData.models.first()
+        val inks = VideojetData.inksFor(model.inkGroup)
+        val ink = if (i.ink in inks) i.ink else (inks.firstOrNull() ?: i.ink)
+        val base = if (i.inkBase in VideojetData.inkBases) i.inkBase else (VideojetData.inks[ink] ?: i.inkBase)
         return i.copy(
-            inkCartMl = pick(i.inkCartMl, VideojetData.inkSizesFor(i.modelId, i.ink)),
-            muCartMl = pick(i.muCartMl, VideojetData.muSizesFor(i.modelId, i.ink))
+            ink = ink,
+            inkBase = base,
+            inkCartMl = pick(i.inkCartMl, VideojetData.inkSizesFor(model.id, ink)),
+            muCartMl = pick(i.muCartMl, VideojetData.muSizesFor(model.id, ink))
         )
     }
 
