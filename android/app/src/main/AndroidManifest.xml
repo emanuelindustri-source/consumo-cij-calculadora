@@ -48,7 +48,7 @@
         <!-- Aviso de descarga terminada: verifica la huella y prepara la instalacion. -->
         <receiver
             android:name=".update.UpdateDownloadReceiver"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
             </intent-filter>

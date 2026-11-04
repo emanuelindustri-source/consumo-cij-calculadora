@@ -5,7 +5,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
-// Firma de distribución interna (keystore.properties; si no existe se usa la de depuración)
+// Firma de distribuciÃ³n interna (keystore.properties; si no existe se usa la de depuraciÃ³n)
 val keystorePropsFile = rootProject.file("keystore/keystore.properties")
 val signingProps = Properties()
 if (keystorePropsFile.exists()) {
@@ -18,7 +18,7 @@ android {
 
     defaultConfig {
         applicationId = "com.calculadora.consumocij"
-        // Android 14 (API 34) como versión mínima, según requisito
+        // Android 14 (API 34) como versiÃ³n mÃ­nima, segÃºn requisito
         minSdk = 34
         targetSdk = 34
         versionCode = 8
@@ -120,7 +120,7 @@ dependencies {
 
     debugImplementation("androidx.compose.ui:ui-tooling")
 
-    // Pruebas unitarias del motor de cálculo (JVM, sin dispositivo)
+    // Pruebas unitarias del motor de cÃ¡lculo (JVM, sin dispositivo)
     testImplementation("junit:junit:4.13.2")
     // org.json real en las pruebas JVM (el SDK lo simula y no parsea)
     testImplementation("org.json:json:20240303")

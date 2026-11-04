@@ -102,6 +102,9 @@ Para una versión nueva: `python tools/check_notas.py --new X.Y.Z`, y al publica
 3. Requiere **Android 14 (API 34) o superior**. Los cálculos no necesitan conexión; la app solo
    consulta `version.json` para avisar de una versión nueva, y puede desactivarlo en
    «Actualizaciones».
+4. La primera vez, Android pedirá **permitir la instalación de apps desconocidas** para esta app y
+   puede mostrar un aviso de **Play Protect**; es el comportamiento normal al instalar fuera de una
+   tienda. La actualización se instala encima y conserva los datos.
 
 ### Web
 - **Online**: abra el enlace de GitHub Pages.

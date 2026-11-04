@@ -93,7 +93,17 @@ def update_manifest(apk):
     name = "ConsumoCIJ-%s.apk" % version
     os.makedirs(DIST, exist_ok=True)
     target = os.path.join(DIST, name)
-    shutil.copy2(apk, target)
+    if os.path.abspath(apk) != os.path.abspath(target):
+        tmp = target + ".new"
+        shutil.copy2(apk, tmp)
+        try:
+            os.replace(tmp, target)
+        except PermissionError:
+            # Antivirus o el explorador pueden tener el APK abierto: si el
+            # contenido es identico, se conserva el archivo existente.
+            if not os.path.isfile(target) or sha256(tmp) != sha256(target):
+                raise
+            os.remove(tmp)
     v["apk"] = name
     v["apkSizeBytes"] = os.path.getsize(target)
     v["apkSha256"] = sha256(target)

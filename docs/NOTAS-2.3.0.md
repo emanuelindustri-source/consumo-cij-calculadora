@@ -81,6 +81,9 @@ Además, la web traducía la interfaz pero **cinco mensajes emergentes seguían 
   y «Buscar actualizaciones».
 - **Primer arranque**: se pregunta una sola vez si se quieren recibir notificaciones. Si se
   rechazan, la app no insiste y el aviso interno sigue funcionando.
+- **Instalación**: Android pide una vez permiso para instalar apps desconocidas y puede mostrar el
+  aviso de Play Protect (normal fuera de la tienda). La actualización se aplica encima y conserva
+  datos, historial y tema.
 
 Permisos nuevos: `INTERNET`, `ACCESS_NETWORK_STATE`, `POST_NOTIFICATIONS`,
 `REQUEST_INSTALL_PACKAGES` y `RECEIVE_BOOT_COMPLETED`. Ya no se puede decir «sin permisos de red»:

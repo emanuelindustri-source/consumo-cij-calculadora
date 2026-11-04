@@ -16,6 +16,7 @@ import com.calculadora.consumocij.data.TemperatureModel
 import com.calculadora.consumocij.i18n.I18n
 import com.calculadora.consumocij.ui.theme.ThemeMode
 import com.calculadora.consumocij.update.UpdateChecker
+import com.calculadora.consumocij.update.UpdateDownloadProcessor
 import com.calculadora.consumocij.update.UpdateDownloader
 import com.calculadora.consumocij.update.UpdateInfo
 import com.calculadora.consumocij.update.UpdateInstaller
@@ -169,8 +170,19 @@ class CalculatorViewModel(app: Application) : AndroidViewModel(app) {
 
     fun onResume() {
         downloadReady = UpdateStore.apkReady(appCtx)
-        downloading = UpdateStore.downloadId(appCtx) != -1L
         lastCheck = UpdateStore.lastCheck(appCtx)
+        val id = UpdateStore.downloadId(appCtx)
+        if (id > 0) {
+            downloading = true
+            viewModelScope.launch {
+                withContext(Dispatchers.IO) { UpdateDownloadProcessor.process(appCtx, id) }
+                downloading = UpdateStore.downloadId(appCtx) != -1L
+                downloadReady = UpdateStore.apkReady(appCtx)
+                if (UpdateStore.lastError(appCtx) != null) updateError = UpdateStore.lastError(appCtx)
+            }
+        } else {
+            downloading = false
+        }
     }
 
     /** Abre el diálogo y, si hace falta, comprueba si hay novedades. */
@@ -238,9 +250,14 @@ class CalculatorViewModel(app: Application) : AndroidViewModel(app) {
         viewModelScope.launch {
             repeat(300) {
                 delay(2_000)
+                val id = UpdateStore.downloadId(appCtx)
+                if (id > 0) {
+                    withContext(Dispatchers.IO) { UpdateDownloadProcessor.process(appCtx, id) }
+                }
                 if (UpdateStore.apkReady(appCtx)) {
                     downloading = false
                     downloadReady = true
+                    updateError = null
                     return@launch
                 }
                 if (UpdateStore.downloadId(appCtx) == -1L) {
