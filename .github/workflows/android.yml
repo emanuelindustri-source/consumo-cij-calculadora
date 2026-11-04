@@ -54,13 +54,11 @@ jobs:
         working-directory: android
         run: gradle assembleDebug --no-daemon --stacktrace
 
-      - name: Verificar que la app no usa red
+      - name: Verificar el sistema de actualizaciones
         run: |
-          if grep -rn "android.permission.INTERNET" android/app/src/main/AndroidManifest.xml; then
-            echo "::error::La app no debe declarar INTERNET"
-            exit 1
-          fi
-          echo "OK: sin permisos de red"
+          python3 tools/check_update.py
+          grep -q "android.permission.INTERNET" android/app/src/main/AndroidManifest.xml
+          echo "OK: actualizaciones con HTTPS y permisos declarados"
 
       - name: Verificar web autonoma (sin dependencias externas)
         run: |

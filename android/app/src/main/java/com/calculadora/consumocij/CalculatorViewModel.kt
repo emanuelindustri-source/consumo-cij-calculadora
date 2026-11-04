@@ -2,17 +2,32 @@ package com.calculadora.consumocij
 
 import android.app.Application
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
 import com.calculadora.consumocij.data.CalcEngine
 import com.calculadora.consumocij.data.CalcInput
 import com.calculadora.consumocij.data.CalcResult
 import com.calculadora.consumocij.data.TemperatureModel
+import com.calculadora.consumocij.i18n.I18n
 import com.calculadora.consumocij.ui.theme.ThemeMode
-import com.calculadora.consumocij.util.Fmt
+import com.calculadora.consumocij.update.UpdateChecker
+import com.calculadora.consumocij.update.UpdateDownloader
+import com.calculadora.consumocij.update.UpdateInfo
+import com.calculadora.consumocij.update.UpdateInstaller
+import com.calculadora.consumocij.update.UpdateNotifier
+import com.calculadora.consumocij.update.UpdateScheduler
+import com.calculadora.consumocij.update.UpdateStore
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.Date
 
 data class HistoryEntry(
     val id: Long,
@@ -23,10 +38,15 @@ data class HistoryEntry(
 }
 
 /**
- * Estado de la aplicación + persistencia 100 % local (SharedPreferences).
- * No se usa red: la app recuerda los últimos valores y el tema elegido.
+ * Estado de la aplicación + persistencia local (SharedPreferences).
+ *
+ * Los cálculos, el historial y el tema son 100 % locales. La única función que
+ * usa la red es la comprobación de actualizaciones, que el usuario puede
+ * desactivar y que solo descarga el archivo de versión del proyecto.
  */
 class CalculatorViewModel(app: Application) : AndroidViewModel(app) {
+
+    private val appCtx: Context = app.applicationContext
 
     private val prefs: SharedPreferences =
         app.getSharedPreferences("vj_calc_state", Context.MODE_PRIVATE)
@@ -41,6 +61,54 @@ class CalculatorViewModel(app: Application) : AndroidViewModel(app) {
         private set
 
     val result: CalcResult get() = CalcEngine.compute(input)
+
+    /* ---------------- actualizaciones ---------------- */
+
+    var updateAvailable by mutableStateOf<UpdateInfo?>(null)
+        private set
+    var updateChecking by mutableStateOf(false)
+        private set
+    var updateDialogOpen by mutableStateOf(false)
+        private set
+    var updateError by mutableStateOf<String?>(null)
+        private set
+    var updateUpToDate by mutableStateOf(false)
+        private set
+    var autoCheck by mutableStateOf(UpdateStore.autoCheck(appCtx))
+        private set
+    var notifyUpdates by mutableStateOf(UpdateStore.notify(appCtx))
+        private set
+    var notificationsAsked by mutableStateOf(UpdateStore.askedNotifications(appCtx))
+        private set
+    var notificationsHint by mutableStateOf(false)
+        private set
+    var downloading by mutableStateOf(UpdateStore.downloadId(appCtx) != -1L)
+        private set
+    var downloadReady by mutableStateOf(UpdateStore.apkReady(appCtx))
+        private set
+    var skippedVersion by mutableStateOf(UpdateStore.skippedVersion(appCtx))
+        private set
+    var lastCheck by mutableStateOf(UpdateStore.lastCheck(appCtx))
+        private set
+    var installError by mutableStateOf<String?>(null)
+        private set
+
+    /** Versión instalada, para mostrarla en la interfaz y en los informes. */
+    val installedVersion: String get() = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
+
+    /** El aviso superior solo aparece si el usuario no omitio esa version. */
+    val updateBannerVisible: Boolean
+        get() = updateAvailable?.let { skippedVersion != it.versionCode } == true
+
+    init {
+        // Si la version descargada ya esta instalada, el APK temporal sobra.
+        if (UpdateStore.pendingVersionCode(appCtx) in 1..BuildConfig.VERSION_CODE) {
+            UpdateStore.clearApk(appCtx)
+        }
+        UpdateNotifier.ensureChannel(appCtx)
+        UpdateScheduler.sync(appCtx)
+        if (UpdateStore.autoCheck(appCtx)) checkUpdates(silent = true)
+    }
 
     fun update(transform: (CalcInput) -> CalcInput) {
         input = transform(input)
@@ -60,8 +128,7 @@ class CalculatorViewModel(app: Application) : AndroidViewModel(app) {
     fun addHistory() {
         val e = HistoryEntry(
             id = System.currentTimeMillis(),
-            date = java.text.SimpleDateFormat("dd/MM/yyyy HH:mm", java.util.Locale.getDefault())
-                .format(java.util.Date()),
+            date = SimpleDateFormat("dd/MM/yyyy HH:mm", I18n.activeLocale()).format(Date()),
             input = input
         )
         val list = (listOf(e) + history).take(20)
@@ -75,6 +142,157 @@ class CalculatorViewModel(app: Application) : AndroidViewModel(app) {
         saveHistory(list)
     }
 
+    fun restoreFromHistory(id: Long) {
+        val entry = history.firstOrNull { it.id == id } ?: return
+        input = entry.input
+        saveInput(input)
+    }
+
+    /* ---------------- actualizaciones: acciones ---------------- */
+
+    fun consumeIntent(intent: Intent?) {
+        if (intent == null) return
+        val open = intent.getBooleanExtra(MainActivity.EXTRA_OPEN_UPDATE, false)
+        val install = intent.getBooleanExtra(MainActivity.EXTRA_INSTALL_UPDATE, false)
+        intent.removeExtra(MainActivity.EXTRA_OPEN_UPDATE)
+        intent.removeExtra(MainActivity.EXTRA_INSTALL_UPDATE)
+        if (!open && !install) return
+        requestUpdateDialog()
+        if (install) {
+            downloading = false
+            downloadReady = UpdateStore.apkReady(appCtx)
+            if (downloadReady && !UpdateInstaller.install(appCtx)) {
+                installError = I18n.t("No se pudo abrir el instalador. Permita instalar aplicaciones desconocidas para esta app.")
+            }
+        }
+    }
+
+    fun onResume() {
+        downloadReady = UpdateStore.apkReady(appCtx)
+        downloading = UpdateStore.downloadId(appCtx) != -1L
+        lastCheck = UpdateStore.lastCheck(appCtx)
+    }
+
+    /** Abre el diálogo y, si hace falta, comprueba si hay novedades. */
+    fun requestUpdateDialog() {
+        updateDialogOpen = true
+        if (updateAvailable == null && !updateChecking) checkUpdates(silent = true)
+    }
+
+    fun closeUpdateDialog() {
+        updateDialogOpen = false
+    }
+
+    fun checkUpdates(silent: Boolean = false) {
+        if (updateChecking) return
+        updateChecking = true
+        updateError = null
+        if (!silent) updateUpToDate = false
+        viewModelScope.launch {
+            val res = withContext(Dispatchers.IO) { UpdateChecker.check(appCtx) }
+            updateChecking = false
+            lastCheck = UpdateStore.lastCheck(appCtx)
+            when (res) {
+                is UpdateChecker.Result.Newer -> {
+                    updateAvailable = res.info
+                    updateError = null
+                    updateUpToDate = false
+                    val prompted = UpdateStore.promptedVersion(appCtx)
+                    if (!silent || prompted < res.info.versionCode) {
+                        updateDialogOpen = true
+                        UpdateStore.setPromptedVersion(appCtx, res.info.versionCode)
+                    }
+                }
+                UpdateChecker.Result.UpToDate -> {
+                    updateAvailable = null
+                    updateUpToDate = true
+                    UpdateStore.setSkippedVersion(appCtx, 0)
+                    skippedVersion = 0
+                }
+                is UpdateChecker.Result.Failed -> {
+                    updateError = res.message
+                }
+            }
+        }
+    }
+
+    fun skipUpdate() {
+        updateAvailable?.let {
+            UpdateStore.setSkippedVersion(appCtx, it.versionCode)
+            skippedVersion = it.versionCode
+        }
+        updateDialogOpen = false
+        UpdateNotifier.cancel(appCtx, UpdateNotifier.ID_AVAILABLE)
+    }
+
+    fun downloadUpdate(context: Context) {
+        val info = updateAvailable ?: return
+        installError = null
+        updateError = null
+        if (!UpdateDownloader.start(context, info)) {
+            updateError = I18n.t("No se pudo descargar la actualización.")
+            return
+        }
+        downloading = true
+        downloadReady = false
+        viewModelScope.launch {
+            repeat(300) {
+                delay(2_000)
+                if (UpdateStore.apkReady(appCtx)) {
+                    downloading = false
+                    downloadReady = true
+                    return@launch
+                }
+                if (UpdateStore.downloadId(appCtx) == -1L) {
+                    downloading = false
+                    downloadReady = false
+                    updateError = UpdateStore.lastError(appCtx)
+                    return@launch
+                }
+            }
+            downloading = false
+            downloadReady = UpdateStore.apkReady(appCtx)
+        }
+    }
+
+    fun installUpdate(context: Context) {
+        installError = null
+        if (!UpdateInstaller.install(context)) {
+            installError = I18n.t("No se pudo abrir el instalador. Permita instalar aplicaciones desconocidas para esta app.")
+        }
+    }
+
+    fun enableAutoCheck(enabled: Boolean) {
+        autoCheck = enabled
+        UpdateStore.setAutoCheck(appCtx, enabled)
+        if (enabled && notifyUpdates) UpdateScheduler.schedule(appCtx) else UpdateScheduler.cancel(appCtx)
+    }
+
+    fun enableNotifyUpdates(enabled: Boolean) {
+        notifyUpdates = enabled
+        UpdateStore.setNotify(appCtx, enabled)
+        UpdateStore.setAskedNotifications(appCtx, true)
+        notificationsAsked = true
+        notificationsHint = enabled && !UpdateNotifier.canNotify(appCtx)
+        UpdateScheduler.sync(appCtx)
+        if (!enabled) UpdateNotifier.cancel(appCtx, UpdateNotifier.ID_AVAILABLE)
+    }
+
+    fun markNotificationsAsked() {
+        notificationsAsked = true
+        UpdateStore.setAskedNotifications(appCtx, true)
+    }
+
+    fun clearNotificationsHint() {
+        notificationsHint = false
+    }
+
+    fun clearUpdateError() {
+        updateError = null
+        installError = null
+        UpdateStore.setLastError(appCtx, null)
+    }
+
     /* ---------------- persistencia ---------------- */
 
     private fun loadTheme(): ThemeMode =
@@ -86,11 +304,20 @@ class CalculatorViewModel(app: Application) : AndroidViewModel(app) {
     private fun loadInput(): CalcInput = loadInputFrom(prefs, "", CalcInput())
 
     private fun saveHistory(list: List<HistoryEntry>) {
+        val previous = prefs.getInt(KEY_HIST_COUNT, 0)
         val ed = prefs.edit()
         ed.putInt(KEY_HIST_COUNT, list.size)
         list.forEachIndexed { idx, e ->
             saveInputInto(ed, "$KEY_HIST$idx.", e.input)
             ed.putString("$KEY_HIST$idx.date", e.date)
+            ed.putString("$KEY_HIST$idx.id", e.id.toString())
+        }
+        // Limpia las entradas que ya no existen (evita datos huérfanos).
+        for (idx in list.size until maxOf(previous, list.size)) {
+            val prefix = "$KEY_HIST$idx."
+            ed.remove(prefix + "date")
+            ed.remove(prefix + "id")
+            for (k in INPUT_KEYS) ed.remove(prefix + k)
         }
         ed.apply()
     }
@@ -101,32 +328,27 @@ class CalculatorViewModel(app: Application) : AndroidViewModel(app) {
         val out = ArrayList<HistoryEntry>()
         for (idx in 0 until n) {
             val prefix = "$KEY_HIST$idx."
-            val i = loadInputFrom(prefs, prefix, CalcInput())
             val date = prefs.getString(prefix + "date", "") ?: ""
             if (date.isEmpty()) continue
-            out.add(HistoryEntry(id = (prefix + date).hashCode().toLong(), date = date, input = i))
+            val id = prefs.getString(prefix + "id", null)?.toLongOrNull()
+                ?: (prefix + date).hashCode().toLong()
+            out.add(HistoryEntry(id = id, date = date, input = loadInputFrom(prefs, prefix, CalcInput())))
         }
         return out
-    }
-
-    fun restoreFromHistory(id: Long) {
-        // reconstruye la entrada a partir de su prefijo almacenado
-        val n = prefs.getInt(KEY_HIST_COUNT, 0)
-        for (idx in 0 until n) {
-            val prefix = "$KEY_HIST$idx."
-            val date = prefs.getString(prefix + "date", "") ?: ""
-            if ((prefix + date).hashCode().toLong() == id) {
-                input = loadInputFrom(prefs, prefix, input)
-                saveInput(input)
-                return
-            }
-        }
     }
 
     companion object {
         private const val KEY_THEME = "theme"
         private const val KEY_HIST_COUNT = "hist.count"
         private const val KEY_HIST = "hist."
+
+        private val INPUT_KEYS = listOf(
+            "modelId", "nozzle", "ink", "inkBase", "font", "chars", "lines", "stroke",
+            "widthMm", "tempC", "ppm", "hoursDay", "daysWeek", "daysMonth",
+            "efficiencyPct", "lineSpeed", "productWidthMm", "gapMm", "inkCartMl",
+            "muCartMl", "shelfLifeMonths", "coreHours", "coreDays", "temperatureModel",
+            "envFactor"
+        )
 
         fun saveInputInto(prefs: SharedPreferences.Editor, p: String, i: CalcInput) {
             prefs.putString(p + "modelId", i.modelId)

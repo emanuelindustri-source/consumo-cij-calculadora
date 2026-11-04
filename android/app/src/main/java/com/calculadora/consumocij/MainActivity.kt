@@ -1,5 +1,6 @@
 package com.calculadora.consumocij
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -18,7 +19,8 @@ import com.calculadora.consumocij.ui.theme.VideojetTheme
  *
  * · Aplicación nativa (Kotlin + Jetpack Compose, Material 3)
  * · Android 14 (API 34) como versión mínima
- * · 100 % offline: el manifiesto NO declara el permiso INTERNET
+ * · Cálculos, informes e historial 100 % locales (funciona sin internet)
+ * · Solo se conecta para comprobar si hay una versión nueva (se puede desactivar)
  * · Interfaz adaptable: teléfonos, phablets, tabletas, TV, apaisado,
  *   distintas resoluciones/densidades y temas Claro / Oscuro / AMOLED
  */
@@ -34,6 +36,7 @@ class MainActivity : ComponentActivity() {
             ReportIssue.saveCrash(this, e)
             prev?.uncaughtException(t, e)
         }
+        vm.consumeIntent(intent)
         enableEdgeToEdge()
         setContent {
             // vm.themeMode es estado de Compose: el tema se recompone al cambiarlo
@@ -43,5 +46,24 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        vm.consumeIntent(intent)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        vm.onResume()
+    }
+
+    companion object {
+        /** Abre el dialogo de actualizacion (lo usa la notificacion). */
+        const val EXTRA_OPEN_UPDATE = "open_update"
+
+        /** Lanza el instalador del APK ya descargado. */
+        const val EXTRA_INSTALL_UPDATE = "install_update"
     }
 }

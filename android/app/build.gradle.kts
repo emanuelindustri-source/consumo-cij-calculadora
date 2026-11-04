@@ -21,9 +21,34 @@ android {
         // Android 14 (API 34) como versión mínima, según requisito
         minSdk = 34
         targetSdk = 34
-        versionCode = 7
-        versionName = "2.2.0"
+        versionCode = 8
+        versionName = "2.3.0"
         vectorDrawables { useSupportLibrary = true }
+
+        // Datos que la app muestra y usa para buscar actualizaciones.
+        // Al publicar una version nueva, tools/check_update.py comprueba que estos
+        // valores coincidan exactamente con version.json.
+        buildConfigField("String", "BUILD_DATE", "\"2026-11-04\"")
+        buildConfigField(
+            "String", "UPDATE_URL",
+            "\"https://raw.githubusercontent.com/emanuelindustri-source/consumo-cij-calculadora/main/version.json\""
+        )
+        buildConfigField(
+            "String", "UPDATE_URL_FALLBACK",
+            "\"https://emanuelindustri-source.github.io/consumo-cij-calculadora/version.json\""
+        )
+        buildConfigField(
+            "String", "UPDATE_URL_CDN",
+            "\"https://cdn.jsdelivr.net/gh/emanuelindustri-source/consumo-cij-calculadora@main/version.json\""
+        )
+        buildConfigField(
+            "String", "NOTES_URL",
+            "\"https://emanuelindustri-source.github.io/consumo-cij-calculadora/notas.html\""
+        )
+        buildConfigField(
+            "String", "RELEASES_URL",
+            "\"https://github.com/emanuelindustri-source/consumo-cij-calculadora/releases/latest\""
+        )
     }
 
     signingConfigs {
@@ -61,6 +86,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         // compatible con Kotlin 1.9.24
@@ -83,6 +109,7 @@ dependencies {
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.activity:activity-compose:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.3")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.3")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.3")
 
     implementation("androidx.compose.ui:ui")
@@ -95,4 +122,6 @@ dependencies {
 
     // Pruebas unitarias del motor de cálculo (JVM, sin dispositivo)
     testImplementation("junit:junit:4.13.2")
+    // org.json real en las pruebas JVM (el SDK lo simula y no parsea)
+    testImplementation("org.json:json:20240303")
 }

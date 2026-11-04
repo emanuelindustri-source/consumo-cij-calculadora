@@ -307,6 +307,30 @@ kt_text = "\n".join(kt)
 kt_flat = re.sub(r'"\s*\+\s*"', "", kt_text)
 
 
+def _unescape(s):
+    return (s.replace("\\n", "\n").replace("\\t", "\t")
+             .replace('\\"', '"').replace("\\\\", "\\"))
+
+
+# Todo texto visible de la app debe existir en el catalogo: si falta, se vera
+# en espanol dentro de una interfaz traducida.
+kt_missing = set()
+for m in re.finditer(r'"((?:[^"\\]|\\.)*)"\s*\.tr\(\)', kt_flat):
+    s = _unescape(m.group(1))
+    if "$" not in s and len(s) > 3 and s not in strings:
+        kt_missing.add(s)
+for m in re.finditer(r'I18n\.tf?\(\s*"((?:[^"\\]|\\.)*)"', kt_flat):
+    s = _unescape(m.group(1))
+    if "$" not in s and len(s) > 3 and s not in strings:
+        kt_missing.add(s)
+if kt_missing:
+    for s in sorted(kt_missing)[:10]:
+        fail("texto de la app sin traducir: " + s[:90])
+else:
+    ok("textos de la app presentes en el catalogo")
+
+
+
 def used_in_app(key):
     return ('"%s"' % key) in kt_flat
 

@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Aplicación 100% offline: NO se declara el permiso INTERNET.
-  No se usan servicios de red, ni analítica, ni actualizaciones, ni publicidad.
-  La calculadora es completamente funcional sin conexión.
+  La calculadora funciona 100 % sin conexion: los calculos, los informes y el
+  historial son completamente locales.
+
+  El permiso INTERNET se usa SOLO para comprobar si hay una version nueva
+  (una peticion GET anonima a version.json). No hay analitica, publicidad ni
+  envio de datos. La comprobacion automatica se puede desactivar en la app y
+  las notificaciones solo se activan si el usuario las concede.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -28,6 +38,32 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Comprobacion diaria de versiones (JobScheduler). -->
+        <service
+            android:name=".update.UpdateJobService"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <!-- Aviso de descarga terminada: verifica la huella y prepara la instalacion. -->
+        <receiver
+            android:name=".update.UpdateDownloadReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Comparte el APK descargado con el instalador del sistema. -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>

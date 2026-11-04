@@ -1,5 +1,5 @@
 {
- "version": "2.2.0",
+ "version": "2.3.0",
  "source": "es",
  "languages": [
   "en",
@@ -561,13 +561,6 @@
    "pt-PT": "Guardar no histórico",
    "it": "Salva nella cronologia",
    "zh": "保存到历史记录"
-  },
-  "Herramienta de apoyo no oficial · equipos CIJ (Simplicity / Serie 1000VJ) · 100 % offline": {
-   "en": "Unofficial support tool · CIJ equipment (Simplicity / Serie 1000VJ) · 100 % offline",
-   "pt-BR": "Ferramenta de apoio não oficial · equipamentos CIJ (Simplicity / Serie 1000VJ) · 100 % offline",
-   "pt-PT": "Ferramenta de apoio não oficial · equipamentos CIJ (Simplicity / Serie 1000VJ) · 100 % offline",
-   "it": "Strumento di supporto non ufficiale · apparecchiature CIJ (Simplicity / Serie 1000VJ) · 100 % offline",
-   "zh": "非官方辅助工具 · CIJ 设备（Simplicity / Serie 1000VJ）· 100 % 离线"
   },
   "Herramienta de estimación. THIS CALCULATOR IS FOR ESTIMATION PURPOSES ONLY.": {
    "en": "Estimation tool. THIS CALCULATOR IS FOR ESTIMATION PURPOSES ONLY.",
@@ -2823,27 +2816,6 @@
    "it": "Test automatici del motore di calcolo su web e app.",
    "zh": "网页与应用的计算引擎自动测试。"
   },
-  "Versión 2.2.0 · compilación 7 · 22/10/2026.": {
-   "en": "Version 2.2.0 · build 7 · 22/10/2026.",
-   "pt-BR": "Versão 2.2.0 · compilação 7 · 22/10/2026.",
-   "pt-PT": "Versão 2.2.0 · compilação 7 · 22/10/2026.",
-   "it": "Versione 2.2.0 · build 7 · 22/10/2026.",
-   "zh": "版本 2.2.0 · 编译 7 · 2026/10/22。"
-  },
-  "Versión 2.2.0 · compilación 7 · herramienta técnica interna · funciona sin internet · familias Simplicity y Serie 1000VJ.": {
-   "en": "Version 2.2.0 · build 7 · internal technical tool · works without internet · Simplicity and 1000VJ Series families.",
-   "pt-BR": "Versão 2.2.0 · compilação 7 · ferramenta técnica interna · funciona sem internet · famílias Simplicity e Série 1000VJ.",
-   "pt-PT": "Versão 2.2.0 · compilação 7 · ferramenta técnica interna · funciona sem internet · famílias Simplicity e Série 1000VJ.",
-   "it": "Versione 2.2.0 · build 7 · strumento tecnico interno · funziona senza internet · famiglie Simplicity e Serie 1000VJ.",
-   "zh": "版本 2.2.0 · 编译 7 · 内部技术工具 · 无需联网 · Simplicity 与 1000VJ 系列。"
-  },
-  "Versión 2.2.0 · herramienta técnica interna · familias Simplicity y Serie 1000VJ.": {
-   "en": "Version 2.2.0 · internal technical tool · Simplicity and 1000VJ Series families.",
-   "pt-BR": "Versão 2.2.0 · ferramenta técnica interna · famílias Simplicity e Série 1000VJ.",
-   "pt-PT": "Versão 2.2.0 · ferramenta técnica interna · famílias Simplicity e Série 1000VJ.",
-   "it": "Versione 2.2.0 · strumento tecnico interno · famiglie Simplicity e Serie 1000VJ.",
-   "zh": "版本 2.2.0 · 内部技术工具 · Simplicity 与 1000VJ 系列。"
-  },
   "Impresoras CIJ Videojet · Simplicity & Serie 1000VJ · Basada en los modelos oficiales CIJ Makeup Usage v14, Line Speed v9.7 y TCO v35": {
    "en": "Videojet CIJ printers · Simplicity & Serie 1000VJ · Based on the official models CIJ Makeup Usage v14, Line Speed v9.7 and TCO v35",
    "pt-BR": "Impressoras CIJ Videojet · Simplicity & Serie 1000VJ · Baseada nos modelos oficiais CIJ Makeup Usage v14, Line Speed v9.7 e TCO v35",
@@ -2899,6 +2871,405 @@
    "pt-PT": "Resultado: {0} ml/h solvente · {1} ml/h tinta",
    "it": "Risultato: {0} ml/h solvente · {1} ml/h inchiostro",
    "zh": "结果: 溶剂 {0} ml/h · 墨水 {1} ml/h"
+  },
+  "Actualizaciones": {
+   "en": "Updates",
+   "pt-BR": "Atualizações",
+   "pt-PT": "Atualizações",
+   "it": "Aggiornamenti",
+   "zh": "更新"
+  },
+  "Avisos de nuevas versiones de Consumo CIJ": {
+   "en": "Notifications about new Consumo CIJ versions",
+   "pt-BR": "Avisos de novas versões do Consumo CIJ",
+   "pt-PT": "Avisos de novas versões do Consumo CIJ",
+   "it": "Avvisi di nuove versioni di Consumo CIJ",
+   "zh": "Consumo CIJ 新版本通知"
+  },
+  "Nueva versión {0} disponible": {
+   "en": "New version {0} available",
+   "pt-BR": "Nova versão {0} disponível",
+   "pt-PT": "Nova versão {0} disponível",
+   "it": "Nuova versione {0} disponibile",
+   "zh": "新版本 {0} 已发布"
+  },
+  "Nueva versión {0} disponible.": {
+   "en": "New version {0} available.",
+   "pt-BR": "Nova versão {0} disponível.",
+   "pt-PT": "Nova versão {0} disponível.",
+   "it": "Nuova versione {0} disponibile.",
+   "zh": "新版本 {0} 已发布。"
+  },
+  "Nueva versión disponible": {
+   "en": "New version available",
+   "pt-BR": "Nova versão disponível",
+   "pt-PT": "Nova versão disponível",
+   "it": "Nuova versione disponibile",
+   "zh": "有新版本可用"
+  },
+  "Toque para ver las novedades y actualizar.": {
+   "en": "Tap to see what's new and update.",
+   "pt-BR": "Toque para ver as novidades e atualizar.",
+   "pt-PT": "Toque para ver as novidades e atualizar.",
+   "it": "Tocca per vedere le novità e aggiornare.",
+   "zh": "点按查看新功能并更新。"
+  },
+  "Toque para instalar la actualización.": {
+   "en": "Tap to install the update.",
+   "pt-BR": "Toque para instalar a atualização.",
+   "pt-PT": "Toque para instalar a atualização.",
+   "it": "Tocca per installare l'aggiornamento.",
+   "zh": "点按安装更新。"
+  },
+  "Toque para instalar la versión {0}.": {
+   "en": "Tap to install version {0}.",
+   "pt-BR": "Toque para instalar a versão {0}.",
+   "pt-PT": "Toque para instalar a versão {0}.",
+   "it": "Tocca per installare la versione {0}.",
+   "zh": "点按安装版本 {0}。"
+  },
+  "Actualización descargada": {
+   "en": "Update downloaded",
+   "pt-BR": "Atualização baixada",
+   "pt-PT": "Atualização transferida",
+   "it": "Aggiornamento scaricato",
+   "zh": "更新已下载"
+  },
+  "Actualización de Consumo CIJ": {
+   "en": "Consumo CIJ update",
+   "pt-BR": "Atualização do Consumo CIJ",
+   "pt-PT": "Atualização do Consumo CIJ",
+   "it": "Aggiornamento di Consumo CIJ",
+   "zh": "Consumo CIJ 更新"
+  },
+  "No se pudo descargar la actualización.": {
+   "en": "The update could not be downloaded.",
+   "pt-BR": "Não foi possível baixar a atualização.",
+   "pt-PT": "Não foi possível transferir a atualização.",
+   "it": "Impossibile scaricare l'aggiornamento.",
+   "zh": "无法下载更新。"
+  },
+  "El archivo descargado no coincide con la huella publicada. Se canceló la instalación.": {
+   "en": "The downloaded file does not match the published fingerprint. Installation was cancelled.",
+   "pt-BR": "O arquivo baixado não corresponde à impressão digital publicada. A instalação foi cancelada.",
+   "pt-PT": "O ficheiro transferido não corresponde à impressão digital publicada. A instalação foi cancelada.",
+   "it": "Il file scaricato non corrisponde all'impronta pubblicata. Installazione annullata.",
+   "zh": "下载的文件与公布的指纹不一致，安装已取消。"
+  },
+  "Descargando la versión {0}…": {
+   "en": "Downloading version {0}…",
+   "pt-BR": "Baixando a versão {0}…",
+   "pt-PT": "A transferir a versão {0}…",
+   "it": "Download della versione {0}…",
+   "zh": "正在下载版本 {0}…"
+  },
+  "No se pudo abrir el instalador. Permita instalar aplicaciones desconocidas para esta app.": {
+   "en": "Could not open the installer. Allow installing unknown apps for this app.",
+   "pt-BR": "Não foi possível abrir o instalador. Permita instalar aplicativos desconhecidos para este app.",
+   "pt-PT": "Não foi possível abrir o instalador. Permita instalar aplicações desconhecidas para esta app.",
+   "it": "Impossibile aprire il programma di installazione. Consenti l'installazione di app sconosciute per questa app.",
+   "zh": "无法打开安装程序。请允许此应用安装未知来源的应用。"
+  },
+  "Actualizar": {
+   "en": "Update",
+   "pt-BR": "Atualizar",
+   "pt-PT": "Atualizar",
+   "it": "Aggiorna",
+   "zh": "更新"
+  },
+  "Versión {0} · compilación {1} · {2}": {
+   "en": "Version {0} · build {1} · {2}",
+   "pt-BR": "Versão {0} · compilação {1} · {2}",
+   "pt-PT": "Versão {0} · compilação {1} · {2}",
+   "it": "Versione {0} · build {1} · {2}",
+   "zh": "版本 {0} · 构建 {1} · {2}"
+  },
+  "Descarga: {0}": {
+   "en": "Download: {0}",
+   "pt-BR": "Download: {0}",
+   "pt-PT": "Transferência: {0}",
+   "it": "Download: {0}",
+   "zh": "下载大小：{0}"
+  },
+  "Se instalará sobre la versión actual; sus datos y su historial se conservan.": {
+   "en": "It will be installed over the current version; your data and history are kept.",
+   "pt-BR": "Será instalado sobre a versão atual; seus dados e histórico são mantidos.",
+   "pt-PT": "Será instalado sobre a versão atual; os seus dados e histórico são mantidos.",
+   "it": "Verrà installato sulla versione attuale; i dati e la cronologia vengono conservati.",
+   "zh": "将覆盖安装当前版本，您的数据和历史记录会保留。"
+  },
+  "Actualización descargada. Pulse «Instalar» para terminar.": {
+   "en": "Update downloaded. Tap \"Install\" to finish.",
+   "pt-BR": "Atualização baixada. Toque em «Instalar» para concluir.",
+   "pt-PT": "Atualização transferida. Toque em «Instalar» para concluir.",
+   "it": "Aggiornamento scaricato. Tocca «Installa» per completare.",
+   "zh": "更新已下载。点按“安装”完成。"
+  },
+  "Descargando la actualización…": {
+   "en": "Downloading the update…",
+   "pt-BR": "Baixando a atualização…",
+   "pt-PT": "A transferir a atualização…",
+   "it": "Download dell'aggiornamento…",
+   "zh": "正在下载更新…"
+  },
+  "Omitir esta versión": {
+   "en": "Skip this version",
+   "pt-BR": "Ignorar esta versão",
+   "pt-PT": "Ignorar esta versão",
+   "it": "Salta questa versione",
+   "zh": "跳过此版本"
+  },
+  "Instalar": {
+   "en": "Install",
+   "pt-BR": "Instalar",
+   "pt-PT": "Instalar",
+   "it": "Installa",
+   "zh": "安装"
+  },
+  "Descargar e instalar": {
+   "en": "Download and install",
+   "pt-BR": "Baixar e instalar",
+   "pt-PT": "Transferir e instalar",
+   "it": "Scarica e installa",
+   "zh": "下载并安装"
+  },
+  "Buscando actualizaciones…": {
+   "en": "Checking for updates…",
+   "pt-BR": "Buscando atualizações…",
+   "pt-PT": "A procurar atualizações…",
+   "it": "Ricerca di aggiornamenti…",
+   "zh": "正在检查更新…"
+  },
+  "No se pudo comprobar la actualización. Revise la conexión e inténtelo de nuevo.": {
+   "en": "Could not check for updates. Check your connection and try again.",
+   "pt-BR": "Não foi possível verificar a atualização. Verifique a conexão e tente novamente.",
+   "pt-PT": "Não foi possível verificar a atualização. Verifique a ligação e tente novamente.",
+   "it": "Impossibile verificare l'aggiornamento. Controlla la connessione e riprova.",
+   "zh": "无法检查更新。请检查网络连接后重试。"
+  },
+  "Tiene la última versión instalada.": {
+   "en": "You have the latest version installed.",
+   "pt-BR": "Você tem a versão mais recente instalada.",
+   "pt-PT": "Tem a versão mais recente instalada.",
+   "it": "Hai installata l'ultima versione.",
+   "zh": "已安装最新版本。"
+  },
+  "Versión instalada: {0} · compilación {1}": {
+   "en": "Installed version: {0} · build {1}",
+   "pt-BR": "Versão instalada: {0} · compilação {1}",
+   "pt-PT": "Versão instalada: {0} · compilação {1}",
+   "it": "Versione installata: {0} · build {1}",
+   "zh": "已安装版本：{0} · 构建 {1}"
+  },
+  "Más tarde": {
+   "en": "Later",
+   "pt-BR": "Mais tarde",
+   "pt-PT": "Mais tarde",
+   "it": "Più tardi",
+   "zh": "稍后"
+  },
+  "¿Activar los avisos de actualización?": {
+   "en": "Enable update notifications?",
+   "pt-BR": "Ativar os avisos de atualização?",
+   "pt-PT": "Ativar os avisos de atualização?",
+   "it": "Attivare le notifiche di aggiornamento?",
+   "zh": "启用更新通知？"
+  },
+  "Recibirá una notificación cuando se publique una versión nueva. Puede desactivarlo cuando quiera en «Actualizaciones».": {
+   "en": "You will receive a notification when a new version is published. You can turn it off at any time in \"Updates\".",
+   "pt-BR": "Você receberá uma notificação quando uma nova versão for publicada. Pode desativar quando quiser em «Atualizações».",
+   "pt-PT": "Receberá uma notificação quando for publicada uma nova versão. Pode desativar quando quiser em «Atualizações».",
+   "it": "Riceverai una notifica quando viene pubblicata una nuova versione. Puoi disattivarlo quando vuoi in «Aggiornamenti».",
+   "zh": "发布新版本时将收到通知。您可以随时在“更新”中关闭。"
+  },
+  "Activar avisos": {
+   "en": "Enable notifications",
+   "pt-BR": "Ativar avisos",
+   "pt-PT": "Ativar avisos",
+   "it": "Attiva notifiche",
+   "zh": "启用通知"
+  },
+  "Ahora no": {
+   "en": "Not now",
+   "pt-BR": "Agora não",
+   "pt-PT": "Agora não",
+   "it": "Non ora",
+   "zh": "暂不"
+  },
+  "Comprobación automática": {
+   "en": "Automatic check",
+   "pt-BR": "Verificação automática",
+   "pt-PT": "Verificação automática",
+   "it": "Controllo automatico",
+   "zh": "自动检查"
+  },
+  "Avisarme cuando haya una versión nueva": {
+   "en": "Notify me when a new version is available",
+   "pt-BR": "Avisar-me quando houver uma versão nova",
+   "pt-PT": "Avisar-me quando houver uma versão nova",
+   "it": "Avvisami quando c'è una nuova versione",
+   "zh": "有新版本时通知我"
+  },
+  "Aviso dentro de la app: las notificaciones están desactivadas en el sistema.": {
+   "en": "In-app notice: notifications are disabled in the system.",
+   "pt-BR": "Aviso dentro do app: as notificações estão desativadas no sistema.",
+   "pt-PT": "Aviso dentro da app: as notificações estão desativadas no sistema.",
+   "it": "Avviso nell'app: le notifiche sono disattivate nel sistema.",
+   "zh": "应用内提示：系统通知已关闭。"
+  },
+  "Se comprueba una vez al día si hay una versión nueva. Solo se descarga el archivo de versión del proyecto; no se envía ningún dato.": {
+   "en": "Once a day, the app checks for a new version. Only the project's version file is downloaded; no data is sent.",
+   "pt-BR": "Verifica uma vez por dia se há uma versão nova. Apenas o arquivo de versão do projeto é baixado; nenhum dado é enviado.",
+   "pt-PT": "Verifica uma vez por dia se há uma versão nova. Apenas o ficheiro de versão do projeto é transferido; nenhum dado é enviado.",
+   "it": "Una volta al giorno controlla se c'è una nuova versione. Viene scaricato solo il file di versione del progetto; nessun dato viene inviato.",
+   "zh": "每天检查一次是否有新版本。仅下载项目的版本文件，不发送任何数据。"
+  },
+  "Buscar actualizaciones": {
+   "en": "Check for updates",
+   "pt-BR": "Buscar atualizações",
+   "pt-PT": "Procurar atualizações",
+   "it": "Cerca aggiornamenti",
+   "zh": "检查更新"
+  },
+  "Nunca": {
+   "en": "Never",
+   "pt-BR": "Nunca",
+   "pt-PT": "Nunca",
+   "it": "Mai",
+   "zh": "从未"
+  },
+  "Última comprobación: {0}": {
+   "en": "Last check: {0}",
+   "pt-BR": "Última verificação: {0}",
+   "pt-PT": "Última verificação: {0}",
+   "it": "Ultimo controllo: {0}",
+   "zh": "上次检查：{0}"
+  },
+  "Versión {0} · compilación {1} · {2}.": {
+   "en": "Version {0} · build {1} · {2}.",
+   "pt-BR": "Versão {0} · compilação {1} · {2}.",
+   "pt-PT": "Versão {0} · compilação {1} · {2}.",
+   "it": "Versione {0} · build {1} · {2}.",
+   "zh": "版本 {0} · 构建 {1} · {2}。"
+  },
+  "Aviso de nueva versión dentro de la app y notificación opcional cuando se publica una actualización.": {
+   "en": "In-app new-version notice and optional notification when an update is published.",
+   "pt-BR": "Aviso de nova versão dentro do app e notificação opcional quando uma atualização é publicada.",
+   "pt-PT": "Aviso de nova versão dentro da app e notificação opcional quando é publicada uma atualização.",
+   "it": "Avviso di nuova versione nell'app e notifica opzionale quando viene pubblicato un aggiornamento.",
+   "zh": "应用内新版本提示，发布更新时可选择通知。"
+  },
+  "Descarga del APK con verificación SHA-256 e instalador del sistema.": {
+   "en": "APK download with SHA-256 verification and the system installer.",
+   "pt-BR": "Download do APK com verificação SHA-256 e instalador do sistema.",
+   "pt-PT": "Transferência do APK com verificação SHA-256 e instalador do sistema.",
+   "it": "Download dell'APK con verifica SHA-256 e programma di installazione di sistema.",
+   "zh": "APK 下载带 SHA-256 校验，并使用系统安装程序。"
+  },
+  "Comprobación diaria en segundo plano, desactivable en «Actualizaciones».": {
+   "en": "Daily check in the background, which can be turned off in \"Updates\".",
+   "pt-BR": "Verificação diária em segundo plano, desativável em «Atualizações».",
+   "pt-PT": "Verificação diária em segundo plano, desativável em «Atualizações».",
+   "it": "Controllo giornaliero in background, disattivabile in «Aggiornamenti».",
+   "zh": "后台每日检查，可在“更新”中关闭。"
+  },
+  "Correcciones: historial restaurado al instante y fechas en el idioma de la app.": {
+   "en": "Fixes: history restored instantly and dates in the app language.",
+   "pt-BR": "Correções: histórico restaurado na hora e datas no idioma do app.",
+   "pt-PT": "Correções: histórico restaurado de imediato e datas no idioma da app.",
+   "it": "Correzioni: cronologia ripristinata subito e date nella lingua dell'app.",
+   "zh": "修复：历史记录即时恢复，日期使用应用语言。"
+  },
+  "Versión {0} · compilación {1} · herramienta técnica interna · cálculos sin internet · familias Simplicity y Serie 1000VJ.": {
+   "en": "Version {0} · build {1} · internal technical tool · calculations without internet · Simplicity and 1000VJ Series families.",
+   "pt-BR": "Versão {0} · compilação {1} · ferramenta técnica interna · cálculos sem internet · famílias Simplicity e Série 1000VJ.",
+   "pt-PT": "Versão {0} · compilação {1} · ferramenta técnica interna · cálculos sem internet · famílias Simplicity e Série 1000VJ.",
+   "it": "Versione {0} · build {1} · strumento tecnico interno · calcoli senza internet · famiglie Simplicity e Serie 1000VJ.",
+   "zh": "版本 {0} · 构建 {1} · 内部技术工具 · 离线计算 · Simplicity 和 1000VJ 系列。"
+  },
+  "Herramienta de apoyo no oficial · equipos CIJ (Simplicity / Serie 1000VJ) · funciona sin internet": {
+   "en": "Unofficial support tool · CIJ equipment (Simplicity / 1000VJ Series) · works without internet",
+   "pt-BR": "Ferramenta de apoio não oficial · equipamentos CIJ (Simplicity / Série 1000VJ) · funciona sem internet",
+   "pt-PT": "Ferramenta de apoio não oficial · equipamentos CIJ (Simplicity / Série 1000VJ) · funciona sem internet",
+   "it": "Strumento di supporto non ufficiale · apparecchi CIJ (Simplicity / Serie 1000VJ) · funziona senza internet",
+   "zh": "非官方支持工具 · CIJ 设备（Simplicity / 1000VJ 系列）· 离线可用"
+  },
+  "Hay una versión nueva ({0}). Recargue la página para usarla.": {
+   "en": "A new version is available ({0}). Reload the page to use it.",
+   "pt-BR": "Há uma versão nova ({0}). Recarregue a página para usá-la.",
+   "pt-PT": "Existe uma versão nova ({0}). Recarregue a página para a utilizar.",
+   "it": "È disponibile una nuova versione ({0}). Ricarica la pagina per usarla.",
+   "zh": "有新版本（{0}）。请刷新页面以使用。"
+  },
+  "Recargar": {
+   "en": "Reload",
+   "pt-BR": "Recarregar",
+   "pt-PT": "Recarregar",
+   "it": "Ricarica",
+   "zh": "刷新"
+  },
+  "Descargar APK": {
+   "en": "Download APK",
+   "pt-BR": "Baixar APK",
+   "pt-PT": "Transferir APK",
+   "it": "Scarica APK",
+   "zh": "下载 APK"
+  },
+  "Informe TXT descargado": {
+   "en": "TXT report downloaded",
+   "pt-BR": "Relatório TXT baixado",
+   "pt-PT": "Relatório TXT transferido",
+   "it": "Report TXT scaricato",
+   "zh": "TXT 报告已下载"
+  },
+  "Informe CSV descargado": {
+   "en": "CSV report downloaded",
+   "pt-BR": "Relatório CSV baixado",
+   "pt-PT": "Relatório CSV transferido",
+   "it": "Report CSV scaricato",
+   "zh": "CSV 报告已下载"
+  },
+  "Resumen copiado al portapapeles": {
+   "en": "Summary copied to clipboard",
+   "pt-BR": "Resumo copiado para a área de transferência",
+   "pt-PT": "Resumo copiado para a área de transferência",
+   "it": "Riepilogo copiato negli appunti",
+   "zh": "摘要已复制到剪贴板"
+  },
+  "Resumen copiado": {
+   "en": "Summary copied",
+   "pt-BR": "Resumo copiado",
+   "pt-PT": "Resumo copiado",
+   "it": "Riepilogo copiato",
+   "zh": "摘要已复制"
+  },
+  "No se pudo copiar": {
+   "en": "Could not copy",
+   "pt-BR": "Não foi possível copiar",
+   "pt-PT": "Não foi possível copiar",
+   "it": "Impossibile copiare",
+   "zh": "复制失败"
+  },
+  "Versión 2.3.0 · herramienta técnica interna · familias Simplicity y Serie 1000VJ.": {
+   "en": "Version 2.3.0 · internal technical tool · Simplicity and 1000VJ Series families.",
+   "pt-BR": "Versão 2.3.0 · ferramenta técnica interna · famílias Simplicity e Série 1000VJ.",
+   "pt-PT": "Versão 2.3.0 · ferramenta técnica interna · famílias Simplicity e Série 1000VJ.",
+   "it": "Versione 2.3.0 · strumento tecnico interno · famiglie Simplicity e Serie 1000VJ.",
+   "zh": "版本 2.3.0 · 内部技术工具 · Simplicity 和 1000VJ 系列。"
+  },
+  "Tinta: {0} µl por impresión ({1} gotas · boquilla {2} µm).": {
+   "en": "Ink: {0} µl per print ({1} drops · nozzle {2} µm).",
+   "pt-BR": "Tinta: {0} µl por impressão ({1} gotas · bocal {2} µm).",
+   "pt-PT": "Tinta: {0} µl por impressão ({1} gotas · bico {2} µm).",
+   "it": "Inchiostro: {0} µl per stampa ({1} gocce · ugello {2} µm).",
+   "zh": "墨水：每次印刷 {0} µl（{1} 滴 · 喷嘴 {2} µm）。"
+  },
+  "Un litro de solvente dura {0} h y un cartucho de {1} ml dura {2} h.": {
+   "en": "One litre of solvent lasts {0} h and a {1} ml cartridge lasts {2} h.",
+   "pt-BR": "Um litro de solvente dura {0} h e um cartucho de {1} ml dura {2} h.",
+   "pt-PT": "Um litro de solvente dura {0} h e um cartucho de {1} ml dura {2} h.",
+   "it": "Un litro di solvente dura {0} h e una cartuccia da {1} ml dura {2} h.",
+   "zh": "一升溶剂可用 {0} 小时，{1} 毫升墨盒可用 {2} 小时。"
   }
  }
 }

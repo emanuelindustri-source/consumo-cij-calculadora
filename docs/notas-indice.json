@@ -1,6 +1,6 @@
 {
   "politica": "Las notas de version son permanentes: no se borran ni se reescriben. Cada version anade su propio archivo NOTAS-X.Y.Z.md (raiz y docs/, identicos) con los bloques antes / plan / hecho / pendiente. Al publicar, tools/check_notas.py --freeze guarda su huella SHA-256 y la validacion falla si alguien la elimina o la modifica.",
-  "actual": "2.2.0",
+  "actual": "2.3.0",
   "notas": [
     {
       "version": "2.1.0",
@@ -43,13 +43,30 @@
         "hecho",
         "futuro"
       ],
-      "congelada": false,
+      "congelada": true,
       "root": "NOTAS-2.2.0.md",
       "docs": "docs/NOTAS-2.2.0.md",
       "sha256": {
         "NOTAS-2.2.0.md": "21902c24706b16b3799ef7a5558aba7977d9f9ead01b5198804872b5d2f5f1e5",
         "docs/NOTAS-2.2.0.md": "21902c24706b16b3799ef7a5558aba7977d9f9ead01b5198804872b5d2f5f1e5"
       }
+    },
+    {
+      "version": "2.3.0",
+      "fecha": "2026-11-04",
+      "secciones": [
+        "antes",
+        "plan",
+        "hecho",
+        "futuro"
+      ],
+      "congelada": false,
+      "root": "NOTAS-2.3.0.md",
+      "sha256": {
+        "NOTAS-2.3.0.md": "e5a7cefc751f0b2bca4161334de1b2a39073d9417174ec5822add05f635158d3",
+        "docs/NOTAS-2.3.0.md": "e5a7cefc751f0b2bca4161334de1b2a39073d9417174ec5822add05f635158d3"
+      },
+      "docs": "docs/NOTAS-2.3.0.md"
     }
   ]
 }

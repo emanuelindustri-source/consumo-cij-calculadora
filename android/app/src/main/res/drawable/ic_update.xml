@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Icono de notificacion (silueta blanca: Android lo tine con el color del sistema). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M11,3h2v10h3.2L12,17.2L7.8,13H11z" />
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M5,19h14v2H5z" />
+</vector>

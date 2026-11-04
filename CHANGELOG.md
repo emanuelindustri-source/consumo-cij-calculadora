@@ -4,6 +4,47 @@ Todos los cambios relevantes de este proyecto.
 El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y el versionado
 [SemVer](https://semver.org/lang/es/).
 
+## [2.3.0] — 2026-11-04
+
+### Añadido
+- **Aviso de actualización de la APK**: comprobación al arrancar y una vez al día en segundo plano
+  (`JobScheduler`), aviso dentro de la app y notificación local opcional.
+- **Descarga verificada**: `DownloadManager`, comprobación **SHA-256** del APK publicado e
+  instalación con `FileProvider` y el instalador del sistema.
+- **Pantalla «Actualizaciones»**: versión instalada, comprobación automática, interruptor de avisos,
+  «Buscar actualizaciones» y estado de la última comprobación.
+- **`tools/check_update.py`**: `version.json` debe coincidir con `versionCode`, `versionName`,
+  `BUILD_DATE`, el APK, las notas, los idiomas y el catálogo; además, solo se permite HTTPS de los
+  endpoints del proyecto.
+- **`tools/release.py`**: compila la APK firmada, calcula tamaño y SHA-256, actualiza `version.json`
+  y crea la release con el APK adjunto.
+- **Aviso de versión nueva en la web publicada**, con «Recargar» y «Descargar APK»; el archivo
+  offline abierto con doble clic sigue sin hacer peticiones.
+- Datos de versión en `BuildConfig` (`BUILD_DATE`, `UPDATE_URL`, `UPDATE_URL_FALLBACK`, `NOTES_URL`,
+  `RELEASES_URL`).
+- `version.json` incorpora `apkUrl`, `apkSizeBytes`, `apkSha256`, `notesUrl`, `mandatory` y
+  `updateCheck`.
+
+### Cambiado
+- `versionName 2.3.0` · `versionCode 8` (antes 2.2.0 · 7).
+- La app ya no dice «100 % offline» sin matices: los cálculos son locales y la única red es la
+  comprobación de versión, desactivable.
+- Catálogo: **466 cadenas** × 5 idiomas traducidos (antes 413). Nuevas cadenas de actualizaciones,
+  del aviso web y de los mensajes emergentes que faltaban.
+- `tools/validar.py` pasa a cinco pasos (se añade la comprobación de versión publicada).
+- CI: `validar.yml` valida el manifiesto de versión y la red permitida; `android.yml` deja de exigir
+  «sin INTERNET» y comprueba el sistema de actualizaciones.
+
+### Corregido
+- **Historial**: restaurar una entrada guardada en la misma sesión no hacía nada porque el
+  identificador se recalculaba al leerlo. Ahora se guarda en las preferencias y se limpian las
+  claves sobrantes al borrar entradas.
+- **Fechas del historial** en el idioma activo de la app (antes siempre `es-ES`).
+- **Cinco mensajes emergentes de la web** seguían en español («Informe TXT descargado»,
+  «Informe CSV descargado», «Resumen copiado…», «No se pudo copiar» y los del tema).
+- **`strings.xml`** decía «Versión 2.0.1»; ahora describe el comportamiento real.
+- La tarjeta de novedades y las notas técnicas leen `BuildConfig` en lugar de cifras escritas a mano.
+
 ## [2.2.0] — 2026-10-22
 
 ### Añadido

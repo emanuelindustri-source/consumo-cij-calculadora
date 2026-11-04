@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Rutas que FileProvider puede compartir con el instalador de Android. -->
+<paths>
+    <external-files-path
+        name="updates"
+        path="Download/" />
+</paths>

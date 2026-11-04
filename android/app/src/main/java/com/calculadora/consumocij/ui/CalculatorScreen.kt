@@ -80,6 +80,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.calculadora.consumocij.CalculatorViewModel
+import com.calculadora.consumocij.BuildConfig
 import com.calculadora.consumocij.data.CalcEngine
 import com.calculadora.consumocij.data.CalcInput
 import com.calculadora.consumocij.data.CalcResult
@@ -122,6 +123,10 @@ fun CalculatorScreen(vm: CalculatorViewModel) {
     val result = vm.result
     val context = LocalContext.current
 
+    // Avisos de actualización (diálogo, permiso de notificaciones y aviso superior).
+    UpdateDialogHost(vm)
+    NotificationsPromptHost(vm)
+
     // ancho disponible → 1 columna (teléfono) o 2 columnas (tableta/apaisado)
     BoxWithConstraintsCompat { wide ->
         Column(
@@ -153,12 +158,14 @@ fun CalculatorScreen(vm: CalculatorViewModel) {
                         modifier = Modifier.weight(1f),
                         verticalArrangement = Arrangement.spacedBy(14.dp)
                     ) {
+                        if (vm.updateBannerVisible) UpdateBanner(vm)
                         EquipmentSection(vm)
                         InkSection(vm)
                         MessageSection(vm)
                         ProductionSection(vm)
                         AdvancedSection(vm)
                         WhatsNewSection()
+                        UpdateSection(vm)
                         LegalSection()
                     ReportSection(vm)
                     }
@@ -178,6 +185,7 @@ fun CalculatorScreen(vm: CalculatorViewModel) {
                         .verticalScroll(scroll),
                     verticalArrangement = Arrangement.spacedBy(14.dp)
                 ) {
+                    if (vm.updateBannerVisible) UpdateBanner(vm)
                     EquipmentSection(vm)
                     InkSection(vm)
                     MessageSection(vm)
@@ -186,6 +194,7 @@ fun CalculatorScreen(vm: CalculatorViewModel) {
                     ResultsSection(vm, input, result)
                     AdvancedSection(vm)
                     WhatsNewSection()
+                    UpdateSection(vm)
                     LegalSection()
                     ReportSection(vm)
                 }
@@ -229,7 +238,7 @@ private fun AppHeader(
             overflow = TextOverflow.Ellipsis
         )
         Text(
-            "Herramienta de apoyo no oficial · equipos CIJ (Simplicity / Serie 1000VJ) · 100 % offline".tr(),
+            "Herramienta de apoyo no oficial · equipos CIJ (Simplicity / Serie 1000VJ) · funciona sin internet".tr(),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             maxLines = 1,
@@ -631,7 +640,8 @@ private fun AdvancedSection(vm: CalculatorViewModel) {
             Column(
                 modifier = Modifier.padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            ) {
+                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     NumberField(
                         label = "Vida útil en almacén".tr(), value = input.shelfLifeMonths, suffix = "meses".tr(),
                         modifier = Modifier.weight(1f)
@@ -1180,12 +1190,12 @@ private fun WhatsNewSection() {
                     fontWeight = FontWeight.Bold
                 )
             }
-            Text("Selector de idioma dentro de la app: seis idiomas sin depender del sistema.".tr(), style = MaterialTheme.typography.bodySmall)
-            Text("Informes TXT traducidos a los seis idiomas.".tr(), style = MaterialTheme.typography.bodySmall)
-            Text("Negrita y formato conservados en los textos traducidos.".tr(), style = MaterialTheme.typography.bodySmall)
-            Text("Pruebas automáticas del motor de cálculo en la web y en la app.".tr(), style = MaterialTheme.typography.bodySmall)
+            Text("Aviso de nueva versión dentro de la app y notificación opcional cuando se publica una actualización.".tr(), style = MaterialTheme.typography.bodySmall)
+            Text("Descarga del APK con verificación SHA-256 e instalador del sistema.".tr(), style = MaterialTheme.typography.bodySmall)
+            Text("Comprobación diaria en segundo plano, desactivable en «Actualizaciones».".tr(), style = MaterialTheme.typography.bodySmall)
+            Text("Correcciones: historial restaurado al instante y fechas en el idioma de la app.".tr(), style = MaterialTheme.typography.bodySmall)
             Text(
-                "Versión 2.2.0 · compilación 7 · 22/10/2026.".tr(),
+                I18n.tf("Versión {0} · compilación {1} · {2}.", BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE.toString(), BuildConfig.BUILD_DATE),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -1244,7 +1254,7 @@ private fun LegalSection() {
                     style = MaterialTheme.typography.bodySmall
                 )
                 Text(
-                    "Versión 2.2.0 · compilación 7 · herramienta técnica interna · funciona sin internet · familias Simplicity y Serie 1000VJ.".tr(),
+                    I18n.tf("Versión {0} · compilación {1} · herramienta técnica interna · cálculos sin internet · familias Simplicity y Serie 1000VJ.", BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE.toString()),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

@@ -42,10 +42,5 @@ jobs:
       - name: Pruebas del motor de calculo (valores de referencia)
         run: node tools/test_engine.js
 
-      - name: Comprobar que la app no usa red
-        run: |
-          if grep -rn "android.permission.INTERNET" android/app/src/main/AndroidManifest.xml; then
-            echo "::error::La app no debe declarar INTERNET"
-            exit 1
-          fi
-          echo "OK: sin permisos de red"
+      - name: Version publicada y red permitida (version.json)
+        run: python tools/check_update.py

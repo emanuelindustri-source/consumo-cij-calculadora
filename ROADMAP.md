@@ -7,6 +7,16 @@ Hoja de ruta del proyecto. Las prioridades pueden cambiar según el uso real en 
 > aplicación, qué cambió y qué falta. Se crean con `python tools/check_notas.py --new X.Y.Z` y se
 > congelan al publicar con `--freeze`; la validación falla si desaparecen o se modifican.
 
+## v2.3.0 — Actualizaciones verificadas (hecho)
+- [x] **Aviso de versión nueva** dentro de la app y notificación local opcional.
+- [x] **Comprobación diaria** en segundo plano con `JobScheduler` (desactivable).
+- [x] **Descarga del APK con SHA-256** y instalación con el instalador del sistema.
+- [x] **Una sola fuente de versión**: `BuildConfig` + `version.json` validado en CI.
+- [x] **Publicación automatizada** con `tools/release.py` (APK + huella + release).
+- [x] **Aviso de versión nueva en la web publicada** (sin afectar al archivo offline).
+- [x] **Correcciones**: historial restaurado en la misma sesión, fechas en el idioma activo y
+  mensajes emergentes traducidos.
+
 ## v2.2.0 — Pendientes resueltos y calidad (hecho)
 - [x] **Cabeceras del informe TXT traducidas** en los seis idiomas (web y app).
 - [x] **Negrita y formato conservados** en los textos traducidos de la web.
@@ -32,24 +42,26 @@ Hoja de ruta del proyecto. Las prioridades pueden cambiar según el uso real en 
 - [ ] Registro de auditoría de cálculos (exportable a CSV firmado).
 - [ ] Verificación automática de los PDFs de origen en cada release (script de validación en CI).
 
-## v2.3 — Android
+## v2.4 — Android
 - [ ] Widget de pantalla de inicio con el consumo mensual.
 - [ ] Modo tableta con panel lateral fijo y ventana dividida.
 - [ ] Accesibilidad: descripciones ampliadas, navegación por teclado/TV y contraste reforzado.
 - [ ] Integración con impresión del informe en PDF (SAF).
+- [ ] Exportar e importar el historial y la configuración (copia de seguridad).
 
 ## v3.0 — Ecosistema
 - [ ] Sincronización opcional (solo si el usuario la activa) entre dispositivos.
 - [ ] Versión de escritorio (Windows/macOS) con el mismo motor.
 - [ ] API local (sin nube) para integrar el cálculo en otras herramientas internas.
 
-## Pendiente inmediato (2.2.1 / 2.3)
+## Pendiente inmediato (2.3.1 / 2.4)
 - [ ] Revisión por hablantes nativos de chino simplificado y portugués de Portugal.
 - [ ] Ampliar las pruebas con los 2 400 valores contrastados de las fichas oficiales.
 - [x] **Notas de versión protegidas**: no se pueden borrar ni reescribir (`tools/check_notas.py`).
-- [ ] Capturas nuevas de la app con el selector de idioma visible.
-- [ ] Publicar la APK de release como artefacto de la CI.
-- [ ] Revocar los tokens de publicación antiguos y custodiar el keystore de firma.
+- [x] **Publicar la APK de release** con `tools/release.py`.
+- [ ] Capturas nuevas de la app con el aviso de actualización visible.
+- [ ] Copia de seguridad documentada del keystore y revocación de tokens antiguos.
+- [ ] Valorar actualización incremental (APK splits o delta) si la app crece.
 
 ## Ideas en evaluación
 - Detección automática del modelo por fotografía de la placa de características.

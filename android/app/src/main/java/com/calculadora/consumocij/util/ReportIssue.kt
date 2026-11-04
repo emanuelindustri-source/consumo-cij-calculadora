@@ -29,7 +29,7 @@ object ReportIssue {
         val info = runCatching {
             context.packageManager.getPackageInfo(context.packageName, 0)
         }.getOrNull()
-        val version = info?.versionName ?: "2.2.0"
+        val version = info?.versionName ?: com.calculadora.consumocij.BuildConfig.VERSION_NAME
         val build = info?.longVersionCode?.toString() ?: "-"
         return buildString {
             appendLine(I18n.t("Informe de error · Consumo CIJ (Android)"))

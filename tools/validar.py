@@ -15,6 +15,8 @@ Ejecuta:
                            referencia de los modelos oficiales de Videojet.
   4. Pruebas del motor en Kotlin (solo si GRADLE_HOME apunta a una instalacion
      de Gradle; en CI las ejecuta .github/workflows/android.yml).
+  5. tools/check_update.py  version.json coincide con la app, las notas y el
+                            catalogo (es lo que lee el aviso de actualizacion).
 
 Sale con codigo 1 si algo falla. No necesita dependencias externas.
 """
@@ -41,12 +43,12 @@ def run(title, cmd):
 
 def main():
     code = 0
-    code |= run("1/4 · Notas de version (permanencia e historial)",
+    code |= run("1/5 · Notas de version (permanencia e historial)",
                 [sys.executable, os.path.join("tools", "check_notas.py")])
-    code |= run("2/4 · Catalogo, web, assets e idiomas",
+    code |= run("2/5 · Catalogo, web, assets e idiomas",
                 [sys.executable, os.path.join("tools", "check_i18n.py")])
     if shutil.which("node"):
-        code |= run("3/4 · Motor de calculo de la web",
+        code |= run("3/5 · Motor de calculo de la web",
                     ["node", os.path.join("tools", "test_engine.js")])
     else:
         print("\nAVISO: node no disponible; se omiten las pruebas del motor de la web.")
@@ -58,11 +60,14 @@ def main():
         if os.path.isfile(cand):
             gradle_bin = cand
     if gradle_bin:
-        code |= run("4/4 · Motor de calculo de la app (Kotlin)",
+        code |= run("4/5 · Motor de calculo de la app (Kotlin)",
                     [gradle_bin, "-p", "android", "testDebugUnitTest", "--console=plain"])
     else:
         print("\nAVISO: defina GRADLE_HOME para ejecutar tambien las pruebas de Kotlin.")
         print("       (el workflow .github/workflows/android.yml las ejecuta en CI)")
+
+    code |= run("5/5 · Version publicada (version.json)",
+                [sys.executable, os.path.join("tools", "check_update.py")])
 
     print()
     print("=" * 72)

@@ -11,7 +11,8 @@ Registro detallado de versiones anteriores, cambios de la versión actual y esta
 
 | Versión | Fecha | Web | APK | Cambio principal |
 |---|---|---|---|---|
-| **2.2.0** | 2026-10-22 | ✅ | ✅ v2.2.0 (código 7) | Informes traducidos · negrita conservada · selector de idioma en la app · 60 pruebas del motor |
+| **2.3.0** | 2026-11-04 | ✅ | ✅ v2.3.0 (código 8) | Aviso de actualización de la APK · descarga verificada SHA-256 · una sola fuente de versión · publicación automatizada |
+| 2.2.0 | 2026-10-22 | ✅ | ✅ v2.2.0 (código 7) | Informes traducidos · negrita conservada · selector de idioma en la app · 60 pruebas del motor |
 | 2.1.1 | 2026-10-21 | ✅ | ✅ v2.1.1 (código 6) | Portada y notas públicas al día · versión y compilación visibles · seguimiento |
 | 2.1.0 | 2026-10-21 | ✅ | ✅ v2.1.0 (código 5) | Idiomas (ES/EN/PT-BR/PT-PT/IT/ZH) + reporte de errores + HTML corregido |
 | 2.0.1 | 2026-10-21 | ✅ | ✅ v2.0.1 | Correcciones de datos: mantenimiento, 70 µm, QR y cartuchos |
@@ -22,7 +23,45 @@ Registro detallado de versiones anteriores, cambios de la versión actual y esta
 
 ---
 
-## Versión 2.2.0 — 2026-10-22 (actual)
+## Versión 2.3.0 — 2026-11-04 (actual)
+
+**Objetivo:** que una instalación nunca se quede atrás y que la versión publicada no pueda
+desincronizarse de la APK.
+
+### Cambios
+- **Aviso de actualización en la app**: comprobación al arrancar y una vez al día en segundo plano
+  (`JobScheduler`), aviso interno, notificación opcional y descarga del APK con verificación
+  **SHA-256** e instalador del sistema.
+- **Privacidad**: los cálculos siguen siendo locales; la única conexión es la consulta anónima de
+  `version.json` y se puede desactivar en «Actualizaciones».
+- **Una sola fuente de versión**: `BuildConfig` (`VERSION_NAME`, `VERSION_CODE`, `BUILD_DATE`) y
+  `version.json` validado contra Gradle.
+- Herramientas nuevas: `tools/check_update.py` (coherencia del manifiesto y red permitida) y
+  `tools/release.py` (compila, calcula la huella, actualiza `version.json` y publica la release).
+- **Corregido**: restaurar una entrada del historial en la misma sesión; fechas en el idioma activo;
+  cinco mensajes emergentes de la web que seguían en español; `strings.xml` decía «Versión 2.0.1».
+- **Web publicada**: aviso de versión nueva con «Recargar» y «Descargar APK» (nunca en el archivo
+  offline abierto con doble clic).
+- Catálogo: **466 cadenas** × 5 idiomas (antes 413).
+
+### Estado de los artefactos
+| Artefacto | Estado | Notas |
+|---|---|---|
+| `web/calculadora-offline.html` | ✅ | 386 KB · 0 dependencias · 0 peticiones de red en local |
+| `docs/calculadora.html` | ✅ | Copia idéntica publicada en GitHub Pages |
+| `docs/index.html` · `docs/notas.html` | ✅ | Portada 2.3.0 y notas antes / plan / hecho / pendiente |
+| `android/` (proyecto) | ✅ | Kotlin + Compose · compila con Gradle 8.7 · 22 pruebas |
+| APK v2.3.0 | ✅ | `versionCode 8` · firmada · actualiza sobre 2.2.0 |
+
+### Verificación
+- `python tools/validar.py`: notas, catálogo, web, motor web, motor Kotlin y `version.json`.
+- `node tools/test_engine.js`: 43/43 · `gradle testDebugUnitTest`: 22/22.
+- APK: `apksigner verify` con la misma firma que 2.2.0 (instalación encima sin desinstalar).
+- Emulador Pixel 7 / API 34: aviso de versión, descarga, verificación SHA-256 e instalación.
+
+---
+
+## Versión 2.2.0 — 2026-10-22
 
 **Objetivo:** cerrar los pendientes inmediatos de la 2.1.1 (informes, negrita, selector de idioma y
 pruebas del motor) y dejar el repositorio con validación completa en un solo comando.

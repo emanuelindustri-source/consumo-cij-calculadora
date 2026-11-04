@@ -42,3 +42,6 @@ __pycache__/
 
 # Datos locales de pruebas
 *.xml.bak
+
+# APK de publicacion local
+dist/
