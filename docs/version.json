@@ -1,14 +1,14 @@
 {
   "product": "Consumo CIJ",
-  "version": "2.3.0",
-  "versionCode": 8,
+  "version": "2.4.0",
+  "versionCode": 9,
   "date": "2026-11-04",
   "web": "docs/calculadora.html",
-  "apk": "ConsumoCIJ-2.3.0.apk",
-  "apkUrl": "https://github.com/emanuelindustri-source/consumo-cij-calculadora/releases/download/v2.3.0/ConsumoCIJ-2.3.0.apk",
-  "apkSizeBytes": 2042566,
-  "apkSha256": "3b2a8920fe44a35f6c94b05563907dc8f5e5d40e8113e43ed3ff21088368c3c2",
-  "notes": "docs/NOTAS-2.3.0.md",
+  "apk": "ConsumoCIJ-2.4.0.apk",
+  "apkUrl": "https://github.com/emanuelindustri-source/consumo-cij-calculadora/releases/download/v2.4.0/ConsumoCIJ-2.4.0.apk",
+  "apkSizeBytes": 2057174,
+  "apkSha256": "504471663d51b3e77fd66e5bcfd09c43fa5dd1625a9a2ba49ef4b7f38b790dc1",
+  "notes": "docs/NOTAS-2.4.0.md",
   "notesUrl": "https://emanuelindustri-source.github.io/consumo-cij-calculadora/notas.html",
   "notesPage": "docs/notas.html",
   "languages": [
@@ -21,11 +21,49 @@
   ],
   "offline": true,
   "updateCheck": true,
-  "catalogStrings": 466,
+  "catalogStrings": 479,
   "tests": {
-    "web": 43,
-    "android": 22,
-    "total": 65
+    "web": 51,
+    "android": 32,
+    "total": 83
   },
-  "mandatory": false
+  "mandatory": false,
+  "highlights": {
+    "es": [
+      "Consumo de solvente validado con 800 fichas oficiales (12.800 valores).",
+      "Cartuchos corregidos: los equipos «750 mL Only» ya no muestran 1 L ni 5 L.",
+      "Copia de seguridad: exporte e importe configuración e historial en JSON.",
+      "El aviso de actualización muestra las novedades y recuerda la versión omitida a los 14 días."
+    ],
+    "en": [
+      "Solvent use validated against 800 official cards (12,800 values).",
+      "Cartridges fixed: '750 mL Only' models no longer show 1 L or 5 L.",
+      "Backup: export and import settings and history as JSON.",
+      "The update notice shows what's new and reminds you after 14 days if skipped."
+    ],
+    "pt-BR": [
+      "Consumo de solvente validado com 800 fichas oficiais (12.800 valores).",
+      "Cartuchos corrigidos: os equipamentos «750 mL Only» não mostram mais 1 L nem 5 L.",
+      "Cópia de segurança: exporte e importe configuração e histórico em JSON.",
+      "O aviso de atualização mostra as novidades e lembra a versão ignorada após 14 dias."
+    ],
+    "pt-PT": [
+      "Consumo de solvente validado com 800 fichas oficiais (12.800 valores).",
+      "Cartuchos corrigidos: os equipamentos «750 mL Only» já não mostram 1 L nem 5 L.",
+      "Cópia de segurança: exporte e importe configuração e histórico em JSON.",
+      "O aviso de atualização mostra as novidades e recorda a versão ignorada após 14 dias."
+    ],
+    "it": [
+      "Consumo di solvente validato con 800 schede ufficiali (12.800 valori).",
+      "Cartucce corrette: i modelli «750 mL Only» non mostrano più 1 L o 5 L.",
+      "Backup: esporta e importa configurazione e cronologia in JSON.",
+      "L'avviso di aggiornamento mostra le novità e ricorda la versione saltata dopo 14 giorni."
+    ],
+    "zh": [
+      "溶剂消耗已用 800 份官方卡片（12,800 个数值）验证。",
+      "墨盒已修正：「750 mL Only」型号不再显示 1 L 或 5 L。",
+      "备份：以 JSON 导出和导入设置与历史记录。",
+      "更新提示会显示新功能，并在跳过 14 天后再次提醒。"
+    ]
+  }
 }

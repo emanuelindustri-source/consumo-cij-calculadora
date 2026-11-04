@@ -52,13 +52,14 @@ temperaturas (10–40 °C) y los campos «horas por litro» y «horas por cartuc
 
 | Prueba | Muestras | Resultado |
 |---|---|---|
-| Tabla de solvente 10–40 °C | 736 fichas (734 legibles) · 11 744 valores | **734/734 · coincidencia total** |
-| Velocidad, cpi y dpi | 541 fichas leídas · 535 comparables | **535/535** |
+| Tabla de solvente 10–40 °C | 800 fichas · 12 800 valores | **12 800/12 800 · coincidencia total** (0,06 ml/h) |
+| Velocidad, cpi y dpi | 541 fichas leídas · 535 comparables | **535/535** en la campaña original; el verificador está pendiente y la comparación con `CIJ Speeds.xlsx` detectó **4 diferencias** por resolver (2.4.1) |
 | Modelo de tinta (gotas/mensaje e impresiones/cartucho) | 2 escenarios del TCO | **Coincidencia exacta** |
 
-> Desviación máxima observada: **0,05 ml/h** en solvente y **±1** en caracteres/s y velocidad nominal,
-> dentro del redondeo a un decimal de las fichas. Los verificadores todavía no forman parte del repositorio
-> (ver `ROADMAP.md`).
+> Desviación máxima observada: **0,06 ml/h** en solvente y **±1** en caracteres/s y velocidad nominal,
+> dentro del redondeo a un decimal de las fichas. El verificador de solvente ya está en el repositorio
+> (`tools/test_solvent.js` + `tools/fixtures/solvent_cards.json`) y se ejecuta en la CI; el de
+> velocidad sigue pendiente (ver `ROADMAP.md`).
 
 Casos de referencia documentados:
 
@@ -75,13 +76,17 @@ Casos de referencia documentados:
 
 | Tinta | Equipo típico | Contenedor de tinta | Solvente | Contenedor de solvente |
 |---|---|---|---|---|
-| V401 | 1210, 1510, 1620… | 750 / 5 000 ml | V701 | 750 / 5 000 ml |
+| V401 | 1520, 1610, 1660… | 750 / 5 000 ml | V701 | 750 / 5 000 ml |
 | V4201 | 1880, 1880+ | 750 / 1 000 ml | V7201 | 750 / 1 000 ml |
 | V4225 | 1580C | **700 ml** | V7220 | 750 ml |
 | V4257 | varios | 750 / 1 000 ml | V7257 | 750 / 1 000 ml |
 | V480 | 1710 | **600 ml** | V720 | 750 ml |
 
-La app y la web muestran automáticamente los tamaños disponibles según la tinta elegida.
+**Modelos «750 mL Only» (CIJ TCO Calculator v35):** VJ 1210, 1220, 1240, 1280, 1510 y 1580 solo
+admiten **750 ml**, aunque la tinta elegida tenga 1 L o 5 L en el catálogo. La app y la web filtran
+los tamaños por modelo + tinta; las configuraciones antiguas con 5 L se corrigen al arrancar.
+
+La app y la web muestran automáticamente los tamaños disponibles según el modelo y la tinta elegidos.
 
 ## 5. Mantenimiento (resumen)
 

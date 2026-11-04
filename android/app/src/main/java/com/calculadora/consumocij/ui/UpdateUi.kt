@@ -10,10 +10,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.NewReleases
@@ -121,7 +124,12 @@ fun UpdateDialogHost(vm: CalculatorViewModel) {
     if (info != null) {
         title = "Nueva versión disponible".tr()
         body = {
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Column(
+                modifier = Modifier
+                    .heightIn(max = 430.dp)
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
                 Text(
                     I18n.tf(
                         "Versión {0} · compilación {1} · {2}",
@@ -135,6 +143,24 @@ fun UpdateDialogHost(vm: CalculatorViewModel) {
                         I18n.tf("Descarga: {0}", info.sizeLabel()),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                val bullets = info.highlightsFor(I18n.lang)
+                if (bullets.isNotEmpty()) {
+                    Text(
+                        "Novedades de esta versión".tr(),
+                        style = MaterialTheme.typography.bodySmall,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                    bullets.forEach { b ->
+                        Text("• $b", style = MaterialTheme.typography.bodySmall)
+                    }
+                }
+                if (info.mandatory) {
+                    Text(
+                        "Actualización obligatoria: incluye correcciones importantes.".tr(),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.error
                     )
                 }
                 Text(
@@ -160,7 +186,7 @@ fun UpdateDialogHost(vm: CalculatorViewModel) {
                 vm.installError?.let {
                     Text(it, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.error)
                 }
-                if (!vm.downloadReady) {
+                if (!vm.downloadReady && !info.mandatory) {
                     TextButton(
                         onClick = { vm.skipUpdate() },
                         enabled = !vm.downloading

@@ -98,12 +98,10 @@ import java.util.Locale
    · pantallas LCD/IPS (tema claro/oscuro) y AMOLED (negro puro)
    ============================================================ */
 
-/** Tamaños de cartucho válidos para la tinta (fuente: CIJ TCO Calculator v35 · SetupSheet). */
-private fun cartSizesFor(ink: String): Pair<List<Double>, List<Double>> {
-    val ic = VideojetData.inkContainers[ink]
-    return (ic?.inkSizes?.map { it.toDouble() } ?: emptyList()) to
-        (ic?.muSizes?.map { it.toDouble() } ?: emptyList())
-}
+/** Tamaños de cartucho válidos para el modelo y la tinta (CIJ TCO Calculator v35). */
+private fun cartSizesFor(modelId: String, ink: String): Pair<List<Double>, List<Double>> =
+    VideojetData.inkSizesFor(modelId, ink).map { it.toDouble() } to
+        VideojetData.muSizesFor(modelId, ink).map { it.toDouble() }
 
 /** Mantiene el tamaño actual si la tinta lo ofrece; si no, usa el primero disponible. */
 private fun keepOrFirst(current: Double, valid: List<Double>): Double =
@@ -165,6 +163,7 @@ fun CalculatorScreen(vm: CalculatorViewModel) {
                         MessageSection(vm)
                         ProductionSection(vm)
                         AdvancedSection(vm)
+                        BackupSection(vm)
                         WhatsNewSection()
                         UpdateSection(vm)
                         LegalSection()
@@ -194,6 +193,7 @@ fun CalculatorScreen(vm: CalculatorViewModel) {
                     if (!result.officialData) NoOfficialDataNote()
                     ResultsSection(vm, input, result)
                     AdvancedSection(vm)
+                    BackupSection(vm)
                     WhatsNewSection()
                     UpdateSection(vm)
                     LegalSection()
@@ -373,7 +373,7 @@ private fun EquipmentSection(vm: CalculatorViewModel) {
             onSelect = { id ->
                 vm.update { cur ->
                     val m = CalcEngine.model(id)
-                    val (inkSizes, muSizes) = cartSizesFor(cur.ink)
+                    val (inkSizes, muSizes) = cartSizesFor(id, cur.ink)
                     cur.copy(
                         modelId = id,
                         nozzle = m.nozzles.firstOrNull() ?: cur.nozzle,
@@ -391,7 +391,7 @@ private fun EquipmentSection(vm: CalculatorViewModel) {
             selected = input.nozzle,
             onSelect = { nz ->
                 vm.update { cur ->
-                    val (inkSizes, muSizes) = cartSizesFor(cur.ink)
+                    val (inkSizes, muSizes) = cartSizesFor(cur.modelId, cur.ink)
                     cur.copy(
                         nozzle = nz,
                         inkCartMl = keepOrFirst(cur.inkCartMl, inkSizes),
@@ -401,11 +401,10 @@ private fun EquipmentSection(vm: CalculatorViewModel) {
             }
         )
 
-        val ic = VideojetData.inkContainers[input.ink]
-        val inkSizes = ic?.inkSizes?.takeIf { it.isNotEmpty() }?.map { it.toDouble() }
-            ?: listOf(input.inkCartMl)
-        val muSizes = ic?.muSizes?.takeIf { it.isNotEmpty() }?.map { it.toDouble() }
-            ?: listOf(input.muCartMl)
+        val inkSizes = VideojetData.inkSizesFor(input.modelId, input.ink).map { it.toDouble() }
+            .takeIf { it.isNotEmpty() } ?: listOf(input.inkCartMl)
+        val muSizes = VideojetData.muSizesFor(input.modelId, input.ink).map { it.toDouble() }
+            .takeIf { it.isNotEmpty() } ?: listOf(input.muCartMl)
 
         DropdownField(
             label = "Cartucho de tinta (según la tinta)".tr(),
@@ -427,6 +426,13 @@ private fun EquipmentSection(vm: CalculatorViewModel) {
                 }
             }
         )
+
+        if (input.modelId in VideojetData.only750Models) {
+            InfoBox(
+                text = "Este modelo usa exclusivamente cartuchos de 750 ml (CIJ TCO Calculator v35).".tr(),
+                color = LocalExtraColors.current.warning.copy(alpha = 0.12f)
+            )
+        }
 
         val mnt = VideojetData.maintenance[model.id]
         val variant = CalcEngine.variant(model, input.nozzle)
@@ -468,7 +474,7 @@ private fun InkSection(vm: CalculatorViewModel) {
             selected = if (inks.contains(input.ink)) input.ink else (inks.firstOrNull() ?: input.ink),
             onSelect = { ink ->
                 vm.update { cur ->
-                    val (inkSizes, muSizes) = cartSizesFor(ink)
+                    val (inkSizes, muSizes) = cartSizesFor(model.id, ink)
                     cur.copy(
                         ink = ink,
                         inkBase = VideojetData.inks[ink] ?: cur.inkBase,
@@ -1191,10 +1197,10 @@ private fun WhatsNewSection() {
                     fontWeight = FontWeight.Bold
                 )
             }
-            Text("Aviso de nueva versión dentro de la app y notificación opcional cuando se publica una actualización.".tr(), style = MaterialTheme.typography.bodySmall)
-            Text("Descarga del APK con verificación SHA-256 e instalador del sistema.".tr(), style = MaterialTheme.typography.bodySmall)
-            Text("Comprobación diaria en segundo plano, desactivable en «Actualizaciones».".tr(), style = MaterialTheme.typography.bodySmall)
-            Text("Correcciones: historial restaurado al instante y fechas en el idioma de la app.".tr(), style = MaterialTheme.typography.bodySmall)
+            Text("Consumo de solvente validado con 800 fichas oficiales (12.800 valores).".tr(), style = MaterialTheme.typography.bodySmall)
+            Text("Cartuchos corregidos: los equipos «750 mL Only» ya no muestran 1 L ni 5 L.".tr(), style = MaterialTheme.typography.bodySmall)
+            Text("Copia de seguridad: exporte e importe configuración e historial en JSON.".tr(), style = MaterialTheme.typography.bodySmall)
+            Text("El aviso de actualización muestra las novedades y recuerda la versión omitida a los 14 días.".tr(), style = MaterialTheme.typography.bodySmall)
             Text(
                 I18n.tf("Versión {0} · compilación {1} · {2}.", BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE.toString(), BuildConfig.BUILD_DATE),
                 style = MaterialTheme.typography.bodySmall,

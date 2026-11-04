@@ -4,6 +4,38 @@ Todos los cambios relevantes de este proyecto.
 El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y el versionado
 [SemVer](https://semver.org/lang/es/).
 
+## [2.4.0] — 2026-11-04
+
+### Añadido
+- **Validación de solvente con 800 fichas oficiales** (12.800 valores de 10 a 40 °C) en la web y en
+  Android, con el fixture `tools/fixtures/solvent_cards.json` y `tools/test_solvent.js`.
+- **Novedades en el aviso de actualización**: `highlights` en los seis idiomas, visibles en el
+  diálogo antes de actualizar.
+- **Recordatorio a los 14 días** para una versión omitida y soporte de `mandatory`.
+- **Copia de seguridad JSON**: exportar e importar configuración, historial, tema e idioma desde la
+  app, con el selector de archivos del sistema.
+- Aviso en la app y en la web: «Este modelo usa exclusivamente cartuchos de 750 ml».
+
+### Cambiado
+- **Cartuchos filtrados por modelo**: la lista «750mL Only» del TCO v35 (VJ 1210, 1220, 1240, 1280,
+  1510 y 1580) ya no ofrece 1 L ni 5 L, aunque la tinta tenga esos tamaños.
+- Las configuraciones guardadas con tamaños no válidos se corrigen al arrancar.
+- `versionName 2.4.0` · `versionCode 9`.
+- Catálogo: **479 cadenas** × 5 idiomas (antes 466).
+- Pruebas: **51 web + 32 Android** = 83 (además de los 12.800 valores de solvente).
+- `tools/validar.py` incorpora la validación de solvente; `check_update.py` valida `highlights`.
+
+### Corregido
+- Equipos que mostraban cartuchos de 5000 ml sin usarlos (VJ 1510, 1220, 1240, 1280, 1580…) y
+  equipos 750-only que mostraban 1000 ml.
+- El aviso decía «toque para ver las novedades» y no mostraba ninguna: ahora las muestra.
+- Una versión omitida ya no queda silenciada para siempre: se recuerda a los 14 días.
+
+### Pendiente
+- Verificador de las 535 fichas de velocidad y las 4 diferencias detectadas con `CIJ Speeds.xlsx`.
+- Revisar las tintas V42xx asignadas a la Serie 1000VJ en el TCO.
+- V457 con V725 (740 ml) y revisión nativa de chino/portugués de Portugal.
+
 ## [2.3.0] — 2026-11-04
 
 ### Añadido

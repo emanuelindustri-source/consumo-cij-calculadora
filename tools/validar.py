@@ -43,13 +43,15 @@ def run(title, cmd):
 
 def main():
     code = 0
-    code |= run("1/5 · Notas de version (permanencia e historial)",
+    code |= run("1/6 · Notas de version (permanencia e historial)",
                 [sys.executable, os.path.join("tools", "check_notas.py")])
-    code |= run("2/5 · Catalogo, web, assets e idiomas",
+    code |= run("2/6 · Catalogo, web, assets e idiomas",
                 [sys.executable, os.path.join("tools", "check_i18n.py")])
     if shutil.which("node"):
-        code |= run("3/5 · Motor de calculo de la web",
+        code |= run("3/6 · Motor de calculo de la web",
                     ["node", os.path.join("tools", "test_engine.js")])
+        code |= run("4/6 · Fichas de solvente (800 fichas, 12.800 valores)",
+                    ["node", os.path.join("tools", "test_solvent.js")])
     else:
         print("\nAVISO: node no disponible; se omiten las pruebas del motor de la web.")
 
@@ -60,13 +62,13 @@ def main():
         if os.path.isfile(cand):
             gradle_bin = cand
     if gradle_bin:
-        code |= run("4/5 · Motor de calculo de la app (Kotlin)",
+        code |= run("5/6 · Motor de calculo y fichas de la app (Kotlin)",
                     [gradle_bin, "-p", "android", "testDebugUnitTest", "--console=plain"])
     else:
         print("\nAVISO: defina GRADLE_HOME para ejecutar tambien las pruebas de Kotlin.")
         print("       (el workflow .github/workflows/android.yml las ejecuta en CI)")
 
-    code |= run("5/5 · Version publicada (version.json)",
+    code |= run("6/6 · Version publicada (version.json)",
                 [sys.executable, os.path.join("tools", "check_update.py")])
 
     print()

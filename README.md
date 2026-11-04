@@ -14,8 +14,8 @@ Funciona **100 % sin internet** en todo lo esencial: web autónoma en un solo ar
 Android nativa cuyos cálculos, informes e historial son locales. La app solo se conecta para
 **comprobar si hay una versión nueva** (consulta anónima, opcional y desactivable).
 
-**Versión actual:** **2.3.0** · compilación **8** · 04/11/2026 —
-[notas de la versión](docs/NOTAS-2.3.0.md) · [página pública de notas](docs/notas.html) ·
+**Versión actual:** **2.4.0** · compilación **9** · 04/11/2026 —
+[notas de la versión](docs/NOTAS-2.4.0.md) · [página pública de notas](docs/notas.html) ·
 [version.json](version.json)
 
 <p align="center">
@@ -34,7 +34,7 @@ Android nativa cuyos cálculos, informes e historial son locales. La app solo se
 | [`docs/DATOS.md`](docs/DATOS.md) | Fuentes de datos, fórmulas y validación |
 | [`docs/VERSIONES.md`](docs/VERSIONES.md) | Historial detallado de versiones |
 | [`docs/notas.html`](docs/notas.html) | Notas públicas: antes / plan / hecho / pendiente y compilaciones |
-| [`NOTAS-2.3.0.md`](NOTAS-2.3.0.md) | Notas de la versión actual (raíz y `docs/`, idénticas) |
+| [`NOTAS-2.4.0.md`](NOTAS-2.4.0.md) | Notas de la versión actual (raíz y `docs/`, idénticas) |
 | [`docs/notas-indice.json`](docs/notas-indice.json) | Registro de notas con su huella SHA-256 (no se pueden borrar) |
 | [`version.json`](version.json) | Versión, compilación, fecha y artefactos (legible por máquina) |
 | [`ROADMAP.md`](ROADMAP.md) | Próximas mejoras |
@@ -72,6 +72,8 @@ Para una versión nueva: `python tools/check_notas.py --new X.Y.Z`, y al publica
   cambia el consumo real de solvente (60 µm: 286 h/L · 70 µm: 222 h/L a 20 °C).
 - **Tintas y bases**: 139 tintas con su base de solvente y **su solvente asociado** (V7201, V7257, V7220…).
 - **Cartuchos reales por tinta y modelo**: p. ej. V4225 = 700 ml, V480 = 600 ml, V401 = 750/5000 ml.
+  Los modelos que el TCO marca como **«750 mL Only»** (1210, 1220, 1240, 1280, 1510 y 1580) solo
+  ofrecen **750 ml**, aunque la tinta tenga otros tamaños.
 - **Mensaje**: tipo de fuente (matriz y líneas), caracteres/línea, líneas, stroke rate, ancho de impresión.
 - **Producción**: temperatura, impresiones/min, horas/día, días/semana, días/mes, eficiencia.
 - **Validación de velocidad** (CIJ Line Speed Calculator v9.7): velocidad máxima de línea, cpi, dpi,
@@ -83,8 +85,10 @@ Para una versión nueva: `python tools/check_notas.py --new X.Y.Z`, y al publica
 - **Exportación**: CSV y TXT mediante el selector de archivos del sistema (sin internet).
 - **Historial** local de cálculos y persistencia de la configuración.
 - **Temas**: Automático, Claro, Oscuro y **AMOLED (negro puro)** para pantallas OLED/LCD.
-- **Actualizaciones**: aviso dentro de la app, notificación diaria opcional, descarga del APK con
-  verificación **SHA-256** e instalación sobre la versión actual.
+- **Actualizaciones**: aviso dentro de la app, notificación diaria opcional, **novedades por idioma**,
+  recordatorio a los 14 días, descarga del APK con verificación **SHA-256** e instalación sobre la
+  versión actual.
+- **Copia de seguridad**: exportar e importar configuración, historial, tema e idioma en JSON.
 
 ## Adaptación de pantalla (Android)
 
@@ -171,12 +175,12 @@ descriptivos de compatibilidad.
 
 ---
 
-## Idiomas, informes y reporte de errores (2.1.0 – 2.3.0)
+## Idiomas, informes y reporte de errores (2.1.0 – 2.4.0)
 
 - **Español** es el idioma principal; la interfaz se adapta a **inglés, portugués de Brasil,
   portugués de Portugal, italiano y chino simplificado**, con detección automática, selector en la
   web y **selector propio dentro de la app** (con memoria de la elección).
-- Catálogo único de traducciones: [`i18n/catalog.json`](i18n/catalog.json) — **466 cadenas × 6
+- Catálogo único de traducciones: [`i18n/catalog.json`](i18n/catalog.json) — **479 cadenas × 6
   idiomas**. De ahí se generan el bloque de la web y los `assets/i18n/*.json` de Android
   (`python tools/gen_i18n.py`); las copias nunca se editan a mano.
 - **Negrita y formato conservados** en los textos traducidos: los tramos resaltados se marcan con
@@ -186,9 +190,9 @@ descriptivos de compatibilidad.
 - **Reportar un error**: botón en el pie de la web y tarjeta al final de la app. El informe se abre
   en la aplicación de correo del usuario y se envía a `emanuel.industri@gmail.com`; si no hay
   cliente de correo se puede copiar. **No se añade ningún permiso de red.**
-- **Versión y compilación visibles**: la web muestra `v2.3.0 · 04/11/2026` en el pie y la app
-  incluye una tarjeta **«Novedades de esta versión»** y `2.3.0 · compilación 8` en las notas técnicas.
-- **Seguimiento**: notas completas en [`docs/NOTAS-2.3.0.md`](docs/NOTAS-2.3.0.md),
+- **Versión y compilación visibles**: la web muestra `v2.4.0 · 04/11/2026` en el pie y la app
+  incluye una tarjeta **«Novedades de esta versión»** y `2.4.0 · compilación 9` en las notas técnicas.
+- **Seguimiento**: notas completas en [`docs/NOTAS-2.4.0.md`](docs/NOTAS-2.4.0.md),
   [`docs/NOTAS-2.1.1.md`](docs/NOTAS-2.1.1.md) y [`docs/NOTAS-2.1.0.md`](docs/NOTAS-2.1.0.md);
   historial en [`docs/VERSIONES.md`](docs/VERSIONES.md) y [`CHANGELOG.md`](CHANGELOG.md).
 
@@ -205,8 +209,9 @@ python tools/validar.py     # notas · catálogo/web · motor web · motor Kotli
 | Notas de versión: existencia, copias idénticas, huellas y bloques de contexto | [`tools/check_notas.py`](tools/check_notas.py) | 5 comprobaciones (+ historial de git) |
 | Catálogo, copias web, assets, párrafos traducibles, textos de la app, JavaScript y HTML | [`tools/check_i18n.py`](tools/check_i18n.py) | 11 comprobaciones |
 | Versión publicada: `version.json`, `build.gradle.kts`, APK, notas y catálogo | [`tools/check_update.py`](tools/check_update.py) | 1 comprobación |
-| Motor de cálculo de la web | [`tools/test_engine.js`](tools/test_engine.js) | **43 pruebas** |
-| Motor de cálculo de Android | [`android/app/src/test/`](android/app/src/test) | **22 pruebas** |
+| Motor de cálculo de la web | [`tools/test_engine.js`](tools/test_engine.js) | **51 pruebas** |
+| Fichas de solvente (10–40 °C) | [`tools/test_solvent.js`](tools/test_solvent.js) | **12.800 valores (800 fichas)** |
+| Motor de cálculo de Android | [`android/app/src/test/`](android/app/src/test) | **32 pruebas** |
 
 Las pruebas anclan el motor a los **valores de referencia de los documentos oficiales** (p. ej.
 VJ 1880+ / V4201 a 30 °C = 5,21 ml/h, 286 y 222 h/L a 20 °C, 13/19/61 gotas por carácter, núcleo de

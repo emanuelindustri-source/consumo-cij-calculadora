@@ -17,6 +17,7 @@ object UpdateStore {
     private const val KEY_NOTIFY = "notify"
     private const val KEY_ASKED = "asked"
     private const val KEY_SKIPPED = "skipped"
+    private const val KEY_SKIPPED_AT = "skipped_at"
     private const val KEY_PROMPTED = "prompted"
     private const val KEY_LAST_CHECK = "last_check"
     private const val KEY_LATEST = "latest_code"
@@ -46,6 +47,21 @@ object UpdateStore {
     fun skippedVersion(ctx: Context): Int = p(ctx).getInt(KEY_SKIPPED, 0)
     fun setSkippedVersion(ctx: Context, code: Int) =
         p(ctx).edit().putInt(KEY_SKIPPED, code).apply()
+
+    fun skippedAt(ctx: Context): Long = p(ctx).getLong(KEY_SKIPPED_AT, 0L)
+
+    /** Guarda la version omitida y el momento, para recordarla a los 14 dias. */
+    fun skipVersion(ctx: Context, code: Int) =
+        p(ctx).edit().putInt(KEY_SKIPPED, code).putLong(KEY_SKIPPED_AT, System.currentTimeMillis()).apply()
+
+    /** true si toca volver a avisar: no se omitio o ya pasaron 14 dias. */
+    fun shouldRemind(ctx: Context, code: Int): Boolean {
+        if (skippedVersion(ctx) != code) return true
+        val at = skippedAt(ctx)
+        return at > 0L && System.currentTimeMillis() - at >= REMIND_AFTER_MS
+    }
+
+    private const val REMIND_AFTER_MS = 14L * 24L * 60L * 60L * 1000L
 
     fun promptedVersion(ctx: Context): Int = p(ctx).getInt(KEY_PROMPTED, 0)
     fun setPromptedVersion(ctx: Context, code: Int) =

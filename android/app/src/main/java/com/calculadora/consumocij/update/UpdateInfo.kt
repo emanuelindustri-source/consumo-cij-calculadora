@@ -17,8 +17,14 @@ data class UpdateInfo(
     val apkSha256: String,
     val apkSizeBytes: Long,
     val notesUrl: String,
-    val mandatory: Boolean
+    val mandatory: Boolean,
+    /** Puntos destacados por idioma (es, en, pt-BR, pt-PT, it, zh). */
+    val highlights: Map<String, List<String>> = emptyMap()
 ) {
+    /** Puntos destacados para el idioma activo, con español como respaldo. */
+    fun highlightsFor(lang: String): List<String> =
+        highlights[lang] ?: highlights["es"] ?: emptyList()
+
     /** Tamanio legible para el dialogo (p. ej. «1,9 MB»). */
     fun sizeLabel(): String {
         if (apkSizeBytes <= 0L) return ""
@@ -34,6 +40,18 @@ data class UpdateInfo(
             val version = o.optString("version", "").trim()
             val apk = o.optString("apkUrl", "").trim()
             if (code <= 0 || version.isEmpty() || !apk.startsWith("https://")) return null
+            val highlights = LinkedHashMap<String, List<String>>()
+            o.optJSONObject("highlights")?.let { h ->
+                for (lang in h.keys()) {
+                    val arr = h.optJSONArray(lang) ?: continue
+                    val list = ArrayList<String>(arr.length())
+                    for (i in 0 until arr.length()) {
+                        val s = arr.optString(i, "").trim()
+                        if (s.isNotEmpty()) list.add(s)
+                    }
+                    if (list.isNotEmpty()) highlights[lang] = list
+                }
+            }
             UpdateInfo(
                 version = version,
                 versionCode = code,
@@ -42,7 +60,8 @@ data class UpdateInfo(
                 apkSha256 = o.optString("apkSha256", "").trim(),
                 apkSizeBytes = o.optLong("apkSizeBytes", 0L),
                 notesUrl = o.optString("notesUrl", "").trim(),
-                mandatory = o.optBoolean("mandatory", false)
+                mandatory = o.optBoolean("mandatory", false),
+                highlights = highlights
             )
         }.getOrNull()
     }

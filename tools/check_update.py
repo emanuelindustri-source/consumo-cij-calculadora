@@ -119,6 +119,23 @@ def main():
     if v.get("offline") is not True:
         fail("offline debe ser true: los calculos no usan red")
 
+    # ---------------------------------------------------------- novedades
+    hl = v.get("highlights")
+    if not isinstance(hl, dict):
+        fail("version.json no incluye highlights (novedades por idioma)")
+    else:
+        for lang in langs:
+            items = hl.get(lang)
+            if not isinstance(items, list) or not (2 <= len(items) <= 6):
+                fail("highlights[%s] debe tener entre 2 y 6 puntos" % lang)
+            elif any(not str(x).strip() for x in items):
+                fail("highlights[%s] tiene un punto vacio" % lang)
+        extra = [k for k in hl if k not in langs]
+        if extra:
+            fail("highlights con idiomas que no estan en el catalogo: " + ", ".join(extra))
+        if not errors:
+            print("  OK  novedades en los %d idiomas (%s)" % (len(langs), ", ".join(langs)))
+
     # ---------------------------------------------------------- red permitida
     manifest = read(os.path.join(ROOT, "android", "app", "src", "main", "AndroidManifest.xml"))
     for perm in ("android.permission.INTERNET", "android.permission.POST_NOTIFICATIONS",

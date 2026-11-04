@@ -599,8 +599,35 @@ object VideojetData {
             Variant(222.0, listOf(750, 1000), 1, 0.4514), listOf(750, 1000)),
     )
 
-    val maintenance: Map<String, List<MaintItem>> = mapOf(
-        "VJ 1040" to listOf(MaintItem("Filter", 3000.0, "399307", false)),
+    /**
+     * Modelos que el CIJ TCO Calculator v35 marca como «750mL Only».
+     * Solo admiten cartuchos de 750 ml aunque la tinta tenga otros tamaños.
+     */
+    val only750Models: Set<String> = setOf(
+        "VJ 1210", "VJ 1220", "VJ 1240", "VJ 1280", "VJ 1510", "VJ 1580"
+    )
+
+    /** Tamaños de cartucho de tinta válidos para el modelo y la tinta elegidos. */
+    fun inkSizesFor(modelId: String, ink: String): List<Int> {
+        if (modelId in only750Models) return listOf(750)
+        val model = models.firstOrNull { it.id == modelId } ?: return inkContainers[ink]?.inkSizes ?: listOf(750, 1000)
+        if (!inksFor(model.inkGroup).contains(ink)) {
+            return model.cart.takeIf { it.isNotEmpty() } ?: listOf(750, 1000)
+        }
+        return inkContainers[ink]?.inkSizes ?: listOf(750, 1000)
+    }
+
+    /** Tamaños de cartucho de solvente válidos para el modelo y la tinta elegidos. */
+    fun muSizesFor(modelId: String, ink: String): List<Int> {
+        if (modelId in only750Models) return listOf(750)
+        val model = models.firstOrNull { it.id == modelId } ?: return inkContainers[ink]?.muSizes ?: listOf(750, 1000)
+        if (!inksFor(model.inkGroup).contains(ink)) {
+            return model.cart.takeIf { it.isNotEmpty() } ?: listOf(750, 1000)
+        }
+        return inkContainers[ink]?.muSizes ?: listOf(750, 1000)
+    }
+
+    val maintenance: Map<String, List<MaintItem>> = mapOf(        "VJ 1040" to listOf(MaintItem("Filter", 3000.0, "399307", false)),
         "VJ 1210" to listOf(MaintItem("Core", 6000.0, "", false)),
         "VJ 1220" to listOf(MaintItem("Core", 9000.0, "SP392167", false)),
         "VJ 1240" to listOf(MaintItem("Service Module 1", 3000.0, "383556", false)),

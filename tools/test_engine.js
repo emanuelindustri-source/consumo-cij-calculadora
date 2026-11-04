@@ -36,7 +36,8 @@ const factory = new Function(
   dataMatch[0] + "\n" + region +
   "\nreturn { computeAll: computeAll, MODELS: MODELS, DATA: DATA," +
   " K_PUBLISHED: K_PUBLISHED, variantOf: variantOf, dropsPerChar: dropsPerChar," +
-  " dropsLiterFor: dropsLiterFor, DEFAULT_PRINTER: DEFAULT_PRINTER };"
+  " dropsLiterFor: dropsLiterFor, DEFAULT_PRINTER: DEFAULT_PRINTER," +
+  " sizesFor: sizesFor, only750: only750 };"
 );
 const E = factory((v, a, b) => Math.min(b, Math.max(a, v)));
 
@@ -78,6 +79,33 @@ near("gotas/litro 60 µm", E.dropsLiterFor("60", "VJ1000"), 1232240697, 1);
 near("gotas/litro 70 µm", E.dropsLiterFor("70", "VJ1000"), 883500036, 1);
 check("29 modelos cargados", E.MODELS.length === 29, "obtenidos " + E.MODELS.length);
 check("equipo por defecto VJ 1880+", E.DEFAULT_PRINTER === "VJ 1880+");
+
+/* ---- contenedores: los modelos «750 mL Only» no admiten 1 L ni 5 L ---- */
+function eqJson(a, b) { return JSON.stringify(a) === JSON.stringify(b); }
+check("VJ 1510 · V401 solo 750 ml",
+  eqJson(E.sizesFor("VJ 1510", "V401"), { ink: [750], mu: [750] }),
+  JSON.stringify(E.sizesFor("VJ 1510", "V401")));
+check("VJ 1210 · V4201 solo 750 ml",
+  eqJson(E.sizesFor("VJ 1210", "V4201"), { ink: [750], mu: [750] }),
+  JSON.stringify(E.sizesFor("VJ 1210", "V4201")));
+check("VJ 1240 · V4201 solo 750 ml",
+  eqJson(E.sizesFor("VJ 1240", "V4201"), { ink: [750], mu: [750] }),
+  JSON.stringify(E.sizesFor("VJ 1240", "V4201")));
+check("VJ 1580 · V4201 solo 750 ml",
+  eqJson(E.sizesFor("VJ 1580", "V4201"), { ink: [750], mu: [750] }),
+  JSON.stringify(E.sizesFor("VJ 1580", "V4201")));
+check("VJ 1520 · V401 admite 750/5000",
+  eqJson(E.sizesFor("VJ 1520", "V401"), { ink: [750, 5000], mu: [750, 5000] }),
+  JSON.stringify(E.sizesFor("VJ 1520", "V401")));
+check("VJ 1620 UHS · V505 admite 750/5000",
+  eqJson(E.sizesFor("VJ 1620 UHS", "V505"), { ink: [750, 5000], mu: [750, 5000] }),
+  JSON.stringify(E.sizesFor("VJ 1620 UHS", "V505")));
+check("VJ 1880+ · V4201 admite 750/1000",
+  eqJson(E.sizesFor("VJ 1880+", "V4201"), { ink: [750, 1000], mu: [750, 1000] }),
+  JSON.stringify(E.sizesFor("VJ 1880+", "V4201")));
+check("VJ 1710 · V480 solo 600 ml de tinta",
+  eqJson(E.sizesFor("VJ 1710", "V480"), { ink: [600], mu: [750] }),
+  JSON.stringify(E.sizesFor("VJ 1710", "V480")));
 
 /* ============================================================
    2. Solvente (CIJ Makeup Usage Model v14)

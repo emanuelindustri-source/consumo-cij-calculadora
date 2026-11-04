@@ -3250,13 +3250,6 @@
    "it": "Impossibile copiare",
    "zh": "复制失败"
   },
-  "Versión 2.3.0 · herramienta técnica interna · familias Simplicity y Serie 1000VJ.": {
-   "en": "Version 2.3.0 · internal technical tool · Simplicity and 1000VJ Series families.",
-   "pt-BR": "Versão 2.3.0 · ferramenta técnica interna · famílias Simplicity e Série 1000VJ.",
-   "pt-PT": "Versão 2.3.0 · ferramenta técnica interna · famílias Simplicity e Série 1000VJ.",
-   "it": "Versione 2.3.0 · strumento tecnico interno · famiglie Simplicity e Serie 1000VJ.",
-   "zh": "版本 2.3.0 · 内部技术工具 · Simplicity 和 1000VJ 系列。"
-  },
   "Tinta: {0} µl por impresión ({1} gotas · boquilla {2} µm).": {
    "en": "Ink: {0} µl per print ({1} drops · nozzle {2} µm).",
    "pt-BR": "Tinta: {0} µl por impressão ({1} gotas · bocal {2} µm).",
@@ -3270,6 +3263,104 @@
    "pt-PT": "Um litro de solvente dura {0} h e um cartucho de {1} ml dura {2} h.",
    "it": "Un litro di solvente dura {0} h e una cartuccia da {1} ml dura {2} h.",
    "zh": "一升溶剂可用 {0} 小时，{1} 毫升墨盒可用 {2} 小时。"
+  },
+  "Este modelo usa exclusivamente cartuchos de 750 ml (CIJ TCO Calculator v35).": {
+   "en": "This model uses 750 ml cartridges only (CIJ TCO Calculator v35).",
+   "pt-BR": "Este modelo usa exclusivamente cartuchos de 750 ml (CIJ TCO Calculator v35).",
+   "pt-PT": "Este modelo usa exclusivamente cartuchos de 750 ml (CIJ TCO Calculator v35).",
+   "it": "Questo modello utilizza esclusivamente cartucce da 750 ml (CIJ TCO Calculator v35).",
+   "zh": "此型号仅使用 750 毫升墨盒（CIJ TCO Calculator v35）。"
+  },
+  "Copia de seguridad": {
+   "en": "Backup",
+   "pt-BR": "Cópia de segurança",
+   "pt-PT": "Cópia de segurança",
+   "it": "Backup",
+   "zh": "备份"
+  },
+  "Guarde la configuración, el historial y el tema en un archivo JSON. Sirve para cambiar de dispositivo o recuperar sus datos.": {
+   "en": "Save the settings, history and theme in a JSON file. Useful to move to another device or recover your data.",
+   "pt-BR": "Salve a configuração, o histórico e o tema em um arquivo JSON. Serve para trocar de dispositivo ou recuperar seus dados.",
+   "pt-PT": "Guarde a configuração, o histórico e o tema num ficheiro JSON. Serve para mudar de dispositivo ou recuperar os seus dados.",
+   "it": "Salva configurazione, cronologia e tema in un file JSON. Utile per cambiare dispositivo o recuperare i dati.",
+   "zh": "将设置、历史记录和主题保存为 JSON 文件，便于更换设备或恢复数据。"
+  },
+  "Exportar historial y configuración": {
+   "en": "Export history and settings",
+   "pt-BR": "Exportar histórico e configuração",
+   "pt-PT": "Exportar histórico e configuração",
+   "it": "Esporta cronologia e configurazione",
+   "zh": "导出历史记录和设置"
+  },
+  "Importar copia de seguridad": {
+   "en": "Import backup",
+   "pt-BR": "Importar cópia de segurança",
+   "pt-PT": "Importar cópia de segurança",
+   "it": "Importa backup",
+   "zh": "导入备份"
+  },
+  "Copia exportada": {
+   "en": "Backup exported",
+   "pt-BR": "Cópia exportada",
+   "pt-PT": "Cópia exportada",
+   "it": "Backup esportato",
+   "zh": "备份已导出"
+  },
+  "Copia importada: {0} cálculos": {
+   "en": "Backup imported: {0} calculations",
+   "pt-BR": "Cópia importada: {0} cálculos",
+   "pt-PT": "Cópia importada: {0} cálculos",
+   "it": "Backup importato: {0} calcoli",
+   "zh": "已导入备份：{0} 条计算"
+  },
+  "El archivo no es una copia válida de Consumo CIJ.": {
+   "en": "The file is not a valid Consumo CIJ backup.",
+   "pt-BR": "O arquivo não é uma cópia válida do Consumo CIJ.",
+   "pt-PT": "O ficheiro não é uma cópia válida do Consumo CIJ.",
+   "it": "Il file non è un backup valido di Consumo CIJ.",
+   "zh": "该文件不是有效的 Consumo CIJ 备份。"
+  },
+  "Actualización obligatoria: incluye correcciones importantes.": {
+   "en": "Required update: includes important fixes.",
+   "pt-BR": "Atualização obrigatória: inclui correções importantes.",
+   "pt-PT": "Atualização obrigatória: inclui correções importantes.",
+   "it": "Aggiornamento obbligatorio: include correzioni importanti.",
+   "zh": "必须更新：包含重要修复。"
+  },
+  "Consumo de solvente validado con 800 fichas oficiales (12.800 valores).": {
+   "en": "Solvent use validated against 800 official cards (12,800 values).",
+   "pt-BR": "Consumo de solvente validado com 800 fichas oficiais (12.800 valores).",
+   "pt-PT": "Consumo de solvente validado com 800 fichas oficiais (12.800 valores).",
+   "it": "Consumo di solvente validato con 800 schede ufficiali (12.800 valori).",
+   "zh": "溶剂消耗已用 800 份官方卡片（12,800 个数值）验证。"
+  },
+  "Cartuchos corregidos: los equipos «750 mL Only» ya no muestran 1 L ni 5 L.": {
+   "en": "Cartridges fixed: '750 mL Only' models no longer show 1 L or 5 L.",
+   "pt-BR": "Cartuchos corrigidos: os equipamentos «750 mL Only» não mostram mais 1 L nem 5 L.",
+   "pt-PT": "Cartuchos corrigidos: os equipamentos «750 mL Only» já não mostram 1 L nem 5 L.",
+   "it": "Cartucce corrette: i modelli «750 mL Only» non mostrano più 1 L o 5 L.",
+   "zh": "墨盒已修正：「750 mL Only」型号不再显示 1 L 或 5 L。"
+  },
+  "Copia de seguridad: exporte e importe configuración e historial en JSON.": {
+   "en": "Backup: export and import settings and history as JSON.",
+   "pt-BR": "Cópia de segurança: exporte e importe configuração e histórico em JSON.",
+   "pt-PT": "Cópia de segurança: exporte e importe configuração e histórico em JSON.",
+   "it": "Backup: esporta e importa configurazione e cronologia in JSON.",
+   "zh": "备份：以 JSON 导出和导入设置与历史记录。"
+  },
+  "El aviso de actualización muestra las novedades y recuerda la versión omitida a los 14 días.": {
+   "en": "The update notice shows what's new and reminds you after 14 days if skipped.",
+   "pt-BR": "O aviso de atualização mostra as novidades e lembra a versão ignorada após 14 dias.",
+   "pt-PT": "O aviso de atualização mostra as novidades e recorda a versão ignorada após 14 dias.",
+   "it": "L'avviso di aggiornamento mostra le novità e ricorda la versione saltata dopo 14 giorni.",
+   "zh": "更新提示会显示新功能，并在跳过 14 天后再次提醒。"
+  },
+  "Versión 2.4.0 · herramienta técnica interna · familias Simplicity y Serie 1000VJ.": {
+   "en": "Version 2.4.0 · internal technical tool · Simplicity and 1000VJ Series families.",
+   "pt-BR": "Versão 2.4.0 · ferramenta técnica interna · famílias Simplicity e Série 1000VJ.",
+   "pt-PT": "Versão 2.4.0 · ferramenta técnica interna · famílias Simplicity e Série 1000VJ.",
+   "it": "Versione 2.4.0 · strumento tecnico interno · famiglie Simplicity e Serie 1000VJ.",
+   "zh": "版本 2.4.0 · 内部技术工具 · Simplicity 和 1000VJ 系列。"
   }
  }
 }

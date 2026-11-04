@@ -11,7 +11,8 @@ Registro detallado de versiones anteriores, cambios de la versión actual y esta
 
 | Versión | Fecha | Web | APK | Cambio principal |
 |---|---|---|---|---|
-| **2.3.0** | 2026-11-04 | ✅ | ✅ v2.3.0 (código 8) | Aviso de actualización de la APK · descarga verificada SHA-256 · una sola fuente de versión · publicación automatizada |
+| **2.4.0** | 2026-11-04 | ✅ | ✅ v2.4.0 (código 9) | Cartuchos «750 mL Only» corregidos · solvente validado con 800 fichas (12.800 valores) · novedades y recordatorio en el aviso · copia de seguridad JSON |
+| 2.3.0 | 2026-11-04 | ✅ | ✅ v2.3.0 (código 8) | Aviso de actualización de la APK · descarga verificada SHA-256 · una sola fuente de versión · publicación automatizada |
 | 2.2.0 | 2026-10-22 | ✅ | ✅ v2.2.0 (código 7) | Informes traducidos · negrita conservada · selector de idioma en la app · 60 pruebas del motor |
 | 2.1.1 | 2026-10-21 | ✅ | ✅ v2.1.1 (código 6) | Portada y notas públicas al día · versión y compilación visibles · seguimiento |
 | 2.1.0 | 2026-10-21 | ✅ | ✅ v2.1.0 (código 5) | Idiomas (ES/EN/PT-BR/PT-PT/IT/ZH) + reporte de errores + HTML corregido |
@@ -23,7 +24,41 @@ Registro detallado de versiones anteriores, cambios de la versión actual y esta
 
 ---
 
-## Versión 2.3.0 — 2026-11-04 (actual)
+## Versión 2.4.0 — 2026-11-04 (actual)
+
+**Objetivo:** corregir los cartuchos que no correspondían, demostrar los datos con las fichas
+oficiales y cerrar el aviso de actualización y la copia de seguridad.
+
+### Cambios
+- **Cartuchos «750 mL Only»**: VJ 1210, 1220, 1240, 1280, 1510 y 1580 solo admiten 750 ml. Se
+  filtran los tamaños por modelo + tinta y se corrigen las configuraciones guardadas.
+- **Solvente validado**: 800 fichas oficiales · **12.800 valores** (10–40 °C) comprobados en web y
+  Android con `tools/fixtures/solvent_cards.json`.
+- **Aviso de actualización**: `highlights` por idioma, recordatorio a los 14 días y soporte de
+  versiones obligatorias.
+- **Copia de seguridad**: exportar e importar configuración, historial, tema e idioma en JSON.
+- Herramientas: `tools/test_solvent.js`, `SolventCardsTest.kt`, `ContainerRulesTest.kt`,
+  `BackupTest.kt`; `check_update.py` valida los puntos destacados.
+- Catálogo: **479 cadenas** × 5 idiomas.
+
+### Estado de los artefactos
+| Artefacto | Estado | Notas |
+|---|---|---|
+| `web/calculadora-offline.html` | ✅ | 0 dependencias · aviso de versión solo en la copia publicada |
+| `docs/calculadora.html` | ✅ | Copia idéntica publicada en GitHub Pages |
+| `docs/index.html` · `docs/notas.html` | ✅ | Portada 2.4.0 y notas antes / plan / hecho / pendiente |
+| `android/` (proyecto) | ✅ | Kotlin + Compose · 32 pruebas |
+| APK v2.4.0 | ✅ | `versionCode 9` · firmada · actualiza sobre 2.3.0 |
+
+### Verificación
+- `node tools/test_solvent.js`: **12.800/12.800**.
+- `node tools/test_engine.js`: **51/51**.
+- `gradle testDebugUnitTest`: **32/32** (incluye las 800 fichas).
+- Emulador Pixel 7 / API 34: instalación sobre 2.3.0, aviso con novedades y copia de seguridad.
+
+---
+
+## Versión 2.3.0 — 2026-11-04
 
 **Objetivo:** que una instalación nunca se quede atrás y que la versión publicada no pueda
 desincronizarse de la APK.

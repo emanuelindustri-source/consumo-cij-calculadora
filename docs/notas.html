@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="dark light">
-<meta name="description" content="Notas de la versión 2.3.0 de Consumo CIJ: qué había antes, qué se hizo, cómo se avisa de una actualización y qué queda pendiente, con las versiones de compilación de la web y de la APK.">
+<meta name="description" content="Notas de la versión 2.4.0 de Consumo CIJ: cartuchos corregidos, 800 fichas de solvente validadas, novedades en el aviso de actualización y copia de seguridad, con las versiones de compilación.">
 <meta name="theme-color" content="#0a1020">
 <title>Notas de la versión · Consumo CIJ</title>
 <style>
@@ -90,8 +90,8 @@ footer{border-top:1px solid var(--border);background:rgba(17,28,49,.55);margin-t
 
 <main class="wrap">
 
-  <span class="pill"><span class="dot"></span> Versión 2.3.0 · 04/11/2026</span>
-  <h1>Notas de la <span>versión 2.3.0</span></h1>
+  <span class="pill"><span class="dot"></span> Versión 2.4.0 · 04/11/2026</span>
+  <h1>Notas de la <span>versión 2.4.0</span></h1>
   <p class="lead">
     Esta página resume, en cuatro bloques, <b>cómo se encontró el proyecto</b>, <b>qué se iba a hacer</b>,
     <b>qué se consiguió</b> y <b>qué queda pendiente</b>. Se actualiza con cada versión, igual que el
@@ -102,49 +102,47 @@ footer{border-top:1px solid var(--border);background:rgba(17,28,49,.55);margin-t
     <article class="card before">
       <h2>Antes <span class="tag">cómo estaba</span></h2>
       <ul>
-        <li>La app era <b>100 % offline</b> y no había forma de avisar de una versión nueva: los equipos se quedaban en la versión del primer día.</li>
-        <li>La versión estaba <b>escrita a mano en cinco sitios</b> y ya había quedado desfasada (<code>strings.xml</code> decía «Versión 2.0.1»).</li>
-        <li><b>Restaurar una entrada del historial</b> recién guardada no hacía nada hasta reiniciar la app.</li>
-        <li>La <b>fecha del historial</b> usaba siempre <code>es-ES</code>, aunque la app estuviera en otro idioma.</li>
-        <li>Cinco <b>mensajes emergentes de la web</b> seguían en español.</li>
-        <li>Publicar dependía de <b>pasos manuales</b>: compilar, renombrar, calcular el tamaño, subir la APK y escribir la release.</li>
+        <li>Los equipos <b>«750 mL Only»</b> (1210, 1220, 1240, 1280, 1510 y 1580) mostraban cartuchos de <b>1 L o 5 L</b> que no usan.</li>
+        <li>La validación de solvente citaba <b>734 fichas</b>, pero el verificador era externo y no se podía repetir en la CI.</li>
+        <li>El aviso decía «ver las novedades» y solo mostraba versión, fecha y tamaño.</li>
+        <li>«Omitir esta versión» era <b>para siempre</b>: quien omitía una versión no volvía a saber de ella.</li>
+        <li>No había forma de <b>guardar y recuperar</b> el historial y la configuración.</li>
+        <li>La tabla de velocidad seguía sin verificador en el repositorio.</li>
       </ul>
     </article>
 
     <article class="card">
       <h2>Plan <span class="tag">qué se iba a hacer</span></h2>
       <ul>
-        <li><b>Avisar de la versión nueva</b> al abrir la app y una vez al día, con notificación opcional.</li>
-        <li><b>Descargar el APK con verificación</b> SHA-256 e instalar con el instalador del sistema.</li>
-        <li><b>Una sola fuente de versión</b>: <code>BuildConfig</code> y <code>version.json</code> validados entre sí.</li>
-        <li>Corregir el <b>historial</b> y las <b>fechas</b> en el idioma activo.</li>
-        <li>Cerrar los <b>textos sin traducir</b> de la web y avisar también en la copia publicada.</li>
-        <li><b>Automatizar la publicación</b> para que no pueda desincronizarse de la APK.</li>
+        <li>Respetar la lista <b>«750 mL Only»</b> del TCO v35 y corregir las configuraciones guardadas.</li>
+        <li>Extraer las fichas oficiales de solvente y validar <b>todos</b> los valores en la CI.</li>
+        <li>Mostrar las <b>novedades</b> en el aviso y recordar a los 14 días la versión omitida.</li>
+        <li>Añadir <b>copia de seguridad</b> JSON (configuración, historial, tema e idioma).</li>
+        <li>Documentar el estado de la 2.3.0, la 2.4.0 y el plan de la 2.5.0 sin tocar notas antiguas.</li>
       </ul>
     </article>
 
     <article class="card ok">
-      <h2>Hecho <span class="tag">2.3.0</span></h2>
+      <h2>Hecho <span class="tag">2.4.0</span></h2>
       <ul>
-        <li><b>Aviso de actualización</b> en la app, con diálogo, descarga verificada e instalación sobre la versión actual.</li>
-        <li><b>Comprobación diaria</b> en segundo plano con <code>JobScheduler</code>, desactivable.</li>
-        <li><b>Privacidad</b>: los cálculos siguen sin internet; la única conexión es la consulta anónima de <code>version.json</code>.</li>
-        <li><b>Historial corregido</b> y fechas en el idioma de la app.</li>
-        <li><b>Aviso de versión nueva en la web publicada</b> (el archivo offline no hace red).</li>
-        <li><b><code>tools/check_update.py</code></b> y <b><code>tools/release.py</code></b>: comprobar y publicar sin errores de transcripción.</li>
-        <li>Catálogo de <b>466 cadenas</b> × 5 idiomas y validación de que todo texto de la app está traducido.</li>
+        <li><b>Cartuchos corregidos</b>: seis modelos solo admiten 750 ml; los tamaños se filtran por modelo y tinta.</li>
+        <li><b>800 fichas de solvente</b> y <b>12.800 valores</b> validados en web y Android (<code>tools/test_solvent.js</code>).</li>
+        <li><b>Aviso con novedades</b> en los seis idiomas, recordatorio a los 14 días y versiones obligatorias.</li>
+        <li><b>Copia de seguridad</b>: exportar e importar configuración e historial en JSON.</li>
+        <li><b>83 pruebas</b> del motor (51 web + 32 Android) y configuración antigua corregida al arrancar.</li>
+        <li>Catálogo de <b>479 cadenas</b> × 5 idiomas y documentación sincronizada.</li>
       </ul>
     </article>
 
     <article class="card">
       <h2>Pendiente <span class="tag">a futuro</span></h2>
       <ul>
-        <li><b>Copia de seguridad del keystore</b> y revocación de tokens antiguos.</li>
-        <li>Revisión por <b>hablantes nativos</b> de chino simplificado y portugués de Portugal.</li>
-        <li><b>Exportar e importar</b> el historial y la configuración de la app.</li>
-        <li>Widget de pantalla de inicio, modo tableta y accesibilidad reforzada.</li>
-        <li>Actualización incremental si la APK crece (APK splits o delta).</li>
-        <li>Contraste de los datos pendientes con Videojet (V457 con V725, tabla de 70 µm).</li>
+        <li><b>Verificador de velocidad</b> (535 fichas) y resolver 4 diferencias con <code>CIJ Speeds.xlsx</code>.</li>
+        <li>Revisar las tintas <b>V42xx</b> que el TCO asigna a la Serie 1000VJ.</li>
+        <li>Confirmar <b>V457 con V725</b> (740 ml) con Videojet.</li>
+        <li>Revisión nativa de chino simplificado y portugués de Portugal.</li>
+        <li>Informe <b>PDF</b>, widget de consumo y copia de seguridad en la web.</li>
+        <li>Actualización incremental y copia segura del <b>keystore</b>.</li>
       </ul>
     </article>
   </div>
@@ -155,35 +153,35 @@ footer{border-top:1px solid var(--border);background:rgba(17,28,49,.55);margin-t
     <tbody>
       <tr>
         <td><b>Web</b> · <code>docs/calculadora.html</code></td>
-        <td>2.3.0</td>
+        <td>2.4.0</td>
         <td>—</td>
         <td>04/11/2026</td>
-        <td>Archivo único, 386 KB, sin recursos externos en local.</td>
+        <td>Archivo único, sin recursos externos en local.</td>
       </tr>
       <tr>
-        <td><b>Android</b> · <code>ConsumoCIJ-2.3.0.apk</code></td>
-        <td>2.3.0</td>
-        <td>8</td>
+        <td><b>Android</b> · <code>ConsumoCIJ-2.4.0.apk</code></td>
+        <td>2.4.0</td>
+        <td>9</td>
         <td>04/11/2026</td>
-        <td>minSdk 34 · aviso de actualización con SHA-256 · misma firma que 2.2.0.</td>
+        <td>minSdk 34 · cartuchos 750-only · copia de seguridad · misma firma que 2.3.0.</td>
       </tr>
       <tr>
         <td><b>Catálogo de idiomas</b></td>
-        <td>2.3.0</td>
+        <td>2.4.0</td>
         <td>—</td>
         <td>04/11/2026</td>
-        <td>466 cadenas × 5 idiomas traducidos en <code>i18n/catalog.json</code>.</td>
+        <td>479 cadenas × 5 idiomas traducidos en <code>i18n/catalog.json</code>.</td>
       </tr>
       <tr>
-        <td><b>Pruebas del motor</b></td>
-        <td>2.3.0</td>
-        <td>65</td>
+        <td><b>Pruebas</b></td>
+        <td>2.4.0</td>
+        <td>83 + 12.800</td>
         <td>04/11/2026</td>
-        <td><code>tools/test_engine.js</code> (43) y pruebas de Kotlin (22, incluidas las del manifiesto de actualización).</td>
+        <td>51 web · 32 Android · 12.800 valores de solvente (800 fichas).</td>
       </tr>
       <tr>
         <td><b>Repositorio</b></td>
-        <td>v2.3.0</td>
+        <td>v2.4.0</td>
         <td>—</td>
         <td>04/11/2026</td>
         <td>Etiqueta y release con el APK adjunto y su huella en <code>version.json</code>.</td>
@@ -192,12 +190,11 @@ footer{border-top:1px solid var(--border);background:rgba(17,28,49,.55);margin-t
   </table>
 
   <div class="note">
-    <b>Cómo comprobar esta versión:</b> instale la APK 2.3.0 sobre la 2.2.0 y abra la app: en
-    «Actualizaciones» verá la versión instalada, la comprobación automática y el estado. Con una
-    versión nueva publicada aparece el aviso; la descarga se verifica con SHA-256 antes de ofrecer
-    el instalador. En la <a href="calculadora.html">web publicada</a> el aviso aparece cuando
-    <code>version.json</code> es más nuevo; el archivo offline no hace ninguna petición. La validación
-    completa se ejecuta con <code>python tools/validar.py</code>.
+    <b>Cómo comprobar esta versión:</b> elija un <b>VJ 1510 o 1580</b>: los cartuchos deben ser solo
+    de <b>750 ml</b>, sin 1 L ni 5 L. En «Actualizaciones» el diálogo muestra las novedades y, si
+    omite una versión, vuelve a avisar a los 14 días. En «Copia de seguridad» exporte el JSON,
+    cámbielo de sitio e impórtelo. La validación completa se ejecuta con
+    <code>python tools/validar.py</code> y <code>node tools/test_solvent.js</code>.
   </div>
 
   <div class="note">
@@ -210,7 +207,8 @@ footer{border-top:1px solid var(--border);background:rgba(17,28,49,.55);margin-t
 
   <h2 class="sec">Documentación relacionada</h2>
   <p>
-    <a href="https://github.com/emanuelindustri-source/consumo-cij-calculadora/blob/main/docs/NOTAS-2.3.0.md" target="_blank" rel="noopener">Notas completas 2.3.0 (Markdown)</a> ·
+    <a href="https://github.com/emanuelindustri-source/consumo-cij-calculadora/blob/main/docs/NOTAS-2.4.0.md" target="_blank" rel="noopener">Notas completas 2.4.0 (Markdown)</a> ·
+    <a href="https://github.com/emanuelindustri-source/consumo-cij-calculadora/blob/main/docs/NOTAS-2.3.0.md" target="_blank" rel="noopener">2.3.0</a> ·
     <a href="https://github.com/emanuelindustri-source/consumo-cij-calculadora/blob/main/docs/NOTAS-2.2.0.md" target="_blank" rel="noopener">2.2.0</a> ·
     <a href="https://github.com/emanuelindustri-source/consumo-cij-calculadora/blob/main/docs/NOTAS-2.1.1.md" target="_blank" rel="noopener">2.1.1</a> ·
     <a href="https://github.com/emanuelindustri-source/consumo-cij-calculadora/blob/main/docs/NOTAS-2.1.0.md" target="_blank" rel="noopener">2.1.0</a> ·

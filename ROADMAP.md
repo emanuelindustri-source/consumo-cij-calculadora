@@ -7,6 +7,20 @@ Hoja de ruta del proyecto. Las prioridades pueden cambiar según el uso real en 
 > aplicación, qué cambió y qué falta. Se crean con `python tools/check_notas.py --new X.Y.Z` y se
 > congelan al publicar con `--freeze`; la validación falla si desaparecen o se modifican.
 
+## v2.4.0 — Datos y copia de seguridad (hecho)
+- [x] **Cartuchos «750 mL Only»**: seis modelos corregidos; nunca 1 L ni 5 L donde el TCO no lo permite.
+- [x] **Solvente validado**: 800 fichas oficiales y 12.800 valores en la web y en Android.
+- [x] **Aviso con novedades**: `highlights` por idioma y recordatorio a los 14 días.
+- [x] **Actualizaciones obligatorias** (`mandatory`) sin instalación automática.
+- [x] **Copia de seguridad JSON**: configuración, historial, tema e idioma.
+- [x] **Corrección de configuraciones guardadas** con tamaños de cartucho no válidos.
+
+## v2.4.1 — Precisión de velocidad (siguiente)
+- [ ] **Verificador de las 535 fichas de velocidad** contra la hoja oficial.
+- [ ] Resolver las **4 diferencias** detectadas con `CIJ Speeds.xlsx`.
+- [ ] Revisar las tintas **V42xx** asignadas a la Serie 1000VJ.
+- [ ] Confirmar **V457 con V725** (740 ml) con Videojet.
+
 ## v2.3.0 — Actualizaciones verificadas (hecho)
 - [x] **Aviso de versión nueva** dentro de la app y notificación local opcional.
 - [x] **Comprobación diaria** en segundo plano con `JobScheduler` (desactivable).
@@ -54,12 +68,13 @@ Hoja de ruta del proyecto. Las prioridades pueden cambiar según el uso real en 
 - [ ] Versión de escritorio (Windows/macOS) con el mismo motor.
 - [ ] API local (sin nube) para integrar el cálculo en otras herramientas internas.
 
-## Pendiente inmediato (2.3.1 / 2.4)
+## Pendiente inmediato (2.4.1 / 2.5.0)
+- [ ] **Verificador de velocidad** (535 fichas) y revisión de las 4 diferencias con `CIJ Speeds.xlsx`.
 - [ ] Revisión por hablantes nativos de chino simplificado y portugués de Portugal.
-- [ ] Ampliar las pruebas con los 2 400 valores contrastados de las fichas oficiales.
-- [x] **Notas de versión protegidas**: no se pueden borrar ni reescribir (`tools/check_notas.py`).
-- [x] **Publicar la APK de release** con `tools/release.py`.
-- [ ] Capturas nuevas de la app con el aviso de actualización visible.
+- [x] **Solvente validado** con 800 fichas y 12.800 valores en la CI.
+- [x] **Copia de seguridad** de configuración e historial en JSON (Android).
+- [ ] Copia de seguridad del historial también en la web.
+- [ ] Capturas nuevas de la app con el aviso de novedades y la copia de seguridad.
 - [ ] Copia de seguridad documentada del keystore y revocación de tokens antiguos.
 - [ ] Valorar actualización incremental (APK splits o delta) si la app crece.
 

@@ -20,7 +20,7 @@ class UpdateJobService : JobService() {
                 if (UpdateStore.autoCheck(app) && UpdateStore.notify(app)) {
                     when (val r = UpdateChecker.check(app)) {
                         is UpdateChecker.Result.Newer ->
-                            if (UpdateStore.skippedVersion(app) != r.info.versionCode) {
+                            if (UpdateStore.shouldRemind(app, r.info.versionCode) || r.info.mandatory) {
                                 UpdateNotifier.notifyAvailable(app, r.info)
                             }
                         else -> Unit

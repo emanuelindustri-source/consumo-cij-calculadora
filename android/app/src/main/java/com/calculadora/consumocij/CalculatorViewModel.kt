@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -13,8 +14,10 @@ import com.calculadora.consumocij.data.CalcEngine
 import com.calculadora.consumocij.data.CalcInput
 import com.calculadora.consumocij.data.CalcResult
 import com.calculadora.consumocij.data.TemperatureModel
+import com.calculadora.consumocij.data.VideojetData
 import com.calculadora.consumocij.i18n.I18n
 import com.calculadora.consumocij.ui.theme.ThemeMode
+import com.calculadora.consumocij.util.Backup
 import com.calculadora.consumocij.update.UpdateChecker
 import com.calculadora.consumocij.update.UpdateDownloadProcessor
 import com.calculadora.consumocij.update.UpdateDownloader
@@ -149,6 +152,28 @@ class CalculatorViewModel(app: Application) : AndroidViewModel(app) {
         saveInput(input)
     }
 
+    /* ---------------- copia de seguridad ---------------- */
+
+    fun exportBackup(context: Context, uri: Uri): Boolean = runCatching {
+        val json = Backup.encode(Backup.Payload(input, history, themeMode, I18n.preference))
+        context.contentResolver.openOutputStream(uri)?.use { it.write(json.toByteArray(Charsets.UTF_8)) }
+        true
+    }.getOrDefault(false)
+
+    /** Devuelve cuantos calculos se importaron, o null si el archivo no es valido. */
+    fun importBackup(context: Context, uri: Uri): Int? = runCatching {
+        val text = context.contentResolver.openInputStream(uri)
+            ?.bufferedReader(Charsets.UTF_8)?.use { it.readText() } ?: return null
+        val payload = Backup.decode(text) ?: return null
+        input = payload.input
+        saveInput(input)
+        history = payload.history
+        saveHistory(history)
+        setTheme(payload.theme)
+        I18n.setLanguage(context, payload.language)
+        history.size
+    }.getOrNull()
+
     /* ---------------- actualizaciones: acciones ---------------- */
 
     fun consumeIntent(intent: Intent?) {
@@ -210,7 +235,8 @@ class CalculatorViewModel(app: Application) : AndroidViewModel(app) {
                     updateError = null
                     updateUpToDate = false
                     val prompted = UpdateStore.promptedVersion(appCtx)
-                    if (!silent || prompted < res.info.versionCode) {
+                    val remind = UpdateStore.shouldRemind(appCtx, res.info.versionCode)
+                    if (!silent || prompted < res.info.versionCode || remind || res.info.mandatory) {
                         updateDialogOpen = true
                         UpdateStore.setPromptedVersion(appCtx, res.info.versionCode)
                     }
@@ -230,7 +256,7 @@ class CalculatorViewModel(app: Application) : AndroidViewModel(app) {
 
     fun skipUpdate() {
         updateAvailable?.let {
-            UpdateStore.setSkippedVersion(appCtx, it.versionCode)
+            UpdateStore.skipVersion(appCtx, it.versionCode)
             skippedVersion = it.versionCode
         }
         updateDialogOpen = false
@@ -318,7 +344,20 @@ class CalculatorViewModel(app: Application) : AndroidViewModel(app) {
 
     private fun saveInput(i: CalcInput) = saveInputInto(prefs, "", i)
 
-    private fun loadInput(): CalcInput = loadInputFrom(prefs, "", CalcInput())
+    private fun loadInput(): CalcInput {
+        val i = loadInputFrom(prefs, "", CalcInput())
+        // Corrige configuraciones guardadas con tamaños que el modelo no admite
+        // (p. ej. 5000 ml en un equipo «750 mL Only»).
+        fun pick(v: Double, sizes: List<Int>): Double {
+            val valid = sizes.map { it.toDouble() }
+            return if (valid.any { kotlin.math.abs(it - v) < 0.5 }) v
+            else valid.firstOrNull() ?: v
+        }
+        return i.copy(
+            inkCartMl = pick(i.inkCartMl, VideojetData.inkSizesFor(i.modelId, i.ink)),
+            muCartMl = pick(i.muCartMl, VideojetData.muSizesFor(i.modelId, i.ink))
+        )
+    }
 
     private fun saveHistory(list: List<HistoryEntry>) {
         val previous = prefs.getInt(KEY_HIST_COUNT, 0)
