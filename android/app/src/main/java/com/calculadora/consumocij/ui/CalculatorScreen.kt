@@ -125,7 +125,8 @@ fun CalculatorScreen(vm: CalculatorViewModel) {
 
     // Avisos de actualización (diálogo, permiso de notificaciones y aviso superior).
     UpdateDialogHost(vm)
-    NotificationsPromptHost(vm)
+    // El permiso de notificaciones se pide después de cerrar el diálogo de versión.
+    if (!vm.updateDialogOpen) NotificationsPromptHost(vm)
 
     // ancho disponible → 1 columna (teléfono) o 2 columnas (tableta/apaisado)
     BoxWithConstraintsCompat { wide ->

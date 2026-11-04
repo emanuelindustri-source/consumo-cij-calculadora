@@ -6,7 +6,7 @@
 ┌─────────────────────────────┐     ┌──────────────────────────────┐
 │  web/calculadora-offline.html│     │  android/ (Kotlin + Compose) │
 │  HTML+CSS+JS en un archivo   │     │  App nativa Android 14+      │
-│  0 dependencias · 0 red      │     │  0 permisos de red           │
+│  0 dependencias · 0 red      │     │  red solo para actualizar    │
 └──────────────┬──────────────┘     └──────────────┬───────────────┘
                │                                    │
                └──────────────┬─────────────────────┘
@@ -41,7 +41,9 @@ El **motor es el mismo** en ambas plataformas: mismas fórmulas, mismos datos y 
 │   │   ├── data/VideojetData.kt      Datos oficiales (generado)
 │   │   ├── ui/CalculatorScreen.kt    Interfaz adaptable
 │   │   ├── ui/Charts.kt              Gráficos con Canvas
+│   │   ├── ui/UpdateUi.kt            Aviso, diálogo y ajustes de actualización
 │   │   ├── ui/theme/Theme.kt         Temas Claro/Oscuro/AMOLED
+│   │   ├── update/                   Comprobación, descarga, SHA-256 e instalación
 │   │   └── util/                     Formato e informes CSV/TXT
 │   ├── app/src/main/res/             Recursos (dpi, sw600dp, sw720dp, land)
 │   └── LEEME.md                      Guía de compilación y firma
@@ -66,7 +68,35 @@ El **motor es el mismo** en ambas plataformas: mismas fórmulas, mismos datos y 
 - Exportación mediante **SAF** (`CreateDocument`), sin permisos de almacenamiento.
 - Temas: Automático, Claro, Oscuro y AMOLED (negro puro).
 - Adaptación por tamaño: `values/`, `values-sw600dp/`, `values-sw720dp/`, `values-land/`.
-- **Sin permisos de red**: el manifiesto no declara `INTERNET`.
+- **Red solo para actualizaciones**: `INTERNET` se usa para consultar `version.json` (HTTPS, anónimo
+  y desactivable). Los cálculos, el historial y los informes son locales.
+
+## Actualizaciones (Android)
+
+```
+version.json (GitHub)  ──► UpdateChecker ──► ¿versionCode > instalado?
+                                              │ sí
+                    ┌─────────────────────────┴──────────────────────┐
+                    ▼                                                ▼
+          Aviso en la app                             UpdateJobService (1 vez/día)
+          + diálogo «Nueva versión»                   + notificación local (opcional)
+                    │
+                    ▼
+          UpdateDownloader (DownloadManager)  ──►  UpdateDownloadProcessor
+                                                    verifica SHA-256 publicado
+                                                          │
+                                                          ▼
+                                                  UpdateInstaller (FileProvider)
+                                                  instalador del sistema
+```
+
+- **Fuente de verdad**: la versión vive en `android/app/build.gradle.kts` (`versionCode`/
+  `versionName`/`BUILD_DATE`) y se publica en `version.json` (raíz y `docs/`). `tools/check_update.py`
+  falla si no coinciden.
+- **Sin descargas automáticas**: la app nunca instala nada por su cuenta; solo avisa y ofrece.
+- **Integridad**: si el SHA-256 del APK descargado no coincide con `version.json`, se borra y no se
+  ofrece el instalador.
+- **Privacidad**: una petición GET al archivo de versión, sin identificadores, cookies ni analítica.
 
 ## Generación de datos
 
@@ -96,10 +126,13 @@ libros de cálculo oficiales y se verifican contra los PDFs publicados. El proce
 | Herramienta | Qué hace |
 |---|---|
 | `tools/gen_i18n.py` | Genera todos los artefactos de traducción desde el catálogo (`--check` para comprobar) |
-| `tools/check_i18n.py` | Catálogo, copias web, assets, párrafos traducibles, JavaScript y HTML |
+| `tools/check_i18n.py` | Catálogo, copias web, assets, párrafos traducibles, textos de la app, JavaScript y HTML |
+| `tools/check_notas.py` | Notas de versión: permanencia, copias idénticas, huellas y bloques de contexto |
+| `tools/check_update.py` | `version.json` vs. Gradle, APK, notas, idiomas, catálogo y red permitida |
+| `tools/release.py` | Compila, calcula el SHA-256, actualiza `version.json` y publica la release |
 | `tools/test_engine.js` | 43 pruebas del motor de la web contra los valores de referencia oficiales |
 | `tools/validar.py` | Ejecuta todo lo anterior y las pruebas de Kotlin de una sola vez |
-| `android/app/src/test/` | 17 pruebas del motor de Android (JVM, sin dispositivo) |
+| `android/app/src/test/` | 22 pruebas de Android (motor + manifiesto de actualización) |
 
 Las pruebas no reimplementan las fórmulas: **extraen el motor real** del HTML (web) o compilan
 `CalcEngine.kt` (Android) y lo comparan con los valores publicados en los modelos oficiales de
@@ -112,7 +145,7 @@ Videojet. La CI las ejecuta en cada push.
 **Android:**
 ```bash
 cd android
-gradle testDebugUnitTest  # 17 pruebas del motor
+gradle testDebugUnitTest  # 22 pruebas (motor + actualizaciones)
 gradle assembleDebug      # desarrollo
 gradle assembleRelease    # producción (firmado, R8 + shrinkResources)
 ```
@@ -122,7 +155,10 @@ pruebas de Kotlin y la compilación de la APK (`android.yml`) en cada push.
 
 ## Decisiones de diseño
 
-- **Sin red**: la herramienta debe funcionar en planta sin cobertura; por eso no hay permisos de internet.
+- **Sin red para calcular**: la herramienta debe funcionar en planta sin cobertura; por eso los
+  cálculos no dependen de internet. La comprobación de versión es opcional y se puede desactivar.
+- **Actualización verificada**: el APK se descarga solo si el usuario lo pide y se comprueba su
+  SHA-256 antes de ofrecer el instalador.
 - **Datos locales**: los modelos se embeben en el binario para garantizar reproducibilidad.
 - **Un solo archivo web**: facilita su distribución por USB o correo.
 - **Fórmulas explícitas**: se documentan en `docs/DATOS.md` para poder auditarlas.
