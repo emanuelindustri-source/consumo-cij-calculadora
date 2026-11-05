@@ -11,7 +11,8 @@ Registro detallado de versiones anteriores, cambios de la versión actual y esta
 
 | Versión | Fecha | Web | APK | Cambio principal |
 |---|---|---|---|---|
-| **2.4.0** | 2026-11-04 | ✅ | ✅ v2.4.0 (código 9) | Cartuchos «750 mL Only» corregidos · solvente validado con 800 fichas (12.800 valores) · novedades y recordatorio en el aviso · copia de seguridad JSON |
+| **2.4.1** | 2026-11-05 | ✅ | ✅ v2.4.1 (código 10) | Catálogo de tintas validado con 493 fichas SDS · V4287 identificada (MI 9029) · gramática española e italiana corregida · documentación de tintas |
+| 2.4.0 | 2026-11-04 | ✅ | ✅ v2.4.0 (código 9) | Cartuchos «750 mL Only» corregidos · solvente validado con 800 fichas (12.800 valores) · novedades y recordatorio en el aviso · copia de seguridad JSON |
 | 2.3.0 | 2026-11-04 | ✅ | ✅ v2.3.0 (código 8) | Aviso de actualización de la APK · descarga verificada SHA-256 · una sola fuente de versión · publicación automatizada |
 | 2.2.0 | 2026-10-22 | ✅ | ✅ v2.2.0 (código 7) | Informes traducidos · negrita conservada · selector de idioma en la app · 60 pruebas del motor |
 | 2.1.1 | 2026-10-21 | ✅ | ✅ v2.1.1 (código 6) | Portada y notas públicas al día · versión y compilación visibles · seguimiento |
@@ -24,7 +25,43 @@ Registro detallado de versiones anteriores, cambios de la versión actual y esta
 
 ---
 
-## Versión 2.4.0 — 2026-11-04 (actual)
+## Versión 2.4.1 — 2026-11-05 (actual)
+
+**Objetivo:** validar el catálogo de tintas con las fichas de seguridad, añadir lo que faltaba y
+corregir la redacción en los idiomas.
+
+### Cambios
+- **493 PDF de la carpeta `ficha de tintas` revisados** (492 SDS + catálogo comercial): 188 productos
+  `V*`, 140 tintas y 36 make-up.
+- **V4287 identificada**: el TCO la asigna a **MI 9029**, no a un equipo Videojet; su base MPK no
+  tiene factor oficial y **no se añade**. El catálogo Videojet queda confirmado con 139 tintas.
+- **27 tintas de las SDS fuera del TCO** documentadas y no calculadas; **3 variantes de make-up**
+  documentadas.
+- **Gramática**: «lo influyen» → «está influido por», «medimiento» → «medición»; italiano «misura» →
+  «misurazione» y negación con «né»; chino «主动/被动冷凝器».
+- **`tools/check_fichas.py`** y **`docs/TINTAS.md`** para repetir y documentar la validación.
+- `versionName 2.4.1` · `versionCode 10`.
+- Pruebas: **52 web + 33 Android** = 85 (más los 12.800 valores de solvente).
+
+### Estado de los artefactos
+| Artefacto | Estado | Notas |
+|---|---|---|
+| `web/calculadora-offline.html` | ✅ | Catálogo de 139 tintas Videojet · 0 dependencias |
+| `docs/calculadora.html` | ✅ | Copia idéntica publicada en GitHub Pages |
+| `docs/index.html` · `docs/notas.html` | ✅ | Portada 2.4.1 y notas antes / plan / hecho / pendiente |
+| `android/` (proyecto) | ✅ | Kotlin + Compose · 33 pruebas |
+| APK v2.4.1 | ✅ | `versionCode 10` · firmada · actualiza sobre 2.4.0 |
+
+### Verificación
+- `check_fichas.py`: 492 SDS, V4287 identificada como MI 9029, 27 tintas fuera del TCO.
+- `node tools/test_engine.js`: **52/52**.
+- `node tools/test_solvent.js`: **12.800/12.800**.
+- `gradle testDebugUnitTest`: **33/33**.
+- Emulador Pixel 7 / API 34: instalación sobre 2.4.0 y catálogo de 139 tintas.
+
+---
+
+## Versión 2.4.0 — 2026-11-04
 
 **Objetivo:** corregir los cartuchos que no correspondían, demostrar los datos con las fichas
 oficiales y cerrar el aviso de actualización y la copia de seguridad.

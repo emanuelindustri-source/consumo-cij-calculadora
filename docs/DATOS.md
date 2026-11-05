@@ -10,6 +10,10 @@ Documento técnico con el origen de los datos, las fórmulas implementadas y las
 | **CIJ TCO Calculator v35** | `CIJ TCO Calculator_v35.xlsm` (hojas *SetupSheet*, *Maintenance Setup*) | Gotas/litro, gotas/carácter, contenedores por tinta, mantenimiento |
 | **CIJ Line Speed Calculator v9.7** | `CIJ Line Speed Calculator v9.7.xlsx` (hoja *WkSheet*) | Caracteres/seg, velocidad nominal, golpes por carácter |
 
+> El catálogo de tintas y fluidos se contrastó además con **493 fichas SDS** del fabricante. El
+> informe completo, **V4287** (MI 9029, no aplica) y las 27 tintas que el TCO v35 aún no modela están
+> en [`TINTAS.md`](TINTAS.md).
+
 ## 2. Fórmulas
 
 ### 2.1 Solvente (make-up)
@@ -53,7 +57,7 @@ temperaturas (10–40 °C) y los campos «horas por litro» y «horas por cartuc
 | Prueba | Muestras | Resultado |
 |---|---|---|
 | Tabla de solvente 10–40 °C | 800 fichas · 12 800 valores | **12 800/12 800 · coincidencia total** (0,06 ml/h) |
-| Velocidad, cpi y dpi | 541 fichas leídas · 535 comparables | **535/535** en la campaña original; el verificador está pendiente y la comparación con `CIJ Speeds.xlsx` detectó **4 diferencias** por resolver (2.4.1) |
+| Velocidad, cpi y dpi | 541 fichas leídas · 535 comparables | **535/535** en la campaña original; el verificador está pendiente y la comparación con `CIJ Speeds.xlsx` detectó **4 diferencias** por resolver (2.4.2 / 2.5.0) |
 | Modelo de tinta (gotas/mensaje e impresiones/cartucho) | 2 escenarios del TCO | **Coincidencia exacta** |
 
 > Desviación máxima observada: **0,06 ml/h** en solvente y **±1** en caracteres/s y velocidad nominal,

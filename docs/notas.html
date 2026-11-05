@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="dark light">
-<meta name="description" content="Notas de la versión 2.4.0 de Consumo CIJ: cartuchos corregidos, 800 fichas de solvente validadas, novedades en el aviso de actualización y copia de seguridad, con las versiones de compilación.">
+<meta name="description" content="Notas de la versión 2.4.1 de Consumo CIJ: catálogo de tintas validado con 493 fichas SDS, V4287 identificada como MI 9029, gramática revisada y documentación de tintas.">
 <meta name="theme-color" content="#0a1020">
 <title>Notas de la versión · Consumo CIJ</title>
 <style>
@@ -90,8 +90,8 @@ footer{border-top:1px solid var(--border);background:rgba(17,28,49,.55);margin-t
 
 <main class="wrap">
 
-  <span class="pill"><span class="dot"></span> Versión 2.4.0 · 04/11/2026</span>
-  <h1>Notas de la <span>versión 2.4.0</span></h1>
+  <span class="pill"><span class="dot"></span> Versión 2.4.1 · 05/11/2026</span>
+  <h1>Notas de la <span>versión 2.4.1</span></h1>
   <p class="lead">
     Esta página resume, en cuatro bloques, <b>cómo se encontró el proyecto</b>, <b>qué se iba a hacer</b>,
     <b>qué se consiguió</b> y <b>qué queda pendiente</b>. Se actualiza con cada versión, igual que el
@@ -102,47 +102,43 @@ footer{border-top:1px solid var(--border);background:rgba(17,28,49,.55);margin-t
     <article class="card before">
       <h2>Antes <span class="tag">cómo estaba</span></h2>
       <ul>
-        <li>Los equipos <b>«750 mL Only»</b> (1210, 1220, 1240, 1280, 1510 y 1580) mostraban cartuchos de <b>1 L o 5 L</b> que no usan.</li>
-        <li>La validación de solvente citaba <b>734 fichas</b>, pero el verificador era externo y no se podía repetir en la CI.</li>
-        <li>El aviso decía «ver las novedades» y solo mostraba versión, fecha y tamaño.</li>
-        <li>«Omitir esta versión» era <b>para siempre</b>: quien omitía una versión no volvía a saber de ella.</li>
-        <li>No había forma de <b>guardar y recuperar</b> el historial y la configuración.</li>
-        <li>La tabla de velocidad seguía sin verificador en el repositorio.</li>
+        <li>El catálogo tenía <b>139 tintas</b> y no se había contrastado con las <b>hojas de seguridad</b> del fabricante.</li>
+        <li>El TCO v35 incluye <b>V4287</b> (700 ml, MPK, V7250), pero pertenece a <b>MI 9029</b>, no a un equipo Videojet.</li>
+        <li>Había erratas en español («lo influyen», «medimiento») y en italiano («misura», «1 L o 5 L»).</li>
+        <li>No existía un documento que explicara qué tintas de las fichas quedan fuera del TCO.</li>
       </ul>
     </article>
 
     <article class="card">
       <h2>Plan <span class="tag">qué se iba a hacer</span></h2>
       <ul>
-        <li>Respetar la lista <b>«750 mL Only»</b> del TCO v35 y corregir las configuraciones guardadas.</li>
-        <li>Extraer las fichas oficiales de solvente y validar <b>todos</b> los valores en la CI.</li>
-        <li>Mostrar las <b>novedades</b> en el aviso y recordar a los 14 días la versión omitida.</li>
-        <li>Añadir <b>copia de seguridad</b> JSON (configuración, historial, tema e idioma).</li>
-        <li>Documentar el estado de la 2.3.0, la 2.4.0 y el plan de la 2.5.0 sin tocar notas antiguas.</li>
+        <li>Extraer las <b>493 fichas</b> (492 SDS + catálogo) y compararlas con el TCO y la app.</li>
+        <li>Añadir la tinta que faltaba y documentar las que no se pueden calcular.</li>
+        <li><b>Corregir la gramática</b> en español e italiano y revisar las traducciones.</li>
+        <li>Dejar una herramienta y un informe repetibles.</li>
       </ul>
     </article>
 
     <article class="card ok">
-      <h2>Hecho <span class="tag">2.4.0</span></h2>
+      <h2>Hecho <span class="tag">2.4.1</span></h2>
       <ul>
-        <li><b>Cartuchos corregidos</b>: seis modelos solo admiten 750 ml; los tamaños se filtran por modelo y tinta.</li>
-        <li><b>800 fichas de solvente</b> y <b>12.800 valores</b> validados en web y Android (<code>tools/test_solvent.js</code>).</li>
-        <li><b>Aviso con novedades</b> en los seis idiomas, recordatorio a los 14 días y versiones obligatorias.</li>
-        <li><b>Copia de seguridad</b>: exportar e importar configuración e historial en JSON.</li>
-        <li><b>83 pruebas</b> del motor (51 web + 32 Android) y configuración antigua corregida al arrancar.</li>
-        <li>Catálogo de <b>479 cadenas</b> × 5 idiomas y documentación sincronizada.</li>
+        <li><b>493 PDF revisados</b>: 188 productos, 140 tintas y 36 make-up; <b>0 diferencias</b> de base/tamaño en las tintas comunes.</li>
+        <li><b>V4287 identificada</b>: es de MI 9029 y su base MPK no tiene factor; no se añade.</li>
+        <li><b>27 tintas</b> de las SDS fuera del TCO documentadas y no calculadas a ciegas.</li>
+        <li><b>Gramática</b>: «está influido por», «medición», «misurazione», «né», «主动/被动冷凝器».</li>
+        <li><b>85 pruebas</b> (52 web + 33 Android) y 12.800 valores de solvente.</li>
+        <li><code>tools/check_fichas.py</code> y <code>docs/TINTAS.md</code>.</li>
       </ul>
     </article>
 
     <article class="card">
       <h2>Pendiente <span class="tag">a futuro</span></h2>
       <ul>
-        <li><b>Verificador de velocidad</b> (535 fichas) y resolver 4 diferencias con <code>CIJ Speeds.xlsx</code>.</li>
-        <li>Revisar las tintas <b>V42xx</b> que el TCO asigna a la Serie 1000VJ.</li>
-        <li>Confirmar <b>V457 con V725</b> (740 ml) con Videojet.</li>
-        <li>Revisión nativa de chino simplificado y portugués de Portugal.</li>
-        <li>Informe <b>PDF</b>, widget de consumo y copia de seguridad en la web.</li>
-        <li>Actualización incremental y copia segura del <b>keystore</b>.</li>
+        <li>Actualizar el TCO con las <b>27 tintas nuevas</b> (matriz modelo/contenedor).</li>
+        <li><b>Verificador de velocidad</b> (535 fichas) y las 4 diferencias con <code>CIJ Speeds.xlsx</code>.</li>
+        <li>Tintas <b>V42xx</b> en la Serie 1000VJ y <b>V457 con V725</b> (740 ml).</li>
+        <li>Revisión nativa de chino y portugués de Portugal.</li>
+        <li>Informe PDF, widget y copia de seguridad en la web.</li>
       </ul>
     </article>
   </div>
@@ -153,48 +149,46 @@ footer{border-top:1px solid var(--border);background:rgba(17,28,49,.55);margin-t
     <tbody>
       <tr>
         <td><b>Web</b> · <code>docs/calculadora.html</code></td>
-        <td>2.4.0</td>
+        <td>2.4.1</td>
         <td>—</td>
-        <td>04/11/2026</td>
+        <td>05/11/2026</td>
         <td>Archivo único, sin recursos externos en local.</td>
       </tr>
       <tr>
-        <td><b>Android</b> · <code>ConsumoCIJ-2.4.0.apk</code></td>
-        <td>2.4.0</td>
-        <td>9</td>
-        <td>04/11/2026</td>
-        <td>minSdk 34 · cartuchos 750-only · copia de seguridad · misma firma que 2.3.0.</td>
+        <td><b>Android</b> · <code>ConsumoCIJ-2.4.1.apk</code></td>
+        <td>2.4.1</td>
+        <td>10</td>
+        <td>05/11/2026</td>
+        <td>minSdk 34 · 139 tintas Videojet · gramática revisada · misma firma que 2.4.0.</td>
       </tr>
       <tr>
         <td><b>Catálogo de idiomas</b></td>
-        <td>2.4.0</td>
+        <td>2.4.1</td>
         <td>—</td>
-        <td>04/11/2026</td>
+        <td>05/11/2026</td>
         <td>479 cadenas × 5 idiomas traducidos en <code>i18n/catalog.json</code>.</td>
       </tr>
       <tr>
         <td><b>Pruebas</b></td>
-        <td>2.4.0</td>
-        <td>83 + 12.800</td>
-        <td>04/11/2026</td>
-        <td>51 web · 32 Android · 12.800 valores de solvente (800 fichas).</td>
+        <td>2.4.1</td>
+        <td>85 + 12.800</td>
+        <td>05/11/2026</td>
+        <td>52 web · 33 Android · 12.800 valores de solvente · 493 fichas SDS.</td>
       </tr>
       <tr>
         <td><b>Repositorio</b></td>
-        <td>v2.4.0</td>
+        <td>v2.4.1</td>
         <td>—</td>
-        <td>04/11/2026</td>
+        <td>05/11/2026</td>
         <td>Etiqueta y release con el APK adjunto y su huella en <code>version.json</code>.</td>
       </tr>
     </tbody>
   </table>
 
   <div class="note">
-    <b>Cómo comprobar esta versión:</b> elija un <b>VJ 1510 o 1580</b>: los cartuchos deben ser solo
-    de <b>750 ml</b>, sin 1 L ni 5 L. En «Actualizaciones» el diálogo muestra las novedades y, si
-    omite una versión, vuelve a avisar a los 14 días. En «Copia de seguridad» exporte el JSON,
-    cámbielo de sitio e impórtelo. La validación completa se ejecuta con
-    <code>python tools/validar.py</code> y <code>node tools/test_solvent.js</code>.
+    <b>Cómo comprobar esta versión:</b> en «Fuentes de datos» está el enlace a <code>TINTAS.md</code>
+    con las 493 fichas y la decisión sobre V4287. La validación se repite con
+    <code>python tools/validar.py</code> y <code>python tools/check_fichas.py</code>.
   </div>
 
   <div class="note">
@@ -207,10 +201,10 @@ footer{border-top:1px solid var(--border);background:rgba(17,28,49,.55);margin-t
 
   <h2 class="sec">Documentación relacionada</h2>
   <p>
-    <a href="https://github.com/emanuelindustri-source/consumo-cij-calculadora/blob/main/docs/NOTAS-2.4.0.md" target="_blank" rel="noopener">Notas completas 2.4.0 (Markdown)</a> ·
+    <a href="https://github.com/emanuelindustri-source/consumo-cij-calculadora/blob/main/docs/NOTAS-2.4.1.md" target="_blank" rel="noopener">Notas completas 2.4.1 (Markdown)</a> ·
+    <a href="https://github.com/emanuelindustri-source/consumo-cij-calculadora/blob/main/docs/NOTAS-2.4.0.md" target="_blank" rel="noopener">2.4.0</a> ·
     <a href="https://github.com/emanuelindustri-source/consumo-cij-calculadora/blob/main/docs/NOTAS-2.3.0.md" target="_blank" rel="noopener">2.3.0</a> ·
     <a href="https://github.com/emanuelindustri-source/consumo-cij-calculadora/blob/main/docs/NOTAS-2.2.0.md" target="_blank" rel="noopener">2.2.0</a> ·
-    <a href="https://github.com/emanuelindustri-source/consumo-cij-calculadora/blob/main/docs/NOTAS-2.1.1.md" target="_blank" rel="noopener">2.1.1</a> ·
     <a href="https://github.com/emanuelindustri-source/consumo-cij-calculadora/blob/main/docs/NOTAS-2.1.0.md" target="_blank" rel="noopener">2.1.0</a> ·
     <a href="VERSIONES.md">Historial de versiones</a> ·
     <a href="https://github.com/emanuelindustri-source/consumo-cij-calculadora/blob/main/CHANGELOG.md" target="_blank" rel="noopener">CHANGELOG</a> ·

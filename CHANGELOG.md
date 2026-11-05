@@ -4,6 +4,32 @@ Todos los cambios relevantes de este proyecto.
 El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y el versionado
 [SemVer](https://semver.org/lang/es/).
 
+## [2.4.1] — 2026-11-05
+
+### Añadido
+- **Validación del catálogo con 493 PDF de fichas de tintas** (492 SDS + catálogo): 188 productos
+  `V*`, 140 tintas y 36 make-up.
+- **V4287 identificada**: el TCO la asigna a la impresora **MI 9029** y su base MPK no tiene factor
+  oficial; **no se añade** al catálogo Videojet, que queda confirmado con 139 tintas.
+- **`tools/check_fichas.py`** y **`docs/TINTAS.md`** con el informe, la lista de las 27 tintas fuera
+  del TCO y la decisión tomada.
+- Catálogo de **139 tintas Videojet** confirmado contra el TCO y las SDS.
+
+### Cambiado
+- **Gramática en español**: «El consumo de make-up **lo influyen**» → «**está influido por**»;
+  «ciclo de **medimiento**» → «ciclo de **medición**».
+- **Italiano**: «ciclo di **misura**» → «ciclo di **misurazione**»; «1 L **o** 5 L» → «1 L **né**
+  5 L».
+- **Chino**: «condensador activo/pasivo» → «主动/被动冷凝器».
+- `versionName 2.4.1` · `versionCode 10`.
+- Pruebas: **52 web + 33 Android** = 85 (más 12.800 valores de solvente).
+- README, CHANGELOG, ROADMAP, VERSIONES, DATOS, portada y notas públicas sincronizados.
+
+### Pendiente
+- Las 27 tintas nuevas de las SDS necesitan la matriz modelo/contenedor de un TCO actualizado.
+- Verificador de las 535 fichas de velocidad y las 4 diferencias con `CIJ Speeds.xlsx`.
+- Revisión nativa de chino y portugués de Portugal; V457 con V725.
+
 ## [2.4.0] — 2026-11-04
 
 ### Añadido

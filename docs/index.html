@@ -135,7 +135,7 @@ footer{border-top:1px solid var(--border);background:rgba(17,28,49,.55);margin-t
 
   <section class="hero" id="inicio">
     <div>
-      <span class="pill"><span class="dot"></span> Versión 2.4.0 · 6 idiomas · datos verificados</span>
+      <span class="pill"><span class="dot"></span> Versión 2.4.1 · 6 idiomas · catálogo validado</span>
       <h1>Consumo de <span>tinta y solvente</span> para impresoras CIJ</h1>
       <p class="lead">
         Calculadora técnica para equipos <b>Videojet Simplicity</b> y <b>Serie 1000VJ</b>: solvente por
@@ -201,29 +201,29 @@ footer{border-top:1px solid var(--border);background:rgba(17,28,49,.55);margin-t
 
   <section id="novedades">
     <div class="sec-head">
-      <h2>Novedades 2.4.0</h2>
+      <h2>Novedades 2.4.1</h2>
       <p>Lo último que se ha incorporado, con el detalle completo en <a href="notas.html">Notas de la versión</a>.</p>
     </div>
     <div class="grid">
       <article class="card">
-        <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h10M4 17h13"/></svg></span> Cartuchos correctos</h3>
-        <p>Los equipos que el TCO marca como <b>«750 mL Only»</b> (1210, 1220, 1240, 1280, 1510 y 1580)
-        ya no muestran 1 L ni 5 L. Los tamaños se filtran por <b>modelo y tinta</b>.</p>
+        <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3.5h8l4 4v13H6z"/><path d="M14 3.5v4h4"/><path d="M9 12h6M9 15.5h4"/></svg></span> Catálogo validado</h3>
+        <p><b>493 fichas de seguridad</b> contrastadas con el TCO v35: 188 productos, 140 tintas y
+        36 make-up. <b>V4287</b> se identificó como tinta de <b>MI 9029</b> y no se añadió.</p>
       </article>
       <article class="card">
-        <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.5c3.6 4.2 6.2 7.3 6.2 10.4A6.2 6.2 0 0 1 12 19.1a6.2 6.2 0 0 1-6.2-6.2c0-3.1 2.6-6.2 6.2-10.4Z"/></svg></span> Solvente validado</h3>
-        <p><b>800 fichas oficiales</b> y <b>12.800 valores</b> de 10 a 40 °C comprobados en la web y en
-        Android. El verificador está en el repositorio y se ejecuta en cada cambio.</p>
+        <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h10M4 17h13"/></svg></span> 27 tintas identificadas</h3>
+        <p>Las tintas nuevas que el TCO v35 todavía no modela quedan <b>documentadas</b> y no se
+        calculan a ciegas. El informe está en <a href="TINTAS.md">TINTAS.md</a>.</p>
       </article>
       <article class="card">
-        <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3.5v12M8 11.5l4 4 4-4"/><path d="M5 17.5v2h14v-2"/></svg></span> Aviso con novedades</h3>
-        <p>El aviso de actualización muestra <b>qué cambia</b> en los seis idiomas y recuerda a los
-        14 días la versión omitida. Las versiones obligatorias no se pueden omitir.</p>
+        <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12.5 4.5 4.5L19 6.5"/></svg></span> Gramática revisada</h3>
+        <p>Corregidas las frases en <b>español e italiano</b> («está influido por», «medición»,
+        «misurazione», «né») y revisadas las traducciones nuevas en los seis idiomas.</p>
       </article>
       <article class="card">
-        <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3.5h9l5 5v12H5z"/><path d="M14 3.5v5h5"/><path d="M8 13h8M8 16.5h5"/></svg></span> Copia de seguridad</h3>
-        <p><b>Exporte e importe</b> configuración, historial, tema e idioma en un JSON local. Ideal
-        para cambiar de móvil o recuperar los datos tras un borrado.</p>
+        <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span> Herramienta repetible</h3>
+        <p><code>tools/check_fichas.py</code> compara las fichas con el catálogo cuando estén
+        disponibles. <code>docs/TINTAS.md</code> deja la decisión y la lista de pendientes.</p>
       </article>
     </div>
     <div style="display:flex;justify-content:center;margin:16px 0 6px">
@@ -245,7 +245,7 @@ footer{border-top:1px solid var(--border);background:rgba(17,28,49,.55);margin-t
       «Actualizaciones» en la app: comprobación diaria, aviso de versión nueva y descarga verificada.
     </p>
     <div class="note">
-      <b>Seguimiento:</b> <a href="notas.html">Notas de la versión 2.3.0</a> ·
+      <b>Seguimiento:</b> <a href="notas.html">Notas de la versión 2.4.1</a> ·
       <a href="VERSIONES.md">historial de versiones</a> ·
       <a href="https://github.com/emanuelindustri-source/consumo-cij-calculadora/releases/latest" target="_blank" rel="noopener">última release</a>.
     </div>
@@ -259,7 +259,7 @@ footer{border-top:1px solid var(--border);background:rgba(17,28,49,.55);margin-t
     <div class="stats">
       <div class="stat"><b>800</b><span>fichas de solvente</span></div>
       <div class="stat"><b>12 800</b><span>valores contrastados</span></div>
-      <div class="stat"><b>83</b><span>pruebas del motor</span></div>
+      <div class="stat"><b>85</b><span>pruebas del motor</span></div>
     </div>
     <div style="height:18px"></div>
     <table>
@@ -335,7 +335,8 @@ footer{border-top:1px solid var(--border);background:rgba(17,28,49,.55);margin-t
     <table>
       <thead><tr><th>Versión</th><th>Fecha</th><th>Cambios principales</th></tr></thead>
       <tbody>
-        <tr><td><b>2.4.0</b></td><td>04/11/2026</td><td>Cartuchos «750 mL Only» corregidos · solvente validado con 800 fichas (12.800 valores) · novedades y recordatorio en el aviso · copia de seguridad JSON · APK 2.4.0 (código 9)</td></tr>
+        <tr><td><b>2.4.1</b></td><td>05/11/2026</td><td>Catálogo validado con 493 fichas SDS · V4287 identificada (MI 9029) · gramática española e italiana corregida · documentación de tintas · APK 2.4.1 (código 10)</td></tr>
+        <tr><td>2.4.0</td><td>04/11/2026</td><td>Cartuchos «750 mL Only» corregidos · solvente validado con 800 fichas (12.800 valores) · novedades y recordatorio en el aviso · copia de seguridad JSON · APK 2.4.0 (código 9)</td></tr>
         <tr><td>2.3.0</td><td>04/11/2026</td><td>Aviso de actualización con notificación opcional · descarga verificada SHA-256 · versión en una sola fuente · aviso en la web publicada · APK 2.3.0 (código 8)</td></tr>
         <tr><td>2.2.0</td><td>22/10/2026</td><td>Selector de idioma en la app · informes TXT traducidos · negrita conservada · 60 pruebas del motor · APK 2.2.0 (código 7)</td></tr>
         <tr><td>2.1.1</td><td>21/10/2026</td><td>Portada actualizada, notas públicas y versión/compilación visibles en web y Android · APK 2.1.1 (código 6)</td></tr>
@@ -389,7 +390,7 @@ footer{border-top:1px solid var(--border);background:rgba(17,28,49,.55);margin-t
       respectivos titulares y se citan con fines descriptivos de compatibilidad.</p>
     </div>
   </div>
-  <div class="wrap copy">© 2026 Khristyan Hidalgo · Licencia MIT · Consumo CIJ v2.4.0 · Hecho para trabajar sin conexión</div>
+  <div class="wrap copy">© 2026 Khristyan Hidalgo · Licencia MIT · Consumo CIJ v2.4.1 · Hecho para trabajar sin conexión</div>
 </footer>
 
 </body>

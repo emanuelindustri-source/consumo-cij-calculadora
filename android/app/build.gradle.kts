@@ -21,14 +21,14 @@ android {
         // Android 14 (API 34) como versiÃ³n mÃ­nima, segÃºn requisito
         minSdk = 34
         targetSdk = 34
-        versionCode = 9
-        versionName = "2.4.0"
+        versionCode = 10
+        versionName = "2.4.1"
         vectorDrawables { useSupportLibrary = true }
 
         // Datos que la app muestra y usa para buscar actualizaciones.
         // Al publicar una version nueva, tools/check_update.py comprueba que estos
         // valores coincidan exactamente con version.json.
-        buildConfigField("String", "BUILD_DATE", "\"2026-11-04\"")
+        buildConfigField("String", "BUILD_DATE", "\"2026-11-05\"")
         buildConfigField(
             "String", "UPDATE_URL",
             "\"https://raw.githubusercontent.com/emanuelindustri-source/consumo-cij-calculadora/main/version.json\""

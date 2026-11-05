@@ -368,7 +368,6 @@ object VideojetData {
         "V4226" to InkContainer("MEK", listOf(700), "V7220", listOf(750)),
         "V4283" to InkContainer("MEK", listOf(700), "V7221", listOf(750)),
         "V4289" to InkContainer("MEK", listOf(700), "V7208", listOf(750)),
-        "V4287" to InkContainer("MPK", listOf(700), "V7250", listOf(750)),
         "V571" to InkContainer("MEK", listOf(750), "V851", listOf(750)),
         "V572" to InkContainer("MEK", listOf(750), "V852", listOf(750)),
         "V572A" to InkContainer("MEK", listOf(750), "V852A", listOf(750)),

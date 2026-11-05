@@ -7,6 +7,13 @@ Hoja de ruta del proyecto. Las prioridades pueden cambiar según el uso real en 
 > aplicación, qué cambió y qué falta. Se crean con `python tools/check_notas.py --new X.Y.Z` y se
 > congelan al publicar con `--freeze`; la validación falla si desaparecen o se modifican.
 
+## v2.4.1 — Catálogo de tintas validado (hecho)
+- [x] **493 PDF de fichas de tintas revisados** (492 SDS + catálogo).
+- [x] **V4287 identificada**: pertenece a MI 9029 y no se añade al catálogo Videojet.
+- [x] **27 tintas fuera del TCO** documentadas y no calculadas a ciegas.
+- [x] **Gramática** española e italiana corregida y traducciones revisadas.
+- [x] **`tools/check_fichas.py`** y **`docs/TINTAS.md`**.
+
 ## v2.4.0 — Datos y copia de seguridad (hecho)
 - [x] **Cartuchos «750 mL Only»**: seis modelos corregidos; nunca 1 L ni 5 L donde el TCO no lo permite.
 - [x] **Solvente validado**: 800 fichas oficiales y 12.800 valores en la web y en Android.
@@ -15,7 +22,7 @@ Hoja de ruta del proyecto. Las prioridades pueden cambiar según el uso real en 
 - [x] **Copia de seguridad JSON**: configuración, historial, tema e idioma.
 - [x] **Corrección de configuraciones guardadas** con tamaños de cartucho no válidos.
 
-## v2.4.1 — Precisión de velocidad (siguiente)
+## v2.4.2 / 2.5.0 — Precisión de velocidad
 - [ ] **Verificador de las 535 fichas de velocidad** contra la hoja oficial.
 - [ ] Resolver las **4 diferencias** detectadas con `CIJ Speeds.xlsx`.
 - [ ] Revisar las tintas **V42xx** asignadas a la Serie 1000VJ.
@@ -68,7 +75,7 @@ Hoja de ruta del proyecto. Las prioridades pueden cambiar según el uso real en 
 - [ ] Versión de escritorio (Windows/macOS) con el mismo motor.
 - [ ] API local (sin nube) para integrar el cálculo en otras herramientas internas.
 
-## Pendiente inmediato (2.4.1 / 2.5.0)
+## Pendiente inmediato (2.4.2 / 2.5.0)
 - [ ] **Verificador de velocidad** (535 fichas) y revisión de las 4 diferencias con `CIJ Speeds.xlsx`.
 - [ ] Revisión por hablantes nativos de chino simplificado y portugués de Portugal.
 - [x] **Solvente validado** con 800 fichas y 12.800 valores en la CI.

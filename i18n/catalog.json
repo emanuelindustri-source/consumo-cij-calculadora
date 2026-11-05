@@ -366,13 +366,6 @@
    "it": "Efficienza della linea",
    "zh": "产线效率"
   },
-  "El consumo de make-up lo influyen: base de solvente, temperatura ambiente, humedad, temperatura de boquilla, % de recirculación, condensador activo/pasivo, velocidad de la bomba del canalón y ciclo de medimiento. Estos factores son multiplicadores de ajuste sobre el modelo oficial (por defecto 1,00).": {
-   "en": "Make-up consumption is influenced by: solvent base, ambient temperature, humidity, nozzle temperature, % recirculation, active/passive condenser, gutter pump speed and measurement cycle. These factors are adjustment multipliers on the official model (default 1.00).",
-   "pt-BR": "O consumo de make-up é influenciado por: base de solvente, temperatura ambiente, umidade, temperatura do bico, % de recirculação, condensador ativo/passivo, velocidade da bomba do canal e ciclo de medição. Esses fatores são multiplicadores de ajuste sobre o modelo oficial (padrão 1,00).",
-   "pt-PT": "O consumo de make-up é influenciado por: base de solvente, temperatura ambiente, humidade, temperatura do bocal, % de recirculação, condensador ativo/passivo, velocidade da bomba da calha e ciclo de medição. Estes fatores são multiplicadores de ajuste sobre o modelo oficial (por predefinição 1,00).",
-   "it": "Il consumo di make-up è influenzato da: base del solvente, temperatura ambiente, umidità, temperatura dell'ugello, % di ricircolo, condensatore attivo/passivo, velocità della pompa della canaletta e ciclo di misura. Questi fattori sono moltiplicatori di regolazione sul modello ufficiale (predefinito 1,00).",
-   "zh": "补充液消耗受以下因素影响：溶剂基料、环境温度、湿度、喷嘴温度、循环百分比、冷凝器启用/停用、槽泵速度以及测量周期。这些因素是官方模型上的调整乘数（默认 1.00）。"
-  },
   "el factor de la base de solvente y": {
    "en": "the solvent base factor and",
    "pt-BR": "o fator da base de solvente e",
@@ -3338,7 +3331,7 @@
    "en": "Cartridges fixed: '750 mL Only' models no longer show 1 L or 5 L.",
    "pt-BR": "Cartuchos corrigidos: os equipamentos «750 mL Only» não mostram mais 1 L nem 5 L.",
    "pt-PT": "Cartuchos corrigidos: os equipamentos «750 mL Only» já não mostram 1 L nem 5 L.",
-   "it": "Cartucce corrette: i modelli «750 mL Only» non mostrano più 1 L o 5 L.",
+   "it": "Cartucce corrette: i modelli «750 mL Only» non mostrano più 1 L né 5 L.",
    "zh": "墨盒已修正：「750 mL Only」型号不再显示 1 L 或 5 L。"
   },
   "Copia de seguridad: exporte e importe configuración e historial en JSON.": {
@@ -3355,12 +3348,19 @@
    "it": "L'avviso di aggiornamento mostra le novità e ricorda la versione saltata dopo 14 giorni.",
    "zh": "更新提示会显示新功能，并在跳过 14 天后再次提醒。"
   },
-  "Versión 2.4.0 · herramienta técnica interna · familias Simplicity y Serie 1000VJ.": {
-   "en": "Version 2.4.0 · internal technical tool · Simplicity and 1000VJ Series families.",
-   "pt-BR": "Versão 2.4.0 · ferramenta técnica interna · famílias Simplicity e Série 1000VJ.",
-   "pt-PT": "Versão 2.4.0 · ferramenta técnica interna · famílias Simplicity e Série 1000VJ.",
-   "it": "Versione 2.4.0 · strumento tecnico interno · famiglie Simplicity e Serie 1000VJ.",
-   "zh": "版本 2.4.0 · 内部技术工具 · Simplicity 和 1000VJ 系列。"
+  "El consumo de make-up está influido por: base de solvente, temperatura ambiente, humedad, temperatura de boquilla, % de recirculación, condensador activo/pasivo, velocidad de la bomba del canalón y ciclo de medición. Estos factores son multiplicadores de ajuste sobre el modelo oficial (por defecto 1,00).": {
+   "en": "Make-up consumption is influenced by: solvent base, ambient temperature, humidity, nozzle temperature, % recirculation, active/passive condenser, gutter pump speed and measurement cycle. These factors are adjustment multipliers on the official model (default 1.00).",
+   "pt-BR": "O consumo de make-up é influenciado por: base de solvente, temperatura ambiente, umidade, temperatura do bico, % de recirculação, condensador ativo/passivo, velocidade da bomba do canal e ciclo de medição. Esses fatores são multiplicadores de ajuste sobre o modelo oficial (padrão 1,00).",
+   "pt-PT": "O consumo de make-up é influenciado por: base de solvente, temperatura ambiente, humidade, temperatura do bocal, % de recirculação, condensador ativo/passivo, velocidade da bomba da calha e ciclo de medição. Estes fatores são multiplicadores de ajuste sobre o modelo oficial (por predefinição 1,00).",
+   "it": "Il consumo di make-up è influenzato da: base del solvente, temperatura ambiente, umidità, temperatura dell'ugello, % di ricircolo, condensatore attivo/passivo, velocità della pompa della canaletta e ciclo di misurazione. Questi fattori sono moltiplicatori di regolazione sul modello ufficiale (predefinito 1,00).",
+   "zh": "补充液消耗受以下因素影响：溶剂基料、环境温度、湿度、喷嘴温度、循环百分比、主动/被动冷凝器、槽泵速度以及测量周期。这些因素是官方模型上的调整乘数（默认 1.00）。"
+  },
+  "Versión 2.4.1 · herramienta técnica interna · familias Simplicity y Serie 1000VJ.": {
+   "en": "Version 2.4.1 · internal technical tool · Simplicity and 1000VJ Series families.",
+   "pt-BR": "Versão 2.4.1 · ferramenta técnica interna · famílias Simplicity e Série 1000VJ.",
+   "pt-PT": "Versão 2.4.1 · ferramenta técnica interna · famílias Simplicity e Série 1000VJ.",
+   "it": "Versione 2.4.1 · strumento tecnico interno · famiglie Simplicity e Serie 1000VJ.",
+   "zh": "版本 2.4.1 · 内部技术工具 · Simplicity 和 1000VJ 系列。"
   }
  }
 }

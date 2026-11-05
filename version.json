@@ -1,14 +1,14 @@
 {
   "product": "Consumo CIJ",
-  "version": "2.4.0",
-  "versionCode": 9,
-  "date": "2026-11-04",
+  "version": "2.4.1",
+  "versionCode": 10,
+  "date": "2026-11-05",
   "web": "docs/calculadora.html",
-  "apk": "ConsumoCIJ-2.4.0.apk",
-  "apkUrl": "https://github.com/emanuelindustri-source/consumo-cij-calculadora/releases/download/v2.4.0/ConsumoCIJ-2.4.0.apk",
-  "apkSizeBytes": 2057522,
-  "apkSha256": "b969419f0601e0a2c842cdab7b36072b033e62037d215ae9535b87a4492dadd4",
-  "notes": "docs/NOTAS-2.4.0.md",
+  "apk": "ConsumoCIJ-2.4.1.apk",
+  "apkUrl": "https://github.com/emanuelindustri-source/consumo-cij-calculadora/releases/download/v2.4.1/ConsumoCIJ-2.4.1.apk",
+  "apkSizeBytes": 2057598,
+  "apkSha256": "105def28d5f2ae5e0d66c6c4b3591ed6a2c0ce23f0995b2a99dfe0b684abd23b",
+  "notes": "docs/NOTAS-2.4.1.md",
   "notesUrl": "https://emanuelindustri-source.github.io/consumo-cij-calculadora/notas.html",
   "notesPage": "docs/notas.html",
   "languages": [
@@ -30,40 +30,40 @@
   "mandatory": false,
   "highlights": {
     "es": [
-      "Consumo de solvente validado con 800 fichas oficiales (12.800 valores).",
-      "Cartuchos corregidos: los equipos «750 mL Only» ya no muestran 1 L ni 5 L.",
-      "Copia de seguridad: exporte e importe configuración e historial en JSON.",
-      "El aviso de actualización muestra las novedades y recuerda la versión omitida a los 14 días."
+      "Catálogo de tintas validado con 493 fichas de seguridad y el TCO v35.",
+      "Confirmadas las 139 tintas Videojet; V4287 es de MI 9029 y no aplica.",
+      "Corregida la redacción en español e italiano y revisadas las traducciones.",
+      "Nueva documentación con la validación de las fichas de tintas."
     ],
     "en": [
-      "Solvent use validated against 800 official cards (12,800 values).",
-      "Cartridges fixed: '750 mL Only' models no longer show 1 L or 5 L.",
-      "Backup: export and import settings and history as JSON.",
-      "The update notice shows what's new and reminds you after 14 days if skipped."
+      "Ink catalogue validated against 493 safety data sheets and TCO v35.",
+      "Confirmed the 139 Videojet inks; V4287 belongs to MI 9029 and does not apply.",
+      "Fixed Spanish and Italian wording and reviewed the translations.",
+      "New documentation with the ink data sheet validation."
     ],
     "pt-BR": [
-      "Consumo de solvente validado com 800 fichas oficiais (12.800 valores).",
-      "Cartuchos corrigidos: os equipamentos «750 mL Only» não mostram mais 1 L nem 5 L.",
-      "Cópia de segurança: exporte e importe configuração e histórico em JSON.",
-      "O aviso de atualização mostra as novidades e lembra a versão ignorada após 14 dias."
+      "Catálogo de tintas validado com 493 fichas de segurança e o TCO v35.",
+      "Confirmadas as 139 tintas Videojet; a V4287 é da MI 9029 e não se aplica.",
+      "Corrigida a redação em espanhol e italiano e revisadas as traduções.",
+      "Nova documentação com a validação das fichas de tintas."
     ],
     "pt-PT": [
-      "Consumo de solvente validado com 800 fichas oficiais (12.800 valores).",
-      "Cartuchos corrigidos: os equipamentos «750 mL Only» já não mostram 1 L nem 5 L.",
-      "Cópia de segurança: exporte e importe configuração e histórico em JSON.",
-      "O aviso de atualização mostra as novidades e recorda a versão ignorada após 14 dias."
+      "Catálogo de tintas validado com 493 fichas de segurança e o TCO v35.",
+      "Confirmadas as 139 tintas Videojet; a V4287 é da MI 9029 e não se aplica.",
+      "Corrigida a redação em espanhol e italiano e revistas as traduções.",
+      "Nova documentação com a validação das fichas de tintas."
     ],
     "it": [
-      "Consumo di solvente validato con 800 schede ufficiali (12.800 valori).",
-      "Cartucce corrette: i modelli «750 mL Only» non mostrano più 1 L o 5 L.",
-      "Backup: esporta e importa configurazione e cronologia in JSON.",
-      "L'avviso di aggiornamento mostra le novità e ricorda la versione saltata dopo 14 giorni."
+      "Catalogo delle tinte validato con 493 schede di sicurezza e il TCO v35.",
+      "Confermate le 139 tinte Videojet; V4287 è di MI 9029 e non si applica.",
+      "Corretta la formulazione in spagnolo e italiano e riviste le traduzioni.",
+      "Nuova documentazione con la validazione delle schede degli inchiostri."
     ],
     "zh": [
-      "溶剂消耗已用 800 份官方卡片（12,800 个数值）验证。",
-      "墨盒已修正：「750 mL Only」型号不再显示 1 L 或 5 L。",
-      "备份：以 JSON 导出和导入设置与历史记录。",
-      "更新提示会显示新功能，并在跳过 14 天后再次提醒。"
+      "已用 493 份安全数据表和 TCO v35 验证墨水目录。",
+      "已确认 139 种 Videojet 墨水；V4287 属于 MI 9029，不适用。",
+      "修正西班牙语和意大利语措辞，并审校各语言翻译。",
+      "新增墨水数据表验证文档。"
     ]
   }
 }
