@@ -8,7 +8,7 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y e
 
 ### Añadido
 - **Validación del catálogo con 493 PDF de fichas de tintas** (492 SDS + catálogo): 188 productos
-  `V*`, 140 tintas y 36 make-up.
+  `V*`, 140 tintas (139 Videojet + V4287 de MI 9029) y 36 make-up.
 - **V4287 identificada**: el TCO la asigna a la impresora **MI 9029** y su base MPK no tiene factor
   oficial; **no se añade** al catálogo Videojet, que queda confirmado con 139 tintas.
 - **`tools/check_fichas.py`** y **`docs/TINTAS.md`** con el informe, la lista de las 27 tintas fuera

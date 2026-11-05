@@ -32,7 +32,7 @@ corregir la redacción en los idiomas.
 
 ### Cambios
 - **493 PDF de la carpeta `ficha de tintas` revisados** (492 SDS + catálogo comercial): 188 productos
-  `V*`, 140 tintas y 36 make-up.
+  `V*`, 140 tintas (139 Videojet + V4287 de MI 9029) y 36 make-up.
 - **V4287 identificada**: el TCO la asigna a **MI 9029**, no a un equipo Videojet; su base MPK no
   tiene factor oficial y **no se añade**. El catálogo Videojet queda confirmado con 139 tintas.
 - **27 tintas de las SDS fuera del TCO** documentadas y no calculadas; **3 variantes de make-up**
