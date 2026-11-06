@@ -1,14 +1,14 @@
 {
   "product": "Consumo CIJ",
-  "version": "2.4.1",
-  "versionCode": 10,
+  "version": "2.5.0",
+  "versionCode": 11,
   "date": "2026-11-05",
   "web": "docs/calculadora.html",
-  "apk": "ConsumoCIJ-2.4.1.apk",
-  "apkUrl": "https://github.com/emanuelindustri-source/consumo-cij-calculadora/releases/download/v2.4.1/ConsumoCIJ-2.4.1.apk",
-  "apkSizeBytes": 2057598,
-  "apkSha256": "105def28d5f2ae5e0d66c6c4b3591ed6a2c0ce23f0995b2a99dfe0b684abd23b",
-  "notes": "docs/NOTAS-2.4.1.md",
+  "apk": "ConsumoCIJ-2.5.0.apk",
+  "apkUrl": "https://github.com/emanuelindustri-source/consumo-cij-calculadora/releases/download/v2.5.0/ConsumoCIJ-2.5.0.apk",
+  "apkSizeBytes": 2118830,
+  "apkSha256": "71f2fcc0dab01bbf49ba95127af2bdfc37e8470a28017fd6bb006a0a703cb0ba",
+  "notes": "docs/NOTAS-2.5.0.md",
   "notesUrl": "https://emanuelindustri-source.github.io/consumo-cij-calculadora/notas.html",
   "notesPage": "docs/notas.html",
   "languages": [
@@ -21,49 +21,55 @@
   ],
   "offline": true,
   "updateCheck": true,
-  "catalogStrings": 479,
+  "catalogStrings": 554,
   "tests": {
-    "web": 51,
-    "android": 32,
-    "total": 83
+    "web": 64,
+    "android": 36,
+    "total": 100
   },
   "mandatory": false,
   "highlights": {
     "es": [
-      "Catálogo de tintas validado con 493 fichas de seguridad y el TCO v35.",
-      "Confirmadas las 139 tintas Videojet; V4287 es de MI 9029 y no aplica.",
-      "Corregida la redacción en español e italiano y revisadas las traducciones.",
-      "Nueva documentación con la validación de las fichas de tintas."
+      "Nueva calculadora de costos para ventas: precio por cartucho, moneda y costo por hora, mes, año y por 1.000 códigos.",
+      "Comparador de equipos: cálculo actual más hasta 4 escenarios Videojet o de la competencia, con diferencias y exportación CSV.",
+      "Costo total de propiedad (equipo + consumibles) y reparto de costo entre tinta y solvente.",
+      "Los informes TXT y CSV incluyen ahora los costos, y la app recuerda los precios en el dispositivo.",
+      "554 cadenas traducidas a seis idiomas y gramática revisada."
     ],
     "en": [
-      "Ink catalogue validated against 493 safety data sheets and TCO v35.",
-      "Confirmed the 139 Videojet inks; V4287 belongs to MI 9029 and does not apply.",
-      "Fixed Spanish and Italian wording and reviewed the translations.",
-      "New documentation with the ink data sheet validation."
+      "New sales cost calculator: price per cartridge, currency and cost per hour, month, year and per 1,000 codes.",
+      "Equipment comparator: current calculation plus up to 4 Videojet or competitor scenarios, with differences and CSV export.",
+      "Total cost of ownership (equipment + consumables) and ink/solvent cost split.",
+      "TXT and CSV reports now include costs, and the app remembers prices on the device.",
+      "554 strings translated into six languages and grammar reviewed."
     ],
     "pt-BR": [
-      "Catálogo de tintas validado com 493 fichas de segurança e o TCO v35.",
-      "Confirmadas as 139 tintas Videojet; a V4287 é da MI 9029 e não se aplica.",
-      "Corrigida a redação em espanhol e italiano e revisadas as traduções.",
-      "Nova documentação com a validação das fichas de tintas."
+      "Nova calculadora de custos para vendas: preço por cartucho, moeda e custo por hora, mês, ano e por 1.000 códigos.",
+      "Comparador de equipamentos: cálculo atual mais até 4 cenários Videojet ou da concorrência, com diferenças e exportação CSV.",
+      "Custo total de propriedade (equipamento + consumíveis) e divisão do custo entre tinta e solvente.",
+      "Os relatórios TXT e CSV agora incluem os custos, e o app guarda os preços no dispositivo.",
+      "554 textos traduzidos para seis idiomas e gramática revisada."
     ],
     "pt-PT": [
-      "Catálogo de tintas validado com 493 fichas de segurança e o TCO v35.",
-      "Confirmadas as 139 tintas Videojet; a V4287 é da MI 9029 e não se aplica.",
-      "Corrigida a redação em espanhol e italiano e revistas as traduções.",
-      "Nova documentação com a validação das fichas de tintas."
+      "Nova calculadora de custos para vendas: preço por cartucho, moeda e custo por hora, mês, ano e por 1.000 códigos.",
+      "Comparador de equipamentos: cálculo atual mais até 4 cenários Videojet ou da concorrência, com diferenças e exportação CSV.",
+      "Custo total de propriedade (equipamento + consumíveis) e repartição do custo entre tinta e solvente.",
+      "Os relatórios TXT e CSV incluem agora os custos, e a aplicação guarda os preços no dispositivo.",
+      "554 textos traduzidos para seis idiomas e gramática revista."
     ],
     "it": [
-      "Catalogo delle tinte validato con 493 schede di sicurezza e il TCO v35.",
-      "Confermate le 139 tinte Videojet; V4287 è di MI 9029 e non si applica.",
-      "Corretta la formulazione in spagnolo e italiano e riviste le traduzioni.",
-      "Nuova documentazione con la validazione delle schede degli inchiostri."
+      "Nuovo calcolatore di costi per le vendite: prezzo per cartuccia, valuta e costo orario, mensile, annuale e per 1.000 codici.",
+      "Confronto tra apparecchiature: calcolo attuale più fino a 4 scenari Videojet o della concorrenza, con differenze ed esportazione CSV.",
+      "Costo totale di proprietà (apparecchiatura + consumabili) e ripartizione del costo tra inchiostro e solvente.",
+      "I report TXT e CSV includono ora i costi e l'app memorizza i prezzi sul dispositivo.",
+      "554 testi tradotti in sei lingue e grammatica rivista."
     ],
     "zh": [
-      "已用 493 份安全数据表和 TCO v35 验证墨水目录。",
-      "已确认 139 种 Videojet 墨水；V4287 属于 MI 9029，不适用。",
-      "修正西班牙语和意大利语措辞，并审校各语言翻译。",
-      "新增墨水数据表验证文档。"
+      "新增销售成本计算器：每个墨盒价格、货币，以及每小时、每月、每年和每 1,000 个代码的成本。",
+      "设备对比器：当前计算加上最多 4 个 Videojet 或竞争对手方案，包含差异和 CSV 导出。",
+      "总拥有成本（设备 + 耗材）以及墨水与溶剂的成本占比。",
+      "TXT 和 CSV 报告现在包含成本，应用会在设备上保存价格。",
+      "554 条文本已翻译为六种语言，并已审校语法。"
     ]
   }
 }
