@@ -2,6 +2,7 @@ package com.calculadora.consumocij.util
 
 import com.calculadora.consumocij.HistoryEntry
 import com.calculadora.consumocij.data.CalcInput
+import com.calculadora.consumocij.data.Scenario
 import com.calculadora.consumocij.data.TemperatureModel
 import com.calculadora.consumocij.data.VideojetData
 import com.calculadora.consumocij.i18n.I18n
@@ -24,7 +25,8 @@ object Backup {
         val input: CalcInput,
         val history: List<HistoryEntry>,
         val theme: ThemeMode,
-        val language: String
+        val language: String,
+        val scenarios: List<Scenario> = emptyList()
     )
 
     fun encode(payload: Payload): String {
@@ -41,6 +43,7 @@ object Backup {
             hist.put(JSONObject().put("date", e.date).put("input", inputToJson(e.input)))
         }
         root.put("history", hist)
+        root.put("scenarios", JSONArray(ScenarioStore.encode(payload.scenarios)))
         return root.toString(2)
     }
 
@@ -65,12 +68,13 @@ object Backup {
         val theme = runCatching { ThemeMode.valueOf(root.optString("theme", "SYSTEM")) }
             .getOrDefault(ThemeMode.SYSTEM)
         val lang = root.optString("language", "")
-        Payload(input, hist, theme, if (lang in I18n.LANGUAGES) lang else "")
+        val scenarios = ScenarioStore.decode(root.optJSONArray("scenarios")?.toString())
+        Payload(input, hist, theme, if (lang in I18n.LANGUAGES) lang else "", scenarios)
     }.getOrNull()
 
     /* ---------------- serialización de CalcInput ---------------- */
 
-    private fun inputToJson(i: CalcInput): JSONObject = JSONObject().apply {
+    internal fun inputToJson(i: CalcInput): JSONObject = JSONObject().apply {
         put("modelId", i.modelId)
         put("nozzle", i.nozzle)
         put("ink", i.ink)
@@ -96,9 +100,14 @@ object Backup {
         put("coreDays", i.coreDays)
         put("temperatureModel", i.temperatureModel.name)
         put("envFactor", i.envFactor)
+        put("currency", i.currency)
+        put("inkPrice", i.inkPrice)
+        put("muPrice", i.muPrice)
+        put("equipPrice", i.equipPrice)
+        put("years", i.years)
     }
 
-    private fun inputFromJson(o: JSONObject): CalcInput {
+    internal fun inputFromJson(o: JSONObject): CalcInput {
         val def = CalcInput()
         fun s(k: String, d: String) = o.optString(k, d).ifBlank { d }
         fun n(k: String, d: Int, lo: Int, hi: Int) = o.optInt(k, d).coerceIn(lo, hi)
@@ -150,7 +159,12 @@ object Backup {
             temperatureModel = runCatching {
                 TemperatureModel.valueOf(o.optString("temperatureModel", def.temperatureModel.name))
             }.getOrDefault(def.temperatureModel),
-            envFactor = d("envFactor", def.envFactor, 0.2, 3.0)
+            envFactor = d("envFactor", def.envFactor, 0.2, 3.0),
+            currency = Money.normalize(s("currency", def.currency)),
+            inkPrice = d("inkPrice", def.inkPrice, 0.0, 1_000_000.0),
+            muPrice = d("muPrice", def.muPrice, 0.0, 1_000_000.0),
+            equipPrice = d("equipPrice", def.equipPrice, 0.0, 100_000_000.0),
+            years = n("years", def.years, 1, 20)
         )
     }
 }

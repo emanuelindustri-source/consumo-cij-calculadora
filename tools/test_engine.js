@@ -34,7 +34,7 @@ const region = html.slice(start, html.lastIndexOf("/* =", end));
 const factory = new Function(
   "clamp",
   dataMatch[0] + "\n" + region +
-  "\nreturn { computeAll: computeAll, MODELS: MODELS, DATA: DATA," +
+  "\nreturn { computeAll: computeAll, computeCosts: computeCosts, MODELS: MODELS, DATA: DATA," +
   " K_PUBLISHED: K_PUBLISHED, variantOf: variantOf, dropsPerChar: dropsPerChar," +
   " dropsLiterFor: dropsLiterFor, DEFAULT_PRINTER: DEFAULT_PRINTER," +
   " sizesFor: sizesFor, only750: only750 };"
@@ -224,6 +224,28 @@ check("V4225 → cartucho de 700 ml", (carts.V4225 && carts.V4225.inkSizes.index
 check("V480 → cartucho de 600 ml", (carts.V480 && carts.V480.inkSizes.indexOf(600) >= 0));
 check("V401 → 750 / 5000 ml", (carts.V401 && carts.V401.inkSizes.indexOf(750) >= 0 &&
   carts.V401.inkSizes.indexOf(5000) >= 0));
+
+/* ============================================================
+   9. Costos de consumibles (2.5.0)
+   ============================================================ */
+const costIn = inp({ currency: "USD", inkPrice: 120, muPrice: 40, equipPrice: 5000, years: 5 });
+const c30 = E.computeCosts(costIn, r30);
+near("tinta: precio por litro", c30.inkPriceL, (120 / 750) * 1000, 1e-9);
+near("solvente: precio por litro", c30.muPriceL, (40 / 750) * 1000, 1e-9);
+near("costo de tinta por hora", c30.inkHour, (r30.inkPerHour / 750) * 120, 1e-9);
+near("costo de solvente por hora", c30.muHour, (r30.muPerHour / 750) * 40, 1e-9);
+near("costo total por hora", c30.totalHour, c30.inkHour + c30.muHour, 1e-9);
+near("costo total por día", c30.totalDay, c30.totalHour * 16, 1e-9);
+near("costo total por mes", c30.totalMonth, c30.totalHour * r30.hrsMonth, 1e-9);
+near("costo total por año", c30.totalYear, c30.totalHour * r30.hrsYear, 1e-9);
+near("costo por 1.000 códigos", c30.costPer1000,
+  (c30.totalHour / r30.printsPerHour) * 1000, 1e-9);
+near("TCO = consumibles a 5 años + equipo", c30.totalOwnership,
+  c30.totalYear * 5 + 5000, 1e-9);
+near("reparto tinta + solvente = 100 %", c30.shareInk + c30.shareMu, 1, 1e-12);
+check("sin precios el costo no está configurado", !E.computeCosts(inp(), r30).configured);
+check("un solo precio ya activa el costo",
+  E.computeCosts(inp({ inkPrice: 100 }), r30).configured);
 
 /* ============================================================
    Resumen

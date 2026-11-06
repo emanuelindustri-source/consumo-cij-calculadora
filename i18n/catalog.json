@@ -1,5 +1,5 @@
 {
- "version": "2.3.0",
+ "version": "2.5.0",
  "source": "es",
  "languages": [
   "en",
@@ -3320,34 +3320,6 @@
    "it": "Aggiornamento obbligatorio: include correzioni importanti.",
    "zh": "必须更新：包含重要修复。"
   },
-  "Consumo de solvente validado con 800 fichas oficiales (12.800 valores).": {
-   "en": "Solvent use validated against 800 official cards (12,800 values).",
-   "pt-BR": "Consumo de solvente validado com 800 fichas oficiais (12.800 valores).",
-   "pt-PT": "Consumo de solvente validado com 800 fichas oficiais (12.800 valores).",
-   "it": "Consumo di solvente validato con 800 schede ufficiali (12.800 valori).",
-   "zh": "溶剂消耗已用 800 份官方卡片（12,800 个数值）验证。"
-  },
-  "Cartuchos corregidos: los equipos «750 mL Only» ya no muestran 1 L ni 5 L.": {
-   "en": "Cartridges fixed: '750 mL Only' models no longer show 1 L or 5 L.",
-   "pt-BR": "Cartuchos corrigidos: os equipamentos «750 mL Only» não mostram mais 1 L nem 5 L.",
-   "pt-PT": "Cartuchos corrigidos: os equipamentos «750 mL Only» já não mostram 1 L nem 5 L.",
-   "it": "Cartucce corrette: i modelli «750 mL Only» non mostrano più 1 L né 5 L.",
-   "zh": "墨盒已修正：「750 mL Only」型号不再显示 1 L 或 5 L。"
-  },
-  "Copia de seguridad: exporte e importe configuración e historial en JSON.": {
-   "en": "Backup: export and import settings and history as JSON.",
-   "pt-BR": "Cópia de segurança: exporte e importe configuração e histórico em JSON.",
-   "pt-PT": "Cópia de segurança: exporte e importe configuração e histórico em JSON.",
-   "it": "Backup: esporta e importa configurazione e cronologia in JSON.",
-   "zh": "备份：以 JSON 导出和导入设置与历史记录。"
-  },
-  "El aviso de actualización muestra las novedades y recuerda la versión omitida a los 14 días.": {
-   "en": "The update notice shows what's new and reminds you after 14 days if skipped.",
-   "pt-BR": "O aviso de atualização mostra as novidades e lembra a versão ignorada após 14 dias.",
-   "pt-PT": "O aviso de atualização mostra as novidades e recorda a versão ignorada após 14 dias.",
-   "it": "L'avviso di aggiornamento mostra le novità e ricorda la versione saltata dopo 14 giorni.",
-   "zh": "更新提示会显示新功能，并在跳过 14 天后再次提醒。"
-  },
   "El consumo de make-up está influido por: base de solvente, temperatura ambiente, humedad, temperatura de boquilla, % de recirculación, condensador activo/pasivo, velocidad de la bomba del canalón y ciclo de medición. Estos factores son multiplicadores de ajuste sobre el modelo oficial (por defecto 1,00).": {
    "en": "Make-up consumption is influenced by: solvent base, ambient temperature, humidity, nozzle temperature, % recirculation, active/passive condenser, gutter pump speed and measurement cycle. These factors are adjustment multipliers on the official model (default 1.00).",
    "pt-BR": "O consumo de make-up é influenciado por: base de solvente, temperatura ambiente, umidade, temperatura do bico, % de recirculação, condensador ativo/passivo, velocidade da bomba do canal e ciclo de medição. Esses fatores são multiplicadores de ajuste sobre o modelo oficial (padrão 1,00).",
@@ -3361,6 +3333,559 @@
    "pt-PT": "Versão 2.4.1 · ferramenta técnica interna · famílias Simplicity e Série 1000VJ.",
    "it": "Versione 2.4.1 · strumento tecnico interno · famiglie Simplicity e Serie 1000VJ.",
    "zh": "版本 2.4.1 · 内部技术工具 · Simplicity 和 1000VJ 系列。"
+  },
+  "Precios y costos para ventas": {
+   "en": "Prices and costs for sales",
+   "pt-BR": "Preços e custos para vendas",
+   "pt-PT": "Preços e custos para vendas",
+   "it": "Prezzi e costi per le vendite",
+   "zh": "销售价格与成本"
+  },
+  "Introduzca el precio de compra de cada cartucho y la moneda. La calculadora obtiene el costo por hora, por mes, por año y por cada 1.000 códigos impresos.": {
+   "en": "Enter the purchase price of each cartridge and the currency. The calculator works out the cost per hour, per month, per year and per 1,000 printed codes.",
+   "pt-BR": "Insira o preço de compra de cada cartucho e a moeda. A calculadora obtém o custo por hora, por mês, por ano e por cada 1.000 códigos impressos.",
+   "pt-PT": "Introduza o preço de compra de cada cartucho e a moeda. A calculadora calcula o custo por hora, por mês, por ano e por cada 1.000 códigos impressos.",
+   "it": "Inserire il prezzo di acquisto di ogni cartuccia e la valuta. Il calcolatore ricava il costo orario, mensile, annuale e per ogni 1.000 codici stampati.",
+   "zh": "请输入每个墨盒的购买价格和货币。计算器将计算每小时、每月、每年以及每 1,000 个打印代码的成本。"
+  },
+  "Moneda": {
+   "en": "Currency",
+   "pt-BR": "Moeda",
+   "pt-PT": "Moeda",
+   "it": "Valuta",
+   "zh": "货币"
+  },
+  "Precio del cartucho de tinta": {
+   "en": "Ink cartridge price",
+   "pt-BR": "Preço do cartucho de tinta",
+   "pt-PT": "Preço do cartucho de tinta",
+   "it": "Prezzo della cartuccia d'inchiostro",
+   "zh": "墨水盒价格"
+  },
+  "Precio del cartucho de solvente": {
+   "en": "Solvent cartridge price",
+   "pt-BR": "Preço do cartucho de solvente",
+   "pt-PT": "Preço do cartucho de solvente",
+   "it": "Prezzo della cartuccia di solvente",
+   "zh": "溶剂盒价格"
+  },
+  "Costo total de propiedad (equipo + consumibles)": {
+   "en": "Total cost of ownership (equipment + consumables)",
+   "pt-BR": "Custo total de propriedade (equipamento + consumíveis)",
+   "pt-PT": "Custo total de propriedade (equipamento + consumíveis)",
+   "it": "Costo totale di proprietà (apparecchiatura + consumabili)",
+   "zh": "总拥有成本（设备 + 耗材）"
+  },
+  "Precio del equipo": {
+   "en": "Equipment price",
+   "pt-BR": "Preço do equipamento",
+   "pt-PT": "Preço do equipamento",
+   "it": "Prezzo dell'apparecchiatura",
+   "zh": "设备价格"
+  },
+  "Años de comparación": {
+   "en": "Comparison years",
+   "pt-BR": "Anos de comparação",
+   "pt-PT": "Anos de comparação",
+   "it": "Anni di confronto",
+   "zh": "对比年限"
+  },
+  "años": {
+   "en": "years",
+   "pt-BR": "anos",
+   "pt-PT": "anos",
+   "it": "anni",
+   "zh": "年"
+  },
+  "Los precios no se envían a ningún servidor: se guardan solo en este dispositivo.": {
+   "en": "Prices are not sent to any server: they are stored only on this device.",
+   "pt-BR": "Os preços não são enviados a nenhum servidor: são salvos apenas neste dispositivo.",
+   "pt-PT": "Os preços não são enviados para nenhum servidor: ficam guardados apenas neste dispositivo.",
+   "it": "I prezzi non vengono inviati a nessun server: vengono salvati solo su questo dispositivo.",
+   "zh": "价格不会发送到任何服务器：仅保存在本设备上。"
+  },
+  "Costo de consumibles": {
+   "en": "Consumables cost",
+   "pt-BR": "Custo de consumíveis",
+   "pt-PT": "Custo de consumíveis",
+   "it": "Costo dei consumabili",
+   "zh": "耗材成本"
+  },
+  "Costo por hora": {
+   "en": "Cost per hour",
+   "pt-BR": "Custo por hora",
+   "pt-PT": "Custo por hora",
+   "it": "Costo orario",
+   "zh": "每小时成本"
+  },
+  "Costo por mes": {
+   "en": "Cost per month",
+   "pt-BR": "Custo por mês",
+   "pt-PT": "Custo por mês",
+   "it": "Costo mensile",
+   "zh": "每月成本"
+  },
+  "Costo por año": {
+   "en": "Cost per year",
+   "pt-BR": "Custo por ano",
+   "pt-PT": "Custo por ano",
+   "it": "Costo annuo",
+   "zh": "每年成本"
+  },
+  "Precio por litro: {0}": {
+   "en": "Price per litre: {0}",
+   "pt-BR": "Preço por litro: {0}",
+   "pt-PT": "Preço por litro: {0}",
+   "it": "Prezzo al litro: {0}",
+   "zh": "每升价格：{0}"
+  },
+  "Introduzca los precios en «Precios y costos para ventas» para ver el costo real.": {
+   "en": "Enter the prices in “Prices and costs for sales” to see the real cost.",
+   "pt-BR": "Insira os preços em “Preços e custos para vendas” para ver o custo real.",
+   "pt-PT": "Introduza os preços em «Preços e custos para vendas» para ver o custo real.",
+   "it": "Inserire i prezzi in “Prezzi e costi per le vendite” per vedere il costo reale.",
+   "zh": "请在“销售价格与成本”中输入价格，以查看实际成本。"
+  },
+  "Costo calculado en {0} con los precios y cartuchos actuales.": {
+   "en": "Cost calculated in {0} using the current prices and cartridges.",
+   "pt-BR": "Custo calculado em {0} com os preços e cartuchos atuais.",
+   "pt-PT": "Custo calculado em {0} com os preços e cartuchos atuais.",
+   "it": "Costo calcolato in {0} con i prezzi e le cartucce attuali.",
+   "zh": "按当前价格和墨盒以 {0} 计算成本。"
+  },
+  "Introduzca al menos un precio para calcular los costos.": {
+   "en": "Enter at least one price to calculate the costs.",
+   "pt-BR": "Insira pelo menos um preço para calcular os custos.",
+   "pt-PT": "Introduza pelo menos um preço para calcular os custos.",
+   "it": "Inserire almeno un prezzo per calcolare i costi.",
+   "zh": "请输入至少一个价格以计算成本。"
+  },
+  "= {0} al año": {
+   "en": "= {0} per year",
+   "pt-BR": "= {0} por ano",
+   "pt-PT": "= {0} por ano",
+   "it": "= {0} all'anno",
+   "zh": "= 每年 {0}"
+  },
+  "{0} cartuchos de tinta · {1} de solvente al año": {
+   "en": "{0} ink cartridges · {1} solvent cartridges per year",
+   "pt-BR": "{0} cartuchos de tinta · {1} de solvente por ano",
+   "pt-PT": "{0} cartuchos de tinta · {1} de solvente por ano",
+   "it": "{0} cartucce d'inchiostro · {1} di solvente all'anno",
+   "zh": "每年 {0} 个墨水盒 · {1} 个溶剂盒"
+  },
+  "{0} códigos al mes": {
+   "en": "{0} codes per month",
+   "pt-BR": "{0} códigos por mês",
+   "pt-PT": "{0} códigos por mês",
+   "it": "{0} codici al mese",
+   "zh": "每月 {0} 个代码"
+  },
+  "Costo de tinta": {
+   "en": "Ink cost",
+   "pt-BR": "Custo de tinta",
+   "pt-PT": "Custo de tinta",
+   "it": "Costo dell'inchiostro",
+   "zh": "墨水成本"
+  },
+  "Costo de solvente": {
+   "en": "Solvent cost",
+   "pt-BR": "Custo de solvente",
+   "pt-PT": "Custo de solvente",
+   "it": "Costo del solvente",
+   "zh": "溶剂成本"
+  },
+  "Costo total": {
+   "en": "Total cost",
+   "pt-BR": "Custo total",
+   "pt-PT": "Custo total",
+   "it": "Costo totale",
+   "zh": "总成本"
+  },
+  "Costo por 1.000 códigos": {
+   "en": "Cost per 1,000 codes",
+   "pt-BR": "Custo por 1.000 códigos",
+   "pt-PT": "Custo por 1.000 códigos",
+   "it": "Costo per 1.000 codici",
+   "zh": "每 1,000 个代码成本"
+  },
+  "Tinta {0} · solvente {1}": {
+   "en": "Ink {0} · solvent {1}",
+   "pt-BR": "Tinta {0} · solvente {1}",
+   "pt-PT": "Tinta {0} · solvente {1}",
+   "it": "Inchiostro {0} · solvente {1}",
+   "zh": "墨水 {0} · 溶剂 {1}"
+  },
+  "Costo a {0} años: {1} de consumibles + {2} del equipo = {3}.": {
+   "en": "Cost over {0} years: {1} in consumables + {2} for the equipment = {3}.",
+   "pt-BR": "Custo em {0} anos: {1} em consumíveis + {2} do equipamento = {3}.",
+   "pt-PT": "Custo em {0} anos: {1} em consumíveis + {2} do equipamento = {3}.",
+   "it": "Costo su {0} anni: {1} di consumabili + {2} dell'apparecchiatura = {3}.",
+   "zh": "{0} 年成本：耗材 {1} + 设备 {2} = {3}。"
+  },
+  "Comparador de equipos y competencia": {
+   "en": "Equipment and competitor comparison",
+   "pt-BR": "Comparador de equipamentos e concorrência",
+   "pt-PT": "Comparador de equipamentos e concorrência",
+   "it": "Confronto tra apparecchiature e concorrenza",
+   "zh": "设备与竞争对手对比"
+  },
+  "Compare el cálculo actual con otros equipos Videojet o con equipos de la competencia. Se comparan consumo, cartuchos y costo mensual.": {
+   "en": "Compare the current calculation with other Videojet equipment or with competitor equipment. Consumption, cartridges and monthly cost are compared.",
+   "pt-BR": "Compare o cálculo atual com outros equipamentos Videojet ou com equipamentos da concorrência. São comparados o consumo, os cartuchos e o custo mensal.",
+   "pt-PT": "Compare o cálculo atual com outros equipamentos Videojet ou com equipamentos da concorrência. São comparados o consumo, os cartuchos e o custo mensal.",
+   "it": "Confrontare il calcolo attuale con altre apparecchiature Videojet o con apparecchiature della concorrenza. Vengono confrontati consumi, cartucce e costo mensile.",
+   "zh": "将当前计算与其他 Videojet 设备或竞争对手设备进行对比。对比内容包括消耗量、墨盒和每月成本。"
+  },
+  "Guardar el cálculo actual": {
+   "en": "Save the current calculation",
+   "pt-BR": "Salvar o cálculo atual",
+   "pt-PT": "Guardar o cálculo atual",
+   "it": "Salva il calcolo attuale",
+   "zh": "保存当前计算"
+  },
+  "Añadir competidor": {
+   "en": "Add competitor",
+   "pt-BR": "Adicionar concorrente",
+   "pt-PT": "Adicionar concorrente",
+   "it": "Aggiungi concorrente",
+   "zh": "添加竞争对手"
+  },
+  "Vaciar comparador": {
+   "en": "Clear comparator",
+   "pt-BR": "Esvaziar comparador",
+   "pt-PT": "Esvaziar comparador",
+   "it": "Svuota comparatore",
+   "zh": "清空对比器"
+  },
+  "Exportar comparación": {
+   "en": "Export comparison",
+   "pt-BR": "Exportar comparação",
+   "pt-PT": "Exportar comparação",
+   "it": "Esporta confronto",
+   "zh": "导出对比"
+  },
+  "Nombre del equipo o proveedor": {
+   "en": "Equipment or supplier name",
+   "pt-BR": "Nome do equipamento ou fornecedor",
+   "pt-PT": "Nome do equipamento ou fornecedor",
+   "it": "Nome dell'apparecchiatura o del fornitore",
+   "zh": "设备或供应商名称"
+  },
+  "Competidor A": {
+   "en": "Competitor A",
+   "pt-BR": "Concorrente A",
+   "pt-PT": "Concorrente A",
+   "it": "Concorrente A",
+   "zh": "竞争对手 A"
+  },
+  "Tinta consumida al mes": {
+   "en": "Ink consumed per month",
+   "pt-BR": "Tinta consumida por mês",
+   "pt-PT": "Tinta consumida por mês",
+   "it": "Inchiostro consumato al mese",
+   "zh": "每月墨水消耗量"
+  },
+  "Solvente consumido al mes": {
+   "en": "Solvent consumed per month",
+   "pt-BR": "Solvente consumido por mês",
+   "pt-PT": "Solvente consumido por mês",
+   "it": "Solvente consumato al mese",
+   "zh": "每月溶剂消耗量"
+  },
+  "Precio de la tinta por litro": {
+   "en": "Ink price per litre",
+   "pt-BR": "Preço da tinta por litro",
+   "pt-PT": "Preço da tinta por litro",
+   "it": "Prezzo dell'inchiostro al litro",
+   "zh": "墨水每升价格"
+  },
+  "Precio del solvente por litro": {
+   "en": "Solvent price per litre",
+   "pt-BR": "Preço do solvente por litro",
+   "pt-PT": "Preço do solvente por litro",
+   "it": "Prezzo del solvente al litro",
+   "zh": "溶剂每升价格"
+  },
+  "Impresiones al mes": {
+   "en": "Prints per month",
+   "pt-BR": "Impressões por mês",
+   "pt-PT": "Impressões por mês",
+   "it": "Stampe al mese",
+   "zh": "每月打印次数"
+  },
+  "cód.": {
+   "en": "codes",
+   "pt-BR": "cód.",
+   "pt-PT": "cód.",
+   "it": "cod.",
+   "zh": "个代码"
+  },
+  "Añadir al comparador": {
+   "en": "Add to comparator",
+   "pt-BR": "Adicionar ao comparador",
+   "pt-PT": "Adicionar ao comparador",
+   "it": "Aggiungi al comparatore",
+   "zh": "添加到对比器"
+  },
+  "Actual": {
+   "en": "Current",
+   "pt-BR": "Atual",
+   "pt-PT": "Atual",
+   "it": "Attuale",
+   "zh": "当前"
+  },
+  "Competencia": {
+   "en": "Competitor",
+   "pt-BR": "Concorrência",
+   "pt-PT": "Concorrência",
+   "it": "Concorrenza",
+   "zh": "竞争对手"
+  },
+  "Competidor": {
+   "en": "Competitor",
+   "pt-BR": "Concorrente",
+   "pt-PT": "Concorrente",
+   "it": "Concorrente",
+   "zh": "竞争对手"
+  },
+  "Cálculo actual": {
+   "en": "Current calculation",
+   "pt-BR": "Cálculo atual",
+   "pt-PT": "Cálculo atual",
+   "it": "Calcolo attuale",
+   "zh": "当前计算"
+  },
+  "Equipo y consumibles": {
+   "en": "Equipment and consumables",
+   "pt-BR": "Equipamento e consumíveis",
+   "pt-PT": "Equipamento e consumíveis",
+   "it": "Apparecchiatura e consumabili",
+   "zh": "设备与耗材"
+  },
+  "Producción": {
+   "en": "Production",
+   "pt-BR": "Produção",
+   "pt-PT": "Produção",
+   "it": "Produzione",
+   "zh": "生产"
+  },
+  "Horas al mes": {
+   "en": "Hours per month",
+   "pt-BR": "Horas por mês",
+   "pt-PT": "Horas por mês",
+   "it": "Ore al mese",
+   "zh": "每月小时数"
+  },
+  "Códigos al mes": {
+   "en": "Codes per month",
+   "pt-BR": "Códigos por mês",
+   "pt-PT": "Códigos por mês",
+   "it": "Codici al mese",
+   "zh": "每月代码数"
+  },
+  "Consumo mensual": {
+   "en": "Monthly consumption",
+   "pt-BR": "Consumo mensal",
+   "pt-PT": "Consumo mensal",
+   "it": "Consumo mensile",
+   "zh": "每月消耗"
+  },
+  "Tinta al mes": {
+   "en": "Ink per month",
+   "pt-BR": "Tinta por mês",
+   "pt-PT": "Tinta por mês",
+   "it": "Inchiostro al mese",
+   "zh": "每月墨水"
+  },
+  "Solvente al mes": {
+   "en": "Solvent per month",
+   "pt-BR": "Solvente por mês",
+   "pt-PT": "Solvente por mês",
+   "it": "Solvente al mese",
+   "zh": "每月溶剂"
+  },
+  "Costo mensual": {
+   "en": "Monthly cost",
+   "pt-BR": "Custo mensal",
+   "pt-PT": "Custo mensal",
+   "it": "Costo mensile",
+   "zh": "每月成本"
+  },
+  "Costo total al mes": {
+   "en": "Total cost per month",
+   "pt-BR": "Custo total por mês",
+   "pt-PT": "Custo total por mês",
+   "it": "Costo totale mensile",
+   "zh": "每月总成本"
+  },
+  "Costo total al año": {
+   "en": "Total cost per year",
+   "pt-BR": "Custo total por ano",
+   "pt-PT": "Custo total por ano",
+   "it": "Costo totale annuo",
+   "zh": "每年总成本"
+  },
+  "Diferencia": {
+   "en": "Difference",
+   "pt-BR": "Diferença",
+   "pt-PT": "Diferença",
+   "it": "Differenza",
+   "zh": "差异"
+  },
+  "Diferencia mensual": {
+   "en": "Monthly difference",
+   "pt-BR": "Diferença mensal",
+   "pt-PT": "Diferença mensal",
+   "it": "Differenza mensile",
+   "zh": "每月差异"
+  },
+  "Diferencia anual": {
+   "en": "Annual difference",
+   "pt-BR": "Diferença anual",
+   "pt-PT": "Diferença anual",
+   "it": "Differenza annua",
+   "zh": "年度差异"
+  },
+  "El cálculo actual se muestra siempre en la primera columna. Para una comparación justa, use la misma producción y la misma moneda.": {
+   "en": "The current calculation is always shown in the first column. For a fair comparison, use the same production and the same currency.",
+   "pt-BR": "O cálculo atual é sempre exibido na primeira coluna. Para uma comparação justa, use a mesma produção e a mesma moeda.",
+   "pt-PT": "O cálculo atual é sempre apresentado na primeira coluna. Para uma comparação justa, utilize a mesma produção e a mesma moeda.",
+   "it": "Il calcolo attuale è sempre mostrato nella prima colonna. Per un confronto equo, usare la stessa produzione e la stessa valuta.",
+   "zh": "当前计算始终显示在第一列。为公平对比，请使用相同的产量和相同的货币。"
+  },
+  "Guarde un cálculo o añada un competidor para comparar.": {
+   "en": "Save a calculation or add a competitor to compare.",
+   "pt-BR": "Salve um cálculo ou adicione um concorrente para comparar.",
+   "pt-PT": "Guarde um cálculo ou adicione um concorrente para comparar.",
+   "it": "Salvare un calcolo o aggiungere un concorrente per confrontare.",
+   "zh": "保存一个计算或添加竞争对手以进行对比。"
+  },
+  "Atención: los escenarios usan monedas distintas; convierta los precios a una sola moneda para comparar.": {
+   "en": "Warning: the scenarios use different currencies; convert the prices to a single currency before comparing.",
+   "pt-BR": "Atenção: os cenários usam moedas diferentes; converta os preços para uma única moeda antes de comparar.",
+   "pt-PT": "Atenção: os cenários usam moedas diferentes; converta os preços para uma só moeda antes de comparar.",
+   "it": "Attenzione: gli scenari usano valute diverse; convertire i prezzi in un'unica valuta prima di confrontare.",
+   "zh": "注意：各方案使用不同货币；比较前请先将价格换算为同一种货币。"
+  },
+  "El comparador admite hasta 4 escenarios.": {
+   "en": "The comparator supports up to 4 scenarios.",
+   "pt-BR": "O comparador aceita até 4 cenários.",
+   "pt-PT": "O comparador aceita até 4 cenários.",
+   "it": "Il comparatore accetta fino a 4 scenari.",
+   "zh": "对比器最多支持 4 个方案。"
+  },
+  "Cálculo añadido al comparador": {
+   "en": "Calculation added to the comparator",
+   "pt-BR": "Cálculo adicionado ao comparador",
+   "pt-PT": "Cálculo adicionado ao comparador",
+   "it": "Calcolo aggiunto al comparatore",
+   "zh": "计算已添加到对比器"
+  },
+  "Competidor añadido al comparador": {
+   "en": "Competitor added to the comparator",
+   "pt-BR": "Concorrente adicionado ao comparador",
+   "pt-PT": "Concorrente adicionado ao comparador",
+   "it": "Concorrente aggiunto al comparatore",
+   "zh": "竞争对手已添加到对比器"
+  },
+  "¿Vaciar el comparador?": {
+   "en": "Clear the comparator?",
+   "pt-BR": "Esvaziar o comparador?",
+   "pt-PT": "Esvaziar o comparador?",
+   "it": "Svuotare il comparatore?",
+   "zh": "清空对比器？"
+  },
+  "Comparador vaciado": {
+   "en": "Comparator cleared",
+   "pt-BR": "Comparador esvaziado",
+   "pt-PT": "Comparador esvaziado",
+   "it": "Comparatore svuotato",
+   "zh": "对比器已清空"
+  },
+  "Escenario eliminado": {
+   "en": "Scenario deleted",
+   "pt-BR": "Cenário excluído",
+   "pt-PT": "Cenário eliminado",
+   "it": "Scenario eliminato",
+   "zh": "方案已删除"
+  },
+  "Comparación exportada": {
+   "en": "Comparison exported",
+   "pt-BR": "Comparação exportada",
+   "pt-PT": "Comparação exportada",
+   "it": "Confronto esportato",
+   "zh": "对比已导出"
+  },
+  "COSTOS": {
+   "en": "COSTS",
+   "pt-BR": "CUSTOS",
+   "pt-PT": "CUSTOS",
+   "it": "COSTI",
+   "zh": "成本"
+  },
+  "Costo total de propiedad": {
+   "en": "Total cost of ownership",
+   "pt-BR": "Custo total de propriedade",
+   "pt-PT": "Custo total de propriedade",
+   "it": "Costo totale di proprietà",
+   "zh": "总拥有成本"
+  },
+  "{0} años: {1} consumibles + {2} equipo = {3}": {
+   "en": "{0} years: {1} consumables + {2} equipment = {3}",
+   "pt-BR": "{0} anos: {1} consumíveis + {2} equipamento = {3}",
+   "pt-PT": "{0} anos: {1} consumíveis + {2} equipamento = {3}",
+   "it": "{0} anni: {1} consumabili + {2} apparecchiatura = {3}",
+   "zh": "{0} 年：耗材 {1} + 设备 {2} = {3}"
+  },
+  "año": {
+   "en": "year",
+   "pt-BR": "ano",
+   "pt-PT": "ano",
+   "it": "anno",
+   "zh": "年"
+  },
+  "Mejor costo mensual": {
+   "en": "Lowest monthly cost",
+   "pt-BR": "Menor custo mensal",
+   "pt-PT": "Menor custo mensal",
+   "it": "Costo mensile più basso",
+   "zh": "最低每月成本"
+  },
+  "Herramienta técnica interna · familias Simplicity y Serie 1000VJ.": {
+   "en": "Internal technical tool · Simplicity and 1000VJ Series families.",
+   "pt-BR": "Ferramenta técnica interna · famílias Simplicity e Série 1000VJ.",
+   "pt-PT": "Ferramenta técnica interna · famílias Simplicity e Série 1000VJ.",
+   "it": "Strumento tecnico interno · famiglie Simplicity e Serie 1000VJ.",
+   "zh": "内部技术工具 · Simplicity 和 1000VJ 系列。"
+  },
+  "Calculadora de costos: precio por cartucho y moneda para ver el costo por hora, día, mes, año y por 1.000 códigos.": {
+   "en": "Cost calculator: price per cartridge and currency to see the cost per hour, day, month, year and per 1,000 codes.",
+   "pt-BR": "Calculadora de custos: preço por cartucho e moeda para ver o custo por hora, dia, mês, ano e por 1.000 códigos.",
+   "pt-PT": "Calculadora de custos: preço por cartucho e moeda para ver o custo por hora, dia, mês, ano e por 1.000 códigos.",
+   "it": "Calcolatore di costi: prezzo per cartuccia e valuta per vedere il costo orario, giornaliero, mensile, annuale e per 1.000 codici.",
+   "zh": "成本计算器：每个墨盒价格和货币，查看每小时、每天、每月、每年和每 1,000 个代码的成本。"
+  },
+  "Comparador: el cálculo actual más hasta 4 escenarios Videojet o de la competencia, con diferencias y exportación CSV.": {
+   "en": "Comparator: the current calculation plus up to 4 Videojet or competitor scenarios, with differences and CSV export.",
+   "pt-BR": "Comparador: o cálculo atual mais até 4 cenários Videojet ou da concorrência, com diferenças e exportação CSV.",
+   "pt-PT": "Comparador: o cálculo atual mais até 4 cenários Videojet ou da concorrência, com diferenças e exportação CSV.",
+   "it": "Confronto: il calcolo attuale più fino a 4 scenari Videojet o della concorrenza, con differenze ed esportazione CSV.",
+   "zh": "对比器：当前计算加上最多 4 个 Videojet 或竞争对手方案，包含差异和 CSV 导出。"
+  },
+  "Costo total de propiedad: consumibles a N años más precio del equipo, con reparto entre tinta y solvente.": {
+   "en": "Total cost of ownership: consumables over N years plus equipment price, split between ink and solvent.",
+   "pt-BR": "Custo total de propriedade: consumíveis em N anos mais preço do equipamento, dividido entre tinta e solvente.",
+   "pt-PT": "Custo total de propriedade: consumíveis em N anos mais preço do equipamento, repartido entre tinta e solvente.",
+   "it": "Costo totale di proprietà: consumabili su N anni più prezzo dell'apparecchiatura, suddiviso tra inchiostro e solvente.",
+   "zh": "总拥有成本：N 年耗材加上设备价格，按墨水与溶剂分摊。"
+  },
+  "Los informes TXT y CSV incluyen los costos; los precios se guardan solo en este dispositivo.": {
+   "en": "TXT and CSV reports include costs; prices are stored only on this device.",
+   "pt-BR": "Os relatórios TXT e CSV incluem os custos; os preços ficam guardados apenas neste dispositivo.",
+   "pt-PT": "Os relatórios TXT e CSV incluem os custos; os preços ficam guardados apenas neste dispositivo.",
+   "it": "I report TXT e CSV includono i costi; i prezzi restano solo su questo dispositivo.",
+   "zh": "TXT 和 CSV 报告包含成本；价格仅保存在本设备上。"
   }
  }
 }

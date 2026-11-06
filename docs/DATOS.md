@@ -49,6 +49,22 @@ máx_caracteres        = (caracteres/seg × ancho_mm) ÷ (velocidad ÷ 0,06)
 cpi = caracteres ÷ (ancho_mm ÷ 25,4)      dpi = (caracteres × (ancho_matriz + 1)) ÷ (ancho_mm ÷ 25,4)
 ```
 
+### 2.4 Costos de consumibles (2.5.0)
+
+```
+precio/litro         = precio_cartucho ÷ ml_cartucho × 1000
+costo/hora           = (ml/h ÷ ml_cartucho) × precio_cartucho
+costo/mes            = costo/hora × horas/mes
+costo/1.000 códigos  = (costo/hora ÷ impresiones/hora) × 1000
+TCO                  = costo/año × años + precio_equipo
+```
+
+- Los ml del cartucho son los reales del modelo y la tinta (TCO v35): 600, 700, 750, 1 000 o 5 000 ml.
+- La moneda es solo de presentación: no se aplican tipos de cambio. El comparador avisa si los
+  escenarios usan monedas distintas.
+- Los datos de la competencia son **declarados por el usuario** (ml/mes, precio/litro e impresiones/mes);
+  no se estiman con el motor Videojet.
+
 ## 3. Validación automática
 
 Se contrastaron las tablas oficiales con la calculadora: se abre cada ficha, se extrae la tabla de 16
@@ -57,7 +73,7 @@ temperaturas (10–40 °C) y los campos «horas por litro» y «horas por cartuc
 | Prueba | Muestras | Resultado |
 |---|---|---|
 | Tabla de solvente 10–40 °C | 800 fichas · 12 800 valores | **12 800/12 800 · coincidencia total** (0,06 ml/h) |
-| Velocidad, cpi y dpi | 541 fichas leídas · 535 comparables | **535/535** en la campaña original; el verificador está pendiente y la comparación con `CIJ Speeds.xlsx` detectó **4 diferencias** por resolver (2.4.2 / 2.5.0) |
+| Velocidad, cpi y dpi | 541 fichas leídas · 535 comparables | **535/535** en la campaña original; el verificador está pendiente y la comparación con `CIJ Speeds.xlsx` detectó **4 diferencias** por resolver (2.5.1) |
 | Modelo de tinta (gotas/mensaje e impresiones/cartucho) | 2 escenarios del TCO | **Coincidencia exacta** |
 
 > Desviación máxima observada: **0,06 ml/h** en solvente y **±1** en caracteres/s y velocidad nominal,

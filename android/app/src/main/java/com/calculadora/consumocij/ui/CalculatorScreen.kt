@@ -84,11 +84,15 @@ import com.calculadora.consumocij.BuildConfig
 import com.calculadora.consumocij.data.CalcEngine
 import com.calculadora.consumocij.data.CalcInput
 import com.calculadora.consumocij.data.CalcResult
+import com.calculadora.consumocij.data.Comparator
+import com.calculadora.consumocij.data.CompareColumn
+import com.calculadora.consumocij.data.Scenario
 import com.calculadora.consumocij.data.TemperatureModel
 import com.calculadora.consumocij.data.VideojetData
 import com.calculadora.consumocij.ui.theme.LocalExtraColors
 import com.calculadora.consumocij.ui.theme.ThemeMode
 import com.calculadora.consumocij.util.Fmt
+import com.calculadora.consumocij.util.Money
 import com.calculadora.consumocij.util.Report
 import java.util.Locale
 
@@ -162,6 +166,7 @@ fun CalculatorScreen(vm: CalculatorViewModel) {
                         InkSection(vm)
                         MessageSection(vm)
                         ProductionSection(vm)
+                        PriceSection(vm)
                         AdvancedSection(vm)
                         BackupSection(vm)
                         WhatsNewSection()
@@ -175,6 +180,7 @@ fun CalculatorScreen(vm: CalculatorViewModel) {
                     ) {
                         if (!result.officialData) NoOfficialDataNote()
                         ResultsSection(vm, input, result)
+                        ComparatorSection(vm)
                     }
                 }
             } else {
@@ -190,8 +196,10 @@ fun CalculatorScreen(vm: CalculatorViewModel) {
                     InkSection(vm)
                     MessageSection(vm)
                     ProductionSection(vm)
+                    PriceSection(vm)
                     if (!result.officialData) NoOfficialDataNote()
                     ResultsSection(vm, input, result)
+                    ComparatorSection(vm)
                     AdvancedSection(vm)
                     BackupSection(vm)
                     WhatsNewSection()
@@ -617,6 +625,89 @@ private fun ProductionSection(vm: CalculatorViewModel) {
 }
 
 @Composable
+private fun PriceSection(vm: CalculatorViewModel) {
+    val input = vm.input
+    var tcoOpen by remember { mutableStateOf(false) }
+    val cost = CalcEngine.costs(input, vm.result)
+
+    SectionCard(
+        title = "Precios y costos para ventas".tr(),
+        icon = Icons.Filled.Info,
+        subtitle = "Introduzca el precio de compra de cada cartucho y la moneda. La calculadora obtiene el costo por hora, por mes, por año y por cada 1.000 códigos impresos.".tr()
+    ) {
+        DropdownField(
+            label = "Moneda".tr(),
+            options = Money.CODES,
+            selected = input.currency,
+            onSelect = { c -> vm.update { it.copy(currency = Money.normalize(c)) } }
+        )
+        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            NumberField(
+                label = "Precio del cartucho de tinta".tr(),
+                value = input.inkPrice,
+                suffix = input.currency,
+                modifier = Modifier.weight(1f)
+            ) { v -> vm.update { it.copy(inkPrice = v.coerceIn(0.0, 1_000_000.0)) } }
+            NumberField(
+                label = "Precio del cartucho de solvente".tr(),
+                value = input.muPrice,
+                suffix = input.currency,
+                modifier = Modifier.weight(1f)
+            ) { v -> vm.update { it.copy(muPrice = v.coerceIn(0.0, 1_000_000.0)) } }
+        }
+        if (cost.inkPricePerLiter > 0 || cost.muPricePerLiter > 0) {
+            InfoBox(
+                buildString {
+                    if (cost.inkPricePerLiter > 0) {
+                        append(I18n.t("Tinta") + ": " +
+                            I18n.tf("Precio por litro: {0}", Money.format(cost.inkPricePerLiter, input.currency)))
+                    }
+                    if (cost.muPricePerLiter > 0) {
+                        if (isNotEmpty()) append("\n")
+                        append(I18n.t("Solvente") + ": " +
+                            I18n.tf("Precio por litro: {0}", Money.format(cost.muPricePerLiter, input.currency)))
+                    }
+                }
+            )
+        }
+
+        OutlinedButton(
+            onClick = { tcoOpen = !tcoOpen },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Costo total de propiedad (equipo + consumibles)".tr())
+        }
+        if (tcoOpen) {
+            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                NumberField(
+                    label = "Precio del equipo".tr(),
+                    value = input.equipPrice,
+                    suffix = input.currency,
+                    modifier = Modifier.weight(1f)
+                ) { v -> vm.update { it.copy(equipPrice = v.coerceIn(0.0, 100_000_000.0)) } }
+                NumberField(
+                    label = "Años de comparación".tr(),
+                    value = input.years.toDouble(),
+                    suffix = "años".tr(),
+                    isInt = true,
+                    modifier = Modifier.weight(1f)
+                ) { v -> vm.update { it.copy(years = v.toInt().coerceIn(1, 20)) } }
+            }
+            if (cost.configured && input.equipPrice > 0) {
+                InfoBox(
+                    I18n.tf("Costo a {0} años: {1} de consumibles + {2} del equipo = {3}.",
+                        cost.years.toString(),
+                        Money.format(cost.consumablesYears, input.currency),
+                        Money.format(input.equipPrice, input.currency),
+                        Money.format(cost.totalOwnership, input.currency))
+                )
+            }
+        }
+        InfoBox("Los precios no se envían a ningún servidor: se guardan solo en este dispositivo.".tr())
+    }
+}
+
+@Composable
 private fun AdvancedSection(vm: CalculatorViewModel) {
     val input = vm.input
     var expanded by remember { mutableStateOf(false) }
@@ -781,6 +872,9 @@ private fun ResultsSection(vm: CalculatorViewModel, input: CalcInput, r: CalcRes
         KpiCard("Cartuchos tinta mes".tr(), Fmt.n(r.inkCartMonth, 1), "${Fmt.i(r.printsPerInkCart)} ${I18n.t("impresiones c/u")}", Modifier.weight(1f))
     }
 
+    // costos de consumibles (2.5.0)
+    CostResults(input, r)
+
     // tabla de detalle
     SectionCard(title = "Detalle del cálculo".tr(), icon = Icons.Filled.Info) {
         DetailRow("Consumo solvente".tr(), r.muPerHour, r.muDay, r.muMonth, r.muYear, "ml")
@@ -900,6 +994,375 @@ private fun ResultsSection(vm: CalculatorViewModel, input: CalcInput, r: CalcRes
     }
 
     Spacer(Modifier.height(24.dp))
+}
+
+@Composable
+private fun CostResults(input: CalcInput, r: CalcResult) {
+    val c = CalcEngine.costs(input, r)
+    SectionCard(title = "Costo de consumibles".tr(), icon = Icons.Filled.Info) {
+        if (!c.configured) {
+            Text(
+                "Introduzca los precios en «Precios y costos para ventas» para ver el costo real.".tr(),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        } else {
+            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                KpiCard(
+                    "Costo por hora".tr(),
+                    Money.format(c.totalHour, input.currency),
+                    I18n.tf("Tinta {0} · solvente {1}",
+                        Money.format(c.inkHour, input.currency),
+                        Money.format(c.muHour, input.currency)),
+                    Modifier.weight(1f)
+                )
+                KpiCard(
+                    "Costo por mes".tr(),
+                    Money.format(c.totalMonth, input.currency),
+                    I18n.tf("= {0} al año", Money.format(c.totalYear, input.currency)),
+                    Modifier.weight(1f)
+                )
+            }
+            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                KpiCard(
+                    "Costo por año".tr(),
+                    Money.format(c.totalYear, input.currency),
+                    I18n.tf("{0} cartuchos de tinta · {1} de solvente al año",
+                        Fmt.n(r.inkCartMonth * 12.0, 0), Fmt.n(r.muCartMonth * 12.0, 0)),
+                    Modifier.weight(1f)
+                )
+                KpiCard(
+                    "Costo por 1.000 códigos".tr(),
+                    if (c.costPer1000.isFinite() && c.costPer1000 > 0)
+                        Money.format(c.costPer1000, input.currency) else "—",
+                    I18n.tf("{0} códigos al mes", Fmt.i(r.printsPerHour * r.hoursMonth)),
+                    Modifier.weight(1f)
+                )
+            }
+
+            Spacer(Modifier.height(10.dp))
+            CostRow("Costo de tinta".tr(), c.inkHour, c.inkDay, c.inkMonth, c.inkYear, input.currency, true)
+            CostRow("Costo de solvente".tr(), c.muHour, c.muDay, c.muMonth, c.muYear, input.currency, true)
+            CostRow("Costo total".tr(), c.totalHour, c.totalDay, c.totalMonth, c.totalYear, input.currency, true)
+
+            Spacer(Modifier.height(8.dp))
+            ProgressLine(
+                label = "Tinta".tr(),
+                pct = c.shareInk * 100.0,
+                detail = Money.format(c.inkMonth, input.currency) + " / " + I18n.t("mes")
+            )
+            ProgressLine(
+                label = "Solvente".tr(),
+                pct = c.shareMu * 100.0,
+                detail = Money.format(c.muMonth, input.currency) + " / " + I18n.t("mes")
+            )
+            if (input.equipPrice > 0) {
+                InfoBox(
+                    I18n.tf("Costo a {0} años: {1} de consumibles + {2} del equipo = {3}.",
+                        c.years.toString(),
+                        Money.format(c.consumablesYears, input.currency),
+                        Money.format(input.equipPrice, input.currency),
+                        Money.format(c.totalOwnership, input.currency))
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun CostRow(
+    label: String,
+    h: Double,
+    d: Double,
+    m: Double,
+    y: Double,
+    currency: String,
+    on: Boolean
+) {
+    Column(modifier = Modifier.padding(vertical = 6.dp)) {
+        Text(label, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.SemiBold)
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            MiniMoney("Por hora".tr(), h, currency, on, Modifier.weight(1f))
+            MiniMoney("Por día".tr(), d, currency, on, Modifier.weight(1f))
+            MiniMoney("Por mes".tr(), m, currency, on, Modifier.weight(1f))
+            MiniMoney("Por año".tr(), y, currency, on, Modifier.weight(1f))
+        }
+    }
+}
+
+@Composable
+private fun MiniMoney(label: String, value: Double, currency: String, on: Boolean, modifier: Modifier = Modifier) {
+    Column(modifier = modifier) {
+        Text(label, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Text(
+            Money.formatOrDash(value, currency, on),
+            style = MaterialTheme.typography.bodySmall,
+            fontWeight = FontWeight.SemiBold,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+    }
+}
+
+@Composable
+private fun ComparatorSection(vm: CalculatorViewModel) {
+    val input = vm.input
+    val context = LocalContext.current
+    val columns = remember(input, vm.scenarios) {
+        Comparator.columns(input, vm.result, "Cálculo actual".tr(), vm.scenarios)
+    }
+    val bestId = columns
+        .filter { it.configured && it.totalMonth > 0.0 }
+        .minByOrNull { it.totalMonth }?.id
+
+    // Exportación del comparador a CSV (mismo formato que la versión web).
+    val cmpCsvLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.CreateDocument("text/csv")
+    ) { uri ->
+        if (uri != null) {
+            runCatching {
+                context.contentResolver.openOutputStream(uri)?.use {
+                    it.write(("\uFEFF" + Comparator.csv(columns)).toByteArray(Charsets.UTF_8))
+                }
+                Toast.makeText(context, "Comparación exportada".tr(), Toast.LENGTH_SHORT).show()
+            }.onFailure {
+                Toast.makeText(context, "No se pudo guardar el archivo".tr(), Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    var showForm by remember { mutableStateOf(false) }
+    var name by remember { mutableStateOf("") }
+    var inkMl by remember { mutableStateOf(0.0) }
+    var muMl by remember { mutableStateOf(0.0) }
+    var inkPriceL by remember { mutableStateOf(0.0) }
+    var muPriceL by remember { mutableStateOf(0.0) }
+    var prints by remember { mutableStateOf(0.0) }
+
+    fun resetForm() {
+        name = ""
+        inkMl = 0.0
+        muMl = 0.0
+        inkPriceL = 0.0
+        muPriceL = 0.0
+        prints = 0.0
+        showForm = false
+    }
+
+    SectionCard(
+        title = "Comparador de equipos y competencia".tr(),
+        icon = Icons.Filled.Info,
+        subtitle = "Compare el cálculo actual con otros equipos Videojet o con equipos de la competencia. Se comparan consumo, cartuchos y costo mensual.".tr()
+    ) {
+        Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+            Button(
+                onClick = {
+                    val ok = vm.addCurrentScenario()
+                    Toast.makeText(
+                        context,
+                        (if (ok) "Cálculo añadido al comparador." else "El comparador admite hasta 4 escenarios.").tr(),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                },
+                modifier = Modifier.weight(1f)
+            ) { Text("Guardar el cálculo actual".tr()) }
+            OutlinedButton(
+                onClick = { showForm = !showForm },
+                modifier = Modifier.weight(1f)
+            ) { Text("Añadir competidor".tr()) }
+        }
+        if (vm.scenarios.isNotEmpty()) {
+            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                OutlinedButton(
+                    onClick = {
+                        cmpCsvLauncher.launch("Comparacion_Videojet_${Report.stamp()}.csv")
+                    },
+                    modifier = Modifier.weight(1f)
+                ) { Text("Exportar comparación".tr()) }
+                TextButton(
+                    onClick = {
+                        vm.clearScenarios()
+                        Toast.makeText(context, "Comparador vaciado".tr(), Toast.LENGTH_SHORT).show()
+                    },
+                    modifier = Modifier.weight(1f)
+                ) { Text("Vaciar comparador".tr()) }
+            }
+        }
+
+        if (showForm) {
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+            ) {
+                Column(modifier = Modifier.padding(12.dp)) {
+                    OutlinedTextField(
+                        value = name,
+                        onValueChange = { name = it.take(40) },
+                        label = { Text("Nombre del equipo o proveedor".tr()) },
+                        placeholder = { Text("Competidor A".tr()) },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                        NumberField(
+                            label = "Tinta consumida al mes".tr(), value = inkMl, suffix = "ml",
+                            modifier = Modifier.weight(1f)
+                        ) { inkMl = it.coerceIn(0.0, 10_000_000.0) }
+                        NumberField(
+                            label = "Solvente consumido al mes".tr(), value = muMl, suffix = "ml",
+                            modifier = Modifier.weight(1f)
+                        ) { muMl = it.coerceIn(0.0, 10_000_000.0) }
+                    }
+                    Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                        NumberField(
+                            label = "Precio de la tinta por litro".tr(), value = inkPriceL,
+                            suffix = input.currency, modifier = Modifier.weight(1f)
+                        ) { inkPriceL = it.coerceIn(0.0, 1_000_000.0) }
+                        NumberField(
+                            label = "Precio del solvente por litro".tr(), value = muPriceL,
+                            suffix = input.currency, modifier = Modifier.weight(1f)
+                        ) { muPriceL = it.coerceIn(0.0, 1_000_000.0) }
+                    }
+                    NumberField(
+                        label = "Impresiones al mes".tr(), value = prints, suffix = "cód.".tr(),
+                        isInt = true, modifier = Modifier.fillMaxWidth()
+                    ) { prints = it.coerceIn(0.0, 1_000_000_000.0) }
+                    Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                        Button(
+                            onClick = {
+                                val ok = vm.addCompetitorScenario(name, inkMl, muMl, inkPriceL, muPriceL, prints)
+                                Toast.makeText(
+                                    context,
+                                    (if (ok) "Competidor añadido al comparador." else "El comparador admite hasta 4 escenarios.").tr(),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                if (ok) resetForm()
+                            },
+                            modifier = Modifier.weight(1f)
+                        ) { Text("Añadir al comparador".tr()) }
+                        OutlinedButton(onClick = { resetForm() }, modifier = Modifier.weight(1f)) {
+                            Text("Cancelar".tr())
+                        }
+                    }
+                }
+            }
+        }
+
+        columns.forEach { col ->
+            CompareCard(
+                col = col,
+                current = columns.firstOrNull(),
+                bestId = bestId,
+                onDelete = if (col.kind == "current") null else {
+                    {
+                        vm.removeScenario(col.id)
+                        Toast.makeText(context, "Escenario eliminado".tr(), Toast.LENGTH_SHORT).show()
+                    }
+                }
+            )
+        }
+
+        Text(
+            "El cálculo actual se muestra siempre en la primera columna. Para una comparación justa, use la misma producción y la misma moneda.".tr(),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(top = 8.dp)
+        )
+        if (columns.filter { it.configured }.map { it.currency }.distinct().size > 1) {
+            InfoBox(
+                "Atención: los escenarios usan monedas distintas; convierta los precios a una sola moneda para comparar.".tr(),
+                color = LocalExtraColors.current.warning.copy(alpha = 0.15f)
+            )
+        }
+    }
+}
+
+@Composable
+private fun CompareCard(
+    col: CompareColumn,
+    current: CompareColumn?,
+    bestId: String?,
+    onDelete: (() -> Unit)?
+) {
+    val extra = LocalExtraColors.current
+    val kindLabel = when (col.kind) {
+        "current" -> "Actual".tr()
+        "competitor" -> "Competencia".tr()
+        else -> "Videojet"
+    }
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 10.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+    ) {
+        Column(modifier = Modifier.padding(12.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(col.name, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                    Text(
+                        "$kindLabel · ${col.model}" + if (col.ink != "—") " · ${col.ink}" else "",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                if (onDelete != null) {
+                    IconButton(onClick = onDelete) {
+                        Icon(Icons.Filled.Delete, contentDescription = "Borrar".tr())
+                    }
+                }
+            }
+            if (col.id == bestId) {
+                Text(
+                    "Mejor costo mensual".tr(),
+                    style = MaterialTheme.typography.labelSmall,
+                    fontWeight = FontWeight.Bold,
+                    color = extra.success
+                )
+            }
+            if (!col.configured) {
+                Text(
+                    "Introduzca al menos un precio para calcular los costos.".tr(),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            } else {
+                Text(
+                    "Costo total al mes".tr() + ": " + Money.format(col.totalMonth, col.currency),
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    "Costo total al año".tr() + ": " + Money.format(col.totalYear, col.currency),
+                    style = MaterialTheme.typography.bodySmall
+                )
+                Text(
+                    "Costo por 1.000 códigos".tr() + ": " +
+                        (if (col.costPer1000.isFinite() && col.costPer1000 > 0)
+                            Money.format(col.costPer1000, col.currency) else "—"),
+                    style = MaterialTheme.typography.bodySmall
+                )
+                val inkPart = "Tinta al mes".tr() + ": " + Fmt.n(col.inkMonth, 0) + " ml"
+                val muPart = "Solvente al mes".tr() + ": " + Fmt.n(col.muMonth, 0) + " ml"
+                Text(
+                    inkPart + " · " + muPart,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                if (col.kind != "current" && current != null && current.configured) {
+                    val diff = col.totalMonth - current.totalMonth
+                    val sign = if (diff < 0) "−" else if (diff > 0) "+" else ""
+                    Text(
+                        "Diferencia mensual".tr() + ": " + sign + Money.format(kotlin.math.abs(diff), col.currency),
+                        style = MaterialTheme.typography.bodySmall,
+                        fontWeight = FontWeight.SemiBold,
+                        color = if (diff < 0) extra.success else if (diff > 0) extra.danger
+                        else MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+        }
+    }
 }
 
 @Composable
@@ -1202,10 +1665,10 @@ private fun WhatsNewSection() {
                     fontWeight = FontWeight.Bold
                 )
             }
-            Text("Consumo de solvente validado con 800 fichas oficiales (12.800 valores).".tr(), style = MaterialTheme.typography.bodySmall)
-            Text("Cartuchos corregidos: los equipos «750 mL Only» ya no muestran 1 L ni 5 L.".tr(), style = MaterialTheme.typography.bodySmall)
-            Text("Copia de seguridad: exporte e importe configuración e historial en JSON.".tr(), style = MaterialTheme.typography.bodySmall)
-            Text("El aviso de actualización muestra las novedades y recuerda la versión omitida a los 14 días.".tr(), style = MaterialTheme.typography.bodySmall)
+            Text("Calculadora de costos: precio por cartucho y moneda para ver el costo por hora, día, mes, año y por 1.000 códigos.".tr(), style = MaterialTheme.typography.bodySmall)
+            Text("Comparador: el cálculo actual más hasta 4 escenarios Videojet o de la competencia, con diferencias y exportación CSV.".tr(), style = MaterialTheme.typography.bodySmall)
+            Text("Costo total de propiedad: consumibles a N años más precio del equipo, con reparto entre tinta y solvente.".tr(), style = MaterialTheme.typography.bodySmall)
+            Text("Los informes TXT y CSV incluyen los costos; los precios se guardan solo en este dispositivo.".tr(), style = MaterialTheme.typography.bodySmall)
             Text(
                 I18n.tf("Versión {0} · compilación {1} · {2}.", BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE.toString(), BuildConfig.BUILD_DATE),
                 style = MaterialTheme.typography.bodySmall,

@@ -1,5 +1,6 @@
 package com.calculadora.consumocij.data
 
+import com.calculadora.consumocij.util.Fmt
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
@@ -199,5 +200,91 @@ class CalcEngineTest {
             VideojetData.inkContainers["V480"]!!.inkSizes.contains(600))
         val v401 = VideojetData.inkContainers["V401"]!!.inkSizes
         assertTrue("V401 usa 750 y 5000 ml", v401.contains(750) && v401.contains(5000))
+    }
+
+    /* ---------------------------------------------------------------
+       9. Costos de consumibles (2.5.0)
+       --------------------------------------------------------------- */
+    @Test
+    fun costosDeConsumibles() {
+        val i = at().copy(currency = "USD", inkPrice = 120.0, muPrice = 40.0,
+            equipPrice = 5000.0, years = 5)
+        val r = CalcEngine.compute(i)
+        val c = CalcEngine.costs(i, r)
+
+        assertEquals(160.0, c.inkPricePerLiter, 1e-9)
+        assertEquals(40.0 / 750.0 * 1000.0, c.muPricePerLiter, 1e-9)
+        assertEquals(r.inkPerHour / 750.0 * 120.0, c.inkHour, 1e-9)
+        assertEquals(r.muPerHour / 750.0 * 40.0, c.muHour, 1e-9)
+        assertEquals(c.inkHour + c.muHour, c.totalHour, 1e-9)
+        assertEquals(c.totalHour * 16.0, c.totalDay, 1e-9)
+        assertEquals(c.totalHour * r.hoursMonth, c.totalMonth, 1e-9)
+        assertEquals(c.totalHour * r.hoursYear, c.totalYear, 1e-9)
+        assertEquals(c.totalHour / r.printsPerHour * 1000.0, c.costPer1000, 1e-9)
+        assertEquals(c.totalYear * 5.0 + 5000.0, c.totalOwnership, 1e-9)
+        assertEquals(1.0, c.shareInk + c.shareMu, 1e-12)
+    }
+
+    @Test
+    fun sinPreciosNoHayCostoConfigurado() {
+        val r = CalcEngine.compute(at())
+        assertFalse(CalcEngine.costs(at(), r).configured)
+        assertTrue(CalcEngine.costs(at().copy(inkPrice = 100.0), r).configured)
+    }
+
+    /* ---------------------------------------------------------------
+       10. Exportación CSV del comparador (2.5.0)
+       --------------------------------------------------------------- */
+    @Test
+    fun csvDelComparador() {
+        val i = at().copy(currency = "USD", inkPrice = 120.0, muPrice = 40.0)
+        val r = CalcEngine.compute(i)
+        val sc = Scenario.Competitor(
+            id = "c1", name = "CompetidorX1", inkMlMonth = 200.0, muMlMonth = 2500.0,
+            inkPriceL = 171.43, muPriceL = 53.33, printsMonth = 1140480.0, currency = "USD"
+        )
+        val cols = Comparator.columns(i, r, "Cálculo actual", listOf(sc))
+        assertEquals("cálculo actual más un escenario", 2, cols.size)
+
+        val csv = Comparator.csv(cols)
+        val rows = csv.split("\r\n")
+        assertEquals("cabecera más once conceptos", 12, rows.size)
+        assertFalse("sin saltos de línea simples", csv.replace("\r\n", "").contains("\n"))
+        assertTrue("primera celda «Concepto»", rows[0].startsWith("\"Concepto\";"))
+
+        // Cada fila lleva una columna por equipo, entre comillas y unida por «;».
+        for (row in rows) {
+            val cells = row.split(";")
+            assertEquals("tres columnas en «$row»", 3, cells.size)
+            assertTrue("campos entre comillas en «$row»",
+                cells.all { it.length >= 2 && it.startsWith("\"") && it.endsWith("\"") })
+        }
+
+        fun cells(row: String) = row.split(";").map { it.removeSurrounding("\"") }
+        val byLabel = rows.drop(1).associate { line -> val c = cells(line); c[0] to c.drop(1) }
+
+        assertEquals(listOf("Cálculo actual (USD)", "CompetidorX1 (USD)"), cells(rows[0]).drop(1))
+        assertEquals("VJ 1880+", byLabel.getValue("Equipo")[0])
+        assertEquals("CompetidorX1", byLabel.getValue("Equipo")[1])
+        assertEquals("V4201", byLabel.getValue("Tinta")[0])
+        assertEquals("", byLabel.getValue("Horas al mes")[1])
+        assertEquals("200", byLabel.getValue("Tinta al mes")[1])
+        assertEquals("2.500", byLabel.getValue("Solvente al mes")[1])
+
+        val inkCost = 200.0 / 1000.0 * 171.43
+        val muCost = 2500.0 / 1000.0 * 53.33
+        val total = inkCost + muCost
+        assertEquals(Fmt.n(inkCost, 2), byLabel.getValue("Costo de tinta")[1])
+        assertEquals(Fmt.n(muCost, 2), byLabel.getValue("Costo de solvente")[1])
+        assertEquals(Fmt.n(total, 2), byLabel.getValue("Costo total al mes")[1])
+        assertEquals(Fmt.n(total * 12.0, 2), byLabel.getValue("Costo total al año")[1])
+        assertEquals(Fmt.n(total / 1140480.0 * 1000.0, 2),
+            byLabel.getValue("Costo por 1.000 códigos")[1])
+
+        // La diferencia mensual se mide siempre contra la primera columna.
+        val c = CalcEngine.costs(i, r)
+        assertEquals(Fmt.n(c.totalMonth, 2), byLabel.getValue("Costo total al mes")[0])
+        assertEquals(Fmt.n(0.0, 2), byLabel.getValue("Diferencia mensual")[0])
+        assertEquals(Fmt.n(total - c.totalMonth, 2), byLabel.getValue("Diferencia mensual")[1])
     }
 }

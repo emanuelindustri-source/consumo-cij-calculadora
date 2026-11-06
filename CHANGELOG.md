@@ -4,6 +4,33 @@ Todos los cambios relevantes de este proyecto.
 El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y el versionado
 [SemVer](https://semver.org/lang/es/).
 
+## [2.5.0] — 2026-11-05
+
+### Añadido
+- **Calculadora de costos para ventas** en la web y en la app: moneda (USD, EUR, MXN, COP, BRL, ARS,
+  CLP, PEN, GBP, CNY), precio del cartucho de tinta y de solvente, costo por hora, día, mes y año,
+  **costo por 1.000 códigos**, precio por litro y reparto tinta/solvente.
+- **Costo total de propiedad**: consumibles a *N* años + precio del equipo.
+- **Comparador de equipos y competencia**: cálculo actual fijo + hasta **4 escenarios** Videojet o
+  manuales (tinta y solvente al mes, precio por litro, impresiones al mes), diferencias mensuales y
+  anuales, mejor costo resaltado y **exportación CSV**.
+- **Informes con costos**: el bloque **COSTOS** entra en el TXT y el CSV de la web y de Android.
+- **Persistencia de precios y escenarios**: `vj_calc_scenarios_v1` en la web y `SharedPreferences`
+  en Android; también viajan en la copia de seguridad JSON.
+
+### Cambiado
+- Catálogo: **554 cadenas × 5 idiomas** (75 nuevas) y gramática revisada en los seis idiomas.
+- `CalcInput` incorpora `currency`, `inkPrice`, `muPrice`, `equipPrice` y `years`; `CalcEngine.costs`
+  calcula el costo con los cartuchos reales de cada modelo.
+- `versionName 2.5.0` · `versionCode 11`.
+- Pruebas: **64 web + 36 Android** = 100 (más 12.800 valores de solvente).
+- README, CHANGELOG, ROADMAP, VERSIONES, portada y notas públicas sincronizados.
+
+### Pendiente
+- Las 27 tintas de las SDS fuera del TCO v35 necesitan la matriz modelo/contenedor.
+- Verificador de las 535 fichas de velocidad y las 4 diferencias con `CIJ Speeds.xlsx`.
+- Revisión nativa de chino y portugués de Portugal; V457 con V725.
+
 ## [2.4.1] — 2026-11-05
 
 ### Añadido

@@ -11,7 +11,8 @@ Registro detallado de versiones anteriores, cambios de la versión actual y esta
 
 | Versión | Fecha | Web | APK | Cambio principal |
 |---|---|---|---|---|
-| **2.4.1** | 2026-11-05 | ✅ | ✅ v2.4.1 (código 10) | Catálogo de tintas validado con 493 fichas SDS · V4287 identificada (MI 9029) · gramática española e italiana corregida · documentación de tintas |
+| **2.5.0** | 2026-11-05 | ✅ | ✅ v2.5.0 (código 11) | Calculadora de costos para ventas · comparador de equipos y competencia · TCO · informes con costos · 554 cadenas en seis idiomas |
+| 2.4.1 | 2026-11-05 | ✅ | ✅ v2.4.1 (código 10) | Catálogo de tintas validado con 493 fichas SDS · V4287 identificada (MI 9029) · gramática española e italiana corregida · documentación de tintas |
 | 2.4.0 | 2026-11-04 | ✅ | ✅ v2.4.0 (código 9) | Cartuchos «750 mL Only» corregidos · solvente validado con 800 fichas (12.800 valores) · novedades y recordatorio en el aviso · copia de seguridad JSON |
 | 2.3.0 | 2026-11-04 | ✅ | ✅ v2.3.0 (código 8) | Aviso de actualización de la APK · descarga verificada SHA-256 · una sola fuente de versión · publicación automatizada |
 | 2.2.0 | 2026-10-22 | ✅ | ✅ v2.2.0 (código 7) | Informes traducidos · negrita conservada · selector de idioma en la app · 60 pruebas del motor |
@@ -25,7 +26,44 @@ Registro detallado de versiones anteriores, cambios de la versión actual y esta
 
 ---
 
-## Versión 2.4.1 — 2026-11-05 (actual)
+## Versión 2.5.0 — 2026-11-05 (actual)
+
+**Objetivo:** poner la calculadora al servicio de las ventas: precios, costos por producción,
+comparación con otros equipos y con la competencia, todo sin salir del dispositivo.
+
+### Cambios
+- **Calculadora de costos**: moneda (USD, EUR, MXN, COP, BRL, ARS, CLP, PEN, GBP, CNY), precio del
+  cartucho de tinta y de solvente, costo por hora, día, mes y año, **costo por 1.000 códigos**,
+  precio por litro y reparto tinta/solvente.
+- **Costo total de propiedad**: consumibles a *N* años + precio del equipo.
+- **Comparador**: cálculo actual fijo + hasta **4 escenarios** Videojet o de la competencia
+  (consumo mensual, precio/litro e impresiones/mes), diferencias y **exportación CSV**.
+- **Informes**: bloque **COSTOS** en TXT y CSV de la web y de Android.
+- **Persistencia**: precios en la configuración y escenarios en el dispositivo; ambos viajan en la
+  copia de seguridad JSON.
+- **Idiomas**: 554 cadenas × 5 idiomas (75 nuevas) y gramática revisada.
+- `versionName 2.5.0` · `versionCode 11`.
+- Pruebas: **64 web + 36 Android** = 100 (más los 12.800 valores de solvente).
+
+### Estado de los artefactos
+| Artefacto | Estado | Notas |
+|---|---|---|
+| `web/calculadora-offline.html` | ✅ | Costos y comparador · 0 dependencias |
+| `docs/calculadora.html` | ✅ | Copia idéntica publicada en GitHub Pages |
+| `docs/index.html` · `docs/notas.html` | ✅ | Portada 2.5.0 y notas antes / durante / después / pendiente |
+| `android/` (proyecto) | ✅ | Kotlin + Compose · 36 pruebas |
+| APK v2.5.0 | ✅ | `versionCode 11` · firmada · actualiza sobre 2.4.1 |
+
+### Verificación
+- `node tools/test_engine.js`: **64/64**.
+- `node tools/test_solvent.js`: **12.800/12.800**.
+- `gradle testDebugUnitTest`: **35/35**.
+- `check_i18n.py`: 554 cadenas × 5 idiomas, sin fallos.
+- Emulador Pixel 7 / API 34: instalación sobre 2.4.1 y cálculo de costos con precios.
+
+---
+
+## Versión 2.4.1 — 2026-11-05
 
 **Objetivo:** validar el catálogo de tintas con las fichas de seguridad, añadir lo que faltaba y
 corregir la redacción en los idiomas.
@@ -266,7 +304,7 @@ experimentales, y garantizar su funcionamiento sin internet.
 ### Verificación
 - Motor: pruebas contra documentos oficiales (la cifra «28/28» no era reproducible: el repositorio
   no incluye esa batería de pruebas).
-- APK: `aapt2 dump badging` sin permisos de red; pantallas `small…xlarge`; densidades 160…65534.
+- APK: `aapt2 dump badging` sin permisos de red; pantallas `small…xlarge`; densidades 160…65544.
 - Emulador Pixel 7 (API 34): instalación correcta, arranque 1,7–2,2 s, sin errores en logcat.
 - Web: cálculo VJ 1880+ / V4201 a 30 °C = **5,21 ml/h** (documento oficial: 5,2).
 

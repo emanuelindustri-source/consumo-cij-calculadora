@@ -13,11 +13,15 @@ import androidx.lifecycle.viewModelScope
 import com.calculadora.consumocij.data.CalcEngine
 import com.calculadora.consumocij.data.CalcInput
 import com.calculadora.consumocij.data.CalcResult
+import com.calculadora.consumocij.data.Comparator
+import com.calculadora.consumocij.data.Scenario
 import com.calculadora.consumocij.data.TemperatureModel
 import com.calculadora.consumocij.data.VideojetData
 import com.calculadora.consumocij.i18n.I18n
 import com.calculadora.consumocij.ui.theme.ThemeMode
 import com.calculadora.consumocij.util.Backup
+import com.calculadora.consumocij.util.Money
+import com.calculadora.consumocij.util.ScenarioStore
 import com.calculadora.consumocij.update.UpdateChecker
 import com.calculadora.consumocij.update.UpdateDownloadProcessor
 import com.calculadora.consumocij.update.UpdateDownloader
@@ -62,6 +66,10 @@ class CalculatorViewModel(app: Application) : AndroidViewModel(app) {
         private set
 
     var history by mutableStateOf(loadHistory())
+        private set
+
+    /** Comparador de equipos: hasta 4 escenarios guardados en el dispositivo. */
+    var scenarios by mutableStateOf(ScenarioStore.load(prefs))
         private set
 
     val result: CalcResult get() = CalcEngine.compute(input)
@@ -152,10 +160,61 @@ class CalculatorViewModel(app: Application) : AndroidViewModel(app) {
         saveInput(input)
     }
 
+    /* ---------------- comparador ---------------- */
+
+    /** Guarda el cálculo actual como escenario. Devuelve false si el comparador está lleno. */
+    fun addCurrentScenario(): Boolean {
+        if (scenarios.size >= Comparator.MAX) return false
+        val sc = Scenario.Videojet(
+            id = "s" + System.currentTimeMillis().toString(36),
+            name = "${input.modelId} · ${input.ink}",
+            input = input
+        )
+        scenarios = (scenarios + sc).take(Comparator.MAX)
+        ScenarioStore.save(prefs, scenarios)
+        return true
+    }
+
+    /** Añade un equipo de la competencia con sus datos mensuales. */
+    fun addCompetitorScenario(
+        name: String,
+        inkMlMonth: Double,
+        muMlMonth: Double,
+        inkPriceL: Double,
+        muPriceL: Double,
+        printsMonth: Double
+    ): Boolean {
+        if (scenarios.size >= Comparator.MAX) return false
+        val sc = Scenario.Competitor(
+            id = "c" + System.currentTimeMillis().toString(36),
+            name = name.trim().ifBlank { I18n.t("Competidor") }.take(40),
+            inkMlMonth = inkMlMonth.coerceIn(0.0, 10_000_000.0),
+            muMlMonth = muMlMonth.coerceIn(0.0, 10_000_000.0),
+            inkPriceL = inkPriceL.coerceIn(0.0, 1_000_000.0),
+            muPriceL = muPriceL.coerceIn(0.0, 1_000_000.0),
+            printsMonth = printsMonth.coerceIn(0.0, 1_000_000_000.0),
+            currency = Money.normalize(input.currency)
+        )
+        scenarios = (scenarios + sc).take(Comparator.MAX)
+        ScenarioStore.save(prefs, scenarios)
+        return true
+    }
+
+    fun removeScenario(id: String) {
+        scenarios = scenarios.filterNot { it.id == id }
+        ScenarioStore.save(prefs, scenarios)
+    }
+
+    fun clearScenarios() {
+        if (scenarios.isEmpty()) return
+        scenarios = emptyList()
+        ScenarioStore.save(prefs, scenarios)
+    }
+
     /* ---------------- copia de seguridad ---------------- */
 
     fun exportBackup(context: Context, uri: Uri): Boolean = runCatching {
-        val json = Backup.encode(Backup.Payload(input, history, themeMode, I18n.preference))
+        val json = Backup.encode(Backup.Payload(input, history, themeMode, I18n.preference, scenarios))
         context.contentResolver.openOutputStream(uri)?.use { it.write(json.toByteArray(Charsets.UTF_8)) }
         true
     }.getOrDefault(false)
@@ -169,6 +228,8 @@ class CalculatorViewModel(app: Application) : AndroidViewModel(app) {
         saveInput(input)
         history = payload.history
         saveHistory(history)
+        scenarios = payload.scenarios.take(Comparator.MAX)
+        ScenarioStore.save(prefs, scenarios)
         setTheme(payload.theme)
         I18n.setLanguage(context, payload.language)
         history.size
@@ -409,7 +470,7 @@ class CalculatorViewModel(app: Application) : AndroidViewModel(app) {
             "widthMm", "tempC", "ppm", "hoursDay", "daysWeek", "daysMonth",
             "efficiencyPct", "lineSpeed", "productWidthMm", "gapMm", "inkCartMl",
             "muCartMl", "shelfLifeMonths", "coreHours", "coreDays", "temperatureModel",
-            "envFactor"
+            "envFactor", "currency", "inkPrice", "muPrice", "equipPrice", "years"
         )
 
         fun saveInputInto(prefs: SharedPreferences.Editor, p: String, i: CalcInput) {
@@ -438,6 +499,11 @@ class CalculatorViewModel(app: Application) : AndroidViewModel(app) {
             prefs.putFloat(p + "coreDays", i.coreDays.toFloat())
             prefs.putString(p + "temperatureModel", i.temperatureModel.name)
             prefs.putFloat(p + "envFactor", i.envFactor.toFloat())
+            prefs.putString(p + "currency", i.currency)
+            prefs.putFloat(p + "inkPrice", i.inkPrice.toFloat())
+            prefs.putFloat(p + "muPrice", i.muPrice.toFloat())
+            prefs.putFloat(p + "equipPrice", i.equipPrice.toFloat())
+            prefs.putInt(p + "years", i.years)
         }
 
         fun saveInputInto(prefs: SharedPreferences, p: String, i: CalcInput) {
@@ -477,7 +543,12 @@ class CalculatorViewModel(app: Application) : AndroidViewModel(app) {
                 temperatureModel = runCatching {
                     TemperatureModel.valueOf(s("temperatureModel", def.temperatureModel.name))
                 }.getOrDefault(def.temperatureModel),
-                envFactor = f("envFactor", def.envFactor.toFloat()).toDouble()
+                envFactor = f("envFactor", def.envFactor.toFloat()).toDouble(),
+                currency = Money.normalize(s("currency", def.currency)),
+                inkPrice = f("inkPrice", def.inkPrice.toFloat()).toDouble().coerceIn(0.0, 1_000_000.0),
+                muPrice = f("muPrice", def.muPrice.toFloat()).toDouble().coerceIn(0.0, 1_000_000.0),
+                equipPrice = f("equipPrice", def.equipPrice.toFloat()).toDouble().coerceIn(0.0, 100_000_000.0),
+                years = n("years", def.years).coerceIn(1, 20)
             )
         }
     }

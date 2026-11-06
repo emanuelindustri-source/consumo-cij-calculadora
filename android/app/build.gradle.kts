@@ -21,8 +21,8 @@ android {
         // Android 14 (API 34) como versiÃ³n mÃ­nima, segÃºn requisito
         minSdk = 34
         targetSdk = 34
-        versionCode = 10
-        versionName = "2.4.1"
+        versionCode = 11
+        versionName = "2.5.0"
         vectorDrawables { useSupportLibrary = true }
 
         // Datos que la app muestra y usa para buscar actualizaciones.

@@ -7,6 +7,14 @@ Hoja de ruta del proyecto. Las prioridades pueden cambiar según el uso real en 
 > aplicación, qué cambió y qué falta. Se crean con `python tools/check_notas.py --new X.Y.Z` y se
 > congelan al publicar con `--freeze`; la validación falla si desaparecen o se modifican.
 
+## v2.5.0 — Costos y comparador (hecho)
+- [x] **Calculadora de costos para ventas**: moneda, precio por cartucho, costo por hora/día/mes/año,
+  costo por 1.000 códigos y precio por litro.
+- [x] **Costo total de propiedad**: consumibles a *N* años + precio del equipo.
+- [x] **Comparador de equipos y competencia**: cálculo actual + 4 escenarios, diferencias y CSV.
+- [x] **Informes con costos** en TXT y CSV (web y Android).
+- [x] **554 cadenas** en seis idiomas y gramática revisada.
+
 ## v2.4.1 — Catálogo de tintas validado (hecho)
 - [x] **493 PDF de fichas de tintas revisados** (492 SDS + catálogo).
 - [x] **V4287 identificada**: pertenece a MI 9029 y no se añade al catálogo Videojet.
@@ -22,7 +30,7 @@ Hoja de ruta del proyecto. Las prioridades pueden cambiar según el uso real en 
 - [x] **Copia de seguridad JSON**: configuración, historial, tema e idioma.
 - [x] **Corrección de configuraciones guardadas** con tamaños de cartucho no válidos.
 
-## v2.4.2 / 2.5.0 — Precisión de velocidad
+## v2.5.1 — Precisión de velocidad
 - [ ] **Verificador de las 535 fichas de velocidad** contra la hoja oficial.
 - [ ] Resolver las **4 diferencias** detectadas con `CIJ Speeds.xlsx`.
 - [ ] Revisar las tintas **V42xx** asignadas a la Serie 1000VJ.
@@ -53,7 +61,7 @@ Hoja de ruta del proyecto. Las prioridades pueden cambiar según el uso real en 
 - [x] **Catálogo de 364 cadenas** validado en CI.
 
 ## v2.1 — Mejoras de calculadora
-- [ ] Comparador de escenarios A/B (dos configuraciones lado a lado).
+- [x] Comparador de escenarios A/B (dos configuraciones lado a lado) — **2.5.0**.
 - [ ] Planificador de mantenimiento con fechas de cambio y calendario exportable (.ics).
 - [x] **Multi-idioma (ES/EN/PT-BR/PT-PT/IT/ZH) en la web y en la app — 2.1.0.**
 - [ ] Presets de mensajes habituales (fecha, lote, EAN-13, QR, DataMatrix).
@@ -68,14 +76,14 @@ Hoja de ruta del proyecto. Las prioridades pueden cambiar según el uso real en 
 - [ ] Modo tableta con panel lateral fijo y ventana dividida.
 - [ ] Accesibilidad: descripciones ampliadas, navegación por teclado/TV y contraste reforzado.
 - [ ] Integración con impresión del informe en PDF (SAF).
-- [ ] Exportar e importar el historial y la configuración (copia de seguridad).
+- [x] **Exportar e importar el historial y la configuración (copia de seguridad)** — 2.4.0.
 
 ## v3.0 — Ecosistema
 - [ ] Sincronización opcional (solo si el usuario la activa) entre dispositivos.
 - [ ] Versión de escritorio (Windows/macOS) con el mismo motor.
 - [ ] API local (sin nube) para integrar el cálculo en otras herramientas internas.
 
-## Pendiente inmediato (2.4.2 / 2.5.0)
+## Pendiente inmediato (2.5.1)
 - [ ] **Verificador de velocidad** (535 fichas) y revisión de las 4 diferencias con `CIJ Speeds.xlsx`.
 - [ ] Revisión por hablantes nativos de chino simplificado y portugués de Portugal.
 - [x] **Solvente validado** con 800 fichas y 12.800 valores en la CI.

@@ -38,8 +38,43 @@ data class CalcInput(
     val coreHours: Double = 0.0,
     val coreDays: Double = 0.0,
     val temperatureModel: TemperatureModel = TemperatureModel.PUBLISHED,
-    val envFactor: Double = 1.0
+    val envFactor: Double = 1.0,
+    /* ---------- precios y costos (2.5.0) ---------- */
+    val currency: String = "USD",
+    val inkPrice: Double = 0.0,
+    val muPrice: Double = 0.0,
+    val equipPrice: Double = 0.0,
+    val years: Int = 5
 )
+
+/**
+ * Costo de consumibles y coste total de propiedad.
+ * Se calcula con los precios de compra y los cartuchos del modelo elegido.
+ */
+data class CostResult(
+    val configured: Boolean,
+    val inkPricePerLiter: Double,
+    val muPricePerLiter: Double,
+    val inkHour: Double,
+    val muHour: Double,
+    val totalHour: Double,
+    val inkDay: Double,
+    val muDay: Double,
+    val totalDay: Double,
+    val inkMonth: Double,
+    val muMonth: Double,
+    val totalMonth: Double,
+    val inkYear: Double,
+    val muYear: Double,
+    val totalYear: Double,
+    val costPer1000: Double,
+    val years: Int,
+    val consumablesYears: Double,
+    val totalOwnership: Double,
+    val shareInk: Double
+) {
+    val shareMu: Double get() = 1.0 - shareInk
+}
 
 data class CalcResult(
     val model: VideojetData.ModelEntry,
@@ -173,6 +208,50 @@ object CalcEngine {
             maxLineSpeed = maxLineSpeed, minPrintWidth = minPrintWidth,
             maxChars = maxChars, maxPpm = maxPpm,
             officialData = VideojetData.hasOfficialBase(i.ink)
+        )
+    }
+
+    /**
+     * Costo de consumibles a partir del precio de cada cartucho.
+     * Las fórmulas son las mismas que `computeCosts` de la web 2.5.0.
+     */
+    fun costs(i: CalcInput, r: CalcResult): CostResult {
+        val inkPriceL = if (i.inkCartMl > 0.0) i.inkPrice / i.inkCartMl * 1000.0 else 0.0
+        val muPriceL = if (i.muCartMl > 0.0) i.muPrice / i.muCartMl * 1000.0 else 0.0
+
+        val inkHour = if (i.inkCartMl > 0.0) r.inkPerHour / i.inkCartMl * i.inkPrice else 0.0
+        val muHour = if (i.muCartMl > 0.0) r.muPerHour / i.muCartMl * i.muPrice else 0.0
+        val totalHour = inkHour + muHour
+
+        val inkDay = inkHour * i.hoursDay
+        val muDay = muHour * i.hoursDay
+        val totalDay = totalHour * i.hoursDay
+        val inkMonth = inkHour * r.hoursMonth
+        val muMonth = muHour * r.hoursMonth
+        val totalMonth = totalHour * r.hoursMonth
+        val inkYear = inkHour * r.hoursYear
+        val muYear = muHour * r.hoursYear
+        val totalYear = totalHour * r.hoursYear
+
+        val configured = i.inkPrice > 0.0 || i.muPrice > 0.0
+        val costPer1000 = if (r.printsPerHour > 0.0) totalHour / r.printsPerHour * 1000.0
+        else Double.POSITIVE_INFINITY
+        val years = if (i.years > 0) i.years else 5
+        val consumablesYears = totalYear * years
+        val totalOwnership = consumablesYears + i.equipPrice
+        val shareInk = if (totalHour > 0.0) inkHour / totalHour else 0.0
+
+        return CostResult(
+            configured = configured,
+            inkPricePerLiter = inkPriceL,
+            muPricePerLiter = muPriceL,
+            inkHour = inkHour, muHour = muHour, totalHour = totalHour,
+            inkDay = inkDay, muDay = muDay, totalDay = totalDay,
+            inkMonth = inkMonth, muMonth = muMonth, totalMonth = totalMonth,
+            inkYear = inkYear, muYear = muYear, totalYear = totalYear,
+            costPer1000 = costPer1000,
+            years = years, consumablesYears = consumablesYears,
+            totalOwnership = totalOwnership, shareInk = shareInk
         )
     }
 

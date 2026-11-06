@@ -29,7 +29,8 @@ object Report {
     }
 
     fun csv(i: CalcInput, r: CalcResult): String {
-        val rows = listOf(
+        val c = CalcEngine.costs(i, r)
+        val rows = mutableListOf(
             listOf(I18n.t("Concepto"), I18n.t("Valor"), I18n.t("Unidad")),
             listOf(I18n.t("Modelo de impresora"), r.model.id, ""),
             listOf(I18n.t("Familia"), if (r.model.platform == "simplicity") "Simplicity" else I18n.t("Serie 1000VJ"), ""),
@@ -67,12 +68,31 @@ object Report {
             listOf(I18n.t("Vida núcleo (días)"), if (i.coreDays > 0) Fmt.n(i.coreDays, 0) else "", I18n.t("días")),
             listOf(I18n.t("Vida útil en almacén"), if (i.shelfLifeMonths > 0) Fmt.n(i.shelfLifeMonths, 0) else "", I18n.t("meses"))
         )
+        if (c.configured) {
+            rows += listOf(
+                listOf(I18n.t("Moneda"), i.currency, ""),
+                listOf(I18n.t("Precio del cartucho de tinta"), Fmt.n(i.inkPrice, 2), i.currency),
+                listOf(I18n.t("Precio del cartucho de solvente"), Fmt.n(i.muPrice, 2), i.currency),
+                listOf(I18n.t("Costo de tinta"), Fmt.n(c.inkMonth, 2), i.currency + "/" + I18n.t("mes")),
+                listOf(I18n.t("Costo de solvente"), Fmt.n(c.muMonth, 2), i.currency + "/" + I18n.t("mes")),
+                listOf(I18n.t("Costo total"), Fmt.n(c.totalMonth, 2), i.currency + "/" + I18n.t("mes")),
+                listOf(I18n.t("Costo por 1.000 códigos"), if (c.costPer1000.isFinite()) Fmt.n(c.costPer1000, 2) else "", i.currency)
+            )
+            if (i.equipPrice > 0) {
+                rows += listOf(
+                    listOf(I18n.t("Precio del equipo"), Fmt.n(i.equipPrice, 2), i.currency),
+                    listOf(I18n.t("Años de comparación"), c.years.toString(), I18n.t("años")),
+                    listOf(I18n.t("Costo total de propiedad"), Fmt.n(c.totalOwnership, 2), i.currency)
+                )
+            }
+        }
         return rows.joinToString("\r\n") { row ->
             row.joinToString(";") { "\"${it.replace("\"", "\"\"")}\"" }
         }
     }
 
     fun txt(i: CalcInput, r: CalcResult): String {
+        val c = CalcEngine.costs(i, r)
         val labels = linkedMapOf(
             "model" to I18n.t("Modelo"),
             "nozzle" to I18n.t("Boquilla"),
@@ -96,7 +116,15 @@ object Report {
             "vmax" to I18n.t("Velocidad máxima de línea"),
             "wmin" to I18n.t("Ancho mínimo de impresión"),
             "solvent" to I18n.t("Solvente"),
-            "ratio" to I18n.t("Relación")
+            "ratio" to I18n.t("Relación"),
+            "cur" to I18n.t("Moneda"),
+            "inkPrice" to I18n.t("Precio del cartucho de tinta"),
+            "muPrice" to I18n.t("Precio del cartucho de solvente"),
+            "inkCost" to I18n.t("Costo de tinta"),
+            "muCost" to I18n.t("Costo de solvente"),
+            "totalCost" to I18n.t("Costo total"),
+            "cost1000" to I18n.t("Costo por 1.000 códigos"),
+            "tco" to I18n.t("Costo total de propiedad")
         )
         val w = (labels.values.maxOf { it.length }) + 2
         fun row(k: String, v: String) = padRow(labels.getValue(k), v, w)
@@ -135,6 +163,28 @@ object Report {
         L += row("carts", I18n.t("Solvente") + " " + Fmt.n(r.muCartMonth, 1) + "/" + I18n.t("mes") +
             " (" + Fmt.n(r.hoursPerMuCart, 0) + " " + I18n.t("h c/u") + ") · " + I18n.t("Tinta") + " " +
             Fmt.n(r.inkCartMonth, 1) + "/" + I18n.t("mes") + " (" + Fmt.i(r.printsPerInkCart) + " " + I18n.t("impresiones c/u") + ")")
+        if (c.configured) {
+            L += ""
+            L += "== " + I18n.t("COSTOS") + " =="
+            L += row("cur", i.currency + " · " + I18n.t("Tinta") + " " + Money.format(i.inkPrice, i.currency) +
+                "/" + Fmt.n(i.inkCartMl, 0) + " ml · " + I18n.t("Solvente") + " " +
+                Money.format(i.muPrice, i.currency) + "/" + Fmt.n(i.muCartMl, 0) + " ml")
+            L += row("inkCost", Money.format(c.inkHour, i.currency) + "/h · " +
+                Money.format(c.inkMonth, i.currency) + "/" + I18n.t("mes") + " · " +
+                Money.format(c.inkYear, i.currency) + "/" + I18n.t("año"))
+            L += row("muCost", Money.format(c.muHour, i.currency) + "/h · " +
+                Money.format(c.muMonth, i.currency) + "/" + I18n.t("mes") + " · " +
+                Money.format(c.muYear, i.currency) + "/" + I18n.t("año"))
+            L += row("totalCost", Money.format(c.totalHour, i.currency) + "/h · " +
+                Money.format(c.totalMonth, i.currency) + "/" + I18n.t("mes") + " · " +
+                Money.format(c.totalYear, i.currency) + "/" + I18n.t("año"))
+            L += row("cost1000", if (c.costPer1000.isFinite()) Money.format(c.costPer1000, i.currency) else "—")
+            if (i.equipPrice > 0) {
+                L += row("tco", I18n.tf("{0} años: {1} consumibles + {2} equipo = {3}",
+                    c.years.toString(), Money.format(c.consumablesYears, i.currency),
+                    Money.format(i.equipPrice, i.currency), Money.format(c.totalOwnership, i.currency)))
+            }
+        }
         L += ""
         L += "== " + I18n.t("MANTENIMIENTO (NÚCLEO / KIT)") + " =="
         val mnt = VideojetData.maintenance[r.model.id]
